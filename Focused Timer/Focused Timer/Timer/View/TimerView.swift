@@ -41,20 +41,37 @@ struct TimerView: View {
                     Button(action: {
                         start.toggle()
                     }) {
-                        HStack(spacing: 15) {
-                            Image(systemName: start ? "pause.fill" :  "play.fill")
+                        HStack(spacing: 10) {
+                            Image(systemName: start ? "pause" :  "play")
                                 .foregroundColor(.white)
 
                             Text(start ? "Pause" : "Play")
-                                .fontWeight(.semibold)
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
-                        .frame(width: (UIScreen.main.bounds.width / 2) - 55, height: 60)
+                        .frame(width: (UIScreen.main.bounds.width / 2) - 80, height: 60)
                         .background(Color.orange)
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     }
+
+                    Button(action: {
+                        to = 0
+                        count = 0
+                    }, label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: "arrow.clockwise.circle")
+                                .foregroundColor(.white)
+
+                            Text("Reset")
+                                .foregroundColor(.white)
+                        }
+                        .padding(.vertical)
+                        .frame(width: (UIScreen.main.bounds.width / 2) - 80, height: 60)
+                        .background(Color.orange)
+                        .clipShape(Capsule())
+                        .shadow(radius: 6)
+                    })
                 }
             }
             .onReceive(time) { (_) in
