@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A34E271625269A2C00083BB2 /* TimerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271525269A2C00083BB2 /* TimerController.swift */; };
+		A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271B2526A0B200083BB2 /* TimerState.swift */; };
 		A378FC332522BB7D0046FC4C /* Focused_TimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC322522BB7D0046FC4C /* Focused_TimerApp.swift */; };
 		A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC342522BB7D0046FC4C /* ContentView.swift */; };
 		A378FC372522BB7D0046FC4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A378FC362522BB7D0046FC4C /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A34E271525269A2C00083BB2 /* TimerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerController.swift; sourceTree = "<group>"; };
+		A34E271B2526A0B200083BB2 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
 		A378FC2F2522BB7D0046FC4C /* Focused Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Focused Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A378FC322522BB7D0046FC4C /* Focused_TimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Focused_TimerApp.swift; sourceTree = "<group>"; };
 		A378FC342522BB7D0046FC4C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -74,6 +78,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A34E271A2526A09C00083BB2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A34E271B2526A0B200083BB2 /* TimerState.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		A378FC262522BB7D0046FC4C = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +148,7 @@
 		A378FC602522BCC10046FC4C /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				A34E271A2526A09C00083BB2 /* Model */,
 				A378FC652522BCE50046FC4C /* View */,
 				A378FC642522BCDF0046FC4C /* Controller */,
 			);
@@ -145,6 +158,7 @@
 		A378FC642522BCDF0046FC4C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A34E271525269A2C00083BB2 /* TimerController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -286,6 +300,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A34E271625269A2C00083BB2 /* TimerController.swift in Sources */,
+				A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */,
 				A378FC672522BCF90046FC4C /* TimerView.swift in Sources */,
 				A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */,
 				A378FC332522BB7D0046FC4C /* Focused_TimerApp.swift in Sources */,

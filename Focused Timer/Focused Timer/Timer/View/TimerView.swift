@@ -8,11 +8,8 @@
 import SwiftUI
 
 struct TimerView: View {
-    @State var start = false
-    @State var to : CGFloat = 0
-    @State var count = 0
-    @State var time = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var totalTime = 15
+
+    @ObservedObject var controller = TimerController()
 
     var body: some View {
         ZStack {
@@ -25,13 +22,13 @@ struct TimerView: View {
                         .frame(width: 300, height: 300)
 
                     Circle()
-                        .trim(from: 0, to: to)
+                        .trim(from: 0, to: controller.to)
                         .stroke(Color.orange, style: StrokeStyle(lineWidth: 35, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
 
                     VStack {
-                        Text("\(count) de \(totalTime)")
+                        Text("\(controller.count) de \(controller.totalTime)")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                     }
@@ -39,13 +36,17 @@ struct TimerView: View {
 
                 HStack(spacing: 20) {
                     Button(action: {
-                        start.toggle()
+                        if controller.timerState == .initial || controller.timerState == .paused {
+                            controller.startTimer()
+                        } else {
+                            controller.pauseTimer()
+                        }
                     }) {
                         HStack(spacing: 10) {
-                            Image(systemName: start ? "pause" :  "play")
+                            Image(systemName: controller.timerState == .running ? "pause" :  "play")
                                 .foregroundColor(.white)
 
-                            Text(start ? "Pause" : "Play")
+                            Text(controller.timerState == .running ? "Pause" : "Play")
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -56,11 +57,10 @@ struct TimerView: View {
                     }
 
                     Button(action: {
-                        to = 0
-                        count = 0
+                        controller.resetTimer()
                     }, label: {
                         HStack(spacing: 10) {
-                            Image(systemName: "arrow.clockwise.circle")
+                            Image(systemName: "arrow.clockwise")
                                 .foregroundColor(.white)
 
                             Text("Reset")
@@ -74,21 +74,6 @@ struct TimerView: View {
                     })
                 }
             }
-            .onReceive(time) { (_) in
-                if start {
-                    if count != totalTime {
-                        count += 1
-                        withAnimation(.default) {
-                            to = CGFloat(count) / CGFloat(totalTime)
-                        }
-                    }
-                    else {
-                        start.toggle()
-                        to = 0
-                        count = 0
-                    }
-                }
-            }
         }
     }
 }
@@ -96,5 +81,6 @@ struct TimerView: View {
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
         TimerView()
+            
     }
 }
