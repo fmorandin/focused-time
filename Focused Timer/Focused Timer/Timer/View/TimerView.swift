@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TimerView: View {
 
+    @Environment(\.colorScheme) var colorScheme
+
     @ObservedObject var controller = TimerController()
 
     var body: some View {
@@ -18,17 +20,19 @@ struct TimerView: View {
                 ZStack {
                     Circle()
                         .trim(from: 0, to: 1)
-                        .stroke(Color.black.opacity(0.09), style: StrokeStyle(lineWidth: 35, lineCap: .round))
+                        .stroke((colorScheme == .light ? Color.black : Color.white).opacity(0.09),
+                                style: StrokeStyle(lineWidth: 15, lineCap: .round))
                         .frame(width: 300, height: 300)
 
                     Circle()
                         .trim(from: 0, to: controller.to)
-                        .stroke(Color.orange, style: StrokeStyle(lineWidth: 35, lineCap: .round))
+                        .stroke(Color.orange, style: StrokeStyle(lineWidth: 25, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
+                        .shadow(radius: 4)
 
                     VStack {
-                        Text("\(controller.count) de \(controller.totalTime)")
+                        Text("\(controller.count) timerSeparator \(controller.totalTime)")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                     }
@@ -46,7 +50,7 @@ struct TimerView: View {
                             Image(systemName: controller.timerState == .running ? "pause" :  "play")
                                 .foregroundColor(.white)
 
-                            Text(controller.timerState == .running ? "Pause" : "Play")
+                            Text(controller.timerState == .running ? "timerPause" : "timerPlay")
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -63,7 +67,7 @@ struct TimerView: View {
                             Image(systemName: "arrow.clockwise")
                                 .foregroundColor(.white)
 
-                            Text("Reset")
+                            Text("timerReset")
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -80,7 +84,12 @@ struct TimerView: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView()
-            
+        Group {
+            TimerView()
+
+            TimerView()
+                .preferredColorScheme(.dark)
+                .environment(\.locale, Locale(identifier: "br"))
+        }
     }
 }
