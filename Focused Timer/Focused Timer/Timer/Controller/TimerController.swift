@@ -18,9 +18,9 @@ class TimerController: ObservableObject {
     @Published var totalTime = 5
 
     func startTimer() {
-        print("start")
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
             if self.count != self.totalTime {
+                print("Timer Running")
                 self.timerState = .running
                 self.count += 1
                 withAnimation(.default) {
@@ -28,6 +28,7 @@ class TimerController: ObservableObject {
                 }
             }
             else {
+                print("Timer finished")
                 self.to = 0
                 self.count = 0
                 self.timerState = .initial

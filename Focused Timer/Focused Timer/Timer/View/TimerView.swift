@@ -32,7 +32,7 @@ struct TimerView: View {
                         .shadow(radius: 4)
 
                     VStack {
-                        Text("\(controller.count) timerSeparator \(controller.totalTime)")
+                        Text("\(controller.count) of \(controller.totalTime)")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                     }
@@ -50,7 +50,7 @@ struct TimerView: View {
                             Image(systemName: controller.timerState == .running ? "pause" :  "play")
                                 .foregroundColor(.white)
 
-                            Text(controller.timerState == .running ? "timerPause" : "timerPlay")
+                            Text(controller.timerState == .running ? "Pause" : "Play")
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -67,7 +67,7 @@ struct TimerView: View {
                             Image(systemName: "arrow.clockwise")
                                 .foregroundColor(.white)
 
-                            Text("timerReset")
+                            Text("Reset")
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
