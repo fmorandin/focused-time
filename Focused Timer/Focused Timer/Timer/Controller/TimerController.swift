@@ -20,7 +20,6 @@ class TimerController: ObservableObject {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
             if self.count != self.totalTime {
-                print("Timer Running")
                 self.timerState = .running
                 self.count += 1
                 withAnimation(.default) {
@@ -28,7 +27,6 @@ class TimerController: ObservableObject {
                 }
             }
             else {
-                print("Timer finished")
                 self.to = 0
                 self.count = 0
                 self.timerState = .initial
@@ -38,13 +36,11 @@ class TimerController: ObservableObject {
     }
 
     func pauseTimer() {
-        print("pause")
         timerState = .paused
         timer.invalidate()
     }
 
     func resetTimer() {
-        print("reset")
         timerState = .initial
         to = 0
         count = 0

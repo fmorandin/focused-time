@@ -20,17 +20,24 @@ class Focused_TimerUITests: XCTestCase {
     }
 
     func test_TimerStartedCorrectly() {
+        let expected = expectation(description: "Timer Running")
+
         // WHEN I click to start the timer
         let playButton = app.buttons["btnStartPauseIdentifier"]
         XCTAssertEqual(playButton.label, "Play")
         playButton.tap()
 
-        sleep(1)
+        // This is used to let the screen reacts to the tap
+        let result = XCTWaiter.wait(for: [expected], timeout: 2.0)
+        if result == XCTWaiter.Result.timedOut {
 
-        // THEN the button label should be changed to "Pause"
-        XCTAssertEqual(playButton.label, "Pause")
+            // THEN the button label should be changed to "Pause"
+            XCTAssertEqual(playButton.label, "Pause")
 
-        // AND the circle should start to be filled
-        #warning("Add this scenario")
+            // AND the circle should start to be filled
+            #warning("Add this scenario")
+        } else {
+            XCTFail("Delay interrupted")
+        }
     }
 }
