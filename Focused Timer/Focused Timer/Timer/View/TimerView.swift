@@ -59,6 +59,7 @@ struct TimerView: View {
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     }
+                    .accessibility(identifier: "btnStartPauseIdentifier")
 
                     Button(action: {
                         controller.resetTimer()
@@ -76,6 +77,7 @@ struct TimerView: View {
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     })
+                    .accessibility(identifier: "btnResetIdentifier")
                 }
             }
         }

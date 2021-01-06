@@ -13,7 +13,7 @@
 		A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC342522BB7D0046FC4C /* ContentView.swift */; };
 		A378FC372522BB7D0046FC4C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A378FC362522BB7D0046FC4C /* Assets.xcassets */; };
 		A378FC3A2522BB7D0046FC4C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A378FC392522BB7D0046FC4C /* Preview Assets.xcassets */; };
-		A378FC452522BB7E0046FC4C /* Focused_TimerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC442522BB7E0046FC4C /* Focused_TimerTests.swift */; };
+		A378FC452522BB7E0046FC4C /* FocusedTimerControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC442522BB7E0046FC4C /* FocusedTimerControllerTests.swift */; };
 		A378FC502522BB7E0046FC4C /* Focused_TimerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC4F2522BB7E0046FC4C /* Focused_TimerUITests.swift */; };
 		A378FC672522BCF90046FC4C /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC662522BCF90046FC4C /* TimerView.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +45,7 @@
 		A378FC392522BB7D0046FC4C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A378FC3B2522BB7D0046FC4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A378FC402522BB7E0046FC4C /* Focused TimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Focused TimerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A378FC442522BB7E0046FC4C /* Focused_TimerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Focused_TimerTests.swift; sourceTree = "<group>"; };
+		A378FC442522BB7E0046FC4C /* FocusedTimerControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedTimerControllerTests.swift; sourceTree = "<group>"; };
 		A378FC462522BB7E0046FC4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A378FC4B2522BB7E0046FC4C /* Focused TimerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Focused TimerUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A378FC4F2522BB7E0046FC4C /* Focused_TimerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Focused_TimerUITests.swift; sourceTree = "<group>"; };
@@ -130,7 +130,7 @@
 		A378FC432522BB7E0046FC4C /* Focused TimerTests */ = {
 			isa = PBXGroup;
 			children = (
-				A378FC442522BB7E0046FC4C /* Focused_TimerTests.swift */,
+				A378FC442522BB7E0046FC4C /* FocusedTimerControllerTests.swift */,
 				A378FC462522BB7E0046FC4C /* Info.plist */,
 			);
 			path = "Focused TimerTests";
@@ -313,7 +313,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A378FC452522BB7E0046FC4C /* Focused_TimerTests.swift in Sources */,
+				A378FC452522BB7E0046FC4C /* FocusedTimerControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

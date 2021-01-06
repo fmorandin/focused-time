@@ -1,5 +1,5 @@
 //
-//  Focused_TimerTests.swift
+//  FocusedTimerControllerTests.swift
 //  Focused TimerTests
 //
 //  Created by Felipe Chiarini Pena Morandin on 28/09/20.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import Focused_Timer
 
-class Focused_TimerTests: XCTestCase {
+class FocusedTimerControllerTests: XCTestCase {
 
     func testStartTimer() {
         // GIVEN I have the timerController
