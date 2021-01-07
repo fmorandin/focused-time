@@ -23,6 +23,7 @@ struct TimerView: View {
                         .stroke((colorScheme == .light ? Color.black : Color.white).opacity(0.09),
                                 style: StrokeStyle(lineWidth: 15, lineCap: .round))
                         .frame(width: 300, height: 300)
+                        .accessibility(identifier: "uiInternalCircle")
 
                     Circle()
                         .trim(from: 0, to: controller.to)
@@ -30,11 +31,13 @@ struct TimerView: View {
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
                         .shadow(radius: 4)
+                        .accessibility(identifier: "uiExternalCircle")
 
                     VStack {
                         Text("\(controller.count) of \(controller.totalTime)")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
+                            .accessibility(identifier: "lblCounter")
                     }
                 }
 
