@@ -9,14 +9,43 @@ import SwiftUI
 
 struct TimerView: View {
 
+    // MARK: - Environment
     @Environment(\.colorScheme) var colorScheme
 
+    // MARK: - Oberved Objects
     @ObservedObject var controller = TimerController()
+
+    // MARK: - States
+    @State private var showingConfig = false
 
     var body: some View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
-            VStack(spacing: 60) {
+            VStack {
+                Spacer()
+
+                /// Top section with the config button
+                HStack {
+                    Spacer()
+
+                    Button(action: {
+                        self.showingConfig = true
+                    }) {
+                        Image(systemName: "gear")
+                            .font(.system(size: 25))
+                            .padding(.trailing)
+                            .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
+                    }
+                    .sheet(isPresented: $showingConfig, onDismiss: controller.resetTimer, content: {
+                        SettingsView(totalTime: "\(controller.getTotalTime())")
+                    })
+                }
+                .padding(.trailing, 20)
+
+                Spacer()
+                Spacer()
+
+                /// Main circles
                 ZStack {
                     Circle()
                         .trim(from: 0, to: 1)
@@ -34,14 +63,18 @@ struct TimerView: View {
                         .accessibility(identifier: "uiExternalCircle")
 
                     VStack {
-                        Text("\(controller.count) of \(controller.totalTime)")
+                        Text("\(controller.count) of \(controller.getTotalTime())")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                             .accessibility(identifier: "lblCounter")
                     }
                 }
 
-                HStack(spacing: 20) {
+                Spacer()
+                Spacer()
+
+                /// Buttons that controls the timer
+                HStack(spacing: 40) {
                     Button(action: {
                         if controller.timerState == .initial || controller.timerState == .paused {
                             controller.startTimer()
@@ -82,7 +115,11 @@ struct TimerView: View {
                     })
                     .accessibility(identifier: "btnResetIdentifier")
                 }
+
+                Spacer()
+                Spacer()
             }
+            .padding(.top)
         }
     }
 }
@@ -94,7 +131,6 @@ struct TimerView_Previews: PreviewProvider {
 
             TimerView()
                 .preferredColorScheme(.dark)
-                .environment(\.locale, Locale(identifier: "br"))
         }
     }
 }

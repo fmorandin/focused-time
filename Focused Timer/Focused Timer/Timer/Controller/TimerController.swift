@@ -11,19 +11,20 @@ import Combine
 
 class TimerController: ObservableObject {
 
-    var timer = Timer()
+    private let defaults = UserDefaults.standard
+
+    private var timer = Timer()
     @Published var timerState: TimerState = .initial
     @Published var to: CGFloat = 0
     @Published var count = 0
-    @Published var totalTime = 5
 
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
-            if self.count != self.totalTime {
+            if self.count != self.getTotalTime() {
                 self.timerState = .running
                 self.count += 1
                 withAnimation(.default) {
-                    self.to = CGFloat(self.count) / CGFloat(self.totalTime)
+                    self.to = CGFloat(self.count) / CGFloat(self.getTotalTime())
                 }
             }
             else {
@@ -45,5 +46,9 @@ class TimerController: ObservableObject {
         to = 0
         count = 0
         timer.invalidate()
+    }
+
+    func getTotalTime() -> Int {
+        defaults.integer(forKey: "totalTime")
     }
 }
