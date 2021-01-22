@@ -1,5 +1,5 @@
 //
-//  FocusedTimerControllerTests.swift
+//  FocusedTimerViewModelTests.swift
 //  Focused TimerTests
 //
 //  Created by Felipe Chiarini Pena Morandin on 28/09/20.
@@ -10,25 +10,25 @@ import XCTest
 
 class FocusedTimerViewModelTests: XCTestCase {
 
+    private let timerViewModel = TimerViewModel(totalTime: 5)
+
     func test_StartTimer() {
-        // GIVEN I have the timerController
-        let timerController = TimerViewModel()
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
-        XCTAssertEqual(timerController.timerState, TimerState.initial)
-        XCTAssertEqual(timerController.count, 0)
-        XCTAssertEqual(timerController.to, 0)
+        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+        XCTAssertEqual(timerViewModel.count, 0)
+        XCTAssertEqual(timerViewModel.to, 0)
 
         // WHEN I start the timer
-        timerController.startTimer()
+        timerViewModel.startTimer()
 
         // THEN the timer state should be running
         let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
         if result == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerController.timerState, TimerState.running)
-            XCTAssertNotEqual(timerController.count, 0)
-            XCTAssertNotEqual(timerController.to, 0)
+            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
+            XCTAssertNotEqual(timerViewModel.count, 0)
+            XCTAssertNotEqual(timerViewModel.to, 0)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -39,65 +39,61 @@ class FocusedTimerViewModelTests: XCTestCase {
         if finalResult == XCTWaiter.Result.timedOut {
 
             // THEN the values should be reseted
-            XCTAssertEqual(timerController.timerState, TimerState.initial)
-            XCTAssertEqual(timerController.count, 0)
-            XCTAssertEqual(timerController.to, 0)
+            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+            XCTAssertEqual(timerViewModel.count, 0)
+            XCTAssertEqual(timerViewModel.to, 0)
         }
     }
 
     func test_PauseTimer() {
-        // GIVEN I have the timerController
-        let timerController = TimerViewModel()
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
-        XCTAssertEqual(timerController.timerState, TimerState.initial)
+        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
 
         // WHEN I start the timer
-        timerController.startTimer()
+        timerViewModel.startTimer()
 
         // THEN the timer state should be running
         _ = XCTWaiter.wait(for: [expected], timeout: 1.0)
 
         // WHEN I pause the timer
-        timerController.pauseTimer()
+        timerViewModel.pauseTimer()
 
         // THEN the status should be updated
-        XCTAssertEqual(timerController.timerState, TimerState.paused)
+        XCTAssertEqual(timerViewModel.timerState, TimerState.paused)
     }
 
     func test_ResetTimer() {
-        // GIVEN I have the timerController
-        let timerController = TimerViewModel()
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
-        XCTAssertEqual(timerController.timerState, TimerState.initial)
-        XCTAssertEqual(timerController.count, 0)
-        XCTAssertEqual(timerController.to, 0)
+        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+        XCTAssertEqual(timerViewModel.count, 0)
+        XCTAssertEqual(timerViewModel.to, 0)
 
         // WHEN I start the timer
-        timerController.startTimer()
+        timerViewModel.startTimer()
 
         // THEN the timer state should be running
         let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
         if result == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerController.timerState, TimerState.running)
-            XCTAssertNotEqual(timerController.count, 0)
-            XCTAssertNotEqual(timerController.to, 0)
+            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
+            XCTAssertNotEqual(timerViewModel.count, 0)
+            XCTAssertNotEqual(timerViewModel.to, 0)
         } else {
             XCTFail("Delay interrupted")
         }
 
         // WHEN I reset the timer
-        timerController.resetTimer()
+        timerViewModel.resetTimer()
 
         // THEN the status should be updated back to initial
-        XCTAssertEqual(timerController.timerState, TimerState.initial)
+        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
 
         // AND the related fields should be reseted
-        XCTAssertEqual(timerController.count, 0)
-        XCTAssertEqual(timerController.to, 0)
+        XCTAssertEqual(timerViewModel.count, 0)
+        XCTAssertEqual(timerViewModel.to, 0)
     }
 
 }

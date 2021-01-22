@@ -13,10 +13,15 @@ struct TimerView: View {
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - Oberved Objects
-    @ObservedObject var timerViewModel = TimerViewModel()
+    @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - States
     @State private var showingConfig = false
+
+    // MARK: Initializer
+    init(viewModel: TimerViewModel = .init(totalTime: nil)) {
+        _timerViewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         ZStack {
@@ -37,7 +42,7 @@ struct TimerView: View {
                             .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                     }
                     .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetTimer, content: {
-                        SettingsView(totalTime: "\(timerViewModel.getTotalTime())")
+                        SettingsView(totalTime: "\(timerViewModel.totalTime)")
                     })
                 }
                 .padding(.trailing, 20)
@@ -63,7 +68,7 @@ struct TimerView: View {
                         .accessibility(identifier: "uiExternalCircle")
 
                     VStack {
-                        Text("\(timerViewModel.count) of \(timerViewModel.getTotalTime())")
+                        Text("\(timerViewModel.count) of \(timerViewModel.totalTime)")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                             .accessibility(identifier: "lblCounter")

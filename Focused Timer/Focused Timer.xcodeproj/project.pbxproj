@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */; };
+		189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189EF6A725BA5A6F004A182E /* TimerModel.swift */; };
 		18BF37D025AB76F00056D766 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BF37CF25AB76F00056D766 /* SettingsView.swift */; };
 		A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271525269A2C00083BB2 /* TimerViewModel.swift */; };
 		A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271B2526A0B200083BB2 /* TimerState.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		189EF6A725BA5A6F004A182E /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		18BF37CF25AB76F00056D766 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A34E271525269A2C00083BB2 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		A34E271B2526A0B200083BB2 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				A34E271B2526A0B200083BB2 /* TimerState.swift */,
+				189EF6A725BA5A6F004A182E /* TimerModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				A378FC672522BCF90046FC4C /* TimerView.swift in Sources */,
 				18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */,
 				18BF37D025AB76F00056D766 /* SettingsView.swift in Sources */,
+				189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */,
 				A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */,
 				A378FC332522BB7D0046FC4C /* Focused_TimerApp.swift in Sources */,
 			);

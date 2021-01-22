@@ -11,20 +11,33 @@ import Combine
 
 class TimerViewModel: ObservableObject {
 
-    private let defaults = UserDefaults.standard
-
-    private var timer = Timer()
+    // MARK: - Published Variables
+    @Published var totalTime: Int
     @Published var timerState: TimerState = .initial
     @Published var to: CGFloat = 0
     @Published var count = 0
 
+    // MARK: - Private Variables
+    private var timer = Timer()
+    private let timerModel = TimerModel()
+
+    // MARK: Initializer
+    init(totalTime: Int?) {
+        if let totalTime = totalTime {
+            self.totalTime = totalTime
+        } else {
+            self.totalTime = timerModel.getTotalTime()
+        }
+    }
+
+    // MARK: - Public Methods
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
-            if self.count != self.getTotalTime() {
+            if self.count != self.totalTime {
                 self.timerState = .running
                 self.count += 1
                 withAnimation(.default) {
-                    self.to = CGFloat(self.count) / CGFloat(self.getTotalTime())
+                    self.to = CGFloat(self.count) / CGFloat(self.totalTime)
                 }
             }
             else {
@@ -46,9 +59,5 @@ class TimerViewModel: ObservableObject {
         to = 0
         count = 0
         timer.invalidate()
-    }
-
-    func getTotalTime() -> Int {
-        defaults.integer(forKey: "totalTime")
     }
 }
