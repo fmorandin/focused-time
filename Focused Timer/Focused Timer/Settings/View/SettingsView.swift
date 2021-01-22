@@ -13,8 +13,8 @@ struct SettingsView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
 
-    // MARK: - Oberved Objects
-    @ObservedObject var controller = SettingsController()
+    // MARK: - Observed Objects
+    @ObservedObject var settingsViewModel = SettingsViewModel()
 
     // MARK: - State
     @State var totalTime: String
@@ -52,7 +52,7 @@ struct SettingsView: View {
             .listStyle(InsetListStyle())
 
             Button(action: {
-                controller.saveTotalTime(time: $totalTime.wrappedValue)
+                settingsViewModel.saveTotalTime(time: $totalTime.wrappedValue)
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "checkmark")

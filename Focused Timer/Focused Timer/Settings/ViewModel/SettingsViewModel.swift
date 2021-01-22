@@ -1,5 +1,5 @@
 //
-//  SettingsController.swift
+//  SettingsViewModel.swift
 //  Focused Timer
 //
 //  Created by Felipe Chiarini Pena Morandin on 10/01/21.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class SettingsController: ObservableObject {
+class SettingsViewModel: ObservableObject {
 
     private let defaults = UserDefaults.standard
 

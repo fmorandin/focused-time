@@ -8,11 +8,11 @@
 import XCTest
 @testable import Focused_Timer
 
-class FocusedTimerControllerTests: XCTestCase {
+class FocusedTimerViewModelTests: XCTestCase {
 
-    func testStartTimer() {
+    func test_StartTimer() {
         // GIVEN I have the timerController
-        let timerController = TimerController()
+        let timerController = TimerViewModel()
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
@@ -45,9 +45,9 @@ class FocusedTimerControllerTests: XCTestCase {
         }
     }
 
-    func testPauseTimer() {
+    func test_PauseTimer() {
         // GIVEN I have the timerController
-        let timerController = TimerController()
+        let timerController = TimerViewModel()
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
@@ -66,9 +66,9 @@ class FocusedTimerControllerTests: XCTestCase {
         XCTAssertEqual(timerController.timerState, TimerState.paused)
     }
 
-    func testResetTimer() {
+    func test_ResetTimer() {
         // GIVEN I have the timerController
-        let timerController = TimerController()
+        let timerController = TimerViewModel()
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial

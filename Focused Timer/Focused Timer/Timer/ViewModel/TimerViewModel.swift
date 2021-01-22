@@ -1,5 +1,5 @@
 //
-//  TimerController.swift
+//  TimerViewModel.swift
 //  Focused Timer
 //
 //  Created by Felipe Chiarini Pena Morandin on 01/10/20.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class TimerController: ObservableObject {
+class TimerViewModel: ObservableObject {
 
     private let defaults = UserDefaults.standard
 

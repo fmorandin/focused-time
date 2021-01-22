@@ -13,7 +13,7 @@ struct TimerView: View {
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - Oberved Objects
-    @ObservedObject var controller = TimerController()
+    @ObservedObject var timerViewModel = TimerViewModel()
 
     // MARK: - States
     @State private var showingConfig = false
@@ -36,8 +36,8 @@ struct TimerView: View {
                             .padding(.trailing)
                             .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                     }
-                    .sheet(isPresented: $showingConfig, onDismiss: controller.resetTimer, content: {
-                        SettingsView(totalTime: "\(controller.getTotalTime())")
+                    .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetTimer, content: {
+                        SettingsView(totalTime: "\(timerViewModel.getTotalTime())")
                     })
                 }
                 .padding(.trailing, 20)
@@ -55,7 +55,7 @@ struct TimerView: View {
                         .accessibility(identifier: "uiInternalCircle")
 
                     Circle()
-                        .trim(from: 0, to: controller.to)
+                        .trim(from: 0, to: timerViewModel.to)
                         .stroke(Color.orange, style: StrokeStyle(lineWidth: 25, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
@@ -63,7 +63,7 @@ struct TimerView: View {
                         .accessibility(identifier: "uiExternalCircle")
 
                     VStack {
-                        Text("\(controller.count) of \(controller.getTotalTime())")
+                        Text("\(timerViewModel.count) of \(timerViewModel.getTotalTime())")
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                             .accessibility(identifier: "lblCounter")
@@ -76,17 +76,17 @@ struct TimerView: View {
                 /// Buttons that controls the timer
                 HStack(spacing: 40) {
                     Button(action: {
-                        if controller.timerState == .initial || controller.timerState == .paused {
-                            controller.startTimer()
+                        if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
+                            timerViewModel.startTimer()
                         } else {
-                            controller.pauseTimer()
+                            timerViewModel.pauseTimer()
                         }
                     }) {
                         HStack(spacing: 10) {
-                            Image(systemName: controller.timerState == .running ? "pause" :  "play")
+                            Image(systemName: timerViewModel.timerState == .running ? "pause" :  "play")
                                 .foregroundColor(.white)
 
-                            Text(controller.timerState == .running ? "Pause" : "Play")
+                            Text(timerViewModel.timerState == .running ? "Pause" : "Play")
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -98,7 +98,7 @@ struct TimerView: View {
                     .accessibility(identifier: "btnStartPauseIdentifier")
 
                     Button(action: {
-                        controller.resetTimer()
+                        timerViewModel.resetTimer()
                     }, label: {
                         HStack(spacing: 10) {
                             Image(systemName: "arrow.clockwise")
