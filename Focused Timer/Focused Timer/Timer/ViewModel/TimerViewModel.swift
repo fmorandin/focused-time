@@ -54,7 +54,7 @@ class TimerViewModel: ObservableObject {
         timer.invalidate()
     }
 
-    func resetTimer() {
+    func resetUpdateTimer() {
         timerState = .initial
         to = 0
         count = 0

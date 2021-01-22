@@ -86,7 +86,7 @@ class FocusedTimerViewModelTests: XCTestCase {
         }
 
         // WHEN I reset the timer
-        timerViewModel.resetTimer()
+        timerViewModel.resetUpdateTimer()
 
         // THEN the status should be updated back to initial
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)

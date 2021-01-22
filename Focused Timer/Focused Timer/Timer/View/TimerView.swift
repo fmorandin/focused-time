@@ -41,7 +41,7 @@ struct TimerView: View {
                             .padding(.trailing)
                             .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                     }
-                    .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetTimer, content: {
+                    .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
                         SettingsView(totalTime: "\(timerViewModel.totalTime)")
                     })
                 }
@@ -103,7 +103,7 @@ struct TimerView: View {
                     .accessibility(identifier: "btnStartPauseIdentifier")
 
                     Button(action: {
-                        timerViewModel.resetTimer()
+                        timerViewModel.resetUpdateTimer()
                     }, label: {
                         HStack(spacing: 10) {
                             Image(systemName: "arrow.clockwise")
