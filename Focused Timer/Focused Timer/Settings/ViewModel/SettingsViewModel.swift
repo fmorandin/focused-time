@@ -10,13 +10,14 @@ import Combine
 
 class SettingsViewModel: ObservableObject {
 
-    private let defaults = UserDefaults.standard
+    // MARK: - Private Variables
+    private let settingsModel = SettingsModel()
 
     func saveTotalTime(time: String) {
-        defaults.set(time, forKey: "totalTime")
+        settingsModel.saveTotalTime(time: time)
     }
 
     func getTotalTime() -> Int {
-        defaults.integer(forKey: "totalTime")
+        settingsModel.getTotalTime()
     }
 }

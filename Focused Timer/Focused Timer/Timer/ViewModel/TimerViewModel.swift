@@ -59,5 +59,6 @@ class TimerViewModel: ObservableObject {
         to = 0
         count = 0
         timer.invalidate()
+        self.totalTime = timerModel.getTotalTime()
     }
 }
