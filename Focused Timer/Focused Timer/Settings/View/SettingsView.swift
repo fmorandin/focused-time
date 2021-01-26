@@ -41,7 +41,7 @@ struct SettingsView: View {
             /// The list that contains all the available settings to be defined in the app
             List {
                 HStack {
-                    Text("Focus Duration")
+                    Text("Focus Duration (in minutes)")
                     TextField("", text: $totalTime)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
