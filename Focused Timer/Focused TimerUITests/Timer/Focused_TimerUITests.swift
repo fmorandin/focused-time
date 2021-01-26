@@ -25,7 +25,7 @@ class Focused_TimerUITests: XCTestCase {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblCounter = app.staticTexts["lblCounter"]
-        XCTAssertEqual(lblCounter.label, "0 of 5")
+        XCTAssertEqual(lblCounter.label, "0 of 20")
 
         let uiExternalCircle = app.otherElements["uiExternalCircle"]
         XCTAssertEqual(uiExternalCircle.frame.width, 300)
@@ -42,10 +42,10 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
+            XCTAssertEqual(lblCounter.label, "2 of 20")
 
             // AND the circle should start to be filled
-            XCTAssertEqual(uiExternalCircle.frame.width, 174.99999999999997)
+            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -57,7 +57,7 @@ class Focused_TimerUITests: XCTestCase {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblCounter = app.staticTexts["lblCounter"]
-        XCTAssertEqual(lblCounter.label, "0 of 5")
+        XCTAssertEqual(lblCounter.label, "0 of 20")
 
         let uiExternalCircle = app.otherElements["uiExternalCircle"]
         XCTAssertEqual(uiExternalCircle.frame.width, 300)
@@ -74,10 +74,10 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
+            XCTAssertEqual(lblCounter.label, "2 of 20")
 
             // AND the circle should start to be filled
-            XCTAssertEqual(uiExternalCircle.frame.width, 174.99999999999997)
+            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -94,10 +94,10 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Play")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
+            XCTAssertEqual(lblCounter.label, "2 of 20")
 
             // AND the circle should start to be filled
-            XCTAssertEqual(uiExternalCircle.frame.width, 174.99999999999997)
+            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -114,10 +114,10 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "4 of 5")
+            XCTAssertEqual(lblCounter.label, "4 of 20")
 
             // AND the circle should start to be filled
-            XCTAssertEqual(uiExternalCircle.frame.width, 325.0)
+            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -129,7 +129,7 @@ class Focused_TimerUITests: XCTestCase {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblCounter = app.staticTexts["lblCounter"]
-        XCTAssertEqual(lblCounter.label, "0 of 5")
+        XCTAssertEqual(lblCounter.label, "0 of 20")
 
         let uiExternalCircle = app.otherElements["uiExternalCircle"]
         XCTAssertEqual(uiExternalCircle.frame.width, 300)
@@ -146,10 +146,10 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
+            XCTAssertEqual(lblCounter.label, "2 of 20")
 
             // AND the circle should start to be filled
-            XCTAssertEqual(uiExternalCircle.frame.width, 174.99999999999997)
+            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -166,10 +166,10 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Play")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
+            XCTAssertEqual(lblCounter.label, "2 of 20")
 
             // AND the circle should start to be filled
-            XCTAssertEqual(uiExternalCircle.frame.width, 174.99999999999997)
+            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -188,7 +188,7 @@ class Focused_TimerUITests: XCTestCase {
             XCTAssertEqual(playButton.label, "Play")
 
             // AND the counter should be resetted
-            XCTAssertEqual(lblCounter.label, "0 of 5")
+            XCTAssertEqual(lblCounter.label, "0 of 20")
 
             // AND the circle should be resetted
             XCTAssertEqual(uiExternalCircle.frame.width, 300)
