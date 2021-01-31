@@ -14,6 +14,7 @@ struct TimerModel {
 
     // MARK: - Public Methods
     func getTotalTime() -> Int {
-        defaults.integer(forKey: "totalTime")
+        let totalTime = defaults.integer(forKey: "totalTime")
+        return totalTime != 0 ? totalTime : 5
     }
 }

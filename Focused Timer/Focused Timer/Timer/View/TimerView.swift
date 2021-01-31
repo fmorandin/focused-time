@@ -42,7 +42,7 @@ struct TimerView: View {
                             .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                     }
                     .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
-                        SettingsView(totalTime: "\(timerViewModel.totalTime)")
+                        SettingsView()
                     })
                 }
                 .padding(.trailing, 20)

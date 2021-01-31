@@ -14,10 +14,12 @@ struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
 
     // MARK: - Observed Objects
-    @ObservedObject var settingsViewModel = SettingsViewModel()
+    @StateObject private var settingsViewModel: SettingsViewModel
 
-    // MARK: - State
-    @State var totalTime: String
+    // MARK: Initializer
+    init(viewModel: SettingsViewModel = .init()) {
+        _settingsViewModel = StateObject(wrappedValue: viewModel)
+    }
 
     // MARK: - Body
     var body: some View {
@@ -42,7 +44,7 @@ struct SettingsView: View {
             List {
                 HStack {
                     Text("Focus Duration (in minutes)")
-                    TextField("", text: $totalTime)
+                    TextField("", text: $settingsViewModel.totalTime)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                         .frame(width: 50)
@@ -52,7 +54,7 @@ struct SettingsView: View {
             .listStyle(InsetListStyle())
 
             Button(action: {
-                settingsViewModel.saveTotalTime(time: $totalTime.wrappedValue)
+                settingsViewModel.saveTotalTime(time: settingsViewModel.totalTime)
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "checkmark")
@@ -78,9 +80,9 @@ extension View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SettingsView(totalTime: "5")
+            SettingsView()
 
-            SettingsView(totalTime: "5").colorScheme(.dark)
+            SettingsView().colorScheme(.dark)
         }
     }
 }

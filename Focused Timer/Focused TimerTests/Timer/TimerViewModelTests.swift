@@ -1,5 +1,5 @@
 //
-//  FocusedTimerViewModelTests.swift
+//  TimerViewModelTests.swift
 //  Focused TimerTests
 //
 //  Created by Felipe Chiarini Pena Morandin on 28/09/20.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import Focused_Timer
 
-class FocusedTimerViewModelTests: XCTestCase {
+class TimerViewModelTests: XCTestCase {
 
     private let timerViewModel = TimerViewModel(totalTime: 5)
 

@@ -7,17 +7,21 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 class SettingsViewModel: ObservableObject {
 
     // MARK: - Private Variables
     private let settingsModel = SettingsModel()
 
-    func saveTotalTime(time: String) {
-        settingsModel.saveTotalTime(time: time)
+    // MARK: - Published Variables
+    @Published var totalTime: String
+
+    init() {
+        totalTime = String(describing: settingsModel.getTotalTime())
     }
 
-    func getTotalTime() -> Int {
-        settingsModel.getTotalTime()
+    func saveTotalTime(time: String) {
+        settingsModel.saveTotalTime(time: time)
     }
 }
