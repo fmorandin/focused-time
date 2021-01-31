@@ -10,7 +10,7 @@ import XCTest
 
 class TimerViewModelTests: XCTestCase {
 
-    private let timerViewModel = TimerViewModel(totalTime: 5)
+    private let timerViewModel = TimerViewModel(timerModel: TimerModelMock())
 
     func test_StartTimer() {
         let expected = expectation(description: "Timer Running")

@@ -19,15 +19,13 @@ class TimerViewModel: ObservableObject {
 
     // MARK: - Private Variables
     private var timer = Timer()
-    private let timerModel = TimerModel()
+    private let timerModel: TimerModelProtocol
 
-    // MARK: Initializer
-    init(totalTime: Int?) {
-        if let totalTime = totalTime {
-            self.totalTime = totalTime
-        } else {
-            self.totalTime = timerModel.getTotalTime()
-        }
+    // MARK: - Initializer
+
+    init(timerModel: TimerModelProtocol) {
+        self.timerModel = timerModel
+        self.totalTime = timerModel.getTotalTime()
     }
 
     // MARK: - Public Methods

@@ -7,10 +7,17 @@
 
 import Foundation
 
-struct SettingsModel {
+protocol SettingsModelProtocol {
+    func saveTotalTime(time: String)
+    func getTotalTime() -> Int
+}
 
+struct SettingsModel: SettingsModelProtocol {
+
+    // MARK: - Private Variables
     private let defaults = UserDefaults.standard
 
+    // MARK: - Methods
     func saveTotalTime(time: String) {
         defaults.set(time, forKey: "totalTime")
     }

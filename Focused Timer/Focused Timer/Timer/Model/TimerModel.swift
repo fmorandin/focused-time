@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct TimerModel {
+protocol TimerModelProtocol {
+    func getTotalTime() -> Int
+}
+
+struct TimerModel: TimerModelProtocol {
 
     // MARK: - Private Variables
     private let defaults = UserDefaults.standard

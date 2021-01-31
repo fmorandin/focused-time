@@ -19,7 +19,7 @@ struct TimerView: View {
     @State private var showingConfig = false
 
     // MARK: Initializer
-    init(viewModel: TimerViewModel = .init(totalTime: nil)) {
+    init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 

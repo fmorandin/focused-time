@@ -13,6 +13,7 @@ class BaseFeature: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        UserDefaults.standard.removeObject(forKey: "totalTime")
         app.launch()
     }
 

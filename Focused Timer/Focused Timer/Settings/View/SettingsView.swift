@@ -17,7 +17,7 @@ struct SettingsView: View {
     @StateObject private var settingsViewModel: SettingsViewModel
 
     // MARK: Initializer
-    init(viewModel: SettingsViewModel = .init()) {
+    init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -54,11 +54,11 @@ struct SettingsView: View {
             .listStyle(InsetListStyle())
 
             Button(action: {
-                settingsViewModel.saveTotalTime(time: settingsViewModel.totalTime)
+                settingsViewModel.saveAndUpdateTotalTimeValue(time: settingsViewModel.totalTime)
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "checkmark")
-                    .font(.system(size: 30))
+                    .font(.system(size: 20))
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white))
             }
             .padding(.bottom, 30)
