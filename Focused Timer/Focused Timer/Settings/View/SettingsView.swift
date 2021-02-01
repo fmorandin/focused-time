@@ -36,6 +36,7 @@ struct SettingsView: View {
                         .padding(.trailing)
                         .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                 }
+                .accessibility(identifier: "btnDismissSettings")
             }
             .padding(.top)
             .padding(.bottom, 50)
@@ -44,11 +45,14 @@ struct SettingsView: View {
             List {
                 HStack {
                     Text("Focus Duration (in minutes)")
+                        .accessibility(identifier: "lblFocusDuration")
+
                     TextField("", text: $settingsViewModel.totalTime)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                         .frame(width: 50)
                         .multilineTextAlignment(.center)
+                        .accessibility(identifier: "txtTotalTime")
                 }
             }
             .listStyle(InsetListStyle())
@@ -62,6 +66,7 @@ struct SettingsView: View {
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white))
             }
             .padding(.bottom, 30)
+            .accessibility(identifier: "btnSaveSettings")
         }
         .onTapGesture {
             self.hideKeyboard()

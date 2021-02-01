@@ -14,6 +14,10 @@ class SettingsViewModelTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: "totalTime")
     }
 
+    override class func tearDown() {
+        UserDefaults.standard.removeObject(forKey: "totalTime")
+    }
+
     func test_GetTotalTime() {
 
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())

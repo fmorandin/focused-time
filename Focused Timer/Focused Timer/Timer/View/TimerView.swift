@@ -44,6 +44,7 @@ struct TimerView: View {
                     .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
                         SettingsView()
                     })
+                    .accessibility(identifier: "btnShowSettings")
                 }
                 .padding(.trailing, 20)
 
