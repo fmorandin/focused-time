@@ -18,27 +18,9 @@ struct TimerView: View {
     // MARK: - States
     @State private var showingConfig = false
 
-    // MARK: - Private Variables
-    private var dateComponentsFormatter: DateComponentsFormatterProtocol
-
-    private var totalTime: String {
-        return dateComponentsFormatter.string(from: TimeInterval(timerViewModel.totalTime)) ?? "-"
-    }
-
-    private var countTime: String {
-        return dateComponentsFormatter.string(from: TimeInterval(timerViewModel.count)) ?? "-"
-    }
-
     // MARK: Initializer
-    init(viewModel: TimerViewModel = .init(timerModel: TimerModel()),
-         dateComponentsFormatter: DateComponentsFormatterProtocol = DateComponentsFormatter()) {
-
+    init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
         _timerViewModel = StateObject(wrappedValue: viewModel)
-
-        self.dateComponentsFormatter = dateComponentsFormatter
-        self.dateComponentsFormatter.allowedUnits = [.hour, .minute, .second]
-        self.dateComponentsFormatter.unitsStyle = .brief
-        self.dateComponentsFormatter
     }
 
     var body: some View {
@@ -87,7 +69,7 @@ struct TimerView: View {
                         .accessibility(identifier: "uiExternalCircle")
 
                     VStack {
-                        Text("\(countTime)")
+                        Text(timerViewModel.countTime)
                             .font(.system(size: 60))
                             .fontWeight(.bold)
                             .accessibility(identifier: "lblCounter")

@@ -16,17 +16,27 @@ class TimerViewModel: ObservableObject {
     @Published var timerState: TimerState = .initial
     @Published var to: CGFloat = 1
     @Published var count: Int
+    @Published var countTime: String
 
     // MARK: - Private Variables
     private var timer = Timer()
     private let timerModel: TimerModelProtocol
+    private let dateFormatter = DateComponentsFormatter()
 
     // MARK: - Initializer
 
     init(timerModel: TimerModelProtocol) {
+
+        self.dateFormatter.allowedUnits = [.hour, .minute, .second]
+        self.dateFormatter.maximumUnitCount = 2
+        self.dateFormatter.zeroFormattingBehavior = .dropLeading
+        self.dateFormatter.unitsStyle = .abbreviated
+
         self.timerModel = timerModel
         self.totalTime = timerModel.getTotalTime()
         self.count = timerModel.getTotalTime()
+
+        self.countTime = self.dateFormatter.string(from: TimeInterval(timerModel.getTotalTime())) ?? "-"
     }
 
     // MARK: - Public Methods
@@ -38,11 +48,13 @@ class TimerViewModel: ObservableObject {
                 withAnimation(.default) {
                     self.to = CGFloat(self.count) / CGFloat(self.totalTime)
                 }
+                self.countTime = self.dateFormatter.string(from: TimeInterval(self.count)) ?? "-"
             }
             else {
                 self.to = 1
                 self.count = self.totalTime
                 self.timerState = .initial
+                self.countTime = self.dateFormatter.string(from: TimeInterval(self.timerModel.getTotalTime())) ?? "-"
                 timer.invalidate()
             }
         })
@@ -58,6 +70,7 @@ class TimerViewModel: ObservableObject {
         to = 1
         count = timerModel.getTotalTime()
         timer.invalidate()
-        self.totalTime = timerModel.getTotalTime()
+        totalTime = timerModel.getTotalTime()
+        countTime = dateFormatter.string(from: TimeInterval(timerModel.getTotalTime())) ?? "-"
     }
 }
