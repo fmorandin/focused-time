@@ -24,7 +24,7 @@ class SettingsViewModel: ObservableObject {
     }
 
     // MARK: - Methods
-    func saveAndUpdateTotalTimeValue(time: String) {
+    func saveAndUpdateTotalTimeValue(time: Int) {
         settingsModel.saveTotalTime(time: time)
         totalTime = String(describing: getTotalTime())
     }

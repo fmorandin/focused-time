@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SettingsModelProtocol {
-    func saveTotalTime(time: String)
+    func saveTotalTime(time: Int)
     func getTotalTime() -> Int
 }
 
@@ -18,8 +18,9 @@ struct SettingsModel: SettingsModelProtocol {
     private let defaults = UserDefaults.standard
 
     // MARK: - Methods
-    func saveTotalTime(time: String) {
-        defaults.set(time, forKey: "totalTime")
+    func saveTotalTime(time: Int) {
+        let timeInSeconds = time * 60
+        defaults.set(timeInSeconds, forKey: "totalTime")
     }
 
     func getTotalTime() -> Int {

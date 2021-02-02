@@ -14,8 +14,8 @@ class TimerViewModel: ObservableObject {
     // MARK: - Published Variables
     @Published var totalTime: Int
     @Published var timerState: TimerState = .initial
-    @Published var to: CGFloat = 0
-    @Published var count = 0
+    @Published var to: CGFloat = 1
+    @Published var count: Int
 
     // MARK: - Private Variables
     private var timer = Timer()
@@ -26,21 +26,22 @@ class TimerViewModel: ObservableObject {
     init(timerModel: TimerModelProtocol) {
         self.timerModel = timerModel
         self.totalTime = timerModel.getTotalTime()
+        self.count = timerModel.getTotalTime()
     }
 
     // MARK: - Public Methods
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
-            if self.count != self.totalTime {
+            if self.count <= self.totalTime && self.count != 0 {
                 self.timerState = .running
-                self.count += 1
+                self.count -= 1
                 withAnimation(.default) {
                     self.to = CGFloat(self.count) / CGFloat(self.totalTime)
                 }
             }
             else {
-                self.to = 0
-                self.count = 0
+                self.to = 1
+                self.count = self.totalTime
                 self.timerState = .initial
                 timer.invalidate()
             }
@@ -54,8 +55,8 @@ class TimerViewModel: ObservableObject {
 
     func resetUpdateTimer() {
         timerState = .initial
-        to = 0
-        count = 0
+        to = 1
+        count = timerModel.getTotalTime()
         timer.invalidate()
         self.totalTime = timerModel.getTotalTime()
     }

@@ -33,10 +33,10 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getTotalTime(), 5)
 
         // WHEN I call the function to save the new value
-        settingsViewModel.saveAndUpdateTotalTimeValue(time: "20")
+        settingsViewModel.saveAndUpdateTotalTimeValue(time: 20)
 
         // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getTotalTime(), 20)
+        XCTAssertEqual(settingsViewModel.getTotalTime(), 1200)
     }
 
 }

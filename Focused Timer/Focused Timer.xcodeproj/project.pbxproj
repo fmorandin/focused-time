@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180823D925C8D9B9003B339E /* DateTimeFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180823D825C8D9B9003B339E /* DateTimeFormatter.swift */; };
 		181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A1425C701A9006CBDF4 /* BaseFeature.swift */; };
 		181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */; };
 		181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180823D825C8D9B9003B339E /* DateTimeFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTimeFormatter.swift; sourceTree = "<group>"; };
 		181E4A1425C701A9006CBDF4 /* BaseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFeature.swift; sourceTree = "<group>"; };
 		181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModelMock.swift; sourceTree = "<group>"; };
@@ -96,6 +98,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180823D725C8D9A4003B339E /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				180823D825C8D9B9003B339E /* DateTimeFormatter.swift */,
+			);
+			path = Formatters;
+			sourceTree = "<group>";
+		};
 		181E4A2A25C73F1D006CBDF4 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +213,7 @@
 		A378FC312522BB7D0046FC4C /* Focused Timer */ = {
 			isa = PBXGroup;
 			children = (
+				180823D725C8D9A4003B339E /* Formatters */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
 				A378FC322522BB7D0046FC4C /* Focused_TimerApp.swift */,
@@ -405,6 +416,7 @@
 				A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */,
 				A378FC672522BCF90046FC4C /* TimerView.swift in Sources */,
 				18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */,
+				180823D925C8D9B9003B339E /* DateTimeFormatter.swift in Sources */,
 				18BF37D025AB76F00056D766 /* SettingsView.swift in Sources */,
 				189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */,
 				A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */,

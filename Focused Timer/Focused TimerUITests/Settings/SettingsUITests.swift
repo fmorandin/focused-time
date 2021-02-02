@@ -63,7 +63,7 @@ class SettingsUITests: BaseFeature {
 
         // THEN the value should be the one that was updated
         let durationTextFieldUpdated = String(describing: app.textFields["txtTotalTime"].value!)
-        XCTAssertEqual(durationTextFieldUpdated, "100")
+        XCTAssertEqual(durationTextFieldUpdated, "6000")
     }
 
 }

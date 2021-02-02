@@ -58,7 +58,7 @@ struct SettingsView: View {
             .listStyle(InsetListStyle())
 
             Button(action: {
-                settingsViewModel.saveAndUpdateTotalTimeValue(time: settingsViewModel.totalTime)
+                settingsViewModel.saveAndUpdateTotalTimeValue(time: Int(settingsViewModel.totalTime) ?? 0)
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: "checkmark")
