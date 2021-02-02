@@ -27,10 +27,9 @@ class TimerViewModel: ObservableObject {
 
     init(timerModel: TimerModelProtocol) {
 
-        self.dateFormatter.allowedUnits = [.hour, .minute, .second]
-        self.dateFormatter.maximumUnitCount = 2
-        self.dateFormatter.zeroFormattingBehavior = .dropLeading
-        self.dateFormatter.unitsStyle = .abbreviated
+        self.dateFormatter.allowedUnits = [.minute, .second]
+        self.dateFormatter.zeroFormattingBehavior = .pad
+        self.dateFormatter.unitsStyle = .positional
 
         self.timerModel = timerModel
         self.totalTime = timerModel.getTotalTime()
