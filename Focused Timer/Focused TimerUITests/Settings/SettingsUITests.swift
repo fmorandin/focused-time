@@ -49,13 +49,10 @@ class SettingsUITests: BaseFeature {
 
         // WHEN I delete the default value
         let durationTextField = app.textFields["txtTotalTime"]
-        durationTextField.tap()
-
-        let deleteString = String(repeating: XCUIKeyboardKey.delete.rawValue, count: durationTextFieldValue.count)
-        durationTextField.typeText(deleteString)
+        durationTextField.doubleTap()
 
         // AND I add the new value
-        durationTextField.typeText("10")
+        durationTextField.typeText("100")
 
         // AND I click to save
         let saveButton = app.buttons["btnSaveSettings"]
@@ -66,7 +63,7 @@ class SettingsUITests: BaseFeature {
 
         // THEN the value should be the one that was updated
         let durationTextFieldUpdated = String(describing: app.textFields["txtTotalTime"].value!)
-        XCTAssertEqual(durationTextFieldUpdated, "10")
+        XCTAssertEqual(durationTextFieldUpdated, "100")
     }
 
 }

@@ -12,13 +12,12 @@ class BaseFeature: XCTestCase {
     let app = XCUIApplication()
 
     override func setUp() {
-        UserDefaults.standard.removeObject(forKey: "totalTime")
         super.setUp()
+        app.launchArguments += ["UI-Testing"]
         app.launch()
     }
 
     override func tearDown() {
         app.terminate()
-        UserDefaults.standard.removeObject(forKey: "totalTime")
     }
 }
