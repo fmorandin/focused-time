@@ -19,14 +19,14 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Initializer
     init(settingsModel: SettingsModelProtocol) {
-        totalTime = String(describing: settingsModel.getTotalTime() / 60)
+        totalTime = String(describing: (settingsModel.getTotalTime() / 60) == 0 ? 1 : settingsModel.getTotalTime() / 60)
         self.settingsModel = settingsModel
     }
 
     // MARK: - Methods
     func saveAndUpdateTotalTimeValue(time: Int) {
         settingsModel.saveTotalTime(time: time)
-        totalTime = String(describing: getTotalTime() / 60)
+        totalTime = String(describing: (getTotalTime() / 60) == 0 ? 1 : getTotalTime() / 60)
     }
 
     func getTotalTime() -> Int {

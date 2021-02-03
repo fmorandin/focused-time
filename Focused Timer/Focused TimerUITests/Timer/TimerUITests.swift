@@ -15,27 +15,21 @@ class TimerUITests: BaseFeature {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblCounter = app.staticTexts["lblCounter"]
-        XCTAssertEqual(lblCounter.label, "0 of 5")
-
-        let uiExternalCircle = app.otherElements["uiExternalCircle"]
-        XCTAssertEqual(uiExternalCircle.frame.width, 300)
+        XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I click to start the timer
         playButton.tap()
 
         // This is used to let the screen reacts to the tap
         let expected = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expected], timeout: 2.0)
+        let result = XCTWaiter.wait(for: [expected], timeout: 5.0)
         if result == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
-
-            // AND the circle should start to be filled
-            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "00:55")
         } else {
             XCTFail("Delay interrupted")
         }
@@ -47,27 +41,21 @@ class TimerUITests: BaseFeature {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblCounter = app.staticTexts["lblCounter"]
-        XCTAssertEqual(lblCounter.label, "0 of 5")
-
-        let uiExternalCircle = app.otherElements["uiExternalCircle"]
-        XCTAssertEqual(uiExternalCircle.frame.width, 300)
+        XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I click to start the timer
         playButton.tap()
 
         // This is used to let the screen reacts to the tap
         let expectedRunning = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expectedRunning], timeout: 2.0)
+        let result = XCTWaiter.wait(for: [expectedRunning], timeout: 5.0)
         if result == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
-
-            // AND the circle should start to be filled
-            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "00:55")
         } else {
             XCTFail("Delay interrupted")
         }
@@ -77,17 +65,14 @@ class TimerUITests: BaseFeature {
 
         // This is used to let the screen reacts to the tap
         let expectedPaused = expectation(description: "Timer Paused")
-        let resultPause = XCTWaiter.wait(for: [expectedPaused], timeout: 2.0)
+        let resultPause = XCTWaiter.wait(for: [expectedPaused], timeout: 5.0)
         if resultPause == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Play")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
-
-            // AND the circle should start to be filled
-            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "00:55")
         } else {
             XCTFail("Delay interrupted")
         }
@@ -97,17 +82,14 @@ class TimerUITests: BaseFeature {
 
         // This is used to let the screen reacts to the tap
         let expectedResumed = expectation(description: "Timer Resumed")
-        let resultResumed = XCTWaiter.wait(for: [expectedResumed], timeout: 2.0)
+        let resultResumed = XCTWaiter.wait(for: [expectedResumed], timeout: 5.0)
         if resultResumed == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "4 of 5")
-
-            // AND the circle should start to be filled
-            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "00:50")
         } else {
             XCTFail("Delay interrupted")
         }
@@ -119,27 +101,21 @@ class TimerUITests: BaseFeature {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblCounter = app.staticTexts["lblCounter"]
-        XCTAssertEqual(lblCounter.label, "0 of 5")
-
-        let uiExternalCircle = app.otherElements["uiExternalCircle"]
-        XCTAssertEqual(uiExternalCircle.frame.width, 300)
+        XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I click to start the timer
         playButton.tap()
 
         // This is used to let the screen reacts to the tap
         let expectedRunning = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expectedRunning], timeout: 2.0)
+        let result = XCTWaiter.wait(for: [expectedRunning], timeout: 5.0)
         if result == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
-
-            // AND the circle should start to be filled
-            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "00:55")
         } else {
             XCTFail("Delay interrupted")
         }
@@ -149,17 +125,14 @@ class TimerUITests: BaseFeature {
 
         // This is used to let the screen reacts to the tap
         let expectedPaused = expectation(description: "Timer Paused")
-        let resultPause = XCTWaiter.wait(for: [expectedPaused], timeout: 2.0)
+        let resultPause = XCTWaiter.wait(for: [expectedPaused], timeout: 5.0)
         if resultPause == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Play")
 
             // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "2 of 5")
-
-            // AND the circle should start to be filled
-            XCTAssertNotEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "00:55")
         } else {
             XCTFail("Delay interrupted")
         }
@@ -171,17 +144,14 @@ class TimerUITests: BaseFeature {
 
         // This is used to let the screen reacts to the tap
         let expectedResetted = expectation(description: "Timer Resumed")
-        let resultResetted = XCTWaiter.wait(for: [expectedResetted], timeout: 2.0)
+        let resultResetted = XCTWaiter.wait(for: [expectedResetted], timeout: 5.0)
         if resultResetted == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Play")
 
             // AND the counter should be resetted
-            XCTAssertEqual(lblCounter.label, "0 of 5")
-
-            // AND the circle should be resetted
-            XCTAssertEqual(uiExternalCircle.frame.width, 300)
+            XCTAssertEqual(lblCounter.label, "01:00")
         } else {
             XCTFail("Delay interrupted")
         }

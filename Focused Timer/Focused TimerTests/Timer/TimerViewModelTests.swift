@@ -17,8 +17,8 @@ class TimerViewModelTests: XCTestCase {
 
         // AND the timer state is .initial
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-        XCTAssertEqual(timerViewModel.count, 0)
-        XCTAssertEqual(timerViewModel.to, 0)
+        XCTAssertEqual(timerViewModel.count, 5)
+        XCTAssertEqual(timerViewModel.to, 1.0)
 
         // WHEN I start the timer
         timerViewModel.startTimer()
@@ -40,8 +40,8 @@ class TimerViewModelTests: XCTestCase {
 
             // THEN the values should be reseted
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.count, 0)
-            XCTAssertEqual(timerViewModel.to, 0)
+            XCTAssertEqual(timerViewModel.count, 5)
+            XCTAssertEqual(timerViewModel.to, 1.0)
         }
     }
 
@@ -69,8 +69,8 @@ class TimerViewModelTests: XCTestCase {
 
         // AND the timer state is .initial
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-        XCTAssertEqual(timerViewModel.count, 0)
-        XCTAssertEqual(timerViewModel.to, 0)
+        XCTAssertEqual(timerViewModel.count, 5)
+        XCTAssertEqual(timerViewModel.to, 1.0)
 
         // WHEN I start the timer
         timerViewModel.startTimer()
@@ -92,8 +92,8 @@ class TimerViewModelTests: XCTestCase {
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
 
         // AND the related fields should be reseted
-        XCTAssertEqual(timerViewModel.count, 0)
-        XCTAssertEqual(timerViewModel.to, 0)
+        XCTAssertEqual(timerViewModel.count, 5)
+        XCTAssertEqual(timerViewModel.to, 1.0)
     }
 
 }

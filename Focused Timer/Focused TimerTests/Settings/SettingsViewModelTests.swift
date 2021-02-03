@@ -30,7 +30,7 @@ class SettingsViewModelTests: XCTestCase {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
 
         // GIVEN I have not set any total time yet
-        XCTAssertEqual(settingsViewModel.getTotalTime(), 5)
+        XCTAssertEqual(settingsViewModel.getTotalTime(), 1)
 
         // WHEN I call the function to save the new value
         settingsViewModel.saveAndUpdateTotalTimeValue(time: 20)

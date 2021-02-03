@@ -20,7 +20,7 @@ class SettingsUITests: BaseFeature {
 
         // THEN the duration should have the default value
         let durationTextField = String(describing: app.textFields["txtTotalTime"].value!)
-        XCTAssertEqual(durationTextField, "5")
+        XCTAssertEqual(durationTextField, "1")
 
         // WHEN I close the modal
         let dismissSettingsButton = app.buttons["btnDismissSettings"]
@@ -31,7 +31,7 @@ class SettingsUITests: BaseFeature {
 
         // THE duration value should keep the same
         let durationTextFieldUpdated = String(describing: app.textFields["txtTotalTime"].value!)
-        XCTAssertEqual(durationTextFieldUpdated, "5")
+        XCTAssertEqual(durationTextFieldUpdated, "1")
     }
 
     func test_UpdateFocusedTimerValue() {
@@ -45,7 +45,7 @@ class SettingsUITests: BaseFeature {
 
         // THEN the duration should have the default value
         let durationTextFieldValue = String(describing: app.textFields["txtTotalTime"].value!)
-        XCTAssertEqual(durationTextFieldValue, "5")
+        XCTAssertEqual(durationTextFieldValue, "1")
 
         // WHEN I delete the default value
         let durationTextField = app.textFields["txtTotalTime"]
@@ -63,7 +63,7 @@ class SettingsUITests: BaseFeature {
 
         // THEN the value should be the one that was updated
         let durationTextFieldUpdated = String(describing: app.textFields["txtTotalTime"].value!)
-        XCTAssertEqual(durationTextFieldUpdated, "6000")
+        XCTAssertEqual(durationTextFieldUpdated, "100")
     }
 
 }

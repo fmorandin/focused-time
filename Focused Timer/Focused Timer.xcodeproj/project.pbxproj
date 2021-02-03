@@ -574,7 +574,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Focused Timer/Preview Content\"";
-				DEVELOPMENT_TEAM = CSL9ZW4GBU;
+				DEVELOPMENT_TEAM = KFQ838WW9Y;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Focused Timer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -582,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "br.com.felipemorandin.Focused-Timer";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.felipemorandin.FocusedTimer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -596,7 +596,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Focused Timer/Preview Content\"";
-				DEVELOPMENT_TEAM = CSL9ZW4GBU;
+				DEVELOPMENT_TEAM = KFQ838WW9Y;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Focused Timer/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -604,7 +604,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "br.com.felipemorandin.Focused-Timer";
+				PRODUCT_BUNDLE_IDENTIFIER = br.com.felipemorandin.FocusedTimer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -705,7 +705,7 @@
 				A378FC532522BB7E0046FC4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		A378FC542522BB7E0046FC4C /* Build configuration list for PBXNativeTarget "Focused Timer" */ = {
 			isa = XCConfigurationList;
@@ -714,7 +714,7 @@
 				A378FC562522BB7E0046FC4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		A378FC572522BB7E0046FC4C /* Build configuration list for PBXNativeTarget "Focused TimerTests" */ = {
 			isa = XCConfigurationList;
@@ -723,7 +723,7 @@
 				A378FC592522BB7E0046FC4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		A378FC5A2522BB7E0046FC4C /* Build configuration list for PBXNativeTarget "Focused TimerUITests" */ = {
 			isa = XCConfigurationList;
@@ -732,7 +732,7 @@
 				A378FC5C2522BB7E0046FC4C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
