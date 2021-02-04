@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TimerModelProtocol {
-    func getTotalTime() -> Int
+    func getFocusedTime() -> Int
 }
 
 struct TimerModel: TimerModelProtocol {
@@ -17,8 +17,8 @@ struct TimerModel: TimerModelProtocol {
     private let defaults = UserDefaults.standard
 
     // MARK: - Public Methods
-    func getTotalTime() -> Int {
-        let totalTime = defaults.integer(forKey: "totalTime")
+    func getFocusedTime() -> Int {
+        let totalTime = defaults.integer(forKey: UserDefaultKeys.focusedTiem)
         return totalTime != 0 ? totalTime : 60
     }
 }

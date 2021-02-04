@@ -15,21 +15,21 @@ class SettingsViewModel: ObservableObject {
     private let settingsModel: SettingsModelProtocol
 
     // MARK: - Published Variables
-    @Published var totalTime: String
+    @Published var focusedTime: String
 
     // MARK: - Initializer
     init(settingsModel: SettingsModelProtocol) {
-        totalTime = String(describing: (settingsModel.getTotalTime() / 60) == 0 ? 1 : settingsModel.getTotalTime() / 60)
+        focusedTime = String(describing: (settingsModel.getFocusedTime() / 60) == 0 ? 1 : settingsModel.getFocusedTime() / 60)
         self.settingsModel = settingsModel
     }
 
     // MARK: - Methods
-    func saveAndUpdateTotalTimeValue(time: Int) {
-        settingsModel.saveTotalTime(time: time)
-        totalTime = String(describing: (getTotalTime() / 60) == 0 ? 1 : getTotalTime() / 60)
+    func saveAndUpdateFocusedTime(time: Int) {
+        settingsModel.saveFocusedTime(time: time)
+        focusedTime = String(describing: (getFocusedTime() / 60) == 0 ? 1 : getFocusedTime() / 60)
     }
 
-    func getTotalTime() -> Int {
-        settingsModel.getTotalTime()
+    func getFocusedTime() -> Int {
+        settingsModel.getFocusedTime()
     }
 }

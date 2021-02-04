@@ -19,7 +19,7 @@ class SettingsUITests: BaseFeature {
         XCTAssertTrue(focusDurationLabel.isHittable)
 
         // THEN the duration should have the default value
-        let durationTextField = String(describing: app.textFields["txtTotalTime"].value!)
+        let durationTextField = String(describing: app.textFields["txtFocusedTime"].value!)
         XCTAssertEqual(durationTextField, "1")
 
         // WHEN I close the modal
@@ -30,7 +30,7 @@ class SettingsUITests: BaseFeature {
         showSettingsButton.tap()
 
         // THE duration value should keep the same
-        let durationTextFieldUpdated = String(describing: app.textFields["txtTotalTime"].value!)
+        let durationTextFieldUpdated = String(describing: app.textFields["txtFocusedTime"].value!)
         XCTAssertEqual(durationTextFieldUpdated, "1")
     }
 
@@ -44,11 +44,11 @@ class SettingsUITests: BaseFeature {
         XCTAssertTrue(focusDurationLabel.isHittable)
 
         // THEN the duration should have the default value
-        let durationTextFieldValue = String(describing: app.textFields["txtTotalTime"].value!)
+        let durationTextFieldValue = String(describing: app.textFields["txtFocusedTime"].value!)
         XCTAssertEqual(durationTextFieldValue, "1")
 
         // WHEN I delete the default value
-        let durationTextField = app.textFields["txtTotalTime"]
+        let durationTextField = app.textFields["txtFocusedTime"]
         durationTextField.doubleTap()
 
         // AND I add the new value
@@ -62,7 +62,7 @@ class SettingsUITests: BaseFeature {
         showSettingsButton.tap()
 
         // THEN the value should be the one that was updated
-        let durationTextFieldUpdated = String(describing: app.textFields["txtTotalTime"].value!)
+        let durationTextFieldUpdated = String(describing: app.textFields["txtFocusedTime"].value!)
         XCTAssertEqual(durationTextFieldUpdated, "100")
     }
 

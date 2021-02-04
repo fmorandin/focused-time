@@ -12,7 +12,7 @@ import Combine
 class TimerViewModel: ObservableObject {
 
     // MARK: - Published Variables
-    @Published var totalTime: Int
+    @Published var focusedTime: Int
     @Published var timerState: TimerState = .initial
     @Published var to: CGFloat = 1
     @Published var count: Int
@@ -32,28 +32,28 @@ class TimerViewModel: ObservableObject {
         self.dateFormatter.unitsStyle = .positional
 
         self.timerModel = timerModel
-        self.totalTime = timerModel.getTotalTime()
-        self.count = timerModel.getTotalTime()
+        self.focusedTime = timerModel.getFocusedTime()
+        self.count = timerModel.getFocusedTime()
 
-        self.countTime = self.dateFormatter.string(from: TimeInterval(timerModel.getTotalTime())) ?? "-"
+        self.countTime = self.dateFormatter.string(from: TimeInterval(timerModel.getFocusedTime())) ?? "-"
     }
 
     // MARK: - Public Methods
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
-            if self.count <= self.totalTime && self.count != 0 {
+            if self.count <= self.focusedTime && self.count != 0 {
                 self.timerState = .running
                 self.count -= 1
                 withAnimation(.default) {
-                    self.to = CGFloat(self.count) / CGFloat(self.totalTime)
+                    self.to = CGFloat(self.count) / CGFloat(self.focusedTime)
                 }
                 self.countTime = self.dateFormatter.string(from: TimeInterval(self.count)) ?? "-"
             }
             else {
                 self.to = 1
-                self.count = self.totalTime
+                self.count = self.focusedTime
                 self.timerState = .initial
-                self.countTime = self.dateFormatter.string(from: TimeInterval(self.timerModel.getTotalTime())) ?? "-"
+                self.countTime = self.dateFormatter.string(from: TimeInterval(self.timerModel.getFocusedTime())) ?? "-"
                 timer.invalidate()
             }
         })
@@ -67,9 +67,9 @@ class TimerViewModel: ObservableObject {
     func resetUpdateTimer() {
         timerState = .initial
         to = 1
-        count = timerModel.getTotalTime()
+        count = timerModel.getFocusedTime()
         timer.invalidate()
-        totalTime = timerModel.getTotalTime()
-        countTime = dateFormatter.string(from: TimeInterval(timerModel.getTotalTime())) ?? "-"
+        focusedTime = timerModel.getFocusedTime()
+        countTime = dateFormatter.string(from: TimeInterval(timerModel.getFocusedTime())) ?? "-"
     }
 }

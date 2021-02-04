@@ -31,12 +31,12 @@ struct SettingsView: View {
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
-                    Image(systemName: "xmark")
+                    Image(systemName: ImageNames.closeModal)
                         .font(.system(size: 20))
                         .padding(.trailing)
                         .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                 }
-                .accessibility(identifier: "btnDismissSettings")
+                .accessibility(identifier: Identifiers.btnCloseModal)
             }
             .padding(.top)
             .padding(.bottom, 50)
@@ -44,29 +44,29 @@ struct SettingsView: View {
             /// The list that contains all the available settings to be defined in the app
             List {
                 HStack {
-                    Text("Focus Duration (in minutes)")
-                        .accessibility(identifier: "lblFocusDuration")
+                    Text(Translation.settingsFocusDuration)
+                        .accessibility(identifier: Identifiers.lblFocusDuration)
 
-                    TextField("", text: $settingsViewModel.totalTime)
+                    TextField("", text: $settingsViewModel.focusedTime)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.numberPad)
                         .frame(width: 50)
                         .multilineTextAlignment(.center)
-                        .accessibility(identifier: "txtTotalTime")
+                        .accessibility(identifier: Identifiers.txtFocusedTime)
                 }
             }
             .listStyle(InsetListStyle())
 
             Button(action: {
-                settingsViewModel.saveAndUpdateTotalTimeValue(time: Int(settingsViewModel.totalTime) ?? 0)
+                settingsViewModel.saveAndUpdateFocusedTime(time: Int(settingsViewModel.focusedTime) ?? 0)
                 self.presentationMode.wrappedValue.dismiss()
             }) {
-                Image(systemName: "checkmark")
+                Image(systemName: ImageNames.saveSettings)
                     .font(.system(size: 20))
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white))
             }
             .padding(.bottom, 30)
-            .accessibility(identifier: "btnSaveSettings")
+            .accessibility(identifier: Identifiers.btnSaveSettings)
         }
         .onTapGesture {
             self.hideKeyboard()
@@ -85,9 +85,10 @@ extension View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SettingsView()
-
-            SettingsView().colorScheme(.dark)
+            ForEach(["en", "pt"], id: \.self) { id in
+                SettingsView()
+                    .environment(\.locale, .init(identifier: id))
+            }
         }
     }
 }

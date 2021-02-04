@@ -11,32 +11,32 @@ import XCTest
 class SettingsViewModelTests: XCTestCase {
 
     override func setUp() {
-        UserDefaults.standard.removeObject(forKey: "totalTime")
+        UserDefaults.standard.removeObject(forKey: "focusedTime")
     }
 
     override class func tearDown() {
-        UserDefaults.standard.removeObject(forKey: "totalTime")
+        UserDefaults.standard.removeObject(forKey: "focusedTime")
     }
 
-    func test_GetTotalTime() {
+    func test_GetFocusedTime() {
 
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
         // THEN the total time should be returned
-        XCTAssertEqual(settingsViewModel.getTotalTime(), 5)
+        XCTAssertEqual(settingsViewModel.getFocusedTime(), 5)
     }
 
-    func test_SaveTotalTime() {
+    func test_SaveFocusedTime() {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
 
         // GIVEN I have not set any total time yet
-        XCTAssertEqual(settingsViewModel.getTotalTime(), 1)
+        XCTAssertEqual(settingsViewModel.getFocusedTime(), 1)
 
         // WHEN I call the function to save the new value
-        settingsViewModel.saveAndUpdateTotalTimeValue(time: 20)
+        settingsViewModel.saveAndUpdateFocusedTime(time: 20)
 
         // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getTotalTime(), 1200)
+        XCTAssertEqual(settingsViewModel.getFocusedTime(), 1200)
     }
 
 }

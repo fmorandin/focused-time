@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180EDCD325CC86E800452D96 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 180EDCD525CC86E800452D96 /* Localizable.strings */; };
+		180EDCDE25CC882D00452D96 /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCDD25CC882D00452D96 /* Translation.swift */; };
+		180EDCE325CC888700452D96 /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Identifiers.swift */; };
+		180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
 		181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A1425C701A9006CBDF4 /* BaseFeature.swift */; };
 		181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */; };
 		181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */; };
@@ -45,6 +49,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180EDCD425CC86E800452D96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		180EDCD925CC870400452D96 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		180EDCDD25CC882D00452D96 /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
+		180EDCE225CC888700452D96 /* Identifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifiers.swift; sourceTree = "<group>"; };
+		180EDCE725CC9BF000452D96 /* ImageNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
 		181E4A1425C701A9006CBDF4 /* BaseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFeature.swift; sourceTree = "<group>"; };
 		181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModelMock.swift; sourceTree = "<group>"; };
@@ -137,6 +146,17 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		18A2883725CC85CD00689770 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				180EDCD525CC86E800452D96 /* Localizable.strings */,
+				180EDCDD25CC882D00452D96 /* Translation.swift */,
+				180EDCE225CC888700452D96 /* Identifiers.swift */,
+				180EDCE725CC9BF000452D96 /* ImageNames.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		18BF37CC25AB76A80056D766 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +223,7 @@
 		A378FC312522BB7D0046FC4C /* Focused Timer */ = {
 			isa = PBXGroup;
 			children = (
+				18A2883725CC85CD00689770 /* Constants */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
 				A378FC322522BB7D0046FC4C /* Focused_TimerApp.swift */,
@@ -375,6 +396,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A378FC3A2522BB7D0046FC4C /* Preview Assets.xcassets in Resources */,
+				180EDCD325CC86E800452D96 /* Localizable.strings in Resources */,
 				A378FC372522BB7D0046FC4C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18C5C30A25BB696900A4893F /* SettingsModel.swift in Sources */,
+				180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */,
 				A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */,
 				A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */,
 				A378FC672522BCF90046FC4C /* TimerView.swift in Sources */,
@@ -409,6 +432,8 @@
 				189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */,
 				A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */,
 				A378FC332522BB7D0046FC4C /* Focused_TimerApp.swift in Sources */,
+				180EDCDE25CC882D00452D96 /* Translation.swift in Sources */,
+				180EDCE325CC888700452D96 /* Identifiers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +472,18 @@
 			targetProxy = A378FC4C2522BB7E0046FC4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		180EDCD525CC86E800452D96 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				180EDCD425CC86E800452D96 /* en */,
+				180EDCD925CC870400452D96 /* pt-BR */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A378FC522522BB7E0046FC4C /* Debug */ = {

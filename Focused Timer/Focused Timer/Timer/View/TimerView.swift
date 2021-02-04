@@ -36,7 +36,7 @@ struct TimerView: View {
                     Button(action: {
                         self.showingConfig = true
                     }) {
-                        Image(systemName: "gear")
+                        Image(systemName: ImageNames.showSettings)
                             .font(.system(size: 25))
                             .padding(.trailing)
                             .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
@@ -44,7 +44,7 @@ struct TimerView: View {
                     .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
                         SettingsView()
                     })
-                    .accessibility(identifier: "btnShowSettings")
+                    .accessibility(identifier: Identifiers.btnShowSettings)
                 }
                 .padding(.trailing, 20)
 
@@ -58,7 +58,6 @@ struct TimerView: View {
                         .stroke((colorScheme == .light ? Color.black : Color.white).opacity(0.09),
                                 style: StrokeStyle(lineWidth: 15, lineCap: .round))
                         .frame(width: 300, height: 300)
-                        .accessibility(identifier: "uiInternalCircle")
 
                     Circle()
                         .trim(from: 0, to: timerViewModel.to)
@@ -66,13 +65,12 @@ struct TimerView: View {
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
                         .shadow(radius: 4)
-                        .accessibility(identifier: "uiExternalCircle")
 
                     VStack {
                         Text(timerViewModel.countTime)
                             .font(.system(size: 60))
                             .fontWeight(.bold)
-                            .accessibility(identifier: "lblCounter")
+                            .accessibility(identifier: Identifiers.lblCounter)
                             .multilineTextAlignment(.center)
                     }
                 }
@@ -90,10 +88,11 @@ struct TimerView: View {
                         }
                     }) {
                         HStack(spacing: 10) {
-                            Image(systemName: timerViewModel.timerState == .running ? "pause" :  "play")
+                            Image(systemName:
+                                    timerViewModel.timerState == .running ? ImageNames.pause : ImageNames.play)
                                 .foregroundColor(.white)
 
-                            Text(timerViewModel.timerState == .running ? "Pause" : "Play")
+                            Text(timerViewModel.timerState == .running ? Translation.pauseTimer : Translation.playTimer)
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -102,16 +101,16 @@ struct TimerView: View {
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     }
-                    .accessibility(identifier: "btnStartPauseIdentifier")
+                    .accessibility(identifier: Identifiers.btnStartPauseIdentifier)
 
                     Button(action: {
                         timerViewModel.resetUpdateTimer()
                     }, label: {
                         HStack(spacing: 10) {
-                            Image(systemName: "arrow.clockwise")
+                            Image(systemName: ImageNames.reset)
                                 .foregroundColor(.white)
 
-                            Text("Reset")
+                            Text(Translation.resetTimer)
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -120,7 +119,7 @@ struct TimerView: View {
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     })
-                    .accessibility(identifier: "btnResetIdentifier")
+                    .accessibility(identifier: Identifiers.btnResetIdentifier)
                 }
 
                 Spacer()
@@ -134,10 +133,12 @@ struct TimerView: View {
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TimerView()
-
-            TimerView()
-                .preferredColorScheme(.dark)
+            Group {
+                ForEach(["en", "pt"], id: \.self) { id in
+                    TimerView()
+                        .environment(\.locale, .init(identifier: id))
+                }
+            }
         }
     }
 }

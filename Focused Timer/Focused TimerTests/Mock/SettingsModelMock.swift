@@ -9,11 +9,11 @@ import Foundation
 @testable import Focused_Timer
 
 struct SettingsModelMock: SettingsModelProtocol {
-    func saveTotalTime(time: Int) {
+    func saveFocusedTime(time: Int) {
         print("Saved")
     }
 
-    func getTotalTime() -> Int {
+    func getFocusedTime() -> Int {
         5
     }
 }

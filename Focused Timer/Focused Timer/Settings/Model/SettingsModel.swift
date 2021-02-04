@@ -8,8 +8,8 @@
 import Foundation
 
 protocol SettingsModelProtocol {
-    func saveTotalTime(time: Int)
-    func getTotalTime() -> Int
+    func saveFocusedTime(time: Int)
+    func getFocusedTime() -> Int
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -18,13 +18,13 @@ struct SettingsModel: SettingsModelProtocol {
     private let defaults = UserDefaults.standard
 
     // MARK: - Methods
-    func saveTotalTime(time: Int) {
+    func saveFocusedTime(time: Int) {
         let timeInSeconds = time * 60
-        defaults.set(timeInSeconds, forKey: "totalTime")
+        defaults.set(timeInSeconds, forKey: UserDefaultKeys.focusedTiem)
     }
 
-    func getTotalTime() -> Int {
-        let totalTime = defaults.integer(forKey: "totalTime")
+    func getFocusedTime() -> Int {
+        let totalTime = defaults.integer(forKey: UserDefaultKeys.focusedTiem)
         return totalTime != 0 ? totalTime : 1
     }
     
