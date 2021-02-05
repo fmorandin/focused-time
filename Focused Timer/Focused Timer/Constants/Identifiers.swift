@@ -24,5 +24,6 @@ enum Identifiers {
 }
 
 enum UserDefaultKeys {
-    static let focusedTiem = "focusedTime"
+    static let focusedTime = "focusedTime"
+    static let restTime = "restTime"
 }

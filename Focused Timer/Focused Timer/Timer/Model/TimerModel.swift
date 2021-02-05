@@ -18,7 +18,7 @@ struct TimerModel: TimerModelProtocol {
 
     // MARK: - Public Methods
     func getFocusedTime() -> Int {
-        let totalTime = defaults.integer(forKey: UserDefaultKeys.focusedTiem)
+        let totalTime = defaults.integer(forKey: UserDefaultKeys.focusedTime)
         return totalTime != 0 ? totalTime : 60
     }
 }

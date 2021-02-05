@@ -19,17 +19,21 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Initializer
     init(settingsModel: SettingsModelProtocol) {
-        focusedTime = String(describing: (settingsModel.getFocusedTime() / 60) == 0 ? 1 : settingsModel.getFocusedTime() / 60)
+        let time = settingsModel.getTime(for: UserDefaultKeys.focusedTime)
+        let timeInMinutes = time / 60
+        focusedTime = String(describing: timeInMinutes == 0 ? 1 : timeInMinutes)
         self.settingsModel = settingsModel
     }
 
     // MARK: - Methods
     func saveAndUpdateFocusedTime(time: Int) {
-        settingsModel.saveFocusedTime(time: time)
-        focusedTime = String(describing: (getFocusedTime() / 60) == 0 ? 1 : getFocusedTime() / 60)
+        settingsModel.saveTime(time: time, for: UserDefaultKeys.focusedTime)
+        let time = getFocusedTime(for: UserDefaultKeys.focusedTime)
+        let timeInMinutes = time / 60
+        focusedTime = String(describing: (timeInMinutes) == 0 ? 1 : timeInMinutes)
     }
 
-    func getFocusedTime() -> Int {
-        settingsModel.getFocusedTime()
+    func getFocusedTime(for key: String) -> Int {
+        settingsModel.getTime(for: key)
     }
 }
