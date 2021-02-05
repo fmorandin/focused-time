@@ -9,12 +9,12 @@ import XCTest
 
 class TimerUITests: BaseFeature {
 
-    func test_TimerStartedCorrectly() {
+    func test_TimerStartedCorrectly()  throws {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons["btnStartPauseIdentifier"]
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblCounter = app.staticTexts["lblCounter"]
+        let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I click to start the timer
@@ -35,12 +35,12 @@ class TimerUITests: BaseFeature {
         }
     }
 
-    func test_TimerResumedCorrectly() {
+    func test_TimerResumedCorrectly() throws {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons["btnStartPauseIdentifier"]
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblCounter = app.staticTexts["lblCounter"]
+        let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I click to start the timer
@@ -95,12 +95,12 @@ class TimerUITests: BaseFeature {
         }
     }
 
-    func test_TimerResettedCorrectly() {
+    func test_TimerResettedCorrectly() throws {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons["btnStartPauseIdentifier"]
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblCounter = app.staticTexts["lblCounter"]
+        let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I click to start the timer
@@ -138,7 +138,7 @@ class TimerUITests: BaseFeature {
         }
 
         // WHEN I click on the reset
-        let resetButton = app.buttons["btnResetIdentifier"]
+        let resetButton = app.buttons[Identifiers.btnResetIdentifier]
         XCTAssertEqual(resetButton.label, "Reset")
         resetButton.tap()
 

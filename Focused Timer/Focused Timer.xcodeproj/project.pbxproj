@@ -11,6 +11,10 @@
 		180EDCDE25CC882D00452D96 /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCDD25CC882D00452D96 /* Translation.swift */; };
 		180EDCE325CC888700452D96 /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Identifiers.swift */; };
 		180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
+		180EDCF825CCC1B300452D96 /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Identifiers.swift */; };
+		180EDCFC25CCC27400452D96 /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCDD25CC882D00452D96 /* Translation.swift */; };
+		180EDD0025CCC27900452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
+		180EDD0425CCC28100452D96 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 180EDCD525CC86E800452D96 /* Localizable.strings */; };
 		181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A1425C701A9006CBDF4 /* BaseFeature.swift */; };
 		181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */; };
 		181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */; };
@@ -412,6 +416,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				180EDD0425CCC28100452D96 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +459,10 @@
 			files = (
 				A378FC502522BB7E0046FC4C /* TimerUITests.swift in Sources */,
 				181E4A4525C74A74006CBDF4 /* SettingsUITests.swift in Sources */,
+				180EDD0025CCC27900452D96 /* ImageNames.swift in Sources */,
+				180EDCF825CCC1B300452D96 /* Identifiers.swift in Sources */,
 				181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */,
+				180EDCFC25CCC27400452D96 /* Translation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

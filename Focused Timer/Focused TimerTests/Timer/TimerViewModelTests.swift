@@ -12,7 +12,7 @@ class TimerViewModelTests: XCTestCase {
 
     private let timerViewModel = TimerViewModel(timerModel: TimerModelMock())
 
-    func test_StartTimer() {
+    func test_StartTimer() throws {
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
@@ -45,7 +45,7 @@ class TimerViewModelTests: XCTestCase {
         }
     }
 
-    func test_PauseTimer() {
+    func test_PauseTimer() throws {
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
@@ -64,7 +64,7 @@ class TimerViewModelTests: XCTestCase {
         XCTAssertEqual(timerViewModel.timerState, TimerState.paused)
     }
 
-    func test_ResetTimer() {
+    func test_ResetTimer() throws {
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
