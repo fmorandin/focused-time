@@ -6,7 +6,8 @@
   
 */
 
-"settingsFocusDuration" = "Tempo concentrado (em minutos):";
+"settingsFocusDuration" = "Tempo concentrado (em minutos)";
+"settingsRestDuration" = "Tempo descanso (em minutos)";
 "playTimer" = "Iniciar";
 "pauseTimer" = "Parar";
 "resetTimer" = "Reiniciar";

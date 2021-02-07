@@ -17,10 +17,12 @@ enum Identifiers {
 
     // MARK: - Labels
     static let lblFocusDuration = "lblFocusDuration"
+    static let lblRestDuration = "lblRestDuration"
     static let lblCounter = "lblCounter"
 
     // MARK: - TextFields
     static let txtFocusedTime = "txtFocusedTime"
+    static let txtRestTime = "txtRestTime"
 }
 
 enum UserDefaultKeys {

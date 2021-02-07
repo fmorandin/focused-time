@@ -19,6 +19,8 @@ struct SettingsView: View {
     // MARK: Initializer
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
+
+        UITableView.appearance().backgroundColor = .clear
     }
 
     // MARK: - Body
@@ -39,34 +41,58 @@ struct SettingsView: View {
                 .accessibility(identifier: Identifiers.btnCloseModal)
             }
             .padding(.top)
-            .padding(.bottom, 50)
+            .padding(.bottom, 10)
 
             /// The list that contains all the available settings to be defined in the app
-            List {
-                HStack {
-                    Text(Translation.settingsFocusDuration)
-                        .accessibility(identifier: Identifiers.lblFocusDuration)
+            Form {
+                VStack {
+                    HStack {
+                        Text(Translation.settingsFocusDuration)
+                            .accessibility(identifier: Identifiers.lblFocusDuration)
 
-                    TextField("", text: $settingsViewModel.focusedTime)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .keyboardType(.numberPad)
-                        .frame(width: 50)
-                        .multilineTextAlignment(.center)
-                        .accessibility(identifier: Identifiers.txtFocusedTime)
+                        Spacer()
+
+                        TextField("", text: $settingsViewModel.focusedTime)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                            .frame(width: 50)
+                            .multilineTextAlignment(.center)
+                            .accessibility(identifier: Identifiers.txtFocusedTime)
+                    }
+                    .padding(.bottom, 10)
+
+                    HStack {
+                        Text(Translation.settingsRestDuration)
+                            .accessibility(identifier: Identifiers.lblRestDuration)
+
+                        Spacer()
+
+                        TextField("", text: $settingsViewModel.restTime)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                            .frame(width: 50)
+                            .multilineTextAlignment(.center)
+                            .accessibility(identifier: Identifiers.txtRestTime)
+                    }
+                    .padding(.top, 10)
                 }
             }
-            .listStyle(InsetListStyle())
-
+            
             Button(action: {
-                settingsViewModel.saveAndUpdateFocusedTime(time: Int(settingsViewModel.focusedTime) ?? 0)
+                let inputFocusedTime = Int(settingsViewModel.focusedTime) ?? 0
+                let inputRestTime = Int(settingsViewModel.restTime) ?? 0
+
+                settingsViewModel.saveAndUpdateTimes(focusedIime: inputFocusedTime, restTime: inputRestTime)
+
                 self.presentationMode.wrappedValue.dismiss()
             }) {
                 Image(systemName: ImageNames.saveSettings)
                     .font(.system(size: 20))
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white))
             }
-            .padding(.bottom, 30)
             .accessibility(identifier: Identifiers.btnSaveSettings)
+            .padding(.bottom, 50)
+
         }
         .onTapGesture {
             self.hideKeyboard()
