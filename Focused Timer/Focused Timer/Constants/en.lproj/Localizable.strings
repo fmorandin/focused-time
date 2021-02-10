@@ -6,8 +6,8 @@
   
 */
 
-"settingsFocusDuration" = "Focused time (in minutes)";
-"settingsRestDuration" = "Resting time (in minutes):";
+"settingsFocusDuration" = "Focused time (In minutes)";
+"settingsRestDuration" = "Resting time (In minutes):";
 "playTimer" = "Play";
 "pauseTimer" = "Pause";
-"resetTimer" = "Reset";
+"resetTimer" = "Reset cycle";

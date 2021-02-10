@@ -17,7 +17,6 @@ struct TimerView: View {
 
     // MARK: - States
     @State private var showingConfig = false
-    @State private var isFocusedTime = true
 
     // MARK: Initializer
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
@@ -59,7 +58,8 @@ struct TimerView: View {
 
                     Circle()
                         .trim(from: 0, to: timerViewModel.to)
-                        .stroke(isFocusedTime ? Color.orange : Color.blue, style: StrokeStyle(lineWidth: 25, lineCap: .round))
+                        .stroke(timerViewModel.timerType == .focused ? Color.orange : Color.blue,
+                                style: StrokeStyle(lineWidth: 25, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
                         .shadow(radius: 4)
@@ -76,7 +76,7 @@ struct TimerView: View {
                 Spacer().frame(height: 50)
 
                 /// Buttons that controls the timer
-                HStack(spacing: 40) {
+                HStack(spacing: 20) {
                     Button(action: {
                         if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
                             timerViewModel.startTimer()
@@ -93,8 +93,8 @@ struct TimerView: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
-                        .frame(width: (UIScreen.main.bounds.width / 2) - 80, height: 60)
-                        .background(Color.orange)
+                        .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
+                        .background(timerViewModel.timerType == .focused ? Color.orange : Color.blue)
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     }
@@ -111,18 +111,13 @@ struct TimerView: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
-                        .frame(width: (UIScreen.main.bounds.width / 2) - 80, height: 60)
-                        .background(Color.orange)
+                        .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
+                        .background(timerViewModel.timerType == .focused ? Color.orange : Color.blue)
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     })
                     .accessibility(identifier: Identifiers.btnResetIdentifier)
                 }
-            }
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
-                isFocusedTime = false
             }
         }
     }

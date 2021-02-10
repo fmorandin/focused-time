@@ -5,9 +5,7 @@
 //  Created by Felipe Chiarini Pena Morandin on 01/10/20.
 //
 
-import Foundation
 import SwiftUI
-import Combine
 
 class TimerViewModel: ObservableObject {
 
@@ -17,6 +15,7 @@ class TimerViewModel: ObservableObject {
     @Published var to: CGFloat = 1
     @Published var count: Int
     @Published var countTime: String
+    @Published var timerType: TimerType = .focused
 
     // MARK: - Private Variables
     private var timer = Timer()
@@ -54,6 +53,9 @@ class TimerViewModel: ObservableObject {
                 self.count = self.focusedTime
                 self.timerState = .initial
                 self.countTime = self.dateFormatter.string(from: TimeInterval(self.timerModel.getFocusedTime())) ?? "-"
+
+                self.timerType = self.timerType == .focused ? .rest : .focused
+
                 timer.invalidate()
             }
         })
@@ -70,6 +72,7 @@ class TimerViewModel: ObservableObject {
         count = timerModel.getFocusedTime()
         timer.invalidate()
         focusedTime = timerModel.getFocusedTime()
+        timerType = .focused
         countTime = dateFormatter.string(from: TimeInterval(timerModel.getFocusedTime())) ?? "-"
     }
 }
