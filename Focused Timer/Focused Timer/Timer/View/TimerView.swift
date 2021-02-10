@@ -17,6 +17,7 @@ struct TimerView: View {
 
     // MARK: - States
     @State private var showingConfig = false
+    @State private var isFocusedTime = true
 
     // MARK: Initializer
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
@@ -27,8 +28,6 @@ struct TimerView: View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
-                Spacer()
-
                 /// Top section with the config button
                 HStack {
                     Spacer()
@@ -48,8 +47,7 @@ struct TimerView: View {
                 }
                 .padding(.trailing, 20)
 
-                Spacer()
-                Spacer()
+                Spacer().frame(height: 50)
 
                 /// Main circles
                 ZStack {
@@ -61,7 +59,7 @@ struct TimerView: View {
 
                     Circle()
                         .trim(from: 0, to: timerViewModel.to)
-                        .stroke(Color.orange, style: StrokeStyle(lineWidth: 25, lineCap: .round))
+                        .stroke(isFocusedTime ? Color.orange : Color.blue, style: StrokeStyle(lineWidth: 25, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
                         .shadow(radius: 4)
@@ -75,8 +73,7 @@ struct TimerView: View {
                     }
                 }
 
-                Spacer()
-                Spacer()
+                Spacer().frame(height: 50)
 
                 /// Buttons that controls the timer
                 HStack(spacing: 40) {
@@ -121,11 +118,12 @@ struct TimerView: View {
                     })
                     .accessibility(identifier: Identifiers.btnResetIdentifier)
                 }
-
-                Spacer()
-                Spacer()
             }
-            .padding(.top)
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3) {
+                isFocusedTime = false
+            }
         }
     }
 }
