@@ -9,7 +9,14 @@ import Foundation
 @testable import Focused_Timer
 
 struct TimerModelMock: TimerModelProtocol {
-    func getFocusedTime() -> Int {
-        5
+    func getTime(for key: String) -> Int {
+        switch key {
+        case "focusedTime":
+            return 5
+        case "restTime":
+            return 2
+        default:
+            return 1
+        }
     }
 }

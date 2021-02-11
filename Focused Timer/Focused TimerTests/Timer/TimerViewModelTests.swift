@@ -38,9 +38,9 @@ class TimerViewModelTests: XCTestCase {
         let finalResult = XCTWaiter.wait(for: [finalExpectation], timeout: 5.0)
         if finalResult == XCTWaiter.Result.timedOut {
 
-            // THEN the values should be reseted
+            // THEN the values should be changed for the rest time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.count, 5)
+            XCTAssertEqual(timerViewModel.count, 2)
             XCTAssertEqual(timerViewModel.to, 1.0)
         }
     }
