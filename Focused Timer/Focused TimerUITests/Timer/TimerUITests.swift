@@ -156,4 +156,31 @@ class TimerUITests: BaseFeature {
             XCTFail("Delay interrupted")
         }
     }
+
+    #warning("Find a better way to implement this")
+    func test_ChangeModesAutomatically() {
+        // GIVEN I have the screen on its initial state
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        XCTAssertEqual(playButton.label, "Play")
+
+        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        XCTAssertEqual(lblCounter.label, "01:00")
+
+        let circleFocused = app.otherElements[Identifiers.circleFocused]
+        XCTAssertTrue(circleFocused.exists)
+
+        playButton.tap()
+
+        sleep(61)
+
+        let circleRest = app.otherElements[Identifiers.circleRest]
+        XCTAssertTrue(circleRest.exists)
+
+        let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
+        XCTAssertEqual(playButtonRest.label, "Play")
+
+        let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
+        XCTAssertEqual(lblCounterRest.label, "01:00")
+    }
+
 }

@@ -63,6 +63,8 @@ struct TimerView: View {
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
                         .shadow(radius: 4)
+                        .accessibility(identifier:
+                                        timerViewModel.timerType == .focused ? Identifiers.circleFocused : Identifiers.circleRest)
 
                     VStack {
                         Text(timerViewModel.countTime)

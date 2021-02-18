@@ -23,6 +23,10 @@ enum Identifiers {
     // MARK: - TextFields
     static let txtFocusedTime = "txtFocusedTime"
     static let txtRestTime = "txtRestTime"
+
+    // Counter section
+    static let circleFocused = "circleFocused"
+    static let circleRest = "circleRest"
 }
 
 enum UserDefaultKeys {

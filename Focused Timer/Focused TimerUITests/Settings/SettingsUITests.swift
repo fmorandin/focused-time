@@ -106,5 +106,4 @@ class SettingsUITests: BaseFeature {
         let restTextFieldUpdated = String(describing: app.textFields[Identifiers.txtRestTime].value!)
         XCTAssertEqual(restTextFieldUpdated, "50")
     }
-
 }
