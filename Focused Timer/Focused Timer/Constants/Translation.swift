@@ -8,16 +8,19 @@
 import SwiftUI
 
 enum Translation {
-    // Settings
+    // MARK: - Settings Screen
+
     static let settingsFocusDuration = LocalizedStringKey("settingsFocusDuration")
     static let settingsRestDuration = LocalizedStringKey("settingsRestDuration")
 
-    // Timer View
+    // MARK: - Timer Screen
+
     static let playTimer = LocalizedStringKey("playTimer")
     static let pauseTimer = LocalizedStringKey("pauseTimer")
     static let resetTimer = LocalizedStringKey("resetTimer")
 
-    // Notification
+    // MARK: - Notification
+    
     static let notificationTitle = LocalizedStringKey("notificationTitle")
     static let notificationBody = LocalizedStringKey("notificationBody")
 }

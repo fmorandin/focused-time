@@ -10,13 +10,16 @@ import SwiftUI
 struct SettingsView: View {
 
     // MARK: - Environment
+
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
 
     // MARK: - Observed Objects
+
     @StateObject private var settingsViewModel: SettingsViewModel
 
     // MARK: Initializer
+
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
 
@@ -24,6 +27,7 @@ struct SettingsView: View {
     }
 
     // MARK: - Body
+    
     var body: some View {
         VStack {
             /// Top Section with a close button

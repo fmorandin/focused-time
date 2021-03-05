@@ -10,10 +10,12 @@ import Foundation
 enum ImageNames {
 
     // MARK: - Settings Screen
+
     static let closeModal = "xmark"
     static let saveSettings = "checkmark"
 
     // MARK: - Timer Screen
+    
     static let showSettings = "gear"
     static let play = "play"
     static let pause = "pause"

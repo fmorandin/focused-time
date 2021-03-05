@@ -12,13 +12,16 @@ import SwiftUI
 class SettingsViewModel: ObservableObject {
 
     // MARK: - Private Variables
+
     private let settingsModel: SettingsModelProtocol
 
     // MARK: - Published Variables
+    
     @Published var focusedTime: String
     @Published var restTime: String
 
     // MARK: - Initializer
+
     init(settingsModel: SettingsModelProtocol) {
         let focusedTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.focusedTime)
         let focusedTimeInMinutes = focusedTimeInSeconds / 60
@@ -32,6 +35,7 @@ class SettingsViewModel: ObservableObject {
     }
 
     // MARK: - Methods
+    
     func saveAndUpdateTimes(focusedIime: Int, restTime: Int) {
         settingsModel.saveTime(time: focusedIime, for: UserDefaultKeys.focusedTime)
         settingsModel.saveTime(time: restTime, for: UserDefaultKeys.restTime)

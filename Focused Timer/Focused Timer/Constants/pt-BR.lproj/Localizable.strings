@@ -6,10 +6,18 @@
   
 */
 
+// MARK: - Settings Screen
+
 "settingsFocusDuration" = "Tempo concentrado (Em minutos)";
 "settingsRestDuration" = "Tempo descanso (Em minutos)";
+
+// MARK: - Timer Screen
+
 "playTimer" = "Iniciar";
 "pauseTimer" = "Parar";
 "resetTimer" = "Reiniciar ciclo";
+
+// MARK: - Notification
+
 "notificationTitle" = "Tempo concluído";
 "notificationBody" = "O tempo acabou!";

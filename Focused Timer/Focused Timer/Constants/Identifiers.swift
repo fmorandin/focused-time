@@ -8,21 +8,29 @@
 import Foundation
 
 enum Identifiers {
-    // MARK: - Buttons
+    // MARK: - Settings Screen
+
+    // Buttons
     static let btnCloseModal = "btnDismissSettings"
     static let btnSaveSettings = "btnSaveSettings"
+
+    // TextFields
+    static let txtFocusedTime = "txtFocusedTime"
+    static let txtRestTime = "txtRestTime"
+
+    // Labels
+    static let lblFocusDuration = "lblFocusDuration"
+    static let lblRestDuration = "lblRestDuration"
+
+    // MARK: - Timer Screen
+
+    // Buttons
     static let btnShowSettings = "btnShowSettings"
     static let btnStartPauseIdentifier = "btnStartPauseIdentifier"
     static let btnResetIdentifier = "btnResetIdentifier"
 
-    // MARK: - Labels
-    static let lblFocusDuration = "lblFocusDuration"
-    static let lblRestDuration = "lblRestDuration"
+    // Labels
     static let lblCounter = "lblCounter"
-
-    // MARK: - TextFields
-    static let txtFocusedTime = "txtFocusedTime"
-    static let txtRestTime = "txtRestTime"
 
     // Counter section
     static let circleFocused = "circleFocused"
