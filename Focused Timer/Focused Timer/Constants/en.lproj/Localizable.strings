@@ -11,3 +11,5 @@
 "playTimer" = "Play";
 "pauseTimer" = "Pause";
 "resetTimer" = "Reset cycle";
+"notificationTitle" = "Timer ended";
+"notificationBody" = "Your timer has ended!";

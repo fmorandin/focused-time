@@ -32,4 +32,6 @@ enum Identifiers {
 enum UserDefaultKeys {
     static let focusedTime = "focusedTime"
     static let restTime = "restTime"
+    static let remainingTime = "remainingTime"
+    static let timestampAppMovedBackground = "timestampAppMovedBackground"
 }

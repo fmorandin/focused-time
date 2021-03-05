@@ -11,3 +11,5 @@
 "playTimer" = "Iniciar";
 "pauseTimer" = "Parar";
 "resetTimer" = "Reiniciar ciclo";
+"notificationTitle" = "Tempo concluído";
+"notificationBody" = "O tempo acabou!";

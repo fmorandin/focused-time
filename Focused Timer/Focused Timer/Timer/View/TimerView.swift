@@ -122,6 +122,12 @@ struct TimerView: View {
                 }
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+            timerViewModel.moveAppToBackground()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            timerViewModel.moveAppToForeground()
+        }
     }
 }
 

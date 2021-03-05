@@ -24,12 +24,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         setStateForUITesting()
+        requestLocalNotificationPermission()
         return true
     }
 
     static var isUITestingEnabled: Bool {
         get {
             return ProcessInfo.processInfo.arguments.contains("UI-Testing")
+        }
+    }
+
+    private func requestLocalNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
         }
     }
 

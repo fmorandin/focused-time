@@ -85,4 +85,31 @@ class TimerViewModel: ObservableObject {
         countTime = dateFormatter.string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
         timer.invalidate()
     }
+
+
+    /// Method that handles the necessary actions for when the app is moved to the background
+    /// In this case, once the app is moved to background a notification will be schedule and the remaining time will be saved on UserDefaults
+    /// Besides the remaining time, the now timestamp will be saved as well in order to calculate how long the app stand on the background
+    func moveAppToBackground() {
+        /// The biggest part of what is described above will be handled by the model
+        timerModel.saveMoveToBackgroundTime(remainingTime: count)
+    }
+
+    /// Method that handles the necessary actions for when the app is moved to the foreground
+    /// In this case, once de app is moved to foreground any pending notification will be canceled, the saved values will be read
+    /// and the calculation will be done in order to update the timer
+    func moveAppToForeground() {
+        let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
+
+        guard let remainingTime = savedRemainingTime,
+              let timestampBackground = savedTimestampBackground else { return }
+
+        let timeInBackground = Int(DateInterval(start: timestampBackground, end: Date()).duration)
+
+        count = remainingTime - timeInBackground
+
+    }
+
+    // MARK: - Private Functions
+
 }
