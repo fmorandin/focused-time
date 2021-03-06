@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 class TimerViewModel: ObservableObject {
 
@@ -21,6 +22,9 @@ class TimerViewModel: ObservableObject {
     private var timer = Timer()
     private let timerModel: TimerModelProtocol
     private let dateFormatter = DateComponentsFormatter()
+
+    // create a sound ID
+    private let systemSoundID: SystemSoundID = 1009
 
     // MARK: - Initializer
 
@@ -51,6 +55,8 @@ class TimerViewModel: ObservableObject {
                 self.countTime = self.dateFormatter.string(from: TimeInterval(self.count)) ?? "-"
             }
             else {
+                // to play sound
+                AudioServicesPlaySystemSound (self.systemSoundID)
                 self.to = 1
                 self.timerState = .initial
 
@@ -106,7 +112,8 @@ class TimerViewModel: ObservableObject {
 
         let timeInBackground = Int(DateInterval(start: timestampBackground, end: Date()).duration)
 
-        count = remainingTime - timeInBackground
+        let totalRemainingTime = remainingTime - timeInBackground
+        count = totalRemainingTime <= 0 ? 0 : totalRemainingTime
 
     }
 
