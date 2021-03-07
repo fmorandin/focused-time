@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVFoundation
+import UserNotifications
 
 class TimerViewModel: ObservableObject {
 
@@ -99,12 +100,19 @@ class TimerViewModel: ObservableObject {
     func moveAppToBackground() {
         /// The biggest part of what is described above will be handled by the model
         timerModel.saveMoveToBackgroundTime(remainingTime: count)
+
+        // Schedule a notification so user would know when the timer finishes
+        scheduleNotification(for: timerType, remainingTime: Double(count))
     }
 
     /// Method that handles the necessary actions for when the app is moved to the foreground
     /// In this case, once de app is moved to foreground any pending notification will be canceled, the saved values will be read
     /// and the calculation will be done in order to update the timer
     func moveAppToForeground() {
+        // Cancel any scheduled/already sent notifications
+        clearScheduledNotifications()
+
+        // Recover the saved values and to the math to update the remaining time
         let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
 
         guard let remainingTime = savedRemainingTime,
@@ -114,7 +122,36 @@ class TimerViewModel: ObservableObject {
 
         let totalRemainingTime = remainingTime - timeInBackground
         count = totalRemainingTime <= 0 ? 0 : totalRemainingTime
+    }
 
+    // MARK: - Private Functions
+
+    /// Function that will schedule a notification based on the remaining time for the given timer to finish
+    /// - Parameters:
+    ///   - type: The timer type, to be displayed on the notification
+    ///   - remainingTime: The remaining time for the timer to finish
+    private func scheduleNotification(for type: TimerType, remainingTime: Double) {
+        let center = UNUserNotificationCenter.current()
+
+        let notificationTitle = NSString.localizedUserNotificationString(forKey: "notificationTitle", arguments: nil)
+        let notificationBody = NSString.localizedUserNotificationString(forKey: "notificationBody", arguments: nil)
+
+        let content = UNMutableNotificationContent()
+        content.title = notificationTitle
+        content.body = notificationBody
+        content.categoryIdentifier = "alarm"
+        content.sound = UNNotificationSound.default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: remainingTime, repeats: false)
+
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        center.add(request)
+    }
+
+    /// Function that will cancel all the scheduled notification and also clears the already sent notifications
+    private func clearScheduledNotifications() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
 }

@@ -19,5 +19,5 @@
 
 // MARK: - Notification
 
-"notificationTitle" = "Tempo concluído";
-"notificationBody" = "O tempo acabou!";
+"notificationTitle" = "Timer concluído";
+"notificationBody" = "O timer acabou!";
