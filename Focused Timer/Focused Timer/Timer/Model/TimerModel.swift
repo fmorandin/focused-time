@@ -24,7 +24,6 @@ struct TimerModel: TimerModelProtocol {
         return totalTime != 0 ? totalTime : 60
     }
 
-
     /// Function that handles what needs to be saved on UserDefaults in order to provide the necessary information to keep the timer updated
     /// - Parameter remainingTime: how many seconds are remaining in order to the timer finishs
     func saveMoveToBackgroundTime(remainingTime: Int) {

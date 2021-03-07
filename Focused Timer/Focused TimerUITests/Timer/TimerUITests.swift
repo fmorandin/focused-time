@@ -169,18 +169,95 @@ class TimerUITests: BaseFeature {
         let circleFocused = app.otherElements[Identifiers.circleFocused]
         XCTAssertTrue(circleFocused.exists)
 
+        // WHEN I start the focused timer
         playButton.tap()
 
-        sleep(61)
+        // AND I wait the time so the app will change modes automatically
+        // This is used to let the screen reacts to the tap
+        let expectedFocused = expectation(description: "Focused Timer")
+        let resultFocused = XCTWaiter.wait(for: [expectedFocused], timeout: 61.0)
+        if resultFocused == XCTWaiter.Result.timedOut {
+            // THEN the mode will be changed to rest
+            let circleRest = app.otherElements[Identifiers.circleRest]
+            XCTAssertTrue(circleRest.exists)
 
-        let circleRest = app.otherElements[Identifiers.circleRest]
-        XCTAssertTrue(circleRest.exists)
+            let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonRest.label, "Play")
 
-        let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
-        XCTAssertEqual(playButtonRest.label, "Play")
+            let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterRest.label, "01:00")
+        } else {
+            XCTFail("Delay interrupted")
+        }
 
-        let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
-        XCTAssertEqual(lblCounterRest.label, "01:00")
+        // WHEN I start the rest timer
+        playButton.tap()
+
+        // AND I wait the time so the app will change modes automatically
+        // This is used to let the screen reacts to the tap
+        let expectedRest = expectation(description: "Resting Timer")
+        let resultRest = XCTWaiter.wait(for: [expectedRest], timeout: 61.0)
+        if resultRest == XCTWaiter.Result.timedOut {
+            // THEN the mode will be changed to rest
+            let circleFocused = app.otherElements[Identifiers.circleFocused]
+            XCTAssertTrue(circleFocused.exists)
+
+            let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonRest.label, "Play")
+
+            let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterRest.label, "01:00")
+        } else {
+            XCTFail("Delay interrupted")
+        }
+    }
+
+    func test_MoveAppToBackgroundAndBackToForeground() {
+        // GIVEN I have the screen on its initial state
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        XCTAssertEqual(playButton.label, "Play")
+
+        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        XCTAssertEqual(lblCounter.label, "01:00")
+
+        // WHEN I start the timer
+        playButton.tap()
+
+        // AND I wait 5 seconds
+        // This is used to let the screen reacts to the tap
+        let expected = expectation(description: "Timer Running")
+        let result = XCTWaiter.wait(for: [expected], timeout: 5.0)
+        if result == XCTWaiter.Result.timedOut {
+
+            // THEN the button label should be changed to "Pause"
+            XCTAssertEqual(playButton.label, "Pause")
+
+            // AND the counter should be updated
+            XCTAssertEqual(lblCounter.label, "00:55")
+        } else {
+            XCTFail("Delay interrupted")
+        }
+
+        // WHEN I move the app to background
+        XCUIDevice.shared.press(.home)
+
+        // AND I wait 10 seconds
+        // This is used to let the screen reacts to the tap
+        let expectedAfterResume = expectation(description: "Timer Running")
+        let resultAfterResume = XCTWaiter.wait(for: [expectedAfterResume], timeout: 10.0)
+        if resultAfterResume == XCTWaiter.Result.timedOut {
+
+            // AND
+            app.activate()
+
+            // THEN the button label should be changed to "Pause"
+            XCTAssertEqual(playButton.label, "Pause")
+
+            // AND the counter should be updated
+            XCTAssertEqual(lblCounter.label, "00:45")
+        } else {
+            XCTFail("Delay interrupted")
+        }
     }
 
 }

@@ -117,6 +117,4 @@ class TimerViewModel: ObservableObject {
 
     }
 
-    // MARK: - Private Functions
-
 }
