@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E842725F6E56600ACF34C /* LocalNotificationManager.swift */; };
 		180EDCD325CC86E800452D96 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 180EDCD525CC86E800452D96 /* Localizable.strings */; };
 		180EDCDE25CC882D00452D96 /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCDD25CC882D00452D96 /* Translation.swift */; };
 		180EDCE325CC888700452D96 /* Identifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Identifiers.swift */; };
@@ -54,6 +55,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180E842725F6E56600ACF34C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		180EDCD425CC86E800452D96 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		180EDCD925CC870400452D96 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		180EDCDD25CC882D00452D96 /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
@@ -111,6 +113,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180E842625F6E52E00ACF34C /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				180E842725F6E56600ACF34C /* LocalNotificationManager.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		181E4A2A25C73F1D006CBDF4 /* Mock */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +240,7 @@
 		A378FC312522BB7D0046FC4C /* Focused Timer */ = {
 			isa = PBXGroup;
 			children = (
+				180E842625F6E52E00ACF34C /* Common */,
 				18A2883725CC85CD00689770 /* Constants */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
@@ -430,6 +441,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */,
 				18C5C30A25BB696900A4893F /* SettingsModel.swift in Sources */,
 				180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */,
 				A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */,

@@ -42,4 +42,5 @@ enum UserDefaultKeys {
     static let restTime = "restTime"
     static let remainingTime = "remainingTime"
     static let timestampAppMovedBackground = "timestampAppMovedBackground"
+    static let isNotification = "isNotification"
 }

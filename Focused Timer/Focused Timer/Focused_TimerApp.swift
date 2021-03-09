@@ -20,12 +20,19 @@ struct Focused_TimerApp: App {
 }
 
 // MARK: - AppDelegate
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         setStateForUITesting()
         requestLocalNotificationPermission()
+        UNUserNotificationCenter.current().delegate = self
+        UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
         return true
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        UserDefaults.standard.set(true, forKey: UserDefaultKeys.isNotification)
+        completionHandler()
     }
 
     static var isUITestingEnabled: Bool {
@@ -34,10 +41,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
     }
 
-    private func requestLocalNotificationPermission() {
+    func requestLocalNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, error in
             if let error = error {
-                print(error.localizedDescription)
+                debugPrint(error.localizedDescription)
             }
         }
     }
