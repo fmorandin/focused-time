@@ -13,9 +13,7 @@ struct TimerModelMock: TimerModelProtocol {
         return (0, Date())
     }
 
-    func saveMoveToBackgroundTime(remainingTime: Int) {
-        
-    }
+    func saveMoveToBackgroundTime(remainingTime: Int) {}
 
     func getTime(for key: String) -> Int {
         switch key {

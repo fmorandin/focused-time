@@ -17,8 +17,8 @@ class TimerViewModelTests: XCTestCase {
 
         // AND the timer state is .initial
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-        XCTAssertEqual(timerViewModel.count, 5)
-        XCTAssertEqual(timerViewModel.to, 1.0)
+        XCTAssertEqual(timerViewModel.counter, 5)
+        XCTAssertEqual(timerViewModel.timerTo, 1.0)
 
         // WHEN I start the timer
         timerViewModel.startTimer()
@@ -27,8 +27,8 @@ class TimerViewModelTests: XCTestCase {
         let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
         if result == XCTWaiter.Result.timedOut {
             XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.count, 0)
-            XCTAssertNotEqual(timerViewModel.to, 0)
+            XCTAssertNotEqual(timerViewModel.counter, 0)
+            XCTAssertNotEqual(timerViewModel.timerTo, 0)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -40,8 +40,8 @@ class TimerViewModelTests: XCTestCase {
 
             // THEN the values should be changed for the rest time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.count, 2)
-            XCTAssertEqual(timerViewModel.to, 1.0)
+            XCTAssertEqual(timerViewModel.counter, 2)
+            XCTAssertEqual(timerViewModel.timerTo, 1.0)
         }
     }
 
@@ -69,8 +69,8 @@ class TimerViewModelTests: XCTestCase {
 
         // AND the timer state is .initial
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-        XCTAssertEqual(timerViewModel.count, 5)
-        XCTAssertEqual(timerViewModel.to, 1.0)
+        XCTAssertEqual(timerViewModel.counter, 5)
+        XCTAssertEqual(timerViewModel.timerTo, 1.0)
 
         // WHEN I start the timer
         timerViewModel.startTimer()
@@ -79,8 +79,8 @@ class TimerViewModelTests: XCTestCase {
         let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
         if result == XCTWaiter.Result.timedOut {
             XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.count, 0)
-            XCTAssertNotEqual(timerViewModel.to, 0)
+            XCTAssertNotEqual(timerViewModel.counter, 0)
+            XCTAssertNotEqual(timerViewModel.timerTo, 0)
         } else {
             XCTFail("Delay interrupted")
         }
@@ -92,8 +92,8 @@ class TimerViewModelTests: XCTestCase {
         XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
 
         // AND the related fields should be reseted
-        XCTAssertEqual(timerViewModel.count, 5)
-        XCTAssertEqual(timerViewModel.to, 1.0)
+        XCTAssertEqual(timerViewModel.counter, 5)
+        XCTAssertEqual(timerViewModel.timerTo, 1.0)
     }
 
 }
