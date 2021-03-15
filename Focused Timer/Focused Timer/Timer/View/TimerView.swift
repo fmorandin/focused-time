@@ -27,18 +27,18 @@ struct TimerView: View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
-                /// Top section with the config button
+                // Top section with the config button
                 HStack {
                     Spacer()
 
                     Button(action: {
                         self.showingConfig = true
-                    }) {
+                    }, label: {
                         Image(systemName: ImageNames.showSettings)
                             .font(.system(size: 25))
                             .padding(.trailing)
                             .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
-                    }
+                    })
                     .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
                         SettingsView()
                     })
@@ -48,7 +48,7 @@ struct TimerView: View {
 
                 Spacer().frame(height: 50)
 
-                /// Main circles
+                // Main circles
                 ZStack {
                     Circle()
                         .trim(from: 0, to: 1)
@@ -57,14 +57,16 @@ struct TimerView: View {
                         .frame(width: 300, height: 300)
 
                     Circle()
-                        .trim(from: 0, to: timerViewModel.to)
+                        .trim(from: 0, to: timerViewModel.timerTo)
                         .stroke(timerViewModel.timerType == .focused ? Color.orange : Color.blue,
                                 style: StrokeStyle(lineWidth: 25, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
                         .shadow(radius: 4)
                         .accessibility(identifier:
-                                        timerViewModel.timerType == .focused ? Identifiers.circleFocused : Identifiers.circleRest)
+                                        timerViewModel.timerType == .focused ?
+                                        Identifiers.circleFocused :
+                                        Identifiers.circleRest)
 
                     VStack {
                         Text(timerViewModel.countTime)
@@ -77,7 +79,7 @@ struct TimerView: View {
 
                 Spacer().frame(height: 50)
 
-                /// Buttons that controls the timer
+                // Buttons that controls the timer
                 HStack(spacing: 20) {
                     Button(action: {
                         if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
@@ -85,13 +87,17 @@ struct TimerView: View {
                         } else {
                             timerViewModel.pauseTimer()
                         }
-                    }) {
+                    }, label: {
                         HStack(spacing: 10) {
                             Image(systemName:
-                                    timerViewModel.timerState == .running ? ImageNames.pause : ImageNames.play)
+                                    timerViewModel.timerState == .running ?
+                                    ImageNames.pause :
+                                    ImageNames.play)
                                 .foregroundColor(.white)
 
-                            Text(timerViewModel.timerState == .running ? Translation.pauseTimer : Translation.playTimer)
+                            Text(timerViewModel.timerState == .running ?
+                                    Translation.pauseTimer :
+                                    Translation.playTimer)
                                 .foregroundColor(.white)
                         }
                         .padding(.vertical)
@@ -99,7 +105,7 @@ struct TimerView: View {
                         .background(timerViewModel.timerType == .focused ? Color.orange : Color.blue)
                         .clipShape(Capsule())
                         .shadow(radius: 6)
-                    }
+                    })
                     .accessibility(identifier: Identifiers.btnStartPauseIdentifier)
 
                     Button(action: {
@@ -122,10 +128,12 @@ struct TimerView: View {
                 }
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willResignActiveNotification)) { _ in
+        .onReceive(NotificationCenter.default.publisher(
+                    for: UIApplication.willResignActiveNotification)) { _ in
             timerViewModel.moveAppToBackground()
         }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+        .onReceive(NotificationCenter.default.publisher(
+                    for: UIApplication.willEnterForegroundNotification)) { _ in
             timerViewModel.moveAppToForeground()
         }
     }

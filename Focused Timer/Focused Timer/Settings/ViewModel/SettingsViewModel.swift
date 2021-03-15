@@ -16,7 +16,7 @@ class SettingsViewModel: ObservableObject {
     private let settingsModel: SettingsModelProtocol
 
     // MARK: - Published Variables
-    
+
     @Published var focusedTime: String
     @Published var restTime: String
 
@@ -35,7 +35,7 @@ class SettingsViewModel: ObservableObject {
     }
 
     // MARK: - Methods
-    
+
     func saveAndUpdateTimes(focusedIime: Int, restTime: Int) {
         settingsModel.saveTime(time: focusedIime, for: UserDefaultKeys.focusedTime)
         settingsModel.saveTime(time: restTime, for: UserDefaultKeys.restTime)
@@ -45,8 +45,8 @@ class SettingsViewModel: ObservableObject {
         self.restTime = String(describing: getTimeInMinutes(for: UserDefaultKeys.restTime))
     }
 
-    func getTimeInMinutes(for key: String) -> Int {
-        let timeInMinutes = settingsModel.getTime(for: key) / 60
+    func getTimeInMinutes(for keyName: String) -> Int {
+        let timeInMinutes = settingsModel.getTime(for: keyName) / 60
         return timeInMinutes == 0 ? 1 : timeInMinutes
     }
 }

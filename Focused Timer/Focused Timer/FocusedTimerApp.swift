@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct Focused_TimerApp: App {
+struct FocusedTimerApp: App {
 
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
@@ -22,7 +22,9 @@ struct Focused_TimerApp: App {
 // MARK: - AppDelegate
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions:
+                        [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         setStateForUITesting()
         requestLocalNotificationPermission()
         UNUserNotificationCenter.current().delegate = self
@@ -30,15 +32,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.isNotification)
         completionHandler()
     }
 
     static var isUITestingEnabled: Bool {
-        get {
-            return ProcessInfo.processInfo.arguments.contains("UI-Testing")
-        }
+        ProcessInfo.processInfo.arguments.contains("UI-Testing")
     }
 
     func requestLocalNotificationPermission() {

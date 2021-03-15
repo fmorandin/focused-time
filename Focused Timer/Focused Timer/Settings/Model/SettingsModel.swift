@@ -15,12 +15,11 @@ protocol SettingsModelProtocol {
     /// - Parameters:
     ///   - time: an Int that represents the value that will be saved
     ///   - key: the key for the saved value
-    func saveTime(time: Int, for key: String)
-
+    func saveTime(time: Int, for keyName: String)
 
     /// Function that gets the value from the UserDefautls based on a given key
     /// - Parameter key: the key to be retrieved
-    func getTime(for key: String) -> Int
+    func getTime(for keyName: String) -> Int
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -31,14 +30,13 @@ struct SettingsModel: SettingsModelProtocol {
 
     // MARK: - Methods
 
-    func saveTime(time: Int, for key: String) {
+    func saveTime(time: Int, for keyName: String) {
         let timeInSeconds = time * 60
-        defaults.set(timeInSeconds, forKey: key)
+        defaults.set(timeInSeconds, forKey: keyName)
     }
 
-    func getTime(for key: String) -> Int {
-        let totalTime = defaults.integer(forKey: key)
+    func getTime(for keyName: String) -> Int {
+        let totalTime = defaults.integer(forKey: keyName)
         return totalTime != 0 ? totalTime : 1
     }
-    
 }

@@ -20,7 +20,7 @@ enum Translation {
     static let resetTimer = LocalizedStringKey("resetTimer")
 
     // MARK: - Notification
-    
+
     static let notificationTitle = LocalizedStringKey("notificationTitle")
     static let notificationBody = LocalizedStringKey("notificationBody")
 }

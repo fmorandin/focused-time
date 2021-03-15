@@ -12,14 +12,15 @@ struct LocalNotificationManager {
 
     // MARK: - Public Functions
 
-    /// Function that will cancel all the scheduled notification and also clears the already sent notifications
+    /// Function that will cancel all the scheduled notification and
+    /// also clears the already sent notifications
     func clearScheduledNotifications() {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
 
-
-    /// Function that will receive the request to schedule a notification and checks if the permission is given
+    /// Function that will receive the request to schedule a notification and
+    /// checks if the permission is given
     /// - Parameter remainingTime: the time that is remaining for the timer to finishes
     func schedule(remainingTime: Double) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
@@ -42,8 +43,10 @@ struct LocalNotificationManager {
     private func scheduleNotification(remainingTime: Double) {
         let center = UNUserNotificationCenter.current()
 
-        let notificationTitle = NSString.localizedUserNotificationString(forKey: "notificationTitle", arguments: nil)
-        let notificationBody = NSString.localizedUserNotificationString(forKey: "notificationBody", arguments: nil)
+        let notificationTitle = NSString.localizedUserNotificationString(
+            forKey: "notificationTitle", arguments: nil)
+        let notificationBody = NSString.localizedUserNotificationString(
+            forKey: "notificationBody", arguments: nil)
 
         let content = UNMutableNotificationContent()
         content.title = notificationTitle

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol TimerModelProtocol {
-    func getTime(for key: String) -> Int
+    func getTime(for keyName: String) -> Int
     func saveMoveToBackgroundTime(remainingTime: Int)
     func getSavedTimes() -> (Int?, Date?)
 }
@@ -19,12 +19,13 @@ struct TimerModel: TimerModelProtocol {
     private let defaults = UserDefaults.standard
 
     // MARK: - Public Methods
-    func getTime(for key: String) -> Int {
-        let totalTime = defaults.integer(forKey: key)
+    func getTime(for keyName: String) -> Int {
+        let totalTime = defaults.integer(forKey: keyName)
         return totalTime != 0 ? totalTime : 60
     }
 
-    /// Function that handles what needs to be saved on UserDefaults in order to provide the necessary information to keep the timer updated
+    /// Function that handles what needs to be saved on UserDefaults in order to provide the
+    /// necessary information to keep the timer updated
     /// - Parameter remainingTime: how many seconds are remaining in order to the timer finishs
     func saveMoveToBackgroundTime(remainingTime: Int) {
         defaults.setValue(remainingTime, forKey: UserDefaultKeys.remainingTime)
