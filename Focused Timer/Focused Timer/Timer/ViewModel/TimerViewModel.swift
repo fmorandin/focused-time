@@ -108,11 +108,13 @@ class TimerViewModel: ObservableObject {
     /// Besides the remaining time, the now timestamp will be saved as well in order to calculate
     /// how long the app stand on the background
     func moveAppToBackground() {
-        /// The biggest part of what is described above will be handled by the model
-        timerModel.saveMoveToBackgroundTime(remainingTime: counter)
+        if timerState == .running {
+            /// The biggest part of what is described above will be handled by the model
+            timerModel.saveMoveToBackgroundTime(remainingTime: counter)
 
-        // Schedule a notification so user would know when the timer finishes
-        localNotificationManager.schedule(remainingTime: Double(counter))
+            // Schedule a notification so user would know when the timer finishes
+            localNotificationManager.schedule(remainingTime: Double(counter))
+        }
     }
 
     /// Method that handles the necessary actions for when the app is moved to the foreground
@@ -123,15 +125,17 @@ class TimerViewModel: ObservableObject {
         // Cancel any scheduled/already sent notifications
         localNotificationManager.clearScheduledNotifications()
 
-        // Recover the saved values and to the math to update the remaining time
-        let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
+        if timerState == .running {
+            // Recover the saved values and to the math to update the remaining time
+            let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
 
-        guard let remainingTime = savedRemainingTime,
-              let timestampBackground = savedTimestampBackground else { return }
+            guard let remainingTime = savedRemainingTime,
+                  let timestampBackground = savedTimestampBackground else { return }
 
-        let timeInBackground = Int(DateInterval(start: timestampBackground, end: Date()).duration)
+            let timeInBackground = Int(DateInterval(start: timestampBackground, end: Date()).duration)
 
-        let totalRemainingTime = remainingTime - timeInBackground
-        counter = totalRemainingTime <= 0 ? 0 : totalRemainingTime
+            let totalRemainingTime = remainingTime - timeInBackground
+            counter = totalRemainingTime <= 0 ? 0 : totalRemainingTime
+        }
     }
 }
