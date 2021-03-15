@@ -26,6 +26,7 @@ enum Identifiers {
 
     // Buttons
     static let btnShowSettings = "btnShowSettings"
+    static let btnShowHelp = "btnShowHelp"
     static let btnStartPauseIdentifier = "btnStartPauseIdentifier"
     static let btnResetIdentifier = "btnResetIdentifier"
 

@@ -17,18 +17,35 @@ struct TimerView: View {
 
     // MARK: - States
     @State private var showingConfig = false
+    @State private var showingHelp = false
 
     // MARK: Initializer
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
+    // MARK: - View
     var body: some View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
                 // Top section with the config button
                 HStack {
+
+                    Button(action: {
+                        self.showingHelp = true
+                    }, label: {
+                        Image(systemName: ImageNames.showHelp)
+                            .font(.system(size: 25))
+                            .padding(.trailing)
+                            .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
+
+                    })
+                    .sheet(isPresented: $showingHelp, content: {
+                        HelpView()
+                    })
+                    .accessibility(identifier: Identifiers.btnShowHelp)
+
                     Spacer()
 
                     Button(action: {
@@ -44,6 +61,7 @@ struct TimerView: View {
                     })
                     .accessibility(identifier: Identifiers.btnShowSettings)
                 }
+                .padding(.leading, 40)
                 .padding(.trailing, 20)
 
                 Spacer().frame(height: 50)

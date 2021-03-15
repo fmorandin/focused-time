@@ -17,6 +17,7 @@ enum ImageNames {
     // MARK: - Timer Screen
 
     static let showSettings = "gear"
+    static let showHelp = "questionmark.circle"
     static let play = "play"
     static let pause = "pause"
     static let reset = "arrow.clockwise"

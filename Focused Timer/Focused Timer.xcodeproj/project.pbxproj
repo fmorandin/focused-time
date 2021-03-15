@@ -22,6 +22,7 @@
 		181E4A3A25C743B4006CBDF4 /* SettingsModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */; };
 		181E4A4525C74A74006CBDF4 /* SettingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */; };
 		18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */; };
+		1876325C26001F76001ADD23 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876325B26001F76001ADD23 /* HelpView.swift */; };
 		189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189EF6A725BA5A6F004A182E /* TimerModel.swift */; };
 		18BF37D025AB76F00056D766 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BF37CF25AB76F00056D766 /* SettingsView.swift */; };
 		18C5C30A25BB696900A4893F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18C5C30925BB696900A4893F /* SettingsModel.swift */; };
@@ -67,6 +68,7 @@
 		181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModelMock.swift; sourceTree = "<group>"; };
 		181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITests.swift; sourceTree = "<group>"; };
 		18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		1876325B26001F76001ADD23 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		189EF6A725BA5A6F004A182E /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		18BF37CF25AB76F00056D766 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		18C5C30925BB696900A4893F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
@@ -162,6 +164,22 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		1876324E26001F30001ADD23 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				1876324F26001F3E001ADD23 /* View */,
+			);
+			path = Help;
+			sourceTree = "<group>";
+		};
+		1876324F26001F3E001ADD23 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1876325B26001F76001ADD23 /* HelpView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		18A2883725CC85CD00689770 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
@@ -242,6 +260,7 @@
 			children = (
 				180E842625F6E52E00ACF34C /* Common */,
 				18A2883725CC85CD00689770 /* Constants */,
+				1876324E26001F30001ADD23 /* Help */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
 				A378FC322522BB7D0046FC4C /* FocusedTimerApp.swift */,
@@ -475,6 +494,7 @@
 				A378FC332522BB7D0046FC4C /* FocusedTimerApp.swift in Sources */,
 				180EDCDE25CC882D00452D96 /* Translation.swift in Sources */,
 				18D7443825D35DBF00D5FF96 /* TimerType.swift in Sources */,
+				1876325C26001F76001ADD23 /* HelpView.swift in Sources */,
 				180EDCE325CC888700452D96 /* Identifiers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
