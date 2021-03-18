@@ -9,6 +9,11 @@ import Foundation
 @testable import Focused_Timer
 
 struct TimerModelMock: TimerModelProtocol {
+
+    func getNumberOfCycles(for keyName: String) -> String {
+        "4"
+    }
+
     func getSavedTimes() -> (Int?, Date?) {
         return (0, Date())
     }
