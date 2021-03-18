@@ -29,6 +29,9 @@ struct TimerView: View {
         ZStack {
             Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
+
+                Spacer()
+
                 // Top section with the config button
                 HStack {
 
@@ -64,7 +67,7 @@ struct TimerView: View {
                 .padding(.leading, 40)
                 .padding(.trailing, 20)
 
-                Spacer().frame(height: 50)
+                Spacer()
 
                 // Main circles
                 ZStack {
@@ -95,7 +98,7 @@ struct TimerView: View {
                     }
                 }
 
-                Spacer().frame(height: 50)
+                Spacer()
 
                 // Buttons that controls the timer
                 HStack(spacing: 20) {
@@ -144,6 +147,31 @@ struct TimerView: View {
                     })
                     .accessibility(identifier: Identifiers.btnResetIdentifier)
                 }
+                .padding(.bottom, 20)
+
+                Divider()
+
+                // Flows counter
+                HStack {
+                    Spacer()
+
+                    Text(Translation.cycleCounter)
+                        .font(.system(size: 20))
+                        .fontWeight(.light)
+                        .accessibility(identifier: Identifiers.lblCounter)
+
+                    Spacer()
+
+                    Text("1/4")
+                        .font(.system(size: 20))
+                        .fontWeight(.light)
+                        .accessibility(identifier: Identifiers.lblCounter)
+
+                    Spacer()
+                }
+                .padding(.top, 20)
+
+                Spacer()
             }
         }
         .onReceive(NotificationCenter.default.publisher(

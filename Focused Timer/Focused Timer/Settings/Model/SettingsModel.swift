@@ -20,6 +20,16 @@ protocol SettingsModelProtocol {
     /// Function that gets the value from the UserDefautls based on a given key
     /// - Parameter key: the key to be retrieved
     func getTime(for keyName: String) -> Int
+
+    /// Function that saves a the amount of cycles on the UserDefaults
+    /// - Parameters:
+    ///   - cycleNumber: an Int that indicates the number of cycles
+    ///   - keyName: the key for the saved value
+    func saveCycleTotal(cycleNumber: Int, for keyName: String)
+
+    /// Function that gets the value from the UserDefautls based on a given key
+    /// - Parameter keyName: the key to be retrieved
+    func getCycleTotal(for keyName: String) -> String
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -38,5 +48,13 @@ struct SettingsModel: SettingsModelProtocol {
     func getTime(for keyName: String) -> Int {
         let totalTime = defaults.integer(forKey: keyName)
         return totalTime != 0 ? totalTime : 1
+    }
+
+    func saveCycleTotal(cycleNumber: Int, for keyName: String) {
+        defaults.setValue(cycleNumber, forKey: keyName)
+    }
+
+    func getCycleTotal(for keyName: String) -> String {
+        defaults.string(forKey: keyName) ?? "0"
     }
 }

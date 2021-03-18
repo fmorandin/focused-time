@@ -10,12 +10,14 @@
 
 "settingsFocusDuration" = "Focused time (In minutes)";
 "settingsRestDuration" = "Resting time (In minutes):";
+"settingsCycleTotal" = "Number of cycles";
 
 // MARK: - Timer Screen
 
 "playTimer" = "Play";
 "pauseTimer" = "Pause";
 "resetTimer" = "Reset cycle";
+"cycleCounter" = "Number of completed cycles";
 
 // MARK: - Notification
 

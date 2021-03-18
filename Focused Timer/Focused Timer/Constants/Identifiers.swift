@@ -17,10 +17,12 @@ enum Identifiers {
     // TextFields
     static let txtFocusedTime = "txtFocusedTime"
     static let txtRestTime = "txtRestTime"
+    static let txtCycleTotal = "txtCycleTotal"
 
     // Labels
     static let lblFocusDuration = "lblFocusDuration"
     static let lblRestDuration = "lblRestDuration"
+    static let lblCycleTotal = "lblCycleTotal"
 
     // MARK: - Timer Screen
 
@@ -44,4 +46,5 @@ enum UserDefaultKeys {
     static let remainingTime = "remainingTime"
     static let timestampAppMovedBackground = "timestampAppMovedBackground"
     static let isNotification = "isNotification"
+    static let cycleTotal = "cycleTotal"
 }

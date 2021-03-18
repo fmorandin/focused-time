@@ -53,6 +53,7 @@ struct SettingsView: View {
             // The list that contains all the available settings to be defined in the app
             Form {
                 VStack {
+                    // Focused time
                     HStack {
                         Text(Translation.settingsFocusDuration)
                             .accessibility(identifier: Identifiers.lblFocusDuration)
@@ -66,8 +67,12 @@ struct SettingsView: View {
                             .multilineTextAlignment(.center)
                             .accessibility(identifier: Identifiers.txtFocusedTime)
                     }
+                    .padding(.top, 10)
                     .padding(.bottom, 10)
 
+                    Divider()
+
+                    // Resting time
                     HStack {
                         Text(Translation.settingsRestDuration)
                             .accessibility(identifier: Identifiers.lblRestDuration)
@@ -81,15 +86,37 @@ struct SettingsView: View {
                             .multilineTextAlignment(.center)
                             .accessibility(identifier: Identifiers.txtRestTime)
                     }
+                    .padding(.bottom, 10)
                     .padding(.top, 10)
+
+                    Divider()
+
+                    // Number of cycles
+                    HStack {
+                        Text(Translation.settingsCyclesTotal)
+                            .accessibility(identifier: Identifiers.lblCycleTotal)
+
+                        Spacer()
+
+                        TextField("", text: $settingsViewModel.cycleTotal)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                            .frame(width: 50)
+                            .multilineTextAlignment(.center)
+                            .accessibility(identifier: Identifiers.txtCycleTotal)
+                    }
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
                 }
             }
 
             Button(action: {
                 let inputFocusedTime = Int(settingsViewModel.focusedTime) ?? 0
                 let inputRestTime = Int(settingsViewModel.restTime) ?? 0
+                let inputNumberOfCycles = Int(settingsViewModel.cycleTotal) ?? 0
 
                 settingsViewModel.saveAndUpdateTimes(focusedIime: inputFocusedTime, restTime: inputRestTime)
+                settingsViewModel.saveNumberOfCycles(inputNumberOfCycles)
 
                 self.presentationMode.wrappedValue.dismiss()
             }, label: {

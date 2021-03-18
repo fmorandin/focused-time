@@ -19,6 +19,7 @@ class SettingsViewModel: ObservableObject {
 
     @Published var focusedTime: String
     @Published var restTime: String
+    @Published var cycleTotal: String
 
     // MARK: - Initializer
 
@@ -32,6 +33,8 @@ class SettingsViewModel: ObservableObject {
         self.restTime = String(describing: restTimeInMinutes == 0 ? 1 : restTimeInMinutes)
 
         self.settingsModel = settingsModel
+
+        self.cycleTotal = settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal)
     }
 
     // MARK: - Methods
@@ -48,5 +51,11 @@ class SettingsViewModel: ObservableObject {
     func getTimeInMinutes(for keyName: String) -> Int {
         let timeInMinutes = settingsModel.getTime(for: keyName) / 60
         return timeInMinutes == 0 ? 1 : timeInMinutes
+    }
+
+    func saveNumberOfCycles(_ numberOfCycles: Int) {
+        settingsModel.saveCycleTotal(cycleNumber: numberOfCycles, for: UserDefaultKeys.cycleTotal)
+
+        self.cycleTotal = String(describing: settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal))
     }
 }
