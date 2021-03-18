@@ -34,6 +34,7 @@ enum Identifiers {
 
     // Labels
     static let lblCounter = "lblCounter"
+    static let lblNumberOfCyclesCompleted = "lblNumberOfCyclesCompleted"
 
     // Counter section
     static let circleFocused = "circleFocused"

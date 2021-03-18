@@ -11,6 +11,7 @@ protocol TimerModelProtocol {
     func getTime(for keyName: String) -> Int
     func saveMoveToBackgroundTime(remainingTime: Int)
     func getSavedTimes() -> (Int?, Date?)
+    func getNumberOfCycles(for keyName: String) -> String
 }
 
 struct TimerModel: TimerModelProtocol {
@@ -39,5 +40,9 @@ struct TimerModel: TimerModelProtocol {
         }
 
         return (nil, nil)
+    }
+
+    func getNumberOfCycles(for keyName: String) -> String {
+        defaults.string(forKey: keyName) ?? "0"
     }
 }

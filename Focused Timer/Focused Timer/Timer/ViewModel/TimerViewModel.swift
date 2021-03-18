@@ -17,6 +17,8 @@ class TimerViewModel: ObservableObject {
     @Published var counter: Int
     @Published var countTime: String
     @Published var timerType: TimerType = .focused
+    @Published var totalNumberOfCycles: String
+    @Published var numberOfCompletedCycles: Int
 
     // MARK: - Private Variables
     private var timer = Timer()
@@ -24,6 +26,7 @@ class TimerViewModel: ObservableObject {
     private let dateFormatter = DateComponentsFormatter()
     private let localNotificationManager = LocalNotificationManager()
     private let isNotification = UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification)
+    private var cycleCounter = 0
 
     // create a sound ID
     private let systemSoundID: SystemSoundID = 1009
@@ -44,6 +47,9 @@ class TimerViewModel: ObservableObject {
 
         self.countTime = self.dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
+
+        self.totalNumberOfCycles = timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)
+        self.numberOfCompletedCycles = 0
     }
 
     // MARK: - Public Methods
@@ -81,6 +87,13 @@ class TimerViewModel: ObservableObject {
                         from: TimeInterval(self.timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
                 }
 
+                if self.cycleCounter != 0 && self.cycleCounter / 2 == 0 {
+                    self.numberOfCompletedCycles += 1
+                    self.cycleCounter = 0
+                } else {
+                    self.cycleCounter += 1
+                }
+
                 timer.invalidate()
             }
         })
@@ -100,6 +113,7 @@ class TimerViewModel: ObservableObject {
         countTime = dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
         timer.invalidate()
+        totalNumberOfCycles = timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background

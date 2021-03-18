@@ -158,14 +158,13 @@ struct TimerView: View {
                     Text(Translation.cycleCounter)
                         .font(.system(size: 20))
                         .fontWeight(.light)
-//                        .accessibility(identifier: Identifiers.lblCounter)
+                        .accessibility(identifier: Identifiers.lblNumberOfCyclesCompleted)
 
                     Spacer()
 
-                    Text("1/4")
+                    Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
                         .font(.system(size: 20))
                         .fontWeight(.light)
-//                        .accessibility(identifier: Identifiers.lblCounter)
 
                     Spacer()
                 }
