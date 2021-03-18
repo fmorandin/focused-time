@@ -28,6 +28,9 @@ class SettingsUITests: BaseFeature {
         let restTextField = String(describing: app.textFields[Identifiers.txtRestTime].value!)
         XCTAssertEqual(restTextField, "1")
 
+        let numberOfCyclesTextField = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
+        XCTAssertEqual(numberOfCyclesTextField, "0")
+
         // WHEN I close the modal
         let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -41,6 +44,9 @@ class SettingsUITests: BaseFeature {
 
         let restTextFieldUpdated = String(describing: app.textFields[Identifiers.txtRestTime].value!)
         XCTAssertEqual(restTextFieldUpdated, "1")
+
+        let numberOfCyclesTextFieldUpdated = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
+        XCTAssertEqual(numberOfCyclesTextFieldUpdated, "0")
     }
 
     func test_UpdateFocusedTimerValue() {
@@ -105,5 +111,37 @@ class SettingsUITests: BaseFeature {
         // THEN the value should be the one that was updated
         let restTextFieldUpdated = String(describing: app.textFields[Identifiers.txtRestTime].value!)
         XCTAssertEqual(restTextFieldUpdated, "50")
+    }
+
+    func test_UpdateNumberOfCyclesValues() {
+        // GIVEN I open the modal
+        let showSettingsButton = app.buttons[Identifiers.btnShowSettings]
+        showSettingsButton.tap()
+
+        // WHEN the fields are loaded
+        let restNumberOfCyclesLabel = app.staticTexts[Identifiers.lblCycleTotal]
+        XCTAssertTrue(restNumberOfCyclesLabel.isHittable)
+
+        // THEN the number of cycles should have the default value
+        let numberOfCyclesTextFieldValue = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
+        XCTAssertEqual(numberOfCyclesTextFieldValue, "0")
+
+        // WHEN I delete the default value
+        let numberOfCyclesTextField = app.textFields[Identifiers.txtCycleTotal]
+        numberOfCyclesTextField.doubleTap()
+
+        // AND I add the new value
+        numberOfCyclesTextField.typeText("20")
+
+        // AND I click to save
+        let saveButton = app.buttons[Identifiers.btnSaveSettings]
+        saveButton.tap()
+
+        // AND I open the modal again
+        showSettingsButton.tap()
+
+        // THEN the value should be the one that was updated
+        let numberOfCyclesTextFieldUpdated = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
+        XCTAssertEqual(numberOfCyclesTextFieldUpdated, "20")
     }
 }
