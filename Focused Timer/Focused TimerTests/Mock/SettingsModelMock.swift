@@ -11,7 +11,7 @@ import Foundation
 struct SettingsModelMock: SettingsModelProtocol {
 
     func saveTime(time: Int, for key: String) {
-        print("Saved")
+        debugPrint("⏱ saved")
     }
 
     func getTime(for key: String) -> Int {
@@ -23,5 +23,13 @@ struct SettingsModelMock: SettingsModelProtocol {
         default:
             return 10
         }
+    }
+
+    func saveCycleTotal(cycleNumber: Int, for keyName: String) {
+        debugPrint("↻ number of cycles saved")
+    }
+
+    func getCycleTotal(for keyName: String) -> String {
+        return "10"
     }
 }

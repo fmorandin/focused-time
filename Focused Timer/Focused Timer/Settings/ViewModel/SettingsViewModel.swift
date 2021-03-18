@@ -58,4 +58,8 @@ class SettingsViewModel: ObservableObject {
 
         self.cycleTotal = String(describing: settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal))
     }
+
+    func getNumberOfCycles(for keyName: String) -> Int {
+        Int(settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal)) ?? 0
+    }
 }
