@@ -17,6 +17,9 @@ class TimerUITests: BaseFeature {
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
+        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        XCTAssertEqual(lblCycleCounter.label, "0/4")
+
         // WHEN I click to start the timer
         playButton.tap()
 
@@ -42,6 +45,9 @@ class TimerUITests: BaseFeature {
 
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
+
+        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        XCTAssertEqual(lblCycleCounter.label, "0/4")
 
         // WHEN I click to start the timer
         playButton.tap()
@@ -102,6 +108,9 @@ class TimerUITests: BaseFeature {
 
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
+
+        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        XCTAssertEqual(lblCycleCounter.label, "0/4")
 
         // WHEN I click to start the timer
         playButton.tap()
@@ -166,6 +175,9 @@ class TimerUITests: BaseFeature {
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
+        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        XCTAssertEqual(lblCycleCounter.label, "0/4")
+
         let circleFocused = app.otherElements[Identifiers.circleFocused]
         XCTAssertTrue(circleFocused.exists)
 
@@ -207,6 +219,9 @@ class TimerUITests: BaseFeature {
 
             let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
             XCTAssertEqual(lblCounterRest.label, "01:00")
+
+            let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+            XCTAssertEqual(lblCycleCounter.label, "1/4")
         } else {
             XCTFail("Delay interrupted")
         }

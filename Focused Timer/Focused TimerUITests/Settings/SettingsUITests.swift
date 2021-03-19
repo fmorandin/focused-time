@@ -29,7 +29,7 @@ class SettingsUITests: BaseFeature {
         XCTAssertEqual(restTextField, "1")
 
         let numberOfCyclesTextField = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
-        XCTAssertEqual(numberOfCyclesTextField, "0")
+        XCTAssertEqual(numberOfCyclesTextField, "4")
 
         // WHEN I close the modal
         let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
@@ -46,7 +46,7 @@ class SettingsUITests: BaseFeature {
         XCTAssertEqual(restTextFieldUpdated, "1")
 
         let numberOfCyclesTextFieldUpdated = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
-        XCTAssertEqual(numberOfCyclesTextFieldUpdated, "0")
+        XCTAssertEqual(numberOfCyclesTextFieldUpdated, "4")
     }
 
     func test_UpdateFocusedTimerValue() {
@@ -124,7 +124,7 @@ class SettingsUITests: BaseFeature {
 
         // THEN the number of cycles should have the default value
         let numberOfCyclesTextFieldValue = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
-        XCTAssertEqual(numberOfCyclesTextFieldValue, "0")
+        XCTAssertEqual(numberOfCyclesTextFieldValue, "4")
 
         // WHEN I delete the default value
         let numberOfCyclesTextField = app.textFields[Identifiers.txtCycleTotal]

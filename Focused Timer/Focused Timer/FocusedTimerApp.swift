@@ -54,6 +54,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     private func setStateForUITesting() {
         if AppDelegate.isUITestingEnabled {
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+            UserDefaults.standard.set("4", forKey: UserDefaultKeys.cycleTotal)
         }
     }
 }
