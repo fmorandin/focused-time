@@ -20,10 +20,13 @@ class SettingsViewModel: ObservableObject {
     @Published var focusedTime: String
     @Published var restTime: String
     @Published var cycleTotal: String
+    @Published var longBreak: String
 
     // MARK: - Initializer
 
     init(settingsModel: SettingsModelProtocol) {
+        self.settingsModel = settingsModel
+
         let focusedTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.focusedTime)
         let focusedTimeInMinutes = focusedTimeInSeconds / 60
         self.focusedTime = String(describing: focusedTimeInMinutes == 0 ? 1 : focusedTimeInMinutes)
@@ -32,20 +35,23 @@ class SettingsViewModel: ObservableObject {
         let restTimeInMinutes = restTimeInSeconds / 60
         self.restTime = String(describing: restTimeInMinutes == 0 ? 1 : restTimeInMinutes)
 
-        self.settingsModel = settingsModel
-
         self.cycleTotal = settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal)
+
+        let longBreakInSeconds = settingsModel.getTime(for: UserDefaultKeys.longBreak)
+        let longBrakInMinutes = longBreakInSeconds / 60
+        self.longBreak = String(describing: longBrakInMinutes == 0 ? 1 : longBrakInMinutes)
     }
 
     // MARK: - Methods
 
-    func saveAndUpdateTimes(focusedIime: Int, restTime: Int) {
+    func saveAndUpdateTimes(focusedIime: Int, restTime: Int, longBreak: Int) {
         settingsModel.saveTime(time: focusedIime, for: UserDefaultKeys.focusedTime)
         settingsModel.saveTime(time: restTime, for: UserDefaultKeys.restTime)
+        settingsModel.saveTime(time: longBreak, for: UserDefaultKeys.longBreak)
 
         self.focusedTime = String(describing: getTimeInMinutes(for: UserDefaultKeys.focusedTime))
-
         self.restTime = String(describing: getTimeInMinutes(for: UserDefaultKeys.restTime))
+        self.longBreak = String(describing: getTimeInMinutes(for: UserDefaultKeys.longBreak))
     }
 
     func getTimeInMinutes(for keyName: String) -> Int {

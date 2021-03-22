@@ -11,7 +11,7 @@ import Foundation
 struct TimerModelMock: TimerModelProtocol {
 
     func getNumberOfCycles(for keyName: String) -> String {
-        "4"
+        "2"
     }
 
     func getSavedTimes() -> (Int?, Date?) {
@@ -26,6 +26,8 @@ struct TimerModelMock: TimerModelProtocol {
             return 5
         case "restTime":
             return 2
+        case "longBreak":
+            return 3
         default:
             return 1
         }

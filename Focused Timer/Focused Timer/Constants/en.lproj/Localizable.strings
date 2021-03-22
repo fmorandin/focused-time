@@ -9,8 +9,9 @@
 // MARK: - Settings Screen
 
 "settingsFocusDuration" = "Focused time (In minutes)";
-"settingsRestDuration" = "Resting time (In minutes):";
+"settingsRestDuration" = "Resting time (In minutes)";
 "settingsCycleTotal" = "Number of cycles";
+"settingsLongBreak" = "Long break (In minutes)";
 
 // MARK: - Timer Screen
 

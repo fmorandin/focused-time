@@ -166,7 +166,6 @@ class TimerUITests: BaseFeature {
         }
     }
 
-    #warning("Find a better way to implement this")
     func test_ChangeModesAutomatically() {
         // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]

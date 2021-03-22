@@ -20,6 +20,8 @@ struct SettingsModelMock: SettingsModelProtocol {
             return 1500
         case "restTime":
             return 300
+        case "longBreak":
+            return 1800
         default:
             return 10
         }

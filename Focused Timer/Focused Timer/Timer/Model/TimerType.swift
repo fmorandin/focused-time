@@ -10,4 +10,5 @@ import Foundation
 enum TimerType {
     case focused
     case rest
+    case longBreak
 }

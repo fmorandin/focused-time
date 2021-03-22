@@ -14,12 +14,14 @@ class SettingsViewModelTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.focusedTime)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.restTime)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.cycleTotal)
+        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.longBreak)
     }
 
     override class func tearDown() {
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.focusedTime)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.restTime)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.cycleTotal)
+        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.longBreak)
     }
 
     func test_GetFocusedTime() throws {
@@ -38,19 +40,28 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: "restTime"), 5)
     }
 
+    func test_GetLongBreak() throws {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+
+        // THEN the total time should be returned
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: "longBreak"), 30)
+    }
+
     func test_SaveTimers() throws {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
 
         // GIVEN I have not set any total time yet
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 1)
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.restTime), 1)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 1)
 
         // WHEN I call the function to save the new value
-        settingsViewModel.saveAndUpdateTimes(focusedIime: 20, restTime: 5)
+        settingsViewModel.saveAndUpdateTimes(focusedIime: 20, restTime: 5, longBreak: 30)
 
         // THEN the total time should be updated
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 20)
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.restTime), 5)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 30)
     }
 
     func test_SaveNumberOfCycles() throws {

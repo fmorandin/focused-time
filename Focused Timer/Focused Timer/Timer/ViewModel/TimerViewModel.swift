@@ -17,8 +17,9 @@ class TimerViewModel: ObservableObject {
     @Published var counter: Int
     @Published var countTime: String
     @Published var timerType: TimerType = .focused
-    @Published var totalNumberOfCycles: String
+    @Published var totalNumberOfCycles: Int
     @Published var numberOfCompletedCycles: Int
+    @Published var accentCircleColor: Color
 
     // MARK: - Private Variables
     private var timer = Timer()
@@ -48,62 +49,36 @@ class TimerViewModel: ObservableObject {
         self.countTime = self.dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
 
-        self.totalNumberOfCycles = timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)
+        self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)) ?? 0
         self.numberOfCompletedCycles = 0
+
+        self.accentCircleColor = .orange
     }
 
     // MARK: - Public Methods
+
+    /// Function that handles all the event when the timer is running.
+    /// This one also does the logic between the timer types and what to do on any of the them.
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
             if self.counter <= self.totalTime && self.counter != 0 {
-                self.timerState = .running
-                self.counter -= 1
-                withAnimation(.default) {
-                    self.timerTo = CGFloat(self.counter) / CGFloat(self.totalTime)
-                }
-                self.countTime = self.dateFormatter.string(from: TimeInterval(self.counter)) ?? "-"
+                self.updateTimerRunning()
             } else {
-                if UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification) {
-                    UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
-                } else {
-                    // to play sound
-                    AudioServicesPlaySystemSound(self.systemSoundID)
-                }
-
-                self.timerTo = 1
-                self.timerState = .initial
-
-                if self.timerType == .focused {
-                    self.timerType = .rest
-                    self.counter = self.timerModel.getTime(for: UserDefaultKeys.restTime)
-                    self.totalTime = self.timerModel.getTime(for: UserDefaultKeys.restTime)
-                    self.countTime = self.dateFormatter.string(
-                        from: TimeInterval(self.timerModel.getTime(for: UserDefaultKeys.restTime))) ?? "-"
-                } else {
-                    self.timerType = .focused
-                    self.counter = self.timerModel.getTime(for: UserDefaultKeys.focusedTime)
-                    self.totalTime = self.timerModel.getTime(for: UserDefaultKeys.focusedTime)
-                    self.countTime = self.dateFormatter.string(
-                        from: TimeInterval(self.timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
-                }
-
-                if self.cycleCounter != 0 && self.cycleCounter / 2 == 0 {
-                    self.numberOfCompletedCycles += 1
-                    self.cycleCounter = 0
-                } else {
-                    self.cycleCounter += 1
-                }
+                self.changeTimerMode()
 
                 timer.invalidate()
             }
         })
     }
 
+    /// This simply sets the state and invalidate the timer so it won't will be running during the pause
     func pauseTimer() {
         timerState = .paused
         timer.invalidate()
     }
 
+    /// This is responsible to set all the properties to their initial state again.
+    /// The initial state of the app will always be the focused time.
     func resetUpdateTimer() {
         timerState = .initial
         timerTo = 1
@@ -113,7 +88,9 @@ class TimerViewModel: ObservableObject {
         countTime = dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
         timer.invalidate()
-        totalNumberOfCycles = timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)
+        totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)) ?? 0
+        numberOfCompletedCycles = 0
+        accentCircleColor = .orange
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background
@@ -150,6 +127,91 @@ class TimerViewModel: ObservableObject {
 
             let totalRemainingTime = remainingTime - timeInBackground
             counter = totalRemainingTime <= 0 ? 0 : totalRemainingTime
+        }
+    }
+
+    // MARK: - Fileprivate
+
+    /// This one is responsible to do the necessary updates for when the
+    /// timer is running, independently from the timer type.
+    fileprivate func updateTimerRunning() {
+        self.timerState = .running
+        self.counter -= 1
+        withAnimation(.default) {
+            self.timerTo = CGFloat(self.counter) / CGFloat(self.totalTime)
+        }
+        self.countTime = self.dateFormatter.string(from: TimeInterval(self.counter)) ?? "-"
+    }
+
+    /// This is the function that is called when a timer finishes.
+    /// Essentially it will do two things: Increase the necessary variables that handles
+    /// the cycles and decide what timer should go next
+    fileprivate func changeTimerMode() {
+        if UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification) {
+            UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
+        } else {
+            // to play sound
+            AudioServicesPlaySystemSound(self.systemSoundID)
+        }
+
+        self.timerTo = 1
+        self.timerState = .initial
+
+        handleCompletedCycle()
+
+        if self.numberOfCompletedCycles == self.totalNumberOfCycles {
+            changeTimerType(timerType: .longBreak)
+        } else {
+            if self.timerType == .focused {
+                changeTimerType(timerType: .focused)
+            } else {
+                changeTimerType(timerType: .rest)
+            }
+        }
+    }
+
+    /// Auxiliary function to keep tracking of the number of completed cycles.
+    fileprivate func handleCompletedCycle() {
+        if timerType != .longBreak {
+            if cycleCounter != 0 && cycleCounter / 2 == 0 {
+                numberOfCompletedCycles += 1
+                cycleCounter = 0
+            } else {
+                cycleCounter += 1
+            }
+        } else {
+            numberOfCompletedCycles = 0
+        }
+    }
+
+    /// This is responsible to check the timer type and do the necessary update on the
+    /// variables based on the type.
+    /// - Parameter timerType: the type of the timer that was running
+    fileprivate func changeTimerType(timerType: TimerType) {
+        switch timerType {
+        case .focused:
+            self.timerType = .rest
+            counter = timerModel.getTime(for: UserDefaultKeys.restTime)
+            totalTime = timerModel.getTime(for: UserDefaultKeys.restTime)
+            countTime = dateFormatter
+                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.restTime))) ?? "-"
+            accentCircleColor = .blue
+
+        case .rest:
+            self.timerType = .focused
+            counter = timerModel.getTime(for: UserDefaultKeys.focusedTime)
+            totalTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
+            countTime = dateFormatter
+                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
+            accentCircleColor = .orange
+
+        case .longBreak:
+            self.timerType = .longBreak
+            counter = timerModel.getTime(for: UserDefaultKeys.longBreak)
+            totalTime = timerModel.getTime(for: UserDefaultKeys.longBreak)
+            countTime = dateFormatter
+                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.longBreak))) ?? "-"
+            accentCircleColor = .green
         }
     }
 }

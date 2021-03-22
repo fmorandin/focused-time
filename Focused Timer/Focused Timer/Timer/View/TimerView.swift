@@ -79,7 +79,7 @@ struct TimerView: View {
 
                     Circle()
                         .trim(from: 0, to: timerViewModel.timerTo)
-                        .stroke(timerViewModel.timerType == .focused ? Color.orange : Color.blue,
+                        .stroke(timerViewModel.accentCircleColor,
                                 style: StrokeStyle(lineWidth: 25, lineCap: .round))
                         .frame(width: 300, height: 300)
                         .rotationEffect(.init(degrees: -90))
@@ -123,7 +123,7 @@ struct TimerView: View {
                         }
                         .padding(.vertical)
                         .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
-                        .background(timerViewModel.timerType == .focused ? Color.orange : Color.blue)
+                        .background(timerViewModel.accentCircleColor)
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     })
@@ -141,7 +141,7 @@ struct TimerView: View {
                         }
                         .padding(.vertical)
                         .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
-                        .background(timerViewModel.timerType == .focused ? Color.orange : Color.blue)
+                        .background(timerViewModel.accentCircleColor)
                         .clipShape(Capsule())
                         .shadow(radius: 6)
                     })

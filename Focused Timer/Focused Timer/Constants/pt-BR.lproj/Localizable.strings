@@ -11,6 +11,7 @@
 "settingsFocusDuration" = "Tempo concentrado (Em minutos)";
 "settingsRestDuration" = "Tempo descanso (Em minutos)";
 "settingsCycleTotal" = "Número de ciclos";
+"settingsLongBreak" = "Pausa longa (Em minutos)";
 
 // MARK: - Timer Screen
 

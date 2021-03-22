@@ -91,6 +91,25 @@ struct SettingsView: View {
 
                     Divider()
 
+                    // Long Break
+                    HStack {
+                        Text(Translation.settingsLongBreak)
+                            .accessibility(identifier: Identifiers.lblLongBreak)
+
+                        Spacer()
+
+                        TextField("", text: $settingsViewModel.longBreak)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.numberPad)
+                            .frame(width: 50)
+                            .multilineTextAlignment(.center)
+                            .accessibility(identifier: Identifiers.txtLongBreak)
+                    }
+                    .padding(.top, 10)
+                    .padding(.bottom, 10)
+
+                    Divider()
+
                     // Number of cycles
                     HStack {
                         Text(Translation.settingsCyclesTotal)
@@ -107,15 +126,21 @@ struct SettingsView: View {
                     }
                     .padding(.top, 10)
                     .padding(.bottom, 10)
+
                 }
             }
 
             Button(action: {
                 let inputFocusedTime = Int(settingsViewModel.focusedTime) ?? 0
                 let inputRestTime = Int(settingsViewModel.restTime) ?? 0
+                let inputLongBreak = Int(settingsViewModel.longBreak) ?? 0
                 let inputNumberOfCycles = Int(settingsViewModel.cycleTotal) ?? 0
 
-                settingsViewModel.saveAndUpdateTimes(focusedIime: inputFocusedTime, restTime: inputRestTime)
+                settingsViewModel.saveAndUpdateTimes(
+                    focusedIime: inputFocusedTime,
+                    restTime: inputRestTime,
+                    longBreak: inputLongBreak
+                )
                 settingsViewModel.saveNumberOfCycles(inputNumberOfCycles)
 
                 self.presentationMode.wrappedValue.dismiss()

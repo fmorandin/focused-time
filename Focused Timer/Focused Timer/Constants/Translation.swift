@@ -13,6 +13,7 @@ enum Translation {
     static let settingsFocusDuration = LocalizedStringKey("settingsFocusDuration")
     static let settingsRestDuration = LocalizedStringKey("settingsRestDuration")
     static let settingsCyclesTotal = LocalizedStringKey("settingsCycleTotal")
+    static let settingsLongBreak = LocalizedStringKey("settingsLongBreak")
 
     // MARK: - Timer Screen
 

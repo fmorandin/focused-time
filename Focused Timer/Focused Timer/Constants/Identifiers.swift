@@ -18,11 +18,13 @@ enum Identifiers {
     static let txtFocusedTime = "txtFocusedTime"
     static let txtRestTime = "txtRestTime"
     static let txtCycleTotal = "txtCycleTotal"
+    static let txtLongBreak = "txtLongBreak"
 
     // Labels
     static let lblFocusDuration = "lblFocusDuration"
     static let lblRestDuration = "lblRestDuration"
     static let lblCycleTotal = "lblCycleTotal"
+    static let lblLongBreak = "lblLongBreak"
 
     // MARK: - Timer Screen
 
@@ -49,4 +51,5 @@ enum UserDefaultKeys {
     static let timestampAppMovedBackground = "timestampAppMovedBackground"
     static let isNotification = "isNotification"
     static let cycleTotal = "cycleTotal"
+    static let longBreak = "longBreak"
 }
