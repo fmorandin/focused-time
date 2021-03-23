@@ -8,5 +8,7 @@
 import SwiftUI
 
 struct SharedConstants {
+    let impactLight = UIImpactFeedbackGenerator(style: .light)
     let impactMedium = UIImpactFeedbackGenerator(style: .medium)
+    let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
 }

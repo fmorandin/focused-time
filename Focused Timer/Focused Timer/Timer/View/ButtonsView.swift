@@ -29,7 +29,7 @@ struct ButtonsView: View {
                 } else {
                     timerViewModel.pauseTimer()
                 }
-                SharedConstants().impactMedium.impactOccurred()
+                SharedConstants().impactHeavy.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
                     Image(systemName:
@@ -53,7 +53,7 @@ struct ButtonsView: View {
 
             Button(action: {
                 timerViewModel.resetUpdateTimer()
-                SharedConstants().impactMedium.impactOccurred()
+                SharedConstants().impactHeavy.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
                     Image(systemName: ImageNames.reset)

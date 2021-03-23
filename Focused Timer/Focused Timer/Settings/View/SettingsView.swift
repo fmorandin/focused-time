@@ -36,6 +36,7 @@ struct SettingsView: View {
 
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
+                    SharedConstants().impactMedium.impactOccurred()
                 }, label: {
                     HStack {
                         Image(systemName: ImageNames.closeModal)
@@ -69,6 +70,7 @@ struct SettingsView: View {
                 settingsViewModel.saveNumberOfCycles(inputNumberOfCycles)
 
                 self.presentationMode.wrappedValue.dismiss()
+                SharedConstants().impactMedium.impactOccurred()
             }, label: {
                 HStack {
                     Image(systemName: ImageNames.saveSettings)

@@ -22,6 +22,7 @@ struct HelpView: View {
 
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
+                    SharedConstants().impactMedium.impactOccurred()
                 }, label: {
                     HStack {
                         Image(systemName: ImageNames.closeModal)

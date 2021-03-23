@@ -29,6 +29,7 @@ struct TopMenuView: View {
         HStack {
             Button(action: {
                 self.showingHelp = true
+                SharedConstants().impactLight.impactOccurred()
             }, label: {
                 Image(systemName: ImageNames.showHelp)
                     .font(.system(size: 25))
@@ -45,6 +46,7 @@ struct TopMenuView: View {
 
             Button(action: {
                 self.showingConfig = true
+                SharedConstants().impactLight.impactOccurred()
             }, label: {
                 Image(systemName: ImageNames.showSettings)
                     .font(.system(size: 25))
