@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  Focused Timer
 //
-//  Created by Felipe Chiarini Pena Morandin on 10/01/21.
+//  Created by Felipe Morandin on 10/01/21.
 //
 
 import SwiftUI
@@ -99,11 +99,6 @@ extension View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ForEach(["en", "pt"], id: \.self) { id in
-                SettingsView()
-                    .environment(\.locale, .init(identifier: id))
-            }
-        }
+        SettingsView()
     }
 }

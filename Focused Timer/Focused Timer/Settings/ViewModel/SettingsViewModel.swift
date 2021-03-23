@@ -2,7 +2,7 @@
 //  SettingsViewModel.swift
 //  Focused Timer
 //
-//  Created by Felipe Chiarini Pena Morandin on 10/01/21.
+//  Created by Felipe Morandin on 10/01/21.
 //
 
 import Foundation

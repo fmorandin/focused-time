@@ -2,7 +2,7 @@
 //  TimerViewModel.swift
 //  Focused Timer
 //
-//  Created by Felipe Chiarini Pena Morandin on 01/10/20.
+//  Created by Felipe Morandin on 01/10/20.
 //
 
 import SwiftUI
@@ -29,7 +29,7 @@ class TimerViewModel: ObservableObject {
     private let isNotification = UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification)
     private var cycleCounter = 0
 
-    // create a sound ID
+    // Create the sound id that will be played when the timer finishes
     private let systemSoundID: SystemSoundID = 1009
 
     // MARK: - Initializer

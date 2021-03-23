@@ -2,7 +2,7 @@
 //  TimerState.swift
 //  Focused Timer
 //
-//  Created by Felipe Chiarini Pena Morandin on 01/10/20.
+//  Created by Felipe Morandin on 01/10/20.
 //
 
 import Foundation

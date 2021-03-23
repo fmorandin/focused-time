@@ -8,9 +8,21 @@
 import Foundation
 
 protocol TimerModelProtocol {
+
+    /// Function that returns an Int that is saved on UserDefaults based on a key
+    /// - Parameter keyName: the key to be searched
     func getTime(for keyName: String) -> Int
+
+    /// Function that handles what is necessary to do when the app is moved to background
+    /// - Parameter remainingTime: the remaining timer for the timer that was running
     func saveMoveToBackgroundTime(remainingTime: Int)
+
+    /// Function that will get the necessary times that were saved
+    /// when the app was moved to background
     func getSavedTimes() -> (Int?, Date?)
+
+    /// Return the number of cycles that user is aiming to complete before the long break
+    /// - Parameter keyName: the key to be searched
     func getNumberOfCycles(for keyName: String) -> String
 }
 
@@ -33,6 +45,10 @@ struct TimerModel: TimerModelProtocol {
         defaults.setValue(Date(), forKey: UserDefaultKeys.timestampAppMovedBackground)
     }
 
+    /// Function that will return the times that are necessary
+    /// in order to recalculate the remaining time when the app is sent back to the foreground
+    /// - Returns: a tuple with the remaining time when the user moved the app to the background and a
+    ///            timestamp that indicates when that action happened
     func getSavedTimes() -> (Int?, Date?) {
         if let remainingTime = defaults.value(forKey: UserDefaultKeys.remainingTime) as? Int,
            let savedTimestamp = defaults.value(forKey: UserDefaultKeys.timestampAppMovedBackground) as? Date {

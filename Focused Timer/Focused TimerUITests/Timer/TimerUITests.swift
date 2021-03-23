@@ -2,7 +2,7 @@
 //  TimerUITests.swift
 //  Focused TimerUITests
 //
-//  Created by Felipe Chiarini Pena Morandin on 28/09/20.
+//  Created by Felipe Morandin on 28/09/20.
 //
 
 import XCTest

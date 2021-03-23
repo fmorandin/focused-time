@@ -2,7 +2,7 @@
 //  TimerView.swift
 //  Focused Timer
 //
-//  Created by Felipe Chiarini Pena Morandin on 28/09/20.
+//  Created by Felipe Morandin on 28/09/20.
 //
 
 import SwiftUI
@@ -14,10 +14,6 @@ struct TimerView: View {
 
     // MARK: - Oberved Objects
     @StateObject var timerViewModel: TimerViewModel
-
-    // MARK: - States
-    @State private var showingConfig = false
-    @State private var showingHelp = false
 
     // MARK: Initializer
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
@@ -33,143 +29,22 @@ struct TimerView: View {
                 Spacer()
 
                 // Top section with the config button
-                HStack {
-
-                    Button(action: {
-                        self.showingHelp = true
-                    }, label: {
-                        Image(systemName: ImageNames.showHelp)
-                            .font(.system(size: 25))
-                            .padding(.trailing)
-                            .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
-
-                    })
-                    .sheet(isPresented: $showingHelp, content: {
-                        HelpView()
-                    })
-                    .accessibility(identifier: Identifiers.btnShowHelp)
-
-                    Spacer()
-
-                    Button(action: {
-                        self.showingConfig = true
-                    }, label: {
-                        Image(systemName: ImageNames.showSettings)
-                            .font(.system(size: 25))
-                            .padding(.trailing)
-                            .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
-                    })
-                    .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
-                        SettingsView()
-                    })
-                    .accessibility(identifier: Identifiers.btnShowSettings)
-                }
-                .padding(.leading, 40)
-                .padding(.trailing, 20)
+                TopMenuView(viewModel: timerViewModel)
 
                 Spacer()
 
                 // Main circles
-                ZStack {
-                    Circle()
-                        .trim(from: 0, to: 1)
-                        .stroke((colorScheme == .light ? Color.black : Color.white).opacity(0.09),
-                                style: StrokeStyle(lineWidth: 15, lineCap: .round))
-                        .frame(width: 300, height: 300)
-
-                    Circle()
-                        .trim(from: 0, to: timerViewModel.timerTo)
-                        .stroke(timerViewModel.accentCircleColor,
-                                style: StrokeStyle(lineWidth: 25, lineCap: .round))
-                        .frame(width: 300, height: 300)
-                        .rotationEffect(.init(degrees: -90))
-                        .shadow(radius: 4)
-                        .accessibility(identifier:
-                                        timerViewModel.timerType == .focused ?
-                                        Identifiers.circleFocused :
-                                        Identifiers.circleRest)
-
-                    VStack {
-                        Text(timerViewModel.countTime)
-                            .font(.system(size: 60))
-                            .fontWeight(.bold)
-                            .accessibility(identifier: Identifiers.lblCounter)
-                            .multilineTextAlignment(.center)
-                    }
-                }
+                CircleView(viewModel: timerViewModel)
 
                 Spacer()
 
                 // Buttons that controls the timer
-                HStack(spacing: 20) {
-                    Button(action: {
-                        if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
-                            timerViewModel.startTimer()
-                        } else {
-                            timerViewModel.pauseTimer()
-                        }
-                    }, label: {
-                        HStack(spacing: 10) {
-                            Image(systemName:
-                                    timerViewModel.timerState == .running ?
-                                    ImageNames.pause :
-                                    ImageNames.play)
-                                .foregroundColor(.white)
-
-                            Text(timerViewModel.timerState == .running ?
-                                    Translation.pauseTimer :
-                                    Translation.playTimer)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.vertical)
-                        .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
-                        .background(timerViewModel.accentCircleColor)
-                        .clipShape(Capsule())
-                        .shadow(radius: 6)
-                    })
-                    .accessibility(identifier: Identifiers.btnStartPauseIdentifier)
-
-                    Button(action: {
-                        timerViewModel.resetUpdateTimer()
-                    }, label: {
-                        HStack(spacing: 10) {
-                            Image(systemName: ImageNames.reset)
-                                .foregroundColor(.white)
-
-                            Text(Translation.resetTimer)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.vertical)
-                        .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
-                        .background(timerViewModel.accentCircleColor)
-                        .clipShape(Capsule())
-                        .shadow(radius: 6)
-                    })
-                    .accessibility(identifier: Identifiers.btnResetIdentifier)
-                }
-                .padding(.bottom, 20)
+                ButtonsView(viewModel: timerViewModel)
 
                 Divider()
 
                 // Flows counter
-                HStack {
-                    Spacer()
-
-                    Text(Translation.cycleCounter)
-                        .font(.system(size: 20))
-                        .fontWeight(.light)
-                        .accessibility(identifier: Identifiers.lblNumberOfCyclesCompleted)
-
-                    Spacer()
-
-                    Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
-                        .font(.system(size: 20))
-                        .fontWeight(.light)
-                        .accessibility(identifier: Identifiers.lblCycleCounter)
-
-                    Spacer()
-                }
-                .padding(.top, 20)
+                FlowCounterView(viewModel: timerViewModel)
 
                 Spacer()
             }
@@ -187,13 +62,6 @@ struct TimerView: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            Group {
-                ForEach(["en", "pt"], id: \.self) { id in
-                    TimerView()
-                        .environment(\.locale, .init(identifier: id))
-                }
-            }
-        }
+        TimerView()
     }
 }
