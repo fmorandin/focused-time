@@ -12,7 +12,7 @@ struct ButtonsView: View {
     // MARK: - Environment
     @Environment(\.colorScheme) var colorScheme
 
-    // MARK: - Oberved Objects
+    // MARK: - Observed Objects
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
@@ -29,6 +29,7 @@ struct ButtonsView: View {
                 } else {
                     timerViewModel.pauseTimer()
                 }
+                SharedConstants().impactMedium.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
                     Image(systemName:
@@ -52,6 +53,7 @@ struct ButtonsView: View {
 
             Button(action: {
                 timerViewModel.resetUpdateTimer()
+                SharedConstants().impactMedium.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
                     Image(systemName: ImageNames.reset)

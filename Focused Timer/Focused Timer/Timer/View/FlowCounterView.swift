@@ -12,7 +12,7 @@ struct FlowCounterView: View {
     // MARK: - Environment
     @Environment(\.colorScheme) var colorScheme
 
-    // MARK: - Oberved Objects
+    // MARK: - Observed Objects
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer

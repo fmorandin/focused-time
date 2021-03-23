@@ -16,7 +16,7 @@ struct TopMenuView: View {
     @State private var showingConfig = false
     @State private var showingHelp = false
 
-    // MARK: - Oberved Objects
+    // MARK: - Observed Objects
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
