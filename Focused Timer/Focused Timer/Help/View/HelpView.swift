@@ -48,11 +48,6 @@ struct HelpView: View {
 
 struct HelpView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            ForEach(["en", "pt"], id: \.self) { id in
-                HelpView()
-                    .environment(\.locale, .init(identifier: id))
-            }
-        }
+        HelpView()
     }
 }

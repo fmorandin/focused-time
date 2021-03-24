@@ -20,6 +20,10 @@
 "resetTimer" = "Reiniciar ciclo";
 "cycleCounter" = "Número de ciclos concluídos";
 
+"focusName" = "Foco";
+"restName" = "Pausa curta";
+"longBreakName" = "Pausa longa";
+
 // MARK: - Notification
 
 "notificationTitle" = "Timer concluído";

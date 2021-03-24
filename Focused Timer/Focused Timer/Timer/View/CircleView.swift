@@ -43,7 +43,7 @@ struct CircleView: View {
 
             VStack {
 
-                Text("\(timerViewModel.timerType.rawValue)")
+                Text(TimerType.getCorrectTranslation(timerViewModel.timerType)())
                     .font(.system(size: 25))
                     .fontWeight(.light)
                     .accessibility(identifier: Identifiers.lblTimerType)

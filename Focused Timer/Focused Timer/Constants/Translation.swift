@@ -22,6 +22,10 @@ enum Translation {
     static let resetTimer = LocalizedStringKey("resetTimer")
     static let cycleCounter = LocalizedStringKey("cycleCounter")
 
+    static let focusName = LocalizedStringKey("focusName")
+    static let restName = LocalizedStringKey("restName")
+    static let longBreakName = LocalizedStringKey("longBreakName")
+
     // MARK: - Notification
 
     static let notificationTitle = LocalizedStringKey("notificationTitle")
