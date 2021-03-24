@@ -42,6 +42,12 @@ struct CircleView: View {
                                 Identifiers.circleRest)
 
             VStack {
+
+                Text("\(timerViewModel.timerType.rawValue)")
+                    .font(.system(size: 25))
+                    .fontWeight(.light)
+                    .accessibility(identifier: Identifiers.lblTimerType)
+
                 Text(timerViewModel.countTime)
                     .font(.system(size: 60))
                     .fontWeight(.bold)

@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum TimerType {
-    case focused
-    case rest
-    case longBreak
+enum TimerType: String {
+    case focused = "Focus"
+    case rest = "Rest"
+    case longBreak = "Long Break"
 }

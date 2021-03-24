@@ -14,6 +14,9 @@ class TimerUITests: BaseFeature {
         let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
+        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Focus")
+
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
@@ -31,6 +34,9 @@ class TimerUITests: BaseFeature {
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
 
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
+
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:55")
         } else {
@@ -42,6 +48,9 @@ class TimerUITests: BaseFeature {
         // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
+
+        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
@@ -60,6 +69,9 @@ class TimerUITests: BaseFeature {
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
 
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
+
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:55")
         } else {
@@ -76,6 +88,9 @@ class TimerUITests: BaseFeature {
 
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Play")
+
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
 
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:55")
@@ -94,6 +109,9 @@ class TimerUITests: BaseFeature {
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Pause")
 
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
+
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:50")
         } else {
@@ -105,6 +123,9 @@ class TimerUITests: BaseFeature {
         // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
+
+        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
@@ -123,6 +144,9 @@ class TimerUITests: BaseFeature {
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
 
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
+
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:55")
         } else {
@@ -139,6 +163,9 @@ class TimerUITests: BaseFeature {
 
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Play")
+
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
 
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:55")
@@ -159,6 +186,9 @@ class TimerUITests: BaseFeature {
             // THEN the button label should be changed to "Play"
             XCTAssertEqual(playButton.label, "Play")
 
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
+
             // AND the counter should be resetted
             XCTAssertEqual(lblCounter.label, "01:00")
         } else {
@@ -170,6 +200,9 @@ class TimerUITests: BaseFeature {
         // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
+
+        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
@@ -195,6 +228,9 @@ class TimerUITests: BaseFeature {
             let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonRest.label, "Play")
 
+            let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeRest.label, "Rest")
+
             let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
             XCTAssertEqual(lblCounterRest.label, "01:00")
         } else {
@@ -216,6 +252,9 @@ class TimerUITests: BaseFeature {
             let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonRest.label, "Play")
 
+            let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeRest.label, "Focus")
+
             let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
             XCTAssertEqual(lblCounterRest.label, "01:00")
 
@@ -231,6 +270,9 @@ class TimerUITests: BaseFeature {
         let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
+        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Focus")
+
         let lblCounter = app.staticTexts[Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
@@ -245,6 +287,9 @@ class TimerUITests: BaseFeature {
 
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
+
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
 
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:55")
@@ -266,6 +311,9 @@ class TimerUITests: BaseFeature {
 
             // THEN the button label should be changed to "Pause"
             XCTAssertEqual(playButton.label, "Pause")
+
+            // AND the timer type is still Focus
+            XCTAssertEqual(lblTimerType.label, "Focus")
 
             // AND the counter should be updated
             XCTAssertEqual(lblCounter.label, "00:45")
