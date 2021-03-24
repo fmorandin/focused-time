@@ -51,9 +51,9 @@ class SettingsViewModelTests: XCTestCase {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
 
         // GIVEN I have not set any total time yet
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 1)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.restTime), 1)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 1)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.restTime), 5)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 30)
 
         // WHEN I call the function to save the new value
         settingsViewModel.saveAndUpdateTimes(focusedIime: 20, restTime: 5, longBreak: 30)
@@ -68,7 +68,7 @@ class SettingsViewModelTests: XCTestCase {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
 
         // GIVEN I have not set the number of cycles yet
-        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal), 0)
+        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal), 4)
 
         // WHEN I call the function to save the new value
         settingsViewModel.saveNumberOfCycles(5)

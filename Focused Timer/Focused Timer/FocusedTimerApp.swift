@@ -55,6 +55,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         if AppDelegate.isUITestingEnabled {
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
             UserDefaults.standard.set("4", forKey: UserDefaultKeys.cycleTotal)
+            UserDefaults.standard.set(60, forKey: UserDefaultKeys.focusedTime)
+            UserDefaults.standard.set(60, forKey: UserDefaultKeys.restTime)
+            UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreak)
         }
     }
 }

@@ -47,7 +47,21 @@ struct SettingsModel: SettingsModelProtocol {
 
     func getTime(for keyName: String) -> Int {
         let totalTime = defaults.integer(forKey: keyName)
-        return totalTime != 0 ? totalTime : 1
+
+        if totalTime != 0 {
+            return totalTime
+        } else {
+            switch keyName {
+            case UserDefaultKeys.focusedTime:
+                return 1500
+            case UserDefaultKeys.restTime:
+                return 300
+            case UserDefaultKeys.longBreak:
+                return 1800
+            default:
+                return 0
+            }
+        }
     }
 
     func saveCycleTotal(cycleNumber: Int, for keyName: String) {
@@ -55,6 +69,6 @@ struct SettingsModel: SettingsModelProtocol {
     }
 
     func getCycleTotal(for keyName: String) -> String {
-        defaults.string(forKey: keyName) ?? "0"
+        defaults.string(forKey: keyName) ?? "4"
     }
 }
