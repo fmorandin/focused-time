@@ -47,6 +47,7 @@ struct HelpView: View {
                                 .fontWeight(.bold)
                                 .font(.title3)
                                 .padding(.leading)
+                                .accessibility(identifier: Identifiers.lblTechniqueExplanationTitle)
                             Spacer()
                         }
 
@@ -54,6 +55,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .padding([.leading, .trailing, .bottom])
+                            .accessibility(identifier: Identifiers.lblTechniqueExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -62,6 +64,7 @@ struct HelpView: View {
                                 .fontWeight(.bold)
                                 .font(.title3)
                                 .padding(.leading)
+                                .accessibility(identifier: Identifiers.lblFocusExplanationTitle)
 
                             Spacer()
                         }
@@ -70,6 +73,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .padding([.leading, .trailing, .bottom])
+                            .accessibility(identifier: Identifiers.lblFocusExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -78,6 +82,7 @@ struct HelpView: View {
                                 .fontWeight(.bold)
                                 .font(.title3)
                                 .padding(.leading)
+                                .accessibility(identifier: Identifiers.lblRestExplanationTitle)
 
                             Spacer()
                         }
@@ -86,6 +91,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .padding([.leading, .trailing, .bottom])
+                            .accessibility(identifier: Identifiers.lblRestExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -95,6 +101,7 @@ struct HelpView: View {
                                 .fontWeight(.bold)
                                 .font(.title3)
                                 .padding(.leading)
+                                .accessibility(identifier: Identifiers.lblLongBreakExplanationTitle)
 
                             Spacer()
                         }
@@ -103,6 +110,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .padding([.leading, .trailing, .bottom])
+                            .accessibility(identifier: Identifiers.lblLongBreakExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -112,6 +120,7 @@ struct HelpView: View {
                                 .fontWeight(.bold)
                                 .font(.title3)
                                 .padding(.leading)
+                                .accessibility(identifier: Identifiers.lblNumberOfCyclesExplanationTitle)
 
                             Spacer()
                         }
@@ -120,6 +129,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .padding([.leading, .trailing, .bottom])
+                            .accessibility(identifier: Identifiers.lblNumberOfCyclesExplanation)
                     }
                 }
             }

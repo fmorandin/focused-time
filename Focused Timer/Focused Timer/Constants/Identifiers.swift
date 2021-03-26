@@ -43,6 +43,24 @@ enum Identifiers {
     // Counter section
     static let circleFocused = "circleFocused"
     static let circleRest = "circleRest"
+
+    // MARK: - Help Screen
+
+    // Labels
+    static let lblTechniqueExplanationTitle = "lblTechniqueExplanationTitle"
+    static let lblTechniqueExplanation = "lblTechniqueExplanation"
+
+    static let lblFocusExplanationTitle = "lblFocusExplanationTitle"
+    static let lblFocusExplanation = "lblFocusExplanation"
+
+    static let lblRestExplanationTitle = "lblRestExplanationTitle"
+    static let lblRestExplanation = "lblRestExplanation"
+
+    static let lblLongBreakExplanationTitle = "lblLongBreakExplanationTitle"
+    static let lblLongBreakExplanation = "lblLongBreakExplanation"
+
+    static let lblNumberOfCyclesExplanationTitle = "lblNumberOfCyclesExplanationTitle"
+    static let lblNumberOfCyclesExplanation = "lblNumberOfCyclesExplanation"
 }
 
 enum UserDefaultKeys {
