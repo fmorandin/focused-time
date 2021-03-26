@@ -28,3 +28,20 @@
 
 "notificationTitle" = "Timer ended";
 "notificationBody" = "Your timer has ended!";
+
+// MARK: - Help Screen
+
+"techniqueExplanationTitle" = "The technique";
+"techniqueExplanation" = "The technique consists of having set times for total focus on the activity, a short rest and a long break - after a few cycles of focus and short rest.";
+
+"focusExplanationTitle" = "Focus"; 
+"focusExplanation" = "During the focus - the orange color - the idea is that all concentration is directed to the activity to be completed.";
+
+"restExplanationTitle" = "Short Break";
+"restExplanantion" = "The short break - the blue color - happens just after the time of focus and, during that time, nothing related to the activity should be done.";
+
+"longBreakExplanationTitle" = "Long Break";
+"longBreakExplanation" = "The long break - the green color - is a longer period of rest after a few cycles of focus and rest.";
+
+"numberOfCyclesExplanationTitle" = "Number of Cycles";
+"numberOfCyclesExplanation" = "The number of focus and rest cycles that the user must to be completed before the long break.";

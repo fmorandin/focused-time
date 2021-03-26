@@ -229,7 +229,7 @@ class TimerUITests: BaseFeature {
             XCTAssertEqual(playButtonRest.label, "Play")
 
             let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeRest.label, "Rest")
+            XCTAssertEqual(lblTimerTypeRest.label, "Short Break")
 
             let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
             XCTAssertEqual(lblCounterRest.label, "01:00")

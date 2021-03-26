@@ -28,3 +28,20 @@
 
 "notificationTitle" = "Timer concluído";
 "notificationBody" = "O timer acabou!";
+
+// MARK: - Help Screen
+
+"techniqueExplanationTitle" = "A técnica";
+"techniqueExplanation" = "A técnica consiste em ter tempos definidos para foco total na atividade, um descanso curto e uma pausa longa - após alguns ciclos de foco e descanso curto.";
+
+"focusExplanationTitle" = "Foco";
+"focusExplanation" = "Durante o foco - cor laranja - a ideia é que toda concentração seja direcionada para a atividade a ser concluída.";
+
+"restExplanationTitle" = "Pausa Curta";
+"restExplanantion" = "A pausa curta - cor azul - acontece logo após ao tempo de foco e, durante esse tempo, nada relacionado à atividade deve ser feito.";
+
+"longBreakExplanationTitle" = "Pausa Longa";
+"longBreakExplanation" = "A pausa longa - cor verde - é um período maior de descanso depois de alguns ciclos de foco e descanso.";
+
+"numberOfCyclesExplanationTitle" = "Número de Ciclos";
+"numberOfCyclesExplanation" = "O número de ciclos de foco e descanso que deve ser cumprido antes da pausa longa.";

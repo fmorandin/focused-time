@@ -30,4 +30,21 @@ enum Translation {
 
     static let notificationTitle = LocalizedStringKey("notificationTitle")
     static let notificationBody = LocalizedStringKey("notificationBody")
+
+    // MARK: - Help Screen
+
+    static let techniqueExplanationTitle = LocalizedStringKey("techniqueExplanationTitle")
+    static let techniqueExplanation = LocalizedStringKey("techniqueExplanation")
+
+    static let focusExplanationTitle = LocalizedStringKey("focusExplanationTitle")
+    static let focusExplanation = LocalizedStringKey("focusExplanation")
+
+    static let restExplanationTitle = LocalizedStringKey("restExplanationTitle")
+    static let restExplanation = LocalizedStringKey("restExplanantion")
+
+    static let longBreakExplanationTitle = LocalizedStringKey("longBreakExplanationTitle")
+    static let longBreakExplanation = LocalizedStringKey("longBreakExplanation")
+
+    static let numberOfCyclesExplanationTitle = LocalizedStringKey("numberOfCyclesExplanationTitle")
+    static let numberOfCyclesExplanation = LocalizedStringKey("numberOfCyclesExplanation")
 }
