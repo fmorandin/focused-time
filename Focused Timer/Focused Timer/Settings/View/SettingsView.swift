@@ -22,8 +22,6 @@ struct SettingsView: View {
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
-
-        UITableView.appearance().backgroundColor = .clear
     }
 
     // MARK: - Body
@@ -52,9 +50,7 @@ struct SettingsView: View {
             .padding(.bottom, 10)
 
             // The list that contains all the available settings to be defined in the app
-            Form {
-                FormView(viewModel: settingsViewModel)
-            }
+            FormView(viewModel: settingsViewModel)
 
             Button(action: {
                 let inputFocusedTime = Int(settingsViewModel.focusedTime) ?? 0
@@ -62,12 +58,17 @@ struct SettingsView: View {
                 let inputLongBreak = Int(settingsViewModel.longBreak) ?? 0
                 let inputNumberOfCycles = Int(settingsViewModel.cycleTotal) ?? 0
 
+                let screenOn = settingsViewModel.screenOn
+                let autoStart = settingsViewModel.autoStart
+
                 settingsViewModel.saveAndUpdateTimes(
                     focusedIime: inputFocusedTime,
                     restTime: inputRestTime,
                     longBreak: inputLongBreak
                 )
                 settingsViewModel.saveNumberOfCycles(inputNumberOfCycles)
+
+                settingsViewModel.saveToggles(screenOn: screenOn, autoStart: autoStart)
 
                 self.presentationMode.wrappedValue.dismiss()
                 SharedConstants().impactMedium.impactOccurred()

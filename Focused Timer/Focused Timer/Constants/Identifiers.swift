@@ -20,11 +20,17 @@ enum Identifiers {
     static let txtCycleTotal = "txtCycleTotal"
     static let txtLongBreak = "txtLongBreak"
 
+    // Toggles
+    static let tgScreenOn = "tgScreenOn"
+    static let tgAutoStart = "tgAutoStart"
+
     // Labels
     static let lblFocusDuration = "lblFocusDuration"
     static let lblRestDuration = "lblRestDuration"
     static let lblCycleTotal = "lblCycleTotal"
     static let lblLongBreak = "lblLongBreak"
+    static let lblScreenOn = "lblScreenOn"
+    static let lblAutoStart = "lblAutoStart"
 
     // MARK: - Timer Screen
 
@@ -71,4 +77,6 @@ enum UserDefaultKeys {
     static let isNotification = "isNotification"
     static let cycleTotal = "cycleTotal"
     static let longBreak = "longBreak"
+    static let screenOn = "screenOn"
+    static let autoStart = "autoStart"
 }

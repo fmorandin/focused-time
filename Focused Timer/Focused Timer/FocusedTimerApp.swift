@@ -58,6 +58,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.focusedTime)
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.restTime)
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreak)
+
+            UserDefaults.standard.set(false, forKey: UserDefaultKeys.screenOn)
+            UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStart)
         }
     }
 }

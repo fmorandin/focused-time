@@ -13,84 +13,105 @@ struct FormView: View {
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
+
+        UITableView.appearance().backgroundColor = .clear
     }
 
     var body: some View {
-        VStack {
-            // Focused time
-            HStack {
-                Text(Translation.settingsFocusDuration)
-                    .accessibility(identifier: Identifiers.lblFocusDuration)
+        Form {
+            Section(header: Text(Translation.settingsSectionTimersName)) {
+                // Focused time
+                HStack {
+                    Text(Translation.settingsFocusDuration)
+                        .accessibility(identifier: Identifiers.lblFocusDuration)
 
-                Spacer()
+                    Spacer()
 
-                TextField("", text: $settingsViewModel.focusedTime)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.numberPad)
-                    .frame(width: 50)
-                    .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtFocusedTime)
+                    TextField("", text: $settingsViewModel.focusedTime)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
+                        .frame(width: 50)
+                        .multilineTextAlignment(.center)
+                        .accessibility(identifier: Identifiers.txtFocusedTime)
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+
+                // Resting time
+                HStack {
+                    Text(Translation.settingsRestDuration)
+                        .accessibility(identifier: Identifiers.lblRestDuration)
+
+                    Spacer()
+
+                    TextField("", text: $settingsViewModel.restTime)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
+                        .frame(width: 50)
+                        .multilineTextAlignment(.center)
+                        .accessibility(identifier: Identifiers.txtRestTime)
+                }
+                .padding(.bottom, 10)
+                .padding(.top, 10)
+
+                // Long Break
+                HStack {
+                    Text(Translation.settingsLongBreak)
+                        .accessibility(identifier: Identifiers.lblLongBreak)
+
+                    Spacer()
+
+                    TextField("", text: $settingsViewModel.longBreak)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
+                        .frame(width: 50)
+                        .multilineTextAlignment(.center)
+                        .accessibility(identifier: Identifiers.txtLongBreak)
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+
+                // Number of cycles
+                HStack {
+                    Text(Translation.settingsCyclesTotal)
+                        .accessibility(identifier: Identifiers.lblCycleTotal)
+
+                    Spacer()
+
+                    TextField("", text: $settingsViewModel.cycleTotal)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
+                        .frame(width: 50)
+                        .multilineTextAlignment(.center)
+                        .accessibility(identifier: Identifiers.txtCycleTotal)
+                }
+                .padding(.top, 10)
             }
-            .padding(.top, 10)
-            .padding(.bottom, 10)
 
-            Divider()
+            Section(header: Text(Translation.settingsSectionAppName)) {
+                HStack {
+                    Text(Translation.settingsScreenOn)
+                        .accessibility(identifier: Identifiers.lblScreenOn)
 
-            // Resting time
-            HStack {
-                Text(Translation.settingsRestDuration)
-                    .accessibility(identifier: Identifiers.lblRestDuration)
+                    Spacer()
 
-                Spacer()
+                    Toggle("", isOn: $settingsViewModel.screenOn)
+                        .accessibility(identifier: Identifiers.tgScreenOn)
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 10)
 
-                TextField("", text: $settingsViewModel.restTime)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.numberPad)
-                    .frame(width: 50)
-                    .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtRestTime)
+                HStack {
+                    Text(Translation.settingsAutoStart)
+                        .accessibility(identifier: Identifiers.lblAutoStart)
+
+                    Spacer()
+
+                    Toggle("", isOn: $settingsViewModel.autoStart)
+                        .accessibility(identifier: Identifiers.tgAutoStart)
+                }
+                .padding(.top, 10)
             }
-            .padding(.bottom, 10)
-            .padding(.top, 10)
-
-            Divider()
-
-            // Long Break
-            HStack {
-                Text(Translation.settingsLongBreak)
-                    .accessibility(identifier: Identifiers.lblLongBreak)
-
-                Spacer()
-
-                TextField("", text: $settingsViewModel.longBreak)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.numberPad)
-                    .frame(width: 50)
-                    .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtLongBreak)
-            }
-            .padding(.top, 10)
-            .padding(.bottom, 10)
-
-            Divider()
-
-            // Number of cycles
-            HStack {
-                Text(Translation.settingsCyclesTotal)
-                    .accessibility(identifier: Identifiers.lblCycleTotal)
-
-                Spacer()
-
-                TextField("", text: $settingsViewModel.cycleTotal)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .keyboardType(.numberPad)
-                    .frame(width: 50)
-                    .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtCycleTotal)
-            }
-            .padding(.top, 10)
-            .padding(.bottom, 10)
-
         }
     }
 }

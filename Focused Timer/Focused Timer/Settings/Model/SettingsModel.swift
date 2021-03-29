@@ -30,6 +30,16 @@ protocol SettingsModelProtocol {
     /// Function that gets the value from the UserDefautls based on a given key
     /// - Parameter keyName: the key to be retrieved
     func getCycleTotal(for keyName: String) -> String
+
+    /// Function that saves the value for a toggle
+    /// - Parameters:
+    ///   - value: the value for the toggle
+    ///   - keyName: the key for the saved value
+    func saveToggle(value: Bool, for keyName: String)
+
+    /// Function to get the value for a toggle that is saved
+    /// - Parameter keyName: the key for the saved value
+    func getToggle(for keyName: String) -> Bool
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -70,5 +80,13 @@ struct SettingsModel: SettingsModelProtocol {
 
     func getCycleTotal(for keyName: String) -> String {
         defaults.string(forKey: keyName) ?? "4"
+    }
+
+    func saveToggle(value: Bool, for keyName: String) {
+        defaults.set(value, forKey: keyName)
+    }
+
+    func getToggle(for keyName: String) -> Bool {
+        defaults.bool(forKey: keyName)
     }
 }

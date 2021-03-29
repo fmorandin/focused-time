@@ -31,6 +31,12 @@ class SettingsUITests: BaseFeature {
         let numberOfCyclesTextField = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
         XCTAssertEqual(numberOfCyclesTextField, "4")
 
+        let screenOnToggle = app.switches[Identifiers.tgScreenOn]
+        XCTAssertFalse(screenOnToggle.isSelected)
+
+        let autoStartToggle = app.switches[Identifiers.tgAutoStart]
+        XCTAssertFalse(autoStartToggle.isSelected)
+
         // WHEN I close the modal
         let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -47,6 +53,12 @@ class SettingsUITests: BaseFeature {
 
         let numberOfCyclesTextFieldUpdated = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "4")
+
+        let screenOnToggleUpdated = app.switches[Identifiers.tgScreenOn]
+        XCTAssertFalse(screenOnToggleUpdated.isSelected)
+
+        let autoStartToggleUpdated = app.switches[Identifiers.tgAutoStart]
+        XCTAssertFalse(autoStartToggleUpdated.isSelected)
     }
 
     func test_UpdateFocusedTimerValue() {
@@ -143,5 +155,31 @@ class SettingsUITests: BaseFeature {
         // THEN the value should be the one that was updated
         let numberOfCyclesTextFieldUpdated = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "20")
+    }
+
+    // swiftlint:disable force_cast
+    func test_UpdateToggles() {
+        // GIVEN I open the modal
+        let showSettingsButton = app.buttons[Identifiers.btnShowSettings]
+        showSettingsButton.tap()
+
+        // WHEN I update the toggles
+        let screenOnToggle = app.switches[Identifiers.tgScreenOn]
+        XCTAssertFalse(screenOnToggle.isSelected)
+        screenOnToggle.tap()
+
+        let autoStartToggle = app.switches[Identifiers.tgAutoStart]
+        XCTAssertFalse(autoStartToggle.isSelected)
+        autoStartToggle.tap()
+
+        // AND I click to save
+        let saveButton = app.buttons[Identifiers.btnSaveSettings]
+        saveButton.tap()
+
+        // AND I open the modal again
+        showSettingsButton.tap()
+
+        XCTAssertEqual(screenOnToggle.value as! String, "1")
+        XCTAssertEqual(autoStartToggle.value as! String, "1")
     }
 }

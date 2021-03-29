@@ -15,6 +15,12 @@ enum Translation {
     static let settingsCyclesTotal = LocalizedStringKey("settingsCycleTotal")
     static let settingsLongBreak = LocalizedStringKey("settingsLongBreak")
 
+    static let settingsSectionTimersName = LocalizedStringKey("settingsSectionTimersName")
+    static let settingsSectionAppName = LocalizedStringKey("settingsSectionAppName")
+
+    static let settingsScreenOn = LocalizedStringKey("settingsScreenOn")
+    static let settingsAutoStart = LocalizedStringKey("settingsAutoStart")
+
     // MARK: - Timer Screen
 
     static let playTimer = LocalizedStringKey("playTimer")
