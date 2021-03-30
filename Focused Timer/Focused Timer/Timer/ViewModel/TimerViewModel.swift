@@ -28,6 +28,7 @@ class TimerViewModel: ObservableObject {
     private let localNotificationManager = LocalNotificationManager()
     private let isNotification = UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification)
     private var cycleCounter = 0
+    private var autoStart: Bool
 
     // Create the sound id that will be played when the timer finishes
     private let systemSoundID: SystemSoundID = 1009
@@ -53,6 +54,8 @@ class TimerViewModel: ObservableObject {
         self.numberOfCompletedCycles = 0
 
         self.accentCircleColor = .orange
+
+        self.autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStart)
     }
 
     // MARK: - Public Methods
@@ -65,6 +68,10 @@ class TimerViewModel: ObservableObject {
                 self.updateTimerRunning()
             } else {
                 self.changeTimerMode()
+
+                if self.autoStart {
+                    self.startTimer()
+                }
 
                 timer.invalidate()
             }
@@ -91,6 +98,9 @@ class TimerViewModel: ObservableObject {
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)) ?? 0
         numberOfCompletedCycles = 0
         accentCircleColor = .orange
+
+        // TODO: put this in a propper place
+        self.autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStart)
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background

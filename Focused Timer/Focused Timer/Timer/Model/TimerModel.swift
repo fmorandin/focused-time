@@ -24,6 +24,10 @@ protocol TimerModelProtocol {
     /// Return the number of cycles that user is aiming to complete before the long break
     /// - Parameter keyName: the key to be searched
     func getNumberOfCycles(for keyName: String) -> String
+
+    /// Function that gets the saved value for a toggle
+    /// - Parameter keyName: the key to be searched
+    func getToggle(for keyName: String) -> Bool
 }
 
 struct TimerModel: TimerModelProtocol {
@@ -74,5 +78,9 @@ struct TimerModel: TimerModelProtocol {
 
     func getNumberOfCycles(for keyName: String) -> String {
         defaults.string(forKey: keyName) ?? "4"
+    }
+
+    func getToggle(for keyName: String) -> Bool {
+        defaults.bool(forKey: keyName)
     }
 }
