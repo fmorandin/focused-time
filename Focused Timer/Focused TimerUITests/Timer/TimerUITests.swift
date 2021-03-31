@@ -322,4 +322,70 @@ class TimerUITests: BaseFeature {
         }
     }
 
+    func test_TestAutoStart() {
+        // GIVEN I open the modal
+        let showSettingsButton = app.buttons[Identifiers.btnShowSettings]
+        showSettingsButton.tap()
+
+        // WHEN I update the toggles
+        let autoStartToggle = app.switches[Identifiers.tgAutoStart]
+        XCTAssertFalse(autoStartToggle.isSelected)
+        autoStartToggle.tap()
+
+        // AND I click to save
+        let saveButton = app.buttons[Identifiers.btnSaveSettings]
+        saveButton.tap()
+
+        // THEN the modal should be closed
+        // AND the timer should be on its initial state
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        XCTAssertEqual(playButton.label, "Play")
+
+        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Focus")
+
+        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        XCTAssertEqual(lblCounter.label, "01:00")
+
+        // WHEN I start the timer
+        playButton.tap()
+
+        // AND I wait for the focus timer to finish
+        let expectedFocus = expectation(description: "Focus Timer")
+        let resultFocus = XCTWaiter.wait(for: [expectedFocus], timeout: 61.0)
+        if resultFocus == XCTWaiter.Result.timedOut {
+            // THEN the mode will be changed to rest
+            let circleRest = app.otherElements[Identifiers.circleRest]
+            XCTAssertTrue(circleRest.exists)
+
+            let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonRest.label, "Play")
+
+            let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeRest.label, "Short Break")
+
+            let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterRest.label, "01:00")
+        }
+
+        // WHEN I wait for the rest timer to finish
+        let expectedRest = expectation(description: "Focus Timer")
+        let resultRest = XCTWaiter.wait(for: [expectedRest], timeout: 61.0)
+        if resultRest == XCTWaiter.Result.timedOut {
+            // resultRest the mode will be changed to rest
+            let circleFocused = app.otherElements[Identifiers.circleFocused]
+            XCTAssertTrue(circleFocused.exists)
+
+            let playButtonFocus = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonFocus.label, "Play")
+
+            let lblTimerTypeFocus = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeFocus.label, "Focus")
+
+            let lblCounterFocus = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterFocus.label, "01:00")
+        }
+
+    }
+
 }

@@ -9,6 +9,16 @@ import Foundation
 @testable import Focused_Timer
 
 struct TimerModelMock: TimerModelProtocol {
+    func getToggle(for keyName: String) -> Bool {
+        switch keyName {
+        case "screenOn":
+            return false
+        case "autoStart":
+            return false
+        default:
+            return false
+        }
+    }
 
     func getNumberOfCycles(for keyName: String) -> String {
         "2"
