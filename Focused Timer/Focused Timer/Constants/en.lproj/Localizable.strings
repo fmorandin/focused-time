@@ -16,7 +16,6 @@
 "settingsSectionTimersName" = "Configurations for the timers";
 "settingsSectionAppName" = "Configurations for the app";
 
-"settingsScreenOn" = "Keep screen on";
 "settingsAutoStart" = "Auto start timer";
 
 // MARK: - Timer Screen

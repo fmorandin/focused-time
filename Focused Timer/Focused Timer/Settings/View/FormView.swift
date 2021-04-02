@@ -90,18 +90,6 @@ struct FormView: View {
 
             Section(header: Text(Translation.settingsSectionAppName)) {
                 HStack {
-                    Text(Translation.settingsScreenOn)
-                        .accessibility(identifier: Identifiers.lblScreenOn)
-
-                    Spacer()
-
-                    Toggle("", isOn: $settingsViewModel.screenOn)
-                        .accessibility(identifier: Identifiers.tgScreenOn)
-                }
-                .padding(.top, 10)
-                .padding(.bottom, 10)
-
-                HStack {
                     Text(Translation.settingsAutoStart)
                         .accessibility(identifier: Identifiers.lblAutoStart)
 

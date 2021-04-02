@@ -16,18 +16,7 @@ class SettingsViewModelTests: XCTestCase {
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.cycleTotal)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.longBreak)
 
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.screenOn)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.autoStart)
-    }
-
-    override class func tearDown() {
-//        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.focusedTime)
-//        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.restTime)
-//        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.cycleTotal)
-//        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.longBreak)
-//
-//        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.screenOn)
-//        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.autoStart)
     }
 
     func test_GetFocusedTime() throws {
@@ -94,7 +83,6 @@ class SettingsViewModelTests: XCTestCase {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
         // THEN the number of cycles will be returned correctly
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.screenOn), true)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStart), false)
     }
 
@@ -102,14 +90,12 @@ class SettingsViewModelTests: XCTestCase {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
 
         // GIVEN I have not set any toggle
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.screenOn), false)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStart), false)
 
         // WHEN I call the function to save the new value
-        settingsViewModel.saveToggles(screenOn: true, autoStart: true)
+        settingsViewModel.saveToggles(autoStart: true)
 
         // THEN the toggle should be updated
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.screenOn), true)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStart), true)
     }
 

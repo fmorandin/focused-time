@@ -31,9 +31,6 @@ class SettingsUITests: BaseFeature {
         let numberOfCyclesTextField = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
         XCTAssertEqual(numberOfCyclesTextField, "4")
 
-        let screenOnToggle = app.switches[Identifiers.tgScreenOn]
-        XCTAssertFalse(screenOnToggle.isSelected)
-
         let autoStartToggle = app.switches[Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
 
@@ -53,9 +50,6 @@ class SettingsUITests: BaseFeature {
 
         let numberOfCyclesTextFieldUpdated = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "4")
-
-        let screenOnToggleUpdated = app.switches[Identifiers.tgScreenOn]
-        XCTAssertFalse(screenOnToggleUpdated.isSelected)
 
         let autoStartToggleUpdated = app.switches[Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggleUpdated.isSelected)
@@ -164,10 +158,6 @@ class SettingsUITests: BaseFeature {
         showSettingsButton.tap()
 
         // WHEN I update the toggles
-        let screenOnToggle = app.switches[Identifiers.tgScreenOn]
-        XCTAssertFalse(screenOnToggle.isSelected)
-        screenOnToggle.tap()
-
         let autoStartToggle = app.switches[Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
         autoStartToggle.tap()
@@ -179,7 +169,6 @@ class SettingsUITests: BaseFeature {
         // AND I open the modal again
         showSettingsButton.tap()
 
-        XCTAssertEqual(screenOnToggle.value as! String, "1")
         XCTAssertEqual(autoStartToggle.value as! String, "1")
     }
 }

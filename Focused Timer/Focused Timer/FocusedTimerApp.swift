@@ -25,10 +25,14 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions:
                         [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+
         setStateForUITesting()
+
         requestLocalNotificationPermission()
+
         UNUserNotificationCenter.current().delegate = self
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
+
         return true
     }
 
@@ -59,7 +63,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.restTime)
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreak)
 
-            UserDefaults.standard.set(false, forKey: UserDefaultKeys.screenOn)
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStart)
         }
     }

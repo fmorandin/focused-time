@@ -18,7 +18,6 @@ enum Translation {
     static let settingsSectionTimersName = LocalizedStringKey("settingsSectionTimersName")
     static let settingsSectionAppName = LocalizedStringKey("settingsSectionAppName")
 
-    static let settingsScreenOn = LocalizedStringKey("settingsScreenOn")
     static let settingsAutoStart = LocalizedStringKey("settingsAutoStart")
 
     // MARK: - Timer Screen

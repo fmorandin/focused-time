@@ -58,7 +58,6 @@ struct SettingsView: View {
                 let inputLongBreak = Int(settingsViewModel.longBreak) ?? 0
                 let inputNumberOfCycles = Int(settingsViewModel.cycleTotal) ?? 0
 
-                let screenOn = settingsViewModel.screenOn
                 let autoStart = settingsViewModel.autoStart
 
                 settingsViewModel.saveAndUpdateTimes(
@@ -68,7 +67,7 @@ struct SettingsView: View {
                 )
                 settingsViewModel.saveNumberOfCycles(inputNumberOfCycles)
 
-                settingsViewModel.saveToggles(screenOn: screenOn, autoStart: autoStart)
+                settingsViewModel.saveToggles(autoStart: autoStart)
 
                 self.presentationMode.wrappedValue.dismiss()
                 SharedConstants().impactMedium.impactOccurred()

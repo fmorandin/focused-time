@@ -76,10 +76,16 @@ struct TimerModel: TimerModelProtocol {
         return (nil, nil)
     }
 
+    /// Function to return the number of cycles
+    /// - Parameter keyName: the name of the key
+    /// - Returns: the string with the number of cycle
     func getNumberOfCycles(for keyName: String) -> String {
         defaults.string(forKey: keyName) ?? "4"
     }
 
+    /// Return the value for the toggle
+    /// - Parameter keyName: the keyname of the toggle
+    /// - Returns: the value for the toggle
     func getToggle(for keyName: String) -> Bool {
         defaults.bool(forKey: keyName)
     }

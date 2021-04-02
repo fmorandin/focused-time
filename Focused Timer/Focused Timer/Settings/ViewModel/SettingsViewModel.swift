@@ -21,7 +21,6 @@ class SettingsViewModel: ObservableObject {
     @Published var restTime: String
     @Published var cycleTotal: String
     @Published var longBreak: String
-    @Published var screenOn: Bool
     @Published var autoStart: Bool
 
     // MARK: - Initializer
@@ -43,7 +42,6 @@ class SettingsViewModel: ObservableObject {
         let longBrakInMinutes = longBreakInSeconds / 60
         self.longBreak = String(describing: longBrakInMinutes == 0 ? 1 : longBrakInMinutes)
 
-        self.screenOn = settingsModel.getToggle(for: UserDefaultKeys.screenOn)
         self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStart)
     }
 
@@ -74,11 +72,9 @@ class SettingsViewModel: ObservableObject {
         Int(settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal)) ?? 0
     }
 
-    func saveToggles(screenOn: Bool, autoStart: Bool) {
-        settingsModel.saveToggle(value: screenOn, for: UserDefaultKeys.screenOn)
+    func saveToggles(autoStart: Bool) {
         settingsModel.saveToggle(value: autoStart, for: UserDefaultKeys.autoStart)
 
-        self.screenOn = settingsModel.getToggle(for: UserDefaultKeys.screenOn)
         self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStart)
     }
 
