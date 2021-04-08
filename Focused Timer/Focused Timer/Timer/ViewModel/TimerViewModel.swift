@@ -27,7 +27,6 @@ class TimerViewModel: ObservableObject {
     private let dateFormatter = DateComponentsFormatter()
     private let localNotificationManager = LocalNotificationManager()
     private let isNotification = UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification)
-    private var cycleCounter = 0
     private var autoStart: Bool
 
     // Create the sound id that will be played when the timer finishes
@@ -60,7 +59,7 @@ class TimerViewModel: ObservableObject {
 
     // MARK: - Public Methods
 
-    /// Function that handles all the event when the timer is running.
+    /// Function that handles all the events when the timer is running.
     /// This one also does the logic between the timer types and what to do on any of the them.
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
@@ -182,14 +181,9 @@ class TimerViewModel: ObservableObject {
 
     /// Auxiliary function to keep tracking of the number of completed cycles.
     fileprivate func handleCompletedCycle() {
-        if timerType != .longBreak {
-            if cycleCounter != 0 && cycleCounter / 2 == 0 {
-                numberOfCompletedCycles += 1
-                cycleCounter = 0
-            } else {
-                cycleCounter += 1
-            }
-        } else {
+        if timerType == .focused {
+            numberOfCompletedCycles += 1
+        } else if timerType == .longBreak {
             numberOfCompletedCycles = 0
         }
     }

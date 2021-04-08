@@ -132,7 +132,7 @@ class TimerViewModelTests: XCTestCase {
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
             XCTAssertEqual(timerViewModel.counter, 2)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
+            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
         }
 
         // WHEN I start the timer
@@ -162,6 +162,7 @@ class TimerViewModelTests: XCTestCase {
         XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
         XCTAssertEqual(timerViewModel.timerType, .focused)
 
+        // ------------- focused
         // WHEN I start the timer
         timerViewModel.startTimer()
 
@@ -186,10 +187,11 @@ class TimerViewModelTests: XCTestCase {
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
             XCTAssertEqual(timerViewModel.counter, 2)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
+            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
             XCTAssertEqual(timerViewModel.timerType, .rest)
         }
 
+        // ------------- rest
         // WHEN I start the timer
         timerViewModel.startTimer()
 
@@ -216,6 +218,7 @@ class TimerViewModelTests: XCTestCase {
         XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
         XCTAssertEqual(timerViewModel.timerType, .focused)
 
+        // ------------- focused
         // WHEN I start the timer
         timerViewModel.startTimer()
 
@@ -238,27 +241,11 @@ class TimerViewModelTests: XCTestCase {
 
             // THEN the values should be changed for the rest time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 2)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-            XCTAssertEqual(timerViewModel.timerType, .rest)
-
-        }
-
-        // WHEN I start the timer
-        timerViewModel.startTimer()
-
-        // WHEN the timer ends
-        let finalRestExpectation2 = expectation(description: "Timer finished")
-        let finalRestResult2 = XCTWaiter.wait(for: [finalRestExpectation2], timeout: 5.0)
-        if finalRestResult2 == XCTWaiter.Result.timedOut {
-
-            // THEN the values should be changed for the focused time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
             XCTAssertEqual(timerViewModel.counter, 3)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
             XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 2)
             XCTAssertEqual(timerViewModel.timerType, .longBreak)
+
         }
 
         // ------------- long break
@@ -266,9 +253,9 @@ class TimerViewModelTests: XCTestCase {
         timerViewModel.startTimer()
 
         // WHEN the timer ends
-        let finalRestExpectation3 = expectation(description: "Timer finished")
-        let finalRestResult3 = XCTWaiter.wait(for: [finalRestExpectation3], timeout: 5.0)
-        if finalRestResult3 == XCTWaiter.Result.timedOut {
+        let finalRestExpectation2 = expectation(description: "Timer finished")
+        let finalRestResult2 = XCTWaiter.wait(for: [finalRestExpectation2], timeout: 5.0)
+        if finalRestResult2 == XCTWaiter.Result.timedOut {
 
             // THEN the values should be changed for the focused time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
