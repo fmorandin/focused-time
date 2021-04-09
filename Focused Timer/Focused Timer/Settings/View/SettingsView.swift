@@ -52,6 +52,7 @@ struct SettingsView: View {
             // The list that contains all the available settings to be defined in the app
             FormView(viewModel: settingsViewModel)
 
+            // Save Button
             Button(action: {
                 let inputFocusedTime = Int(settingsViewModel.focusedTime) ?? 0
                 let inputRestTime = Int(settingsViewModel.restTime) ?? 0

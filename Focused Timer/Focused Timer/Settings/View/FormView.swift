@@ -19,6 +19,7 @@ struct FormView: View {
 
     var body: some View {
         Form {
+            // Input settings
             Section(header: Text(Translation.settingsSectionTimersName)) {
                 // Focused time
                 HStack {
@@ -88,7 +89,9 @@ struct FormView: View {
                 .padding(.top, 10)
             }
 
+            // Toggle settings
             Section(header: Text(Translation.settingsSectionAppName)) {
+                // Auto Start
                 HStack {
                     Text(Translation.settingsAutoStart)
                         .accessibility(identifier: Identifiers.lblAutoStart)

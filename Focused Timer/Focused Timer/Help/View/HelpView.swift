@@ -40,6 +40,7 @@ struct HelpView: View {
                 .padding(.top)
                 .padding(.bottom, 10)
 
+                // Body
                 VStack {
                     VStack(spacing: 5) {
                         HStack {

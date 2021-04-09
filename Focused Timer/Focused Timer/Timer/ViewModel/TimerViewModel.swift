@@ -11,6 +11,7 @@ import AVFoundation
 class TimerViewModel: ObservableObject {
 
     // MARK: - Published Variables
+
     @Published var totalTime: Int
     @Published var timerState: TimerState = .initial
     @Published var timerTo: CGFloat = 1
@@ -22,6 +23,7 @@ class TimerViewModel: ObservableObject {
     @Published var accentCircleColor: Color
 
     // MARK: - Private Variables
+    
     private var timer = Timer()
     private let timerModel: TimerModelProtocol
     private let dateFormatter = DateComponentsFormatter()

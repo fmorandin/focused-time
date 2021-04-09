@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SharedConstants {
+    // MARK: - Haptics
+
     let impactLight = UIImpactFeedbackGenerator(style: .light)
     let impactMedium = UIImpactFeedbackGenerator(style: .medium)
     let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
