@@ -22,7 +22,7 @@
 
 "playTimer" = "Play";
 "pauseTimer" = "Pause";
-"resetTimer" = "Reset cycle";
+"resetTimer" = "Reset";
 "cycleCounter" = "Number of completed cycles";
 
 "focusName" = "Focus";

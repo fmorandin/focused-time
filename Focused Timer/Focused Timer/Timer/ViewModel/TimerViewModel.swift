@@ -23,7 +23,7 @@ class TimerViewModel: ObservableObject {
     @Published var accentCircleColor: Color
 
     // MARK: - Private Variables
-    
+
     private var timer = Timer()
     private let timerModel: TimerModelProtocol
     private let dateFormatter = DateComponentsFormatter()

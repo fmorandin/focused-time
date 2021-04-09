@@ -22,7 +22,7 @@ struct ButtonsView: View {
 
     // MARK: - View
     var body: some View {
-        HStack(spacing: 20) {
+        HStack(spacing: 70) {
             Button(action: {
                 if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
                     timerViewModel.startTimer()
@@ -44,7 +44,7 @@ struct ButtonsView: View {
                         .foregroundColor(.white)
                 }
                 .padding(.vertical)
-                .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
+                .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)
                 .background(timerViewModel.accentCircleColor)
                 .clipShape(Capsule())
                 .shadow(radius: 6)
@@ -63,7 +63,7 @@ struct ButtonsView: View {
                         .foregroundColor(.white)
                 }
                 .padding(.vertical)
-                .frame(width: (UIScreen.main.bounds.width / 2) - 45, height: 60)
+                .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)
                 .background(timerViewModel.accentCircleColor)
                 .clipShape(Capsule())
                 .shadow(radius: 6)
