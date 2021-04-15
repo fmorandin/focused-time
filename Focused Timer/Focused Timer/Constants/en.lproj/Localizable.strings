@@ -8,6 +8,9 @@
 
 // MARK: - Settings Screen
 
+"settingsDismissModelButton" = "Dismiss settings modal";
+"settingsSaveButton" = "Save settings";
+
 "settingsFocusDuration" = "Focused time (In minutes)";
 "settingsRestDuration" = "Resting time (In minutes)";
 "settingsCycleTotal" = "Number of cycles";
@@ -19,6 +22,9 @@
 "settingsAutoStart" = "Auto start timer";
 
 // MARK: - Timer Screen
+
+"timerViewOpenSettingsModalButton" = "Open settings modal";
+"timerViewOpenHelpModalButton" = "Open help modal";
 
 "playTimer" = "Play";
 "pauseTimer" = "Pause";

@@ -31,7 +31,8 @@ struct TopMenuView: View {
                 self.showingHelp = true
                 SharedConstants().impactLight.impactOccurred()
             }, label: {
-                Image(systemName: ImageNames.showHelp)
+                Label(Translation.timerViewOpenHelpModalButton, systemImage: ImageNames.showHelp)
+                    .labelStyle(IconOnlyLabelStyle())
                     .font(.system(size: 25))
                     .padding(.trailing)
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
@@ -48,7 +49,8 @@ struct TopMenuView: View {
                 self.showingConfig = true
                 SharedConstants().impactLight.impactOccurred()
             }, label: {
-                Image(systemName: ImageNames.showSettings)
+                Label(Translation.timerViewOpenSettingsModalButton, systemImage: ImageNames.showSettings)
+                    .labelStyle(IconOnlyLabelStyle())
                     .font(.system(size: 25))
                     .padding(.trailing)
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)

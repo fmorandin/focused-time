@@ -36,14 +36,13 @@ struct SettingsView: View {
                     self.presentationMode.wrappedValue.dismiss()
                     SharedConstants().impactMedium.impactOccurred()
                 }, label: {
-                    HStack {
-                        Image(systemName: ImageNames.closeModal)
-                            .font(.system(size: 20))
-                            .padding(.trailing)
-                            .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
-                    }
-                    .accessibility(identifier: Identifiers.btnCloseModal)
+                    Label(Translation.settingsDismissModalButton, systemImage: ImageNames.closeModal)
+                        .labelStyle(IconOnlyLabelStyle())
+                        .font(.system(size: 20))
+                        .padding(.trailing)
+                        .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                 })
+                .accessibility(identifier: Identifiers.btnCloseModal)
 
             }
             .padding(.top)
@@ -73,14 +72,13 @@ struct SettingsView: View {
                 self.presentationMode.wrappedValue.dismiss()
                 SharedConstants().impactMedium.impactOccurred()
             }, label: {
-                HStack {
-                    Image(systemName: ImageNames.saveSettings)
-                        .font(.system(size: 20))
-                        .foregroundColor((colorScheme == .light ? Color.black : Color.white))
-                }
-                .accessibility(identifier: Identifiers.btnSaveSettings)
-                .padding(.bottom, 50)
+                Label(Translation.settingsSaveButton, systemImage: ImageNames.saveSettings)
+                    .labelStyle(IconOnlyLabelStyle())
+                    .font(.system(size: 20))
+                    .foregroundColor((colorScheme == .light ? Color.black : Color.white))
+                    .padding(.bottom, 50)
             })
+            .accessibility(identifier: Identifiers.btnSaveSettings)
 
         }
         .onTapGesture {

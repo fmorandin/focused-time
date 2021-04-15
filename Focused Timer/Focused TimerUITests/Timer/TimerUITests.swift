@@ -175,7 +175,7 @@ class TimerUITests: BaseFeature {
 
         // WHEN I click on the reset
         let resetButton = app.buttons[Identifiers.btnResetIdentifier]
-        XCTAssertEqual(resetButton.label, "Reset cycle")
+        XCTAssertEqual(resetButton.label, "Reset")
         resetButton.tap()
 
         // This is used to let the screen reacts to the tap

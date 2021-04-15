@@ -8,6 +8,9 @@
 
 // MARK: - Settings Screen
 
+"settingsDismissModelButton" = "Fechar janela de configurações";
+"settingsSaveButton" = "Salvar configurações";
+
 "settingsFocusDuration" = "Tempo concentrado (Em minutos)";
 "settingsRestDuration" = "Tempo descanso (Em minutos)";
 "settingsCycleTotal" = "Número de ciclos";
@@ -19,6 +22,9 @@
 "settingsAutoStart" = "Iniciar timer automaticamente";
 
 // MARK: - Timer Screen
+
+"timerViewOpenSettingsModalButton" = "Abrir janela de configurações";
+"timerViewOpenHelpModalButton" = "Abrir janela de ajuda";
 
 "playTimer" = "Iniciar";
 "pauseTimer" = "Parar";

@@ -10,6 +10,9 @@ import SwiftUI
 enum Translation {
     // MARK: - Settings Screen
 
+    static let settingsDismissModalButton = LocalizedStringKey("settingsDismissModelButton")
+    static let settingsSaveButton = LocalizedStringKey("settingsSaveButton")
+
     static let settingsFocusDuration = LocalizedStringKey("settingsFocusDuration")
     static let settingsRestDuration = LocalizedStringKey("settingsRestDuration")
     static let settingsCyclesTotal = LocalizedStringKey("settingsCycleTotal")
@@ -21,6 +24,9 @@ enum Translation {
     static let settingsAutoStart = LocalizedStringKey("settingsAutoStart")
 
     // MARK: - Timer Screen
+
+    static let timerViewOpenSettingsModalButton = LocalizedStringKey("timerViewOpenSettingsModalButton")
+    static let timerViewOpenHelpModalButton = LocalizedStringKey("timerViewOpenHelpModalButton")
 
     static let playTimer = LocalizedStringKey("playTimer")
     static let pauseTimer = LocalizedStringKey("pauseTimer")
