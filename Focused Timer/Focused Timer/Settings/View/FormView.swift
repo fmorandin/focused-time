@@ -87,6 +87,7 @@ struct FormView: View {
                         .accessibility(identifier: Identifiers.txtCycleTotal)
                 }
                 .padding(.top, 10)
+                .padding(.bottom, 10)
             }
 
             // Toggle settings
@@ -102,6 +103,7 @@ struct FormView: View {
                         .accessibility(identifier: Identifiers.tgAutoStart)
                 }
                 .padding(.top, 10)
+                .padding(.bottom, 10)
             }
         }
     }
