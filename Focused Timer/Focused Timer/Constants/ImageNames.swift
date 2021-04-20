@@ -12,7 +12,6 @@ enum ImageNames {
     // MARK: - Settings Screen
 
     static let closeModal = "xmark"
-    static let saveSettings = "checkmark"
 
     // MARK: - Timer Screen
 

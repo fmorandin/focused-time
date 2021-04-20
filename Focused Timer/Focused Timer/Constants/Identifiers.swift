@@ -12,7 +12,6 @@ enum Identifiers {
 
     // Buttons
     static let btnCloseModal = "btnDismissSettings"
-    static let btnSaveSettings = "btnSaveSettings"
 
     // TextFields
     static let txtFocusedTime = "txtFocusedTime"
@@ -76,4 +75,8 @@ enum UserDefaultKeys {
     static let cycleTotal = "cycleTotal"
     static let longBreak = "longBreak"
     static let autoStart = "autoStart"
+}
+
+extension Notification.Name {
+    static let updateTimerView = Notification.Name("updateTimerView")
 }

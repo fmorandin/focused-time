@@ -55,7 +55,7 @@ struct TopMenuView: View {
                     .padding(.trailing)
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
             })
-            .sheet(isPresented: $showingConfig, onDismiss: timerViewModel.resetUpdateTimer, content: {
+            .sheet(isPresented: $showingConfig, content: {
                 SettingsView()
             })
             .accessibility(identifier: Identifiers.btnShowSettings)

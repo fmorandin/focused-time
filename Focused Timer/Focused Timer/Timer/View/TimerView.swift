@@ -57,6 +57,9 @@ struct TimerView: View {
                     for: UIApplication.willEnterForegroundNotification)) { _ in
             timerViewModel.moveAppToForeground()
         }
+        .onReceive(NotificationCenter.default.publisher(for: .updateTimerView), perform: { _ in
+            timerViewModel.resetUpdateTimer()
+        })
     }
 }
 

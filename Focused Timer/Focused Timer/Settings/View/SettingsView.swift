@@ -51,35 +51,6 @@ struct SettingsView: View {
             // The list that contains all the available settings to be defined in the app
             FormView(viewModel: settingsViewModel)
 
-            // Save Button
-            Button(action: {
-                let inputFocusedTime = Int(settingsViewModel.focusedTime) ?? 0
-                let inputRestTime = Int(settingsViewModel.restTime) ?? 0
-                let inputLongBreak = Int(settingsViewModel.longBreak) ?? 0
-                let inputNumberOfCycles = Int(settingsViewModel.cycleTotal) ?? 0
-
-                let autoStart = settingsViewModel.autoStart
-
-                settingsViewModel.saveAndUpdateTimes(
-                    focusedIime: inputFocusedTime,
-                    restTime: inputRestTime,
-                    longBreak: inputLongBreak
-                )
-                settingsViewModel.saveNumberOfCycles(inputNumberOfCycles)
-
-                settingsViewModel.saveToggles(autoStart: autoStart)
-
-                self.presentationMode.wrappedValue.dismiss()
-                SharedConstants().impactMedium.impactOccurred()
-            }, label: {
-                Label(Translation.settingsSaveButton, systemImage: ImageNames.saveSettings)
-                    .labelStyle(IconOnlyLabelStyle())
-                    .font(.system(size: 20))
-                    .foregroundColor((colorScheme == .light ? Color.black : Color.white))
-                    .padding(.bottom, 50)
-            })
-            .accessibility(identifier: Identifiers.btnSaveSettings)
-
         }
         .onTapGesture {
             self.hideKeyboard()

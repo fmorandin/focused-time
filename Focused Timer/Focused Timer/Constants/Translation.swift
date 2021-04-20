@@ -11,7 +11,6 @@ enum Translation {
     // MARK: - Settings Screen
 
     static let settingsDismissModalButton = LocalizedStringKey("settingsDismissModelButton")
-    static let settingsSaveButton = LocalizedStringKey("settingsSaveButton")
 
     static let settingsFocusDuration = LocalizedStringKey("settingsFocusDuration")
     static let settingsRestDuration = LocalizedStringKey("settingsRestDuration")

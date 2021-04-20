@@ -9,7 +9,6 @@
 // MARK: - Settings Screen
 
 "settingsDismissModelButton" = "Dismiss settings modal";
-"settingsSaveButton" = "Save settings";
 
 "settingsFocusDuration" = "Focused time (In minutes)";
 "settingsRestDuration" = "Resting time (In minutes)";

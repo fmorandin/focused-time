@@ -9,7 +9,6 @@
 // MARK: - Settings Screen
 
 "settingsDismissModelButton" = "Fechar janela de configurações";
-"settingsSaveButton" = "Salvar configurações";
 
 "settingsFocusDuration" = "Tempo concentrado (Em minutos)";
 "settingsRestDuration" = "Tempo descanso (Em minutos)";

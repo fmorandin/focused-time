@@ -332,9 +332,8 @@ class TimerUITests: BaseFeature {
         XCTAssertFalse(autoStartToggle.isSelected)
         autoStartToggle.tap()
 
-        // AND I click to save
-        let saveButton = app.buttons[Identifiers.btnSaveSettings]
-        saveButton.tap()
+        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        dismissSettingsButton.tap()
 
         // THEN the modal should be closed
         // AND the timer should be on its initial state

@@ -51,7 +51,9 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 30)
 
         // WHEN I call the function to save the new value
-        settingsViewModel.saveAndUpdateTimes(focusedIime: 20, restTime: 5, longBreak: 30)
+        settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: 20)
+        settingsViewModel.saveTime(for: UserDefaultKeys.restTime, value: 5)
+        settingsViewModel.saveTime(for: UserDefaultKeys.longBreak, value: 30)
 
         // THEN the total time should be updated
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 20)

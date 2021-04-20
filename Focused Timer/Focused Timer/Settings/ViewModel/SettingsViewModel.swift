@@ -47,20 +47,12 @@ class SettingsViewModel: ObservableObject {
 
     // MARK: - Methods
 
-    /// Method that saves the values of the timers from the settings screen.
-    /// After saving the fields, the values are updated in order to be able to be displayed on the screen
+    /// Saves a timer based on a given key
     /// - Parameters:
-    ///   - focusedIime: the value for the focused time
-    ///   - restTime: the value for the rest time
-    ///   - longBreak: the value for the long break
-    func saveAndUpdateTimes(focusedIime: Int, restTime: Int, longBreak: Int) {
-        settingsModel.saveTime(time: focusedIime, for: UserDefaultKeys.focusedTime)
-        settingsModel.saveTime(time: restTime, for: UserDefaultKeys.restTime)
-        settingsModel.saveTime(time: longBreak, for: UserDefaultKeys.longBreak)
-
-        self.focusedTime = String(describing: getTimeInMinutes(for: UserDefaultKeys.focusedTime))
-        self.restTime = String(describing: getTimeInMinutes(for: UserDefaultKeys.restTime))
-        self.longBreak = String(describing: getTimeInMinutes(for: UserDefaultKeys.longBreak))
+    ///   - keyName: the key name of the value that needs to be saved
+    ///   - value: the value to be saved
+    func saveTime(for keyName: String, value: Int) {
+        settingsModel.saveTime(time: value, for: keyName)
     }
 
     /// Function that returns the value in seconds for a saved timer

@@ -75,9 +75,9 @@ class SettingsUITests: BaseFeature {
         // AND I add the new value
         durationTextField.typeText("100")
 
-        // AND I click to save
-        let saveButton = app.buttons[Identifiers.btnSaveSettings]
-        saveButton.tap()
+        // AND I exit the modal
+        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        dismissSettingsButton.tap()
 
         // AND I open the modal again
         showSettingsButton.tap()
@@ -107,9 +107,8 @@ class SettingsUITests: BaseFeature {
         // AND I add the new value
         restTextField.typeText("50")
 
-        // AND I click to save
-        let saveButton = app.buttons[Identifiers.btnSaveSettings]
-        saveButton.tap()
+        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        dismissSettingsButton.tap()
 
         // AND I open the modal again
         showSettingsButton.tap()
@@ -139,9 +138,8 @@ class SettingsUITests: BaseFeature {
         // AND I add the new value
         numberOfCyclesTextField.typeText("20")
 
-        // AND I click to save
-        let saveButton = app.buttons[Identifiers.btnSaveSettings]
-        saveButton.tap()
+        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        dismissSettingsButton.tap()
 
         // AND I open the modal again
         showSettingsButton.tap()
@@ -162,9 +160,8 @@ class SettingsUITests: BaseFeature {
         XCTAssertFalse(autoStartToggle.isSelected)
         autoStartToggle.tap()
 
-        // AND I click to save
-        let saveButton = app.buttons[Identifiers.btnSaveSettings]
-        saveButton.tap()
+        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        dismissSettingsButton.tap()
 
         // AND I open the modal again
         showSettingsButton.tap()

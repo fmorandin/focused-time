@@ -100,8 +100,7 @@ class TimerViewModel: ObservableObject {
         numberOfCompletedCycles = 0
         accentCircleColor = .orange
 
-        // TODO: put this in a propper place
-        self.autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStart)
+        autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStart)
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background
