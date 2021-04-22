@@ -140,6 +140,10 @@ class TimerViewModel: ObservableObject {
         }
     }
 
+    func shouldDisplaySettingsAlert() -> Bool {
+        timerState == .running || timerState == .paused ? true : false
+    }
+
     // MARK: - Fileprivate
 
     /// This one is responsible to do the necessary updates for when the

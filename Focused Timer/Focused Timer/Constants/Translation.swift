@@ -22,6 +22,8 @@ enum Translation {
 
     static let settingsAutoStart = LocalizedStringKey("settingsAutoStart")
 
+    static let settingsWarnReloadMessage = LocalizedStringKey("settingsWarnReloadMessage")
+
     // MARK: - Timer Screen
 
     static let timerViewOpenSettingsModalButton = LocalizedStringKey("timerViewOpenSettingsModalButton")

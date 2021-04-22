@@ -18,10 +18,19 @@ struct SettingsView: View {
 
     @StateObject private var settingsViewModel: SettingsViewModel
 
+    // MARK: - Private Var
+
+    private var shouldDisplayDisclaimer: Bool
+
     // MARK: Initializer
 
-    init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
+    init(
+        viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel()),
+        displayWarning: Bool = false
+    ) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
+
+        self.shouldDisplayDisclaimer = displayWarning
     }
 
     // MARK: - Body
@@ -48,6 +57,15 @@ struct SettingsView: View {
             .padding(.top)
             .padding(.bottom, 10)
 
+            if (shouldDisplayDisclaimer) {
+                Text(Translation.settingsWarnReloadMessage)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .padding()
+                    .background(Color.red)
+                    .padding()
+            }
+
             // The list that contains all the available settings to be defined in the app
             FormView(viewModel: settingsViewModel)
 
@@ -72,5 +90,6 @@ extension View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+
     }
 }

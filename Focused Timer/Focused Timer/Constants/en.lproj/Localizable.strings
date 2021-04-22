@@ -20,6 +20,8 @@
 
 "settingsAutoStart" = "Auto start timer";
 
+"settingsWarnReloadMessage" = "Update settings with an active timer running or paused will cause the whole cicle to refresh. Close the settings without change to prevent this from happening.";
+
 // MARK: - Timer Screen
 
 "timerViewOpenSettingsModalButton" = "Open settings modal";

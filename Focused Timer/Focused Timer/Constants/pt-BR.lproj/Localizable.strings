@@ -20,6 +20,8 @@
 
 "settingsAutoStart" = "Iniciar timer automaticamente";
 
+"settingsWarnReloadMessage" = "Atualizar as configurações com um timer ativo ou pausado fará a tela recarregar. Para evitar isso, feche a janela sem alterações.";
+
 // MARK: - Timer Screen
 
 "timerViewOpenSettingsModalButton" = "Abrir janela de configurações";
