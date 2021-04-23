@@ -59,8 +59,9 @@ struct SettingsView: View {
 
             if (shouldDisplayDisclaimer) {
                 Text(Translation.settingsWarnReloadMessage)
+                    .foregroundColor(.white)
                     .font(.caption)
-                    .fontWeight(.bold)
+                    .fontWeight(.semibold)
                     .padding()
                     .background(Color.red)
                     .padding()
@@ -90,7 +91,6 @@ extension View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
-
+        SettingsView(displayWarning: true)
     }
 }
