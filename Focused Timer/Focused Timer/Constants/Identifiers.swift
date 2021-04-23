@@ -29,6 +29,8 @@ enum Identifiers {
     static let lblLongBreak = "lblLongBreak"
     static let lblAutoStart = "lblAutoStart"
 
+    static let lblWarnReloadMessage = "lblWarnReloadMessage"
+
     // MARK: - Timer Screen
 
     // Buttons

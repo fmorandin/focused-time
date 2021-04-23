@@ -64,6 +64,7 @@ struct SettingsView: View {
                     .padding()
                     .background(Color.red)
                     .padding()
+                    .accessibility(identifier: Identifiers.lblWarnReloadMessage)
             }
 
             // The list that contains all the available settings to be defined in the app

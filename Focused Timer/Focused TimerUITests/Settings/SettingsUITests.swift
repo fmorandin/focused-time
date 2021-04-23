@@ -168,4 +168,32 @@ class SettingsUITests: BaseFeature {
 
         XCTAssertEqual(autoStartToggle.value as! String, "1")
     }
+
+    func test_WarnMessageWhenTimerIsRunning() {
+        // GIVEN I open the modal
+        let showSettingsButton = app.buttons[Identifiers.btnShowSettings]
+        showSettingsButton.tap()
+
+        // THEN the warn should not be displayed
+        let lblWarnMessageVisible = app.staticTexts[Identifiers.lblWarnReloadMessage].exists
+        XCTAssertFalse(lblWarnMessageVisible, "The warn reload message shouldn't be displayed")
+
+        // WHEN I dismiss the modal
+        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        dismissSettingsButton.tap()
+
+        // AND I start the timer
+        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        XCTAssertEqual(playButton.label, "Play")
+        playButton.tap()
+
+        sleep(2) // This was used to let the timer run a little before procceed
+
+        // AND open it again
+        showSettingsButton.tap()
+
+        // THEN the warning should be displayed
+        let lblWarnMessageVisibleUpdated = app.staticTexts[Identifiers.lblWarnReloadMessage].exists
+        XCTAssert(lblWarnMessageVisibleUpdated, "The warn reload message should be displayed")
+    }
 }
