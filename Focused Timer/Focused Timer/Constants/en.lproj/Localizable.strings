@@ -44,7 +44,7 @@
 // MARK: - Help Screen
 
 "techniqueExplanationTitle" = "The technique";
-"techniqueExplanation" = "The technique consists of having set times for total focus on the activity, a short rest and a long break - after a few cycles of focus and short rest.";
+"techniqueExplanation" = "The technique consists of having set times for total focus on the activity, a short break and a long break - after a few cycles of focus and short rest.";
 
 "focusExplanationTitle" = "Focus"; 
 "focusExplanation" = "During the focus - the orange color - the idea is that all concentration is directed to the activity to be completed.";
