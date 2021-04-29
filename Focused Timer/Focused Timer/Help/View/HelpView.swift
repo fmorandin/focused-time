@@ -37,7 +37,7 @@ struct HelpView: View {
                     })
 
                 }
-                .padding(.top)
+                .padding(.top, 30)
                 .padding(.bottom, 10)
 
                 // Body

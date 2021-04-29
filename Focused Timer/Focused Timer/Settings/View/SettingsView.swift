@@ -54,7 +54,7 @@ struct SettingsView: View {
                 .accessibility(identifier: Identifiers.btnCloseModal)
 
             }
-            .padding(.top)
+            .padding(.top, 30)
             .padding(.bottom, 10)
 
             if (shouldDisplayDisclaimer) {
