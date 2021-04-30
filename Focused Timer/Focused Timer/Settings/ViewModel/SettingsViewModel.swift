@@ -14,13 +14,39 @@ class SettingsViewModel: ObservableObject {
     // MARK: - Private Variables
 
     private let settingsModel: SettingsModelProtocol
+    private let timerLimits = 5
+    private let numberOfCyclesLimits = 2
 
     // MARK: - Published Variables
 
-    @Published var focusedTime: String
-    @Published var restTime: String
-    @Published var cycleTotal: String
-    @Published var longBreak: String
+    @Published var focusedTime: String = "" {
+        didSet {
+            if focusedTime.count > timerLimits {
+                focusedTime = String(focusedTime.prefix(timerLimits))
+            }
+        }
+    }
+    @Published var restTime: String = "" {
+        didSet {
+            if restTime.count > timerLimits {
+                restTime = String(restTime.prefix(timerLimits))
+            }
+        }
+    }
+    @Published var cycleTotal: String = "" {
+        didSet {
+            if cycleTotal.count > numberOfCyclesLimits {
+                cycleTotal = String(cycleTotal.prefix(numberOfCyclesLimits))
+            }
+        }
+    }
+    @Published var longBreak: String = "" {
+        didSet {
+            if longBreak.count > timerLimits {
+                longBreak = String(longBreak.prefix(timerLimits))
+            }
+        }
+    }
     @Published var autoStart: Bool
 
     // MARK: - Initializer

@@ -72,6 +72,17 @@ class SettingsUITests: BaseFeature {
         let durationTextField = app.textFields[Identifiers.txtFocusedTime]
         durationTextField.doubleTap()
 
+        // AND I type an invalid value
+        durationTextField.typeText("12345678")
+
+        // THEN the input should only accept 5 digits
+        let durationTextFieldInvalidValue = String(describing: app.textFields[Identifiers.txtFocusedTime].value!)
+        XCTAssertEqual(durationTextFieldInvalidValue.count, 5)
+        XCTAssertEqual(durationTextFieldInvalidValue, "12345")
+
+        // WHEN I tap to edit the field again
+        durationTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
+
         // AND I add the new value
         durationTextField.typeText("100")
 
@@ -104,6 +115,17 @@ class SettingsUITests: BaseFeature {
         let restTextField = app.textFields[Identifiers.txtRestTime]
         restTextField.doubleTap()
 
+        // AND I type an invalid value
+        restTextField.typeText("12345678")
+
+        // THEN the input should only accept 5 digits
+        let restTextFieldInvalidValue = String(describing: app.textFields[Identifiers.txtRestTime].value!)
+        XCTAssertEqual(restTextFieldInvalidValue.count, 5)
+        XCTAssertEqual(restTextFieldInvalidValue, "12345")
+
+        // WHEN I tap to edit the field again
+        restTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
+
         // AND I add the new value
         restTextField.typeText("50")
 
@@ -134,6 +156,17 @@ class SettingsUITests: BaseFeature {
         // WHEN I delete the default value
         let numberOfCyclesTextField = app.textFields[Identifiers.txtCycleTotal]
         numberOfCyclesTextField.doubleTap()
+
+        // AND I type an invalid value
+        numberOfCyclesTextField.typeText("12345678")
+
+        // THEN the input should only accept 2 digits
+        let numberOfCyclesTextFieldInvalidValue = String(describing: app.textFields[Identifiers.txtCycleTotal].value!)
+        XCTAssertEqual(numberOfCyclesTextFieldInvalidValue.count, 2)
+        XCTAssertEqual(numberOfCyclesTextFieldInvalidValue, "12")
+
+        // WHEN I tap to edit the field again
+        numberOfCyclesTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
 
         // AND I add the new value
         numberOfCyclesTextField.typeText("20")
