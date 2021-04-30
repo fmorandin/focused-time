@@ -47,13 +47,20 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
-    @Published var autoStart: Bool
+    @Published var autoStart: Bool = false
 
     // MARK: - Initializer
 
     init(settingsModel: SettingsModelProtocol) {
         self.settingsModel = settingsModel
 
+        self.populateAllFieldsSavedValues()
+    }
+
+    // MARK: - Methods
+
+    /// Function that populates all the fields with the saved values
+    private func populateAllFieldsSavedValues() {
         let focusedTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.focusedTime)
         let focusedTimeInMinutes = focusedTimeInSeconds / 60
         self.focusedTime = String(describing: focusedTimeInMinutes == 0 ? 1 : focusedTimeInMinutes)
@@ -70,8 +77,6 @@ class SettingsViewModel: ObservableObject {
 
         self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStart)
     }
-
-    // MARK: - Methods
 
     /// Saves a timer based on a given key
     /// - Parameters:
@@ -120,5 +125,18 @@ class SettingsViewModel: ObservableObject {
     /// - Returns: the value of the key
     func getSavedToggles(for keyName: String) -> Bool {
         settingsModel.getToggle(for: keyName)
+    }
+
+    /// Function that will reset the values to the default ones.
+    /// This saves again all the fields with the default values and then populate
+    /// all the fields in the screen again
+    func resetToDefault() {
+        saveTime(for: UserDefaultKeys.focusedTime, value: DefaultValuesConstants.defaultFocusedTime.rawValue)
+        saveTime(for: UserDefaultKeys.restTime, value: DefaultValuesConstants.defaultRestTime.rawValue)
+        saveTime(for: UserDefaultKeys.longBreak, value: DefaultValuesConstants.defaultLongBreakTime.rawValue)
+        saveToggles(autoStart: false)
+        saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
+
+        populateAllFieldsSavedValues()
     }
 }

@@ -29,7 +29,7 @@ struct TopMenuView: View {
         HStack {
             Button(action: {
                 self.showingHelp = true
-                SharedConstants().impactLight.impactOccurred()
+                HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenHelpModalButton, systemImage: ImageNames.showHelp)
                     .labelStyle(IconOnlyLabelStyle())
@@ -47,7 +47,7 @@ struct TopMenuView: View {
 
             Button(action: {
                 self.showingConfig = true
-                SharedConstants().impactLight.impactOccurred()
+                HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenSettingsModalButton, systemImage: ImageNames.showSettings)
                     .labelStyle(IconOnlyLabelStyle())

@@ -63,11 +63,11 @@ struct SettingsModel: SettingsModelProtocol {
         } else {
             switch keyName {
             case UserDefaultKeys.focusedTime:
-                return 1500
+                return DefaultValuesConstants.defaultFocusedTime.inSeconds()
             case UserDefaultKeys.restTime:
-                return 300
+                return DefaultValuesConstants.defaultRestTime.inSeconds()
             case UserDefaultKeys.longBreak:
-                return 1800
+                return DefaultValuesConstants.defaultLongBreakTime.inSeconds()
             default:
                 return 0
             }
@@ -79,7 +79,7 @@ struct SettingsModel: SettingsModelProtocol {
     }
 
     func getCycleTotal(for keyName: String) -> String {
-        defaults.string(forKey: keyName) ?? "4"
+        defaults.string(forKey: keyName) ?? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
     }
 
     func saveToggle(value: Bool, for keyName: String) {

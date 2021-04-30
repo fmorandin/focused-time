@@ -43,7 +43,7 @@ struct SettingsView: View {
 
                 Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
-                    SharedConstants().impactMedium.impactOccurred()
+                    HapticsConstants().impactMedium.impactOccurred()
                 }, label: {
                     Label(Translation.settingsDismissModalButton, systemImage: ImageNames.closeModal)
                         .labelStyle(IconOnlyLabelStyle())

@@ -22,6 +22,10 @@
 
 "settingsWarnReloadMessage" = "Update settings with an active timer running or paused will cause the whole cicle to refresh. Close the settings without change to prevent this from happening.";
 
+"resetSettingsDefaultValue" = "Reset to the default values";
+"resetSettingsAlertTitle" = "Are you sure?";
+"resetSettingsAlertMessage" = "By confirming all the values in the settings will be reverted to the default values.";
+
 // MARK: - Timer Screen
 
 "timerViewOpenSettingsModalButton" = "Open settings modal";
@@ -47,13 +51,13 @@
 "techniqueExplanation" = "The technique consists of having set times for total focus on the activity, a short break and a long break - after a few cycles of focus and short rest.";
 
 "focusExplanationTitle" = "Focus"; 
-"focusExplanation" = "During the focus - the orange color - the idea is that all concentration is directed to the activity to be completed.";
+"focusExplanation" = "During the focus - the orange color - the idea is that all concentration is directed to the activity to be completed. Usually, this is a 25 minutes timer.";
 
 "restExplanationTitle" = "Short Break";
-"restExplanantion" = "The short break - the blue color - happens just after the time of focus and, during that time, nothing related to the activity should be done.";
+"restExplanantion" = "The short break - the blue color - happens just after the time of focus and, during that time, nothing related to the activity should be done. The short break is, by default, a 5 minutes timer.";
 
 "longBreakExplanationTitle" = "Long Break";
-"longBreakExplanation" = "The long break - the green color - is a longer period of rest after a few cycles of focus and rest.";
+"longBreakExplanation" = "The long break - the green color - is a longer period of rest after a few cycles of focus and rest. Usually, this is a 30 minutes timer.";
 
 "numberOfCyclesExplanationTitle" = "Number of Cycles";
 "numberOfCyclesExplanation" = "The number of focus and rest cycles that the user must to be completed before the long break.";

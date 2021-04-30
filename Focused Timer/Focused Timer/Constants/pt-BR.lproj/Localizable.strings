@@ -22,6 +22,10 @@
 
 "settingsWarnReloadMessage" = "Atualizar as configurações com um timer ativo ou pausado fará a tela recarregar. Para evitar isso, feche a janela sem alterações.";
 
+"resetSettingsDefaultValue" = "Voltar aos valores padrão";
+"resetSettingsAlertTitle" = "Tem certeza?";
+"resetSettingsAlertMessage" = "Ao confirmar, todos os valores serão retornados aos valores padrão.";
+
 // MARK: - Timer Screen
 
 "timerViewOpenSettingsModalButton" = "Abrir janela de configurações";
@@ -47,13 +51,13 @@
 "techniqueExplanation" = "A técnica consiste em ter tempos definidos para foco total na atividade, um descanso curto e uma pausa longa - após alguns ciclos de foco e descanso curto.";
 
 "focusExplanationTitle" = "Foco";
-"focusExplanation" = "Durante o foco - cor laranja - a ideia é que toda concentração seja direcionada para a atividade a ser concluída.";
+"focusExplanation" = "Durante o foco - cor laranja - a ideia é que toda concentração seja direcionada para a atividade a ser concluída. Normalmente esse tempo dura 25 minutos.";
 
 "restExplanationTitle" = "Pausa Curta";
-"restExplanantion" = "A pausa curta - cor azul - acontece logo após ao tempo de foco e, durante esse tempo, nada relacionado à atividade deve ser feito.";
+"restExplanantion" = "A pausa curta - cor azul - acontece logo após ao tempo de foco e, durante esse tempo, nada relacionado à atividade deve ser feito e dura, por padrão, 5 minutos. ";
 
 "longBreakExplanationTitle" = "Pausa Longa";
-"longBreakExplanation" = "A pausa longa - cor verde - é um período maior de descanso depois de alguns ciclos de foco e descanso.";
+"longBreakExplanation" = "A pausa longa - cor verde - é um período maior de descanso depois de alguns ciclos de foco e descanso. Normalmente essa pausa dura 30 minutos.";
 
 "numberOfCyclesExplanationTitle" = "Número de Ciclos";
 "numberOfCyclesExplanation" = "O número de ciclos de foco e descanso que deve ser cumprido antes da pausa longa.";

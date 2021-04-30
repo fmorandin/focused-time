@@ -9,9 +9,14 @@ import SwiftUI
 
 struct FormView: View {
 
+    // MARK: - Private Variables
+
     @StateObject private var settingsViewModel: SettingsViewModel
 
     @State private var shouldUpdateTimerView: Bool
+    @State private var resetDefaultValuesAlert: Bool = false
+
+    // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         _settingsViewModel = StateObject(wrappedValue: viewModel)
@@ -20,6 +25,8 @@ struct FormView: View {
 
         _shouldUpdateTimerView = State(wrappedValue: false)
     }
+
+    // MARK: - Body
 
     var body: some View {
         Form {
@@ -141,6 +148,37 @@ struct FormView: View {
                 .padding(.top, 10)
                 .padding(.bottom, 10)
             }
+
+            Section {
+                HStack {
+                    Spacer()
+
+                    Button(action: {}, label: {
+                        Text(Translation.resetSettingsDefaultValue)
+                    })
+                    .foregroundColor(Color.red)
+                    .accessibility(identifier: Identifiers.btnResetSettingsDefault)
+                    .onTapGesture {
+                        resetDefaultValuesAlert.toggle()
+                    }
+                    .alert(isPresented: $resetDefaultValuesAlert, content: {
+                        Alert(
+                            title: Text(Translation.resetSettingsAlertTitle),
+                            message: Text(Translation.resetSettingsAlertMessage),
+                            primaryButton: .default(Text("OK"),
+                                                    action: {
+                                                        shouldUpdateTimerView = true
+                                                        settingsViewModel.resetToDefault()
+                                                        HapticsConstants().impactHeavy.impactOccurred()
+                                                    }),
+                            secondaryButton: .cancel())
+                    })
+
+                    Spacer()
+                }
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+            }
         }
         .onDisappear(perform: {
             if shouldUpdateTimerView {
@@ -153,5 +191,6 @@ struct FormView: View {
 struct Form_Previews: PreviewProvider {
     static var previews: some View {
         FormView()
+
     }
 }

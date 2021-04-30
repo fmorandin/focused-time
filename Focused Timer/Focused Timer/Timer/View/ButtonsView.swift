@@ -29,7 +29,7 @@ struct ButtonsView: View {
                 } else {
                     timerViewModel.pauseTimer()
                 }
-                SharedConstants().impactHeavy.impactOccurred()
+                HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
                     Image(systemName:
@@ -53,7 +53,7 @@ struct ButtonsView: View {
 
             Button(action: {
                 timerViewModel.resetUpdateTimer()
-                SharedConstants().impactHeavy.impactOccurred()
+                HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
                     Image(systemName: ImageNames.reset)

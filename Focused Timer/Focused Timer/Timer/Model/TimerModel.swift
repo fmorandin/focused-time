@@ -44,11 +44,11 @@ struct TimerModel: TimerModelProtocol {
         } else {
             switch keyName {
             case UserDefaultKeys.focusedTime:
-                return 1500
+                return DefaultValuesConstants.defaultFocusedTime.inSeconds()
             case UserDefaultKeys.restTime:
-                return 300
+                return DefaultValuesConstants.defaultRestTime.inSeconds()
             case UserDefaultKeys.longBreak:
-                return 1800
+                return DefaultValuesConstants.defaultLongBreakTime.inSeconds()
             default:
                 return 0
             }
@@ -80,7 +80,7 @@ struct TimerModel: TimerModelProtocol {
     /// - Parameter keyName: the name of the key
     /// - Returns: the string with the number of cycle
     func getNumberOfCycles(for keyName: String) -> String {
-        defaults.string(forKey: keyName) ?? "4"
+        defaults.string(forKey: keyName) ?? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
     }
 
     /// Return the value for the toggle

@@ -12,6 +12,7 @@ enum Identifiers {
 
     // Buttons
     static let btnCloseModal = "btnDismissSettings"
+    static let btnResetSettingsDefault = "btnResetSettingsDefault"
 
     // TextFields
     static let txtFocusedTime = "txtFocusedTime"
