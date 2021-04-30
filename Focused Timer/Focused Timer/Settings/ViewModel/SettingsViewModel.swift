@@ -52,7 +52,9 @@ class SettingsViewModel: ObservableObject {
     ///   - keyName: the key name of the value that needs to be saved
     ///   - value: the value to be saved
     func saveTime(for keyName: String, value: Int) {
-        settingsModel.saveTime(time: value, for: keyName)
+        value > 0 ?
+            settingsModel.saveTime(time: value, for: keyName) :
+            debugPrint("Value \(value) for key \(keyName) should be positve.")
     }
 
     /// Function that returns the value in seconds for a saved timer
@@ -66,9 +68,10 @@ class SettingsViewModel: ObservableObject {
     /// Method that saves the number of cycles
     /// - Parameter numberOfCycles: the number of cycles that will be saved
     func saveNumberOfCycles(_ numberOfCycles: Int) {
-        settingsModel.saveCycleTotal(cycleNumber: numberOfCycles, for: UserDefaultKeys.cycleTotal)
 
-        cycleTotal = String(describing: settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal))
+        numberOfCycles > 0 ?
+            settingsModel.saveCycleTotal(cycleNumber: numberOfCycles, for: UserDefaultKeys.cycleTotal) :
+            debugPrint("The value \(numberOfCycles) for the number of cycles should be positive.")
     }
 
     /// Returns the number of the cycles

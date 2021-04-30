@@ -101,4 +101,35 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStart), true)
     }
 
+    func test_NegativeTimeValues() throws {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+
+        // GIVEN I have not set any total time yet
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.restTime), 5)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 30)
+
+        // WHEN I call the function to save the new value
+        settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: -20)
+        settingsViewModel.saveTime(for: UserDefaultKeys.restTime, value: -10)
+        settingsViewModel.saveTime(for: UserDefaultKeys.longBreak, value: -30)
+
+        // THEN the total time should be updated
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.restTime), 5)
+        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreak), 30)
+    }
+
+    func test_NegativeNumberOfCyclesValue() throws {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+
+        // GIVEN I have not set the number of cycles yet
+        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal), 4)
+
+        // WHEN I call the function to save the new value
+        settingsViewModel.saveNumberOfCycles(-5)
+
+        // THEN the total time should be updated
+        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal), 4)
+    }
 }
