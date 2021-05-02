@@ -26,10 +26,10 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
-    @Published var restTime: String = "" {
+    @Published var shortBreakTime: String = "" {
         didSet {
-            if restTime.count > timerLimits {
-                restTime = String(restTime.prefix(timerLimits))
+            if shortBreakTime.count > timerLimits {
+                shortBreakTime = String(shortBreakTime.prefix(timerLimits))
             }
         }
     }
@@ -65,17 +65,17 @@ class SettingsViewModel: ObservableObject {
         let focusedTimeInMinutes = focusedTimeInSeconds / 60
         self.focusedTime = String(describing: focusedTimeInMinutes == 0 ? 1 : focusedTimeInMinutes)
 
-        let restTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.restTime)
-        let restTimeInMinutes = restTimeInSeconds / 60
-        self.restTime = String(describing: restTimeInMinutes == 0 ? 1 : restTimeInMinutes)
+        let shortBreakTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.shortBreakTime)
+        let shortBreakTimeInMinutes = shortBreakTimeInSeconds / 60
+        self.shortBreakTime = String(describing: shortBreakTimeInMinutes == 0 ? 1 : shortBreakTimeInMinutes)
 
-        self.cycleTotal = settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal)
+        self.cycleTotal = settingsModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)
 
-        let longBreakInSeconds = settingsModel.getTime(for: UserDefaultKeys.longBreak)
+        let longBreakInSeconds = settingsModel.getTime(for: UserDefaultKeys.longBreakTime)
         let longBrakInMinutes = longBreakInSeconds / 60
         self.longBreak = String(describing: longBrakInMinutes == 0 ? 1 : longBrakInMinutes)
 
-        self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStart)
+        self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
 
     /// Saves a timer based on a given key
@@ -101,7 +101,10 @@ class SettingsViewModel: ObservableObject {
     func saveNumberOfCycles(_ numberOfCycles: Int) {
 
         numberOfCycles > 0 ?
-            settingsModel.saveCycleTotal(cycleNumber: numberOfCycles, for: UserDefaultKeys.cycleTotal) :
+            settingsModel.saveNumberOfCycles(
+                numberOfCycles: numberOfCycles,
+                for: UserDefaultKeys.numberOfCycles
+            ) :
             debugPrint("The value \(numberOfCycles) for the number of cycles should be positive.")
     }
 
@@ -109,15 +112,15 @@ class SettingsViewModel: ObservableObject {
     /// - Parameter keyName: the key name to be retrieved
     /// - Returns: the number of the cycles
     func getNumberOfCycles(for keyName: String) -> Int {
-        Int(settingsModel.getCycleTotal(for: UserDefaultKeys.cycleTotal)) ?? 0
+        Int(settingsModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
     }
 
     /// Function to save the autoStart toggle value. Can be easilly changed to be more generic if necessary
     /// - Parameter autoStart: the value of the toggle
     func saveToggles(autoStart: Bool) {
-        settingsModel.saveToggle(value: autoStart, for: UserDefaultKeys.autoStart)
+        settingsModel.saveToggle(value: autoStart, for: UserDefaultKeys.autoStartToggle)
 
-        self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStart)
+        self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
 
     /// Function that retrieves the boolean valeu for a given key
@@ -131,9 +134,18 @@ class SettingsViewModel: ObservableObject {
     /// This saves again all the fields with the default values and then populate
     /// all the fields in the screen again
     func resetToDefault() {
-        saveTime(for: UserDefaultKeys.focusedTime, value: DefaultValuesConstants.defaultFocusedTime.rawValue)
-        saveTime(for: UserDefaultKeys.restTime, value: DefaultValuesConstants.defaultRestTime.rawValue)
-        saveTime(for: UserDefaultKeys.longBreak, value: DefaultValuesConstants.defaultLongBreakTime.rawValue)
+        saveTime(
+            for: UserDefaultKeys.focusedTime,
+            value: DefaultValuesConstants.defaultFocusedTime.rawValue
+        )
+        saveTime(
+            for: UserDefaultKeys.shortBreakTime,
+            value: DefaultValuesConstants.defaultShortBreakTime.rawValue
+        )
+        saveTime(
+            for: UserDefaultKeys.longBreakTime,
+            value: DefaultValuesConstants.defaultLongBreakTime.rawValue
+        )
         saveToggles(autoStart: false)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
 

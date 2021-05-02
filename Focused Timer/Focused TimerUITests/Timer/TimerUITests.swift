@@ -221,42 +221,42 @@ class TimerUITests: BaseFeature {
         let expectedFocused = expectation(description: "Focused Timer")
         let resultFocused = XCTWaiter.wait(for: [expectedFocused], timeout: 61.0)
         if resultFocused == XCTWaiter.Result.timedOut {
-            // THEN the mode will be changed to rest
-            let circleRest = app.otherElements[Identifiers.circleRest]
-            XCTAssertTrue(circleRest.exists)
+            // THEN the mode will be changed to shortBreak
+            let circleBreak = app.otherElements[Identifiers.circleBreak]
+            XCTAssertTrue(circleBreak.exists)
 
-            let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonRest.label, "Play")
+            let playButtonShortBreak = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonShortBreak.label, "Play")
 
-            let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeRest.label, "Short Break")
+            let lblTimerTypeShortBreak = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeShortBreak.label, "Short Break")
 
-            let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterRest.label, "01:00")
+            let lblCounterShortBreak = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterShortBreak.label, "01:00")
         } else {
             XCTFail("Delay interrupted")
         }
 
-        // WHEN I start the rest timer
+        // WHEN I start the shortBreak timer
         playButton.tap()
 
         // AND I wait the time so the app will change modes automatically
         // This is used to let the screen reacts to the tap
-        let expectedRest = expectation(description: "Resting Timer")
-        let resultRest = XCTWaiter.wait(for: [expectedRest], timeout: 61.0)
-        if resultRest == XCTWaiter.Result.timedOut {
-            // THEN the mode will be changed to rest
+        let expectedShortBreak = expectation(description: "Short Break Timer")
+        let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
+        if resultShortBreak == XCTWaiter.Result.timedOut {
+            // THEN the mode will be changed to shortBreak
             let circleFocused = app.otherElements[Identifiers.circleFocused]
             XCTAssertTrue(circleFocused.exists)
 
-            let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonRest.label, "Play")
+            let playButtonFocused = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonFocused.label, "Play")
 
-            let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeRest.label, "Focus")
+            let lblTimerTypeFocused = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeFocused.label, "Focus")
 
-            let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterRest.label, "01:00")
+            let lblCounterFocused = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterFocused.label, "01:00")
 
             let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
             XCTAssertEqual(lblCycleCounter.label, "1/4")
@@ -353,25 +353,25 @@ class TimerUITests: BaseFeature {
         let expectedFocus = expectation(description: "Focus Timer")
         let resultFocus = XCTWaiter.wait(for: [expectedFocus], timeout: 61.0)
         if resultFocus == XCTWaiter.Result.timedOut {
-            // THEN the mode will be changed to rest
-            let circleRest = app.otherElements[Identifiers.circleRest]
-            XCTAssertTrue(circleRest.exists)
+            // THEN the mode will be changed to shortBreak
+            let circleShortBreak = app.otherElements[Identifiers.circleBreak]
+            XCTAssertTrue(circleShortBreak.exists)
 
-            let playButtonRest = app.buttons[Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonRest.label, "Play")
+            let playButtonShortBreak = app.buttons[Identifiers.btnStartPauseIdentifier]
+            XCTAssertEqual(playButtonShortBreak.label, "Play")
 
-            let lblTimerTypeRest = app.staticTexts[Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeRest.label, "Short Break")
+            let lblTimerTypeShortBreak = app.staticTexts[Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeShortBreak.label, "Short Break")
 
-            let lblCounterRest = app.staticTexts[Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterRest.label, "01:00")
+            let lblCounterShortBreak = app.staticTexts[Identifiers.lblCounter]
+            XCTAssertEqual(lblCounterShortBreak.label, "01:00")
         }
 
-        // WHEN I wait for the rest timer to finish
-        let expectedRest = expectation(description: "Focus Timer")
-        let resultRest = XCTWaiter.wait(for: [expectedRest], timeout: 61.0)
-        if resultRest == XCTWaiter.Result.timedOut {
-            // resultRest the mode will be changed to rest
+        // WHEN I wait for the shortBreak timer to finish
+        let expectedShortBreak = expectation(description: "Focus Timer")
+        let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
+        if resultShortBreak == XCTWaiter.Result.timedOut {
+            // resultShortBreak the mode will be changed to shortBreak
             let circleFocused = app.otherElements[Identifiers.circleFocused]
             XCTAssertTrue(circleFocused.exists)
 

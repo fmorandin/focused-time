@@ -56,17 +56,20 @@ struct FormView: View {
                 .padding(.top, 10)
                 .padding(.bottom, 10)
 
-                // Resting time
+                // Short Break time
                 HStack {
-                    Text(Translation.settingsRestDuration)
-                        .accessibility(identifier: Identifiers.lblRestDuration)
+                    Text(Translation.settingsShortBreakDuration)
+                        .accessibility(identifier: Identifiers.lblShortBreakDuration)
 
                     Spacer()
 
-                    TextField("", text: $settingsViewModel.restTime, onEditingChanged: { isEditing in
+                    TextField("", text: $settingsViewModel.shortBreakTime, onEditingChanged: { isEditing in
                         if !isEditing {
-                            let restTime = Int($settingsViewModel.restTime.wrappedValue) ?? 0
-                            settingsViewModel.saveTime(for: UserDefaultKeys.restTime, value: restTime)
+                            let shortBreakTime = Int($settingsViewModel.shortBreakTime.wrappedValue) ?? 0
+                            settingsViewModel.saveTime(
+                                for: UserDefaultKeys.shortBreakTime,
+                                value: shortBreakTime
+                            )
 
                             shouldUpdateTimerView = true
                         }
@@ -75,22 +78,22 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtRestTime)
+                    .accessibility(identifier: Identifiers.txtShortBreakTime)
                 }
                 .padding(.bottom, 10)
                 .padding(.top, 10)
 
                 // Long Break
                 HStack {
-                    Text(Translation.settingsLongBreak)
-                        .accessibility(identifier: Identifiers.lblLongBreak)
+                    Text(Translation.settingsLongBreakDuration)
+                        .accessibility(identifier: Identifiers.lblLongBreakDuration)
 
                     Spacer()
 
                     TextField("", text: $settingsViewModel.longBreak, onEditingChanged: { isEditing in
                         if !isEditing {
                             let longBreak = Int($settingsViewModel.longBreak.wrappedValue) ?? 0
-                            settingsViewModel.saveTime(for: UserDefaultKeys.longBreak, value: longBreak)
+                            settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: longBreak)
 
                             shouldUpdateTimerView = true
                         }
@@ -99,15 +102,15 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtLongBreak)
+                    .accessibility(identifier: Identifiers.txtLongBreakTime)
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
 
                 // Number of cycles
                 HStack {
-                    Text(Translation.settingsCyclesTotal)
-                        .accessibility(identifier: Identifiers.lblCycleTotal)
+                    Text(Translation.settingsNumberOfCyclesTotal)
+                        .accessibility(identifier: Identifiers.lblNumberOfCycles)
 
                     Spacer()
 
@@ -123,7 +126,7 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtCycleTotal)
+                    .accessibility(identifier: Identifiers.txtNumberOfCycles)
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)

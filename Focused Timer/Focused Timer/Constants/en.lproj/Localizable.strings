@@ -11,9 +11,9 @@
 "settingsDismissModelButton" = "Dismiss settings modal";
 
 "settingsFocusDuration" = "Focused time (In minutes)";
-"settingsRestDuration" = "Resting time (In minutes)";
-"settingsCycleTotal" = "Number of cycles";
-"settingsLongBreak" = "Long break (In minutes)";
+"settingsShortBreakDuration" = "Short break time (In minutes)";
+"settingsNumberOfCyclesTotal" = "Number of cycles";
+"settingsLongBreakDuration" = "Long break time (In minutes)";
 
 "settingsSectionTimersName" = "Configurations for the timers";
 "settingsSectionAppName" = "Configurations for the app";
@@ -37,7 +37,7 @@
 "cycleCounter" = "Number of completed cycles";
 
 "focusName" = "Focus";
-"restName" = "Short Break";
+"shortBreakName" = "Short Break";
 "longBreakName" = "Long Break";
 
 // MARK: - Notification
@@ -48,16 +48,16 @@
 // MARK: - Help Screen
 
 "techniqueExplanationTitle" = "The technique";
-"techniqueExplanation" = "The technique consists of having set times for total focus on the activity, a short break and a long break - after a few cycles of focus and short rest.";
+"techniqueExplanation" = "The technique consists of having set times for total focus on the activity, a short break and a long break - after a few cycles of focus and short breaks.";
 
 "focusExplanationTitle" = "Focus"; 
 "focusExplanation" = "During the focus - the orange color - the idea is that all concentration is directed to the activity to be completed. Usually, this is a 25 minutes timer.";
 
-"restExplanationTitle" = "Short Break";
-"restExplanantion" = "The short break - the blue color - happens just after the time of focus and, during that time, nothing related to the activity should be done. The short break is, by default, a 5 minutes timer.";
+"shortBreakExplanationTitle" = "Short Break";
+"shortBreakExplanation" = "The short break - the blue color - happens just after the time of focus and, during that time, nothing related to the activity should be done. The short break is, by default, a 5 minutes timer.";
 
 "longBreakExplanationTitle" = "Long Break";
-"longBreakExplanation" = "The long break - the green color - is a longer period of rest after a few cycles of focus and rest. Usually, this is a 30 minutes timer.";
+"longBreakExplanation" = "The long break - the green color - is a longer period of rest after a few cycles of focus and short breaks. Usually, this is a 30 minutes timer.";
 
 "numberOfCyclesExplanationTitle" = "Number of Cycles";
-"numberOfCyclesExplanation" = "The number of focus and rest cycles that the user must to be completed before the long break.";
+"numberOfCyclesExplanation" = "The number of focus that the user must to be completed before the long break.";

@@ -51,12 +51,12 @@ class TimerViewModel: ObservableObject {
         self.countTime = self.dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
 
-        self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)) ?? 0
+        self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         self.numberOfCompletedCycles = 0
 
         self.accentCircleColor = .orange
 
-        self.autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStart)
+        self.autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
 
     // MARK: - Public Methods
@@ -96,11 +96,11 @@ class TimerViewModel: ObservableObject {
         countTime = dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
         timer.invalidate()
-        totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.cycleTotal)) ?? 0
+        totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
         accentCircleColor = .orange
 
-        autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStart)
+        autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background
@@ -179,7 +179,7 @@ class TimerViewModel: ObservableObject {
             if self.timerType == .focused {
                 changeTimerType(timerType: .focused)
             } else {
-                changeTimerType(timerType: .rest)
+                changeTimerType(timerType: .shortBreak)
             }
         }
     }
@@ -199,14 +199,14 @@ class TimerViewModel: ObservableObject {
     fileprivate func changeTimerType(timerType: TimerType) {
         switch timerType {
         case .focused:
-            self.timerType = .rest
-            counter = timerModel.getTime(for: UserDefaultKeys.restTime)
-            totalTime = timerModel.getTime(for: UserDefaultKeys.restTime)
+            self.timerType = .shortBreak
+            counter = timerModel.getTime(for: UserDefaultKeys.shortBreakTime)
+            totalTime = timerModel.getTime(for: UserDefaultKeys.shortBreakTime)
             countTime = dateFormatter
-                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.restTime))) ?? "-"
+                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.shortBreakTime))) ?? "-"
             accentCircleColor = .blue
 
-        case .rest:
+        case .shortBreak:
             self.timerType = .focused
             counter = timerModel.getTime(for: UserDefaultKeys.focusedTime)
             totalTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
@@ -216,10 +216,10 @@ class TimerViewModel: ObservableObject {
 
         case .longBreak:
             self.timerType = .longBreak
-            counter = timerModel.getTime(for: UserDefaultKeys.longBreak)
-            totalTime = timerModel.getTime(for: UserDefaultKeys.longBreak)
+            counter = timerModel.getTime(for: UserDefaultKeys.longBreakTime)
+            totalTime = timerModel.getTime(for: UserDefaultKeys.longBreakTime)
             countTime = dateFormatter
-                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.longBreak))) ?? "-"
+                .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.longBreakTime))) ?? "-"
             accentCircleColor = .green
         }
     }

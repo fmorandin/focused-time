@@ -13,9 +13,9 @@ enum Translation {
     static let settingsDismissModalButton = LocalizedStringKey("settingsDismissModelButton")
 
     static let settingsFocusDuration = LocalizedStringKey("settingsFocusDuration")
-    static let settingsRestDuration = LocalizedStringKey("settingsRestDuration")
-    static let settingsCyclesTotal = LocalizedStringKey("settingsCycleTotal")
-    static let settingsLongBreak = LocalizedStringKey("settingsLongBreak")
+    static let settingsShortBreakDuration = LocalizedStringKey("settingsShortBreakDuration")
+    static let settingsNumberOfCyclesTotal = LocalizedStringKey("settingsNumberOfCyclesTotal")
+    static let settingsLongBreakDuration = LocalizedStringKey("settingsLongBreakDuration")
 
     static let settingsSectionTimersName = LocalizedStringKey("settingsSectionTimersName")
     static let settingsSectionAppName = LocalizedStringKey("settingsSectionAppName")
@@ -39,7 +39,7 @@ enum Translation {
     static let cycleCounter = LocalizedStringKey("cycleCounter")
 
     static let focusName = LocalizedStringKey("focusName")
-    static let restName = LocalizedStringKey("restName")
+    static let shortBreakName = LocalizedStringKey("shortBreakName")
     static let longBreakName = LocalizedStringKey("longBreakName")
 
     // MARK: - Notification
@@ -55,8 +55,8 @@ enum Translation {
     static let focusExplanationTitle = LocalizedStringKey("focusExplanationTitle")
     static let focusExplanation = LocalizedStringKey("focusExplanation")
 
-    static let restExplanationTitle = LocalizedStringKey("restExplanationTitle")
-    static let restExplanation = LocalizedStringKey("restExplanantion")
+    static let shortBreakExplanationTitle = LocalizedStringKey("shortBreakExplanationTitle")
+    static let shortBreakExplanation = LocalizedStringKey("shortBreakExplanation")
 
     static let longBreakExplanationTitle = LocalizedStringKey("longBreakExplanationTitle")
     static let longBreakExplanation = LocalizedStringKey("longBreakExplanation")

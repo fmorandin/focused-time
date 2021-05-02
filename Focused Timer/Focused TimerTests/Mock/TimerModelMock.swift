@@ -34,9 +34,9 @@ struct TimerModelMock: TimerModelProtocol {
         switch key {
         case "focusedTime":
             return 5
-        case "restTime":
+        case "shortBreakTime":
             return 2
-        case "longBreak":
+        case "longBreakTime":
             return 3
         default:
             return 1

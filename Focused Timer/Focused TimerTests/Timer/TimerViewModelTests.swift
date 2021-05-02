@@ -40,7 +40,7 @@ class TimerViewModelTests: XCTestCase {
         let finalResult = XCTWaiter.wait(for: [finalExpectation], timeout: 5.0)
         if finalResult == XCTWaiter.Result.timedOut {
 
-            // THEN the values should be changed for the rest time
+            // THEN the values should be changed for the shortBreak time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
             XCTAssertEqual(timerViewModel.counter, 2)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
@@ -100,7 +100,7 @@ class TimerViewModelTests: XCTestCase {
         XCTAssertEqual(timerViewModel.timerTo, 1.0)
     }
 
-    func test_FocusAndRestTimes() throws {
+    func test_FocusAndShortBreakTimes() throws {
         let expected = expectation(description: "Timer Running")
 
         // AND the timer state is .initial
@@ -128,7 +128,7 @@ class TimerViewModelTests: XCTestCase {
         let finalFocusedResult = XCTWaiter.wait(for: [finalFocusedExpectation], timeout: 5.0)
         if finalFocusedResult == XCTWaiter.Result.timedOut {
 
-            // THEN the values should be changed for the rest time
+            // THEN the values should be changed for the shortBreak time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
             XCTAssertEqual(timerViewModel.counter, 2)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
@@ -139,9 +139,9 @@ class TimerViewModelTests: XCTestCase {
         timerViewModel.startTimer()
 
         // WHEN the timer ends
-        let finalRestExpectation = expectation(description: "Timer finished")
-        let finalRestResult = XCTWaiter.wait(for: [finalRestExpectation], timeout: 5.0)
-        if finalRestResult == XCTWaiter.Result.timedOut {
+        let finalShortBreakExpectation = expectation(description: "Timer finished")
+        let finalShortBreakResult = XCTWaiter.wait(for: [finalShortBreakExpectation], timeout: 5.0)
+        if finalShortBreakResult == XCTWaiter.Result.timedOut {
 
             // THEN the values should be changed for the focused time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
@@ -183,22 +183,22 @@ class TimerViewModelTests: XCTestCase {
         let finalFocusedResult1 = XCTWaiter.wait(for: [finalFocusedExpectation1], timeout: 5.0)
         if finalFocusedResult1 == XCTWaiter.Result.timedOut {
 
-            // THEN the values should be changed for the rest time
+            // THEN the values should be changed for the short break time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
             XCTAssertEqual(timerViewModel.counter, 2)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
             XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-            XCTAssertEqual(timerViewModel.timerType, .rest)
+            XCTAssertEqual(timerViewModel.timerType, .shortBreak)
         }
 
-        // ------------- rest
+        // ------------- shortBreak
         // WHEN I start the timer
         timerViewModel.startTimer()
 
         // WHEN the timer ends
-        let finalRestExpectation1 = expectation(description: "Timer finished")
-        let finalRestResult1 = XCTWaiter.wait(for: [finalRestExpectation1], timeout: 5.0)
-        if finalRestResult1 == XCTWaiter.Result.timedOut {
+        let finalShortBreakExpectation1 = expectation(description: "Timer finished")
+        let finalShortBreakResult1 = XCTWaiter.wait(for: [finalShortBreakExpectation1], timeout: 5.0)
+        if finalShortBreakResult1 == XCTWaiter.Result.timedOut {
 
             // THEN the values should be changed for the focused time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
@@ -239,12 +239,12 @@ class TimerViewModelTests: XCTestCase {
         let finalFocusedResult2 = XCTWaiter.wait(for: [finalFocusedExpectation2], timeout: 5.0)
         if finalFocusedResult2 == XCTWaiter.Result.timedOut {
 
-            // THEN the values should be changed for the rest time
+            // THEN the values should be changed for the shortBreak time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+            XCTAssertEqual(timerViewModel.timerType, .longBreak)
+            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 2)
             XCTAssertEqual(timerViewModel.counter, 3)
             XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 2)
-            XCTAssertEqual(timerViewModel.timerType, .longBreak)
 
         }
 
@@ -253,9 +253,9 @@ class TimerViewModelTests: XCTestCase {
         timerViewModel.startTimer()
 
         // WHEN the timer ends
-        let finalRestExpectation2 = expectation(description: "Timer finished")
-        let finalRestResult2 = XCTWaiter.wait(for: [finalRestExpectation2], timeout: 5.0)
-        if finalRestResult2 == XCTWaiter.Result.timedOut {
+        let finalShortBreakExpectation2 = expectation(description: "Timer finished")
+        let finalShortBreakResult2 = XCTWaiter.wait(for: [finalShortBreakExpectation2], timeout: 5.0)
+        if finalShortBreakResult2 == XCTWaiter.Result.timedOut {
 
             // THEN the values should be changed for the focused time
             XCTAssertEqual(timerViewModel.timerState, TimerState.initial)

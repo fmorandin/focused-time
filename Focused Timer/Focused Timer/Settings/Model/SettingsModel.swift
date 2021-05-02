@@ -25,11 +25,11 @@ protocol SettingsModelProtocol {
     /// - Parameters:
     ///   - cycleNumber: an Int that indicates the number of cycles
     ///   - keyName: the key for the saved value
-    func saveCycleTotal(cycleNumber: Int, for keyName: String)
+    func saveNumberOfCycles(numberOfCycles: Int, for keyName: String)
 
     /// Function that gets the value from the UserDefautls based on a given key
     /// - Parameter keyName: the key to be retrieved
-    func getCycleTotal(for keyName: String) -> String
+    func getNumberOfCycles(for keyName: String) -> String
 
     /// Function that saves the value for a toggle
     /// - Parameters:
@@ -64,9 +64,9 @@ struct SettingsModel: SettingsModelProtocol {
             switch keyName {
             case UserDefaultKeys.focusedTime:
                 return DefaultValuesConstants.defaultFocusedTime.inSeconds()
-            case UserDefaultKeys.restTime:
-                return DefaultValuesConstants.defaultRestTime.inSeconds()
-            case UserDefaultKeys.longBreak:
+            case UserDefaultKeys.shortBreakTime:
+                return DefaultValuesConstants.defaultShortBreakTime.inSeconds()
+            case UserDefaultKeys.longBreakTime:
                 return DefaultValuesConstants.defaultLongBreakTime.inSeconds()
             default:
                 return 0
@@ -74,11 +74,11 @@ struct SettingsModel: SettingsModelProtocol {
         }
     }
 
-    func saveCycleTotal(cycleNumber: Int, for keyName: String) {
-        defaults.setValue(cycleNumber, forKey: keyName)
+    func saveNumberOfCycles(numberOfCycles: Int, for keyName: String) {
+        defaults.setValue(numberOfCycles, forKey: keyName)
     }
 
-    func getCycleTotal(for keyName: String) -> String {
+    func getNumberOfCycles(for keyName: String) -> String {
         defaults.string(forKey: keyName) ?? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
     }
 

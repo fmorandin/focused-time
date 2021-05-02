@@ -16,18 +16,18 @@ enum Identifiers {
 
     // TextFields
     static let txtFocusedTime = "txtFocusedTime"
-    static let txtRestTime = "txtRestTime"
-    static let txtCycleTotal = "txtCycleTotal"
-    static let txtLongBreak = "txtLongBreak"
+    static let txtShortBreakTime = "txtShortBreakTime"
+    static let txtNumberOfCycles = "txtNumberOfCycles"
+    static let txtLongBreakTime = "txtLongBreakTime"
 
     // Toggles
     static let tgAutoStart = "tgAutoStart"
 
     // Labels
     static let lblFocusDuration = "lblFocusDuration"
-    static let lblRestDuration = "lblRestDuration"
-    static let lblCycleTotal = "lblCycleTotal"
-    static let lblLongBreak = "lblLongBreak"
+    static let lblShortBreakDuration = "lblShortBreakDuration"
+    static let lblNumberOfCycles = "lblNumberOfCycles"
+    static let lblLongBreakDuration = "lblLongBreakDuration"
     static let lblAutoStart = "lblAutoStart"
 
     static let lblWarnReloadMessage = "lblWarnReloadMessage"
@@ -48,7 +48,7 @@ enum Identifiers {
 
     // Counter section
     static let circleFocused = "circleFocused"
-    static let circleRest = "circleRest"
+    static let circleBreak = "circleBreak"
 
     // MARK: - Help Screen
 
@@ -59,8 +59,8 @@ enum Identifiers {
     static let lblFocusExplanationTitle = "lblFocusExplanationTitle"
     static let lblFocusExplanation = "lblFocusExplanation"
 
-    static let lblRestExplanationTitle = "lblRestExplanationTitle"
-    static let lblRestExplanation = "lblRestExplanation"
+    static let lblShortBreakExplanationTitle = "lblShortBreakExplanationTitle"
+    static let lblShortBreakExplanation = "lblShortBreakExplanation"
 
     static let lblLongBreakExplanationTitle = "lblLongBreakExplanationTitle"
     static let lblLongBreakExplanation = "lblLongBreakExplanation"
@@ -71,13 +71,13 @@ enum Identifiers {
 
 enum UserDefaultKeys {
     static let focusedTime = "focusedTime"
-    static let restTime = "restTime"
+    static let shortBreakTime = "shortBreakTime"
     static let remainingTime = "remainingTime"
     static let timestampAppMovedBackground = "timestampAppMovedBackground"
     static let isNotification = "isNotification"
-    static let cycleTotal = "cycleTotal"
-    static let longBreak = "longBreak"
-    static let autoStart = "autoStart"
+    static let numberOfCycles = "numberOfCycles"
+    static let longBreakTime = "longBreakTime"
+    static let autoStartToggle = "autoStartToggle"
 }
 
 extension Notification.Name {

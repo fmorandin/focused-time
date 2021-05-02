@@ -58,12 +58,12 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     private func setStateForUITesting() {
         if AppDelegate.isUITestingEnabled {
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-            UserDefaults.standard.set("4", forKey: UserDefaultKeys.cycleTotal)
+            UserDefaults.standard.set("4", forKey: UserDefaultKeys.numberOfCycles)
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.focusedTime)
-            UserDefaults.standard.set(60, forKey: UserDefaultKeys.restTime)
-            UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreak)
+            UserDefaults.standard.set(60, forKey: UserDefaultKeys.shortBreakTime)
+            UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreakTime)
 
-            UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStart)
+            UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
         }
     }
 }

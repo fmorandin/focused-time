@@ -27,11 +27,11 @@ class HelpViewUITests: BaseFeature {
         let focusExplanation = app.staticTexts[Identifiers.lblFocusExplanation]
         XCTAssert(focusExplanation.exists, "The focus explanation should be present")
 
-        let restExplanationTitle = app.staticTexts[Identifiers.lblRestExplanationTitle]
-        XCTAssert(restExplanationTitle.exists, "The rest explanation title should be present")
+        let shortBreakExplanationTitle = app.staticTexts[Identifiers.lblShortBreakExplanationTitle]
+        XCTAssert(shortBreakExplanationTitle.exists, "The shortBreak explanation title should be present")
 
-        let restExplanation = app.staticTexts[Identifiers.lblRestExplanation]
-        XCTAssert(restExplanation.exists, "The rest explanation should be present")
+        let shortBreakExplanation = app.staticTexts[Identifiers.lblShortBreakExplanation]
+        XCTAssert(shortBreakExplanation.exists, "The shortBreak explanation should be present")
 
         let longBreakExplanationTitle = app.staticTexts[Identifiers.lblLongBreakExplanationTitle]
         XCTAssert(longBreakExplanationTitle.exists, "The long break explanation title should be present")

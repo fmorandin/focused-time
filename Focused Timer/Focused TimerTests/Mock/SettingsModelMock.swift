@@ -32,7 +32,7 @@ struct SettingsModelMock: SettingsModelProtocol {
         switch key {
         case "focusedTime":
             return 1500
-        case "restTime":
+        case "shortBreakTime":
             return 300
         case "longBreak":
             return 1800
@@ -41,11 +41,11 @@ struct SettingsModelMock: SettingsModelProtocol {
         }
     }
 
-    func saveCycleTotal(cycleNumber: Int, for keyName: String) {
+    func saveNumberOfCycles(numberOfCycles: Int, for keyName: String) {
         debugPrint("↻ number of cycles saved")
     }
 
-    func getCycleTotal(for keyName: String) -> String {
+    func getNumberOfCycles(for keyName: String) -> String {
         return "10"
     }
 }

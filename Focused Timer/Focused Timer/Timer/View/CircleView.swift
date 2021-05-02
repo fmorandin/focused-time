@@ -39,7 +39,7 @@ struct CircleView: View {
                 .accessibility(identifier:
                                 timerViewModel.timerType == .focused ?
                                 Identifiers.circleFocused :
-                                Identifiers.circleRest)
+                                Identifiers.circleBreak)
 
             VStack {
 

@@ -45,9 +45,9 @@ struct TimerModel: TimerModelProtocol {
             switch keyName {
             case UserDefaultKeys.focusedTime:
                 return DefaultValuesConstants.defaultFocusedTime.inSeconds()
-            case UserDefaultKeys.restTime:
-                return DefaultValuesConstants.defaultRestTime.inSeconds()
-            case UserDefaultKeys.longBreak:
+            case UserDefaultKeys.shortBreakTime:
+                return DefaultValuesConstants.defaultShortBreakTime.inSeconds()
+            case UserDefaultKeys.longBreakTime:
                 return DefaultValuesConstants.defaultLongBreakTime.inSeconds()
             default:
                 return 0

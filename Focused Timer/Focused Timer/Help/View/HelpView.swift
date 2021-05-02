@@ -79,20 +79,20 @@ struct HelpView: View {
 
                     VStack(spacing: 5) {
                         HStack {
-                            Text(Translation.restExplanationTitle)
+                            Text(Translation.shortBreakExplanationTitle)
                                 .fontWeight(.bold)
                                 .font(.title3)
                                 .padding(.leading)
-                                .accessibility(identifier: Identifiers.lblRestExplanationTitle)
+                                .accessibility(identifier: Identifiers.lblShortBreakExplanationTitle)
 
                             Spacer()
                         }
 
-                        Text(Translation.restExplanation)
+                        Text(Translation.shortBreakExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
                             .padding([.leading, .trailing, .bottom])
-                            .accessibility(identifier: Identifiers.lblRestExplanation)
+                            .accessibility(identifier: Identifiers.lblShortBreakExplanation)
                     }
 
                     VStack(spacing: 5) {

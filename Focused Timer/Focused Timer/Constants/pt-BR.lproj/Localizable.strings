@@ -11,9 +11,9 @@
 "settingsDismissModelButton" = "Fechar janela de configurações";
 
 "settingsFocusDuration" = "Tempo concentrado (Em minutos)";
-"settingsRestDuration" = "Tempo descanso (Em minutos)";
-"settingsCycleTotal" = "Número de ciclos";
-"settingsLongBreak" = "Pausa longa (Em minutos)";
+"settingsShortBreakDuration" = "Tempo descanso (Em minutos)";
+"settingsNumberOfCyclesTotal" = "Número de ciclos";
+"settingsLongBreakDuration" = "Pausa longa (Em minutos)";
 
 "settingsSectionTimersName" = "Configurações dos timers";
 "settingsSectionAppName" = "Configurações do aplicativo";
@@ -37,7 +37,7 @@
 "cycleCounter" = "Número de ciclos concluídos";
 
 "focusName" = "Foco";
-"restName" = "Pausa curta";
+"shortBreakName" = "Pausa curta";
 "longBreakName" = "Pausa longa";
 
 // MARK: - Notification
@@ -53,8 +53,8 @@
 "focusExplanationTitle" = "Foco";
 "focusExplanation" = "Durante o foco - cor laranja - a ideia é que toda concentração seja direcionada para a atividade a ser concluída. Normalmente esse tempo dura 25 minutos.";
 
-"restExplanationTitle" = "Pausa Curta";
-"restExplanantion" = "A pausa curta - cor azul - acontece logo após ao tempo de foco e, durante esse tempo, nada relacionado à atividade deve ser feito e dura, por padrão, 5 minutos. ";
+"shortBreakExplanationTitle" = "Pausa Curta";
+"shortBreakExplanation" = "A pausa curta - cor azul - acontece logo após ao tempo de foco e, durante esse tempo, nada relacionado à atividade deve ser feito e dura, por padrão, 5 minutos. ";
 
 "longBreakExplanationTitle" = "Pausa Longa";
 "longBreakExplanation" = "A pausa longa - cor verde - é um período maior de descanso depois de alguns ciclos de foco e descanso. Normalmente essa pausa dura 30 minutos.";

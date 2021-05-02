@@ -18,7 +18,7 @@ struct HapticsConstants {
 enum DefaultValuesConstants: Int {
 
     case defaultFocusedTime = 25
-    case defaultRestTime = 5
+    case defaultShortBreakTime = 5
     case defaultLongBreakTime = 30
     case defaultNumberOfCycles = 4
 
