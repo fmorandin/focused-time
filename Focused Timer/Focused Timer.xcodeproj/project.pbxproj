@@ -43,6 +43,7 @@
 		A378FC452522BB7E0046FC4C /* TimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC442522BB7E0046FC4C /* TimerViewModelTests.swift */; };
 		A378FC502522BB7E0046FC4C /* TimerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC4F2522BB7E0046FC4C /* TimerUITests.swift */; };
 		A378FC672522BCF90046FC4C /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC662522BCF90046FC4C /* TimerView.swift */; };
+		B63599002656EDAA006489DA /* Translation+AccLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63598FF2656EDAA006489DA /* Translation+AccLabel.swift */; };
 		B63EFF0326558FF7007534C4 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */; };
 		B63EFF072655907D007534C4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF062655907D007534C4 /* Notification.swift */; };
 /* End PBXBuildFile section */
@@ -104,6 +105,7 @@
 		A378FC4F2522BB7E0046FC4C /* TimerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerUITests.swift; sourceTree = "<group>"; };
 		A378FC512522BB7E0046FC4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A378FC662522BCF90046FC4C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		B63598FF2656EDAA006489DA /* Translation+AccLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Translation+AccLabel.swift"; sourceTree = "<group>"; };
 		B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		B63EFF062655907D007534C4 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,6 +215,7 @@
 			children = (
 				180EDCD525CC86E800452D96 /* Localizable.strings */,
 				180EDCDD25CC882D00452D96 /* Translation.swift */,
+				B63598FF2656EDAA006489DA /* Translation+AccLabel.swift */,
 				180EDCE225CC888700452D96 /* Accessibility.swift */,
 				180EDCE725CC9BF000452D96 /* ImageNames.swift */,
 				18DF2DEF260A9BBE00F1BB69 /* Constants.swift */,
@@ -538,6 +541,7 @@
 				B63EFF072655907D007534C4 /* Notification.swift in Sources */,
 				18C5C30A25BB696900A4893F /* SettingsModel.swift in Sources */,
 				181F5031260A84710051D092 /* TopMenuView.swift in Sources */,
+				B63599002656EDAA006489DA /* Translation+AccLabel.swift in Sources */,
 				180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */,
 				A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */,
 				A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */,

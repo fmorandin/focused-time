@@ -5,7 +5,7 @@
 //  Created by Felipe Morandin on 04/02/21.
 //
 
-import Foundation
+import SwiftUI
 
 enum Accessibility {
 
@@ -73,7 +73,4 @@ enum Accessibility {
         static let lblNumberOfCyclesExplanationTitle = "lblNumberOfCyclesExplanationTitle"
         static let lblNumberOfCyclesExplanation = "lblNumberOfCyclesExplanation"
     }
-
-    // MARK: - Labels
-
 }

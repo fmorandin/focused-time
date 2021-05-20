@@ -34,7 +34,6 @@ struct HelpView: View {
                                 .opacity(0.5)
                         }
                         .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
-                        .accessibility(label: Text("Dismiss help screen"))
                     })
 
                 }

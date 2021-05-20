@@ -36,6 +36,7 @@ struct FlowCounterView: View {
                 .font(.system(size: 20))
                 .fontWeight(.light)
                 .accessibility(identifier: Accessibility.Identifiers.lblCycleCounter)
+                .accessibility(value: Text(Translation.AccLabel.accLabelCompletedCycleCounter))
 
             Spacer()
         }
