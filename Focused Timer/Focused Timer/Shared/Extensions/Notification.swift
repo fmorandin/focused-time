@@ -2,7 +2,7 @@
 //  Notification.swift
 //  Focused Timer
 //
-//  Created by cliente on 19/05/21.
+//  Created by Felipe Morandin on 19/05/21.
 //
 
 import Foundation

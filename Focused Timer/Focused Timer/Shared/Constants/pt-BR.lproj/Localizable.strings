@@ -61,3 +61,19 @@
 
 "numberOfCyclesExplanationTitle" = "Número de Ciclos";
 "numberOfCyclesExplanation" = "O número de ciclos de foco e descanso que deve ser cumprido antes da pausa longa.";
+
+// MARK: - Accessibility Labels
+
+// MARK: - Settings Screen
+
+"accLabelSettingsFocusDurationTxtFld" = "Campo com o valor do tempo de foco";
+"accLabelSettingsShortBreakDurationTxtFld" = "Campo com o valor do tempo da pausa curta";
+"accLabelSettingsLongBreakDurationTxtFld" = "Campo com o valor do tempo da pausa longa";
+"accLabelSettingsNbrOfCyclesTotalTxtFld" = "Campo com o valor do número de ciclos que serão completados";
+"accLabelSettingsAutoStartToggle" = "Botão para alterar a configuração do início automático do timer";
+
+// MARK: - Timer Screen
+
+"accLabelTimerTypeName" = "Tipo de timer ativo no momento";
+"accLabelCounterTypeName" = "Tempo disponível para o timer ativo no momento";
+"accLabelCompletedCycleCounter" = "Número de ciclos completados barra número de ciclos totais";

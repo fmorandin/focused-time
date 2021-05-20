@@ -61,3 +61,19 @@
 
 "numberOfCyclesExplanationTitle" = "Number of Cycles";
 "numberOfCyclesExplanation" = "The number of focus that the user must to be completed before the long break.";
+
+// MARK: - Accessibility Labels
+
+// MARK: - Settings Screen
+
+"accLabelSettingsFocusDurationTxtFld" = "Input with the value of focus duration time";
+"accLabelSettingsShortBreakDurationTxtFld" = "Input with the value of short break duration time";
+"accLabelSettingsLongBreakDurationTxtFld" = "Input with the value of long break duration time";
+"accLabelSettingsNbrOfCyclesTotalTxtFld" = "Input with the value of the number of cycles to be completed";
+"accLabelSettingsAutoStartToggle" = "Toggle to enable the auto start";
+
+// MARK: - Timer Screen
+
+"accLabelTimerTypeName" = "Timer type that is active at the moment";
+"accLabelCounterTypeName" = "The time value for the active timer at the moment";
+"accLabelCompletedCycleCounter" = "The number of completed cycles slash the total number of cycles";

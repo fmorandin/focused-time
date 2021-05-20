@@ -2,12 +2,13 @@
 //  UserDefaultKeys.swift
 //  Focused Timer
 //
-//  Created by cliente on 19/05/21.
+//  Created by Felipe Morandin on 19/05/21.
 //
 
 import Foundation
 
 enum UserDefaultKeys {
+
     static let focusedTime = "focusedTime"
     static let shortBreakTime = "shortBreakTime"
     static let remainingTime = "remainingTime"

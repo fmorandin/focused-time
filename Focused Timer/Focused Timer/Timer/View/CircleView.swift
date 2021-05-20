@@ -47,12 +47,14 @@ struct CircleView: View {
                     .font(.system(size: 25))
                     .fontWeight(.light)
                     .accessibility(identifier: Accessibility.Identifiers.lblTimerType)
+                    .accessibility(value: Text(Translation.AccLabel.accLabelTimerTypeName))
 
                 Text(timerViewModel.countTime)
                     .font(.system(size: 60))
                     .fontWeight(.bold)
-                    .accessibility(identifier: Accessibility.Identifiers.lblCounter)
                     .multilineTextAlignment(.center)
+                    .accessibility(identifier: Accessibility.Identifiers.lblCounter)
+                    .accessibility(value: Text(Translation.AccLabel.accLabelCounterTypeName))
             }
         }
     }

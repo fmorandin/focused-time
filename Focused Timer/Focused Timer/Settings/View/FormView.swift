@@ -52,6 +52,7 @@ struct FormView: View {
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
                     .accessibility(identifier: Accessibility.Identifiers.txtFocusedTime)
+                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -79,6 +80,7 @@ struct FormView: View {
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
                     .accessibility(identifier: Accessibility.Identifiers.txtShortBreakTime)
+                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
                 }
                 .padding(.bottom, 10)
                 .padding(.top, 10)
@@ -103,6 +105,7 @@ struct FormView: View {
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
                     .accessibility(identifier: Accessibility.Identifiers.txtLongBreakTime)
+                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -127,6 +130,7 @@ struct FormView: View {
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
                     .accessibility(identifier: Accessibility.Identifiers.txtNumberOfCycles)
+                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -147,6 +151,7 @@ struct FormView: View {
                             shouldUpdateTimerView = true
                         })
                         .accessibility(identifier: Accessibility.Identifiers.tgAutoStart)
+                        .accessibility(label: Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
