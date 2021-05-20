@@ -35,7 +35,7 @@ struct FormView: View {
                 // Focused time
                 HStack {
                     Text(Translation.settingsFocusDuration)
-                        .accessibility(identifier: Identifiers.lblFocusDuration)
+                        .accessibility(identifier: Accessibility.Identifiers.lblFocusDuration)
 
                     Spacer()
 
@@ -51,7 +51,7 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtFocusedTime)
+                    .accessibility(identifier: Accessibility.Identifiers.txtFocusedTime)
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -59,7 +59,7 @@ struct FormView: View {
                 // Short Break time
                 HStack {
                     Text(Translation.settingsShortBreakDuration)
-                        .accessibility(identifier: Identifiers.lblShortBreakDuration)
+                        .accessibility(identifier: Accessibility.Identifiers.lblShortBreakDuration)
 
                     Spacer()
 
@@ -78,7 +78,7 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtShortBreakTime)
+                    .accessibility(identifier: Accessibility.Identifiers.txtShortBreakTime)
                 }
                 .padding(.bottom, 10)
                 .padding(.top, 10)
@@ -86,7 +86,7 @@ struct FormView: View {
                 // Long Break
                 HStack {
                     Text(Translation.settingsLongBreakDuration)
-                        .accessibility(identifier: Identifiers.lblLongBreakDuration)
+                        .accessibility(identifier: Accessibility.Identifiers.lblLongBreakDuration)
 
                     Spacer()
 
@@ -102,7 +102,7 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtLongBreakTime)
+                    .accessibility(identifier: Accessibility.Identifiers.txtLongBreakTime)
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -110,7 +110,7 @@ struct FormView: View {
                 // Number of cycles
                 HStack {
                     Text(Translation.settingsNumberOfCyclesTotal)
-                        .accessibility(identifier: Identifiers.lblNumberOfCycles)
+                        .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCycles)
 
                     Spacer()
 
@@ -126,7 +126,7 @@ struct FormView: View {
                     .keyboardType(.numberPad)
                     .frame(width: 50)
                     .multilineTextAlignment(.center)
-                    .accessibility(identifier: Identifiers.txtNumberOfCycles)
+                    .accessibility(identifier: Accessibility.Identifiers.txtNumberOfCycles)
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -137,7 +137,7 @@ struct FormView: View {
                 // Auto Start
                 HStack {
                     Text(Translation.settingsAutoStart)
-                        .accessibility(identifier: Identifiers.lblAutoStart)
+                        .accessibility(identifier: Accessibility.Identifiers.lblAutoStart)
 
                     Spacer()
 
@@ -146,7 +146,7 @@ struct FormView: View {
                             settingsViewModel.saveToggles(autoStart: value)
                             shouldUpdateTimerView = true
                         })
-                        .accessibility(identifier: Identifiers.tgAutoStart)
+                        .accessibility(identifier: Accessibility.Identifiers.tgAutoStart)
                 }
                 .padding(.top, 10)
                 .padding(.bottom, 10)
@@ -160,7 +160,7 @@ struct FormView: View {
                         Text(Translation.resetSettingsDefaultValue)
                     })
                     .foregroundColor(Color.red)
-                    .accessibility(identifier: Identifiers.btnResetSettingsDefault)
+                    .accessibility(identifier: Accessibility.Identifiers.btnResetSettingsDefault)
                     .onTapGesture {
                         resetDefaultValuesAlert.toggle()
                     }

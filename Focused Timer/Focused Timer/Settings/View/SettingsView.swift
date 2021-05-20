@@ -51,7 +51,7 @@ struct SettingsView: View {
                         .padding(.trailing)
                         .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
                 })
-                .accessibility(identifier: Identifiers.btnCloseModal)
+                .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
 
             }
             .padding(.top, 30)
@@ -65,7 +65,7 @@ struct SettingsView: View {
                     .padding()
                     .background(Color.red)
                     .padding()
-                    .accessibility(identifier: Identifiers.lblWarnReloadMessage)
+                    .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
             }
 
             // The list that contains all the available settings to be defined in the app

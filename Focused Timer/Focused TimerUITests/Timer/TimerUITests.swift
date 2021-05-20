@@ -11,16 +11,16 @@ class TimerUITests: BaseFeature {
 
     func test_TimerStartedCorrectly()  throws {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        let lblTimerType = app.staticTexts[Accessibility.Identifiers.lblTimerType]
         XCTAssertEqual(lblTimerType.label, "Focus")
 
-        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
-        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
         XCTAssertEqual(lblCycleCounter.label, "0/4")
 
         // WHEN I click to start the timer
@@ -46,16 +46,16 @@ class TimerUITests: BaseFeature {
 
     func test_TimerResumedCorrectly() throws {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        let lblTimerType = app.staticTexts[Accessibility.Identifiers.lblTimerType]
         XCTAssertEqual(lblTimerType.label, "Focus")
 
-        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
-        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
         XCTAssertEqual(lblCycleCounter.label, "0/4")
 
         // WHEN I click to start the timer
@@ -121,16 +121,16 @@ class TimerUITests: BaseFeature {
 
     func test_TimerResettedCorrectly() throws {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        let lblTimerType = app.staticTexts[Accessibility.Identifiers.lblTimerType]
         XCTAssertEqual(lblTimerType.label, "Focus")
 
-        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
-        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
         XCTAssertEqual(lblCycleCounter.label, "0/4")
 
         // WHEN I click to start the timer
@@ -174,7 +174,7 @@ class TimerUITests: BaseFeature {
         }
 
         // WHEN I click on the reset
-        let resetButton = app.buttons[Identifiers.btnResetIdentifier]
+        let resetButton = app.buttons[Accessibility.Identifiers.btnResetIdentifier]
         XCTAssertEqual(resetButton.label, "Reset")
         resetButton.tap()
 
@@ -198,19 +198,19 @@ class TimerUITests: BaseFeature {
 
     func test_ChangeModesAutomatically() {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        let lblTimerType = app.staticTexts[Accessibility.Identifiers.lblTimerType]
         XCTAssertEqual(lblTimerType.label, "Focus")
 
-        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
-        let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+        let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
         XCTAssertEqual(lblCycleCounter.label, "0/4")
 
-        let circleFocused = app.otherElements[Identifiers.circleFocused]
+        let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
         XCTAssertTrue(circleFocused.exists)
 
         // WHEN I start the focused timer
@@ -222,16 +222,16 @@ class TimerUITests: BaseFeature {
         let resultFocused = XCTWaiter.wait(for: [expectedFocused], timeout: 61.0)
         if resultFocused == XCTWaiter.Result.timedOut {
             // THEN the mode will be changed to shortBreak
-            let circleBreak = app.otherElements[Identifiers.circleBreak]
+            let circleBreak = app.otherElements[Accessibility.Identifiers.circleBreak]
             XCTAssertTrue(circleBreak.exists)
 
-            let playButtonShortBreak = app.buttons[Identifiers.btnStartPauseIdentifier]
+            let playButtonShortBreak = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonShortBreak.label, "Play")
 
-            let lblTimerTypeShortBreak = app.staticTexts[Identifiers.lblTimerType]
+            let lblTimerTypeShortBreak = app.staticTexts[Accessibility.Identifiers.lblTimerType]
             XCTAssertEqual(lblTimerTypeShortBreak.label, "Short Break")
 
-            let lblCounterShortBreak = app.staticTexts[Identifiers.lblCounter]
+            let lblCounterShortBreak = app.staticTexts[Accessibility.Identifiers.lblCounter]
             XCTAssertEqual(lblCounterShortBreak.label, "01:00")
         } else {
             XCTFail("Delay interrupted")
@@ -246,34 +246,35 @@ class TimerUITests: BaseFeature {
         let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
         if resultShortBreak == XCTWaiter.Result.timedOut {
             // THEN the mode will be changed to shortBreak
-            let circleFocused = app.otherElements[Identifiers.circleFocused]
+            let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
             XCTAssertTrue(circleFocused.exists)
 
-            let playButtonFocused = app.buttons[Identifiers.btnStartPauseIdentifier]
+            let playButtonFocused = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonFocused.label, "Play")
 
-            let lblTimerTypeFocused = app.staticTexts[Identifiers.lblTimerType]
+            let lblTimerTypeFocused = app.staticTexts[Accessibility.Identifiers.lblTimerType]
             XCTAssertEqual(lblTimerTypeFocused.label, "Focus")
 
-            let lblCounterFocused = app.staticTexts[Identifiers.lblCounter]
+            let lblCounterFocused = app.staticTexts[Accessibility.Identifiers.lblCounter]
             XCTAssertEqual(lblCounterFocused.label, "01:00")
 
-            let lblCycleCounter = app.staticTexts[Identifiers.lblCycleCounter]
+            let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
             XCTAssertEqual(lblCycleCounter.label, "1/4")
         } else {
             XCTFail("Delay interrupted")
         }
     }
 
+    #warning("Refatorar para algo mais confiável")
     func test_MoveAppToBackgroundAndBackToForeground() {
         // GIVEN I have the screen on its initial state
-        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        let lblTimerType = app.staticTexts[Accessibility.Identifiers.lblTimerType]
         XCTAssertEqual(lblTimerType.label, "Focus")
 
-        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I start the timer
@@ -324,26 +325,26 @@ class TimerUITests: BaseFeature {
 
     func test_TestAutoStart() {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Identifiers.btnShowSettings]
+        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // WHEN I update the toggles
-        let autoStartToggle = app.switches[Identifiers.tgAutoStart]
+        let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
         autoStartToggle.tap()
 
-        let dismissSettingsButton = app.buttons[Identifiers.btnCloseModal]
+        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // THEN the modal should be closed
         // AND the timer should be on its initial state
-        let playButton = app.buttons[Identifiers.btnStartPauseIdentifier]
+        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
-        let lblTimerType = app.staticTexts[Identifiers.lblTimerType]
+        let lblTimerType = app.staticTexts[Accessibility.Identifiers.lblTimerType]
         XCTAssertEqual(lblTimerType.label, "Focus")
 
-        let lblCounter = app.staticTexts[Identifiers.lblCounter]
+        let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
         XCTAssertEqual(lblCounter.label, "01:00")
 
         // WHEN I start the timer
@@ -354,16 +355,16 @@ class TimerUITests: BaseFeature {
         let resultFocus = XCTWaiter.wait(for: [expectedFocus], timeout: 61.0)
         if resultFocus == XCTWaiter.Result.timedOut {
             // THEN the mode will be changed to shortBreak
-            let circleShortBreak = app.otherElements[Identifiers.circleBreak]
+            let circleShortBreak = app.otherElements[Accessibility.Identifiers.circleBreak]
             XCTAssertTrue(circleShortBreak.exists)
 
-            let playButtonShortBreak = app.buttons[Identifiers.btnStartPauseIdentifier]
+            let playButtonShortBreak = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonShortBreak.label, "Play")
 
-            let lblTimerTypeShortBreak = app.staticTexts[Identifiers.lblTimerType]
+            let lblTimerTypeShortBreak = app.staticTexts[Accessibility.Identifiers.lblTimerType]
             XCTAssertEqual(lblTimerTypeShortBreak.label, "Short Break")
 
-            let lblCounterShortBreak = app.staticTexts[Identifiers.lblCounter]
+            let lblCounterShortBreak = app.staticTexts[Accessibility.Identifiers.lblCounter]
             XCTAssertEqual(lblCounterShortBreak.label, "01:00")
         }
 
@@ -372,16 +373,16 @@ class TimerUITests: BaseFeature {
         let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
         if resultShortBreak == XCTWaiter.Result.timedOut {
             // resultShortBreak the mode will be changed to shortBreak
-            let circleFocused = app.otherElements[Identifiers.circleFocused]
+            let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
             XCTAssertTrue(circleFocused.exists)
 
-            let playButtonFocus = app.buttons[Identifiers.btnStartPauseIdentifier]
+            let playButtonFocus = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonFocus.label, "Play")
 
-            let lblTimerTypeFocus = app.staticTexts[Identifiers.lblTimerType]
+            let lblTimerTypeFocus = app.staticTexts[Accessibility.Identifiers.lblTimerType]
             XCTAssertEqual(lblTimerTypeFocus.label, "Focus")
 
-            let lblCounterFocus = app.staticTexts[Identifiers.lblCounter]
+            let lblCounterFocus = app.staticTexts[Accessibility.Identifiers.lblCounter]
             XCTAssertEqual(lblCounterFocus.label, "01:00")
         }
 

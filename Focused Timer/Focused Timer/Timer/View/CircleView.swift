@@ -38,20 +38,20 @@ struct CircleView: View {
                 .shadow(radius: 4)
                 .accessibility(identifier:
                                 timerViewModel.timerType == .focused ?
-                                Identifiers.circleFocused :
-                                Identifiers.circleBreak)
+                                Accessibility.Identifiers.circleFocused :
+                                Accessibility.Identifiers.circleBreak)
 
             VStack {
 
                 Text(TimerType.getCorrectTranslation(timerViewModel.timerType)())
                     .font(.system(size: 25))
                     .fontWeight(.light)
-                    .accessibility(identifier: Identifiers.lblTimerType)
+                    .accessibility(identifier: Accessibility.Identifiers.lblTimerType)
 
                 Text(timerViewModel.countTime)
                     .font(.system(size: 60))
                     .fontWeight(.bold)
-                    .accessibility(identifier: Identifiers.lblCounter)
+                    .accessibility(identifier: Accessibility.Identifiers.lblCounter)
                     .multilineTextAlignment(.center)
             }
         }
