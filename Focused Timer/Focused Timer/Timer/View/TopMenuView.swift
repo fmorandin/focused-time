@@ -41,7 +41,7 @@ struct TopMenuView: View {
             .sheet(isPresented: $showingHelp, content: {
                 HelpView()
             })
-            .accessibility(identifier: Identifiers.btnShowHelp)
+            .accessibility(identifier: Accessibility.Identifiers.btnShowHelp)
 
             Spacer()
 
@@ -58,7 +58,7 @@ struct TopMenuView: View {
             .sheet(isPresented: $showingConfig, content: {
                 SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())
             })
-            .accessibility(identifier: Identifiers.btnShowSettings)
+            .accessibility(identifier: Accessibility.Identifiers.btnShowSettings)
         }
         .padding(.leading, 40)
         .padding(.trailing, 20)
