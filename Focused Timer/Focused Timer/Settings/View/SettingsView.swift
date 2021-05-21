@@ -64,7 +64,6 @@ struct SettingsView: View {
                     .fontWeight(.semibold)
                     .padding()
                     .background(Color.red)
-                    .padding()
                     .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
             }
 

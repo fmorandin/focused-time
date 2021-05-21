@@ -1,5 +1,5 @@
 //
-//  Form.swift
+//  FormView.swift
 //  Focused Timer
 //
 //  Created by Felipe Morandin on 22/03/21.
@@ -54,8 +54,7 @@ struct FormView: View {
                     .accessibility(identifier: Accessibility.Identifiers.txtFocusedTime)
                     .accessibility(label: Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
 
                 // Short Break time
                 HStack {
@@ -82,8 +81,7 @@ struct FormView: View {
                     .accessibility(identifier: Accessibility.Identifiers.txtShortBreakTime)
                     .accessibility(label: Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
                 }
-                .padding(.bottom, 10)
-                .padding(.top, 10)
+                .padding(.vertical, 10)
 
                 // Long Break
                 HStack {
@@ -107,8 +105,7 @@ struct FormView: View {
                     .accessibility(identifier: Accessibility.Identifiers.txtLongBreakTime)
                     .accessibility(label: Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
 
                 // Number of cycles
                 HStack {
@@ -132,8 +129,7 @@ struct FormView: View {
                     .accessibility(identifier: Accessibility.Identifiers.txtNumberOfCycles)
                     .accessibility(label: Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
             }
 
             // Toggle settings
@@ -153,22 +149,21 @@ struct FormView: View {
                         .accessibility(identifier: Accessibility.Identifiers.tgAutoStart)
                         .accessibility(label: Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
             }
 
             Section {
                 HStack {
                     Spacer()
 
-                    Button(action: {}, label: {
+                    Button(action: {
+                        resetDefaultValuesAlert.toggle()
+                    }, label: {
                         Text(Translation.resetSettingsDefaultValue)
                     })
+                    .buttonStyle(PlainButtonStyle())
                     .foregroundColor(Color.red)
                     .accessibility(identifier: Accessibility.Identifiers.btnResetSettingsDefault)
-                    .onTapGesture {
-                        resetDefaultValuesAlert.toggle()
-                    }
                     .alert(isPresented: $resetDefaultValuesAlert, content: {
                         Alert(
                             title: Text(Translation.resetSettingsAlertTitle),
@@ -184,8 +179,7 @@ struct FormView: View {
 
                     Spacer()
                 }
-                .padding(.top, 10)
-                .padding(.bottom, 10)
+                .padding(.vertical, 10)
             }
         }
         .onDisappear(perform: {
@@ -199,5 +193,6 @@ struct FormView: View {
 struct Form_Previews: PreviewProvider {
     static var previews: some View {
         FormView()
+            .preferredColorScheme(.dark)
     }
 }

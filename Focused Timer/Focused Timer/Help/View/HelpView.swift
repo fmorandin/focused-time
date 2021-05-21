@@ -57,7 +57,7 @@ struct HelpView: View {
                         Text(Translation.techniqueExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
-                            .padding([.leading, .trailing, .bottom])
+                            .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblTechniqueExplanation)
                     }
 
@@ -75,7 +75,7 @@ struct HelpView: View {
                         Text(Translation.focusExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
-                            .padding([.leading, .trailing, .bottom])
+                            .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblFocusExplanation)
                     }
 
@@ -95,7 +95,7 @@ struct HelpView: View {
                         Text(Translation.shortBreakExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
-                            .padding([.leading, .trailing, .bottom])
+                            .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblShortBreakExplanation)
                     }
 
@@ -116,7 +116,7 @@ struct HelpView: View {
                         Text(Translation.longBreakExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
-                            .padding([.leading, .trailing, .bottom])
+                            .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblLongBreakExplanation)
                     }
 
@@ -137,7 +137,7 @@ struct HelpView: View {
                         Text(Translation.numberOfCyclesExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.callout)
-                            .padding([.leading, .trailing, .bottom])
+                            .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCyclesExplanation)
                     }
                 }
