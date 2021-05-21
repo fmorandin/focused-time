@@ -28,7 +28,7 @@ struct TopMenuView: View {
     var body: some View {
         HStack {
             Button(action: {
-                self.showingHelp = true
+                self.showingHelp.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenHelpModalButton, systemImage: ImageNames.showHelp)
@@ -46,7 +46,7 @@ struct TopMenuView: View {
             Spacer()
 
             Button(action: {
-                self.showingConfig = true
+                self.showingConfig.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenSettingsModalButton, systemImage: ImageNames.showSettings)
