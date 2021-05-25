@@ -27,6 +27,7 @@ enum Accessibility {
 
         // Toggles
         static let tgAutoStart = "tgAutoStart"
+        static let tgPlaySounds = "tgPlaySounds"
 
         // Labels
         static let lblFocusDuration = "lblFocusDuration"
@@ -34,6 +35,7 @@ enum Accessibility {
         static let lblNumberOfCycles = "lblNumberOfCycles"
         static let lblLongBreakDuration = "lblLongBreakDuration"
         static let lblAutoStart = "lblAutoStart"
+        static let lblPlaySounds = "lblPlaySounds"
 
         static let lblWarnReloadMessage = "lblWarnReloadMessage"
 

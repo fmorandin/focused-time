@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import SwiftUI
 
-class SettingsViewModel: ObservableObject {
+final class SettingsViewModel: ObservableObject {
 
     // MARK: - Private Variables
 
@@ -48,6 +48,7 @@ class SettingsViewModel: ObservableObject {
         }
     }
     @Published var autoStart: Bool = false
+    @Published var playSounds: Bool = false
 
     // MARK: - Initializer
 
@@ -76,6 +77,7 @@ class SettingsViewModel: ObservableObject {
         self.longBreak = String(describing: longBrakInMinutes == 0 ? 1 : longBrakInMinutes)
 
         self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
+        self.playSounds = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
     }
 
     /// Saves a timer based on a given key
@@ -116,11 +118,11 @@ class SettingsViewModel: ObservableObject {
     }
 
     /// Function to save the autoStart toggle value. Can be easilly changed to be more generic if necessary
-    /// - Parameter autoStart: the value of the toggle
-    func saveToggles(autoStart: Bool) {
-        settingsModel.saveToggle(value: autoStart, for: UserDefaultKeys.autoStartToggle)
-
-        self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
+    /// - Parameters:
+    ///   - keyName: the key name of the value that needs to be saved
+    ///   - value: the value of the toggle
+    func saveToggles(for keyName: String, value: Bool) {
+        settingsModel.saveToggle(value: value, for: keyName)
     }
 
     /// Function that retrieves the boolean valeu for a given key
@@ -146,7 +148,8 @@ class SettingsViewModel: ObservableObject {
             for: UserDefaultKeys.longBreakTime,
             value: DefaultValuesConstants.defaultLongBreakTime.rawValue
         )
-        saveToggles(autoStart: false)
+        saveToggles(for: UserDefaultKeys.autoStartToggle, value: false)
+        saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
 
         populateAllFieldsSavedValues()

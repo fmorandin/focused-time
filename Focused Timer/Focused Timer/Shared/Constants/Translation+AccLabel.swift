@@ -27,6 +27,7 @@ extension Translation {
             LocalizedStringKey("accLabelSettingsNbrOfCyclesTotalTxtFld")
 
         static let accLabelSettingsAutoStartToggle = LocalizedStringKey("accLabelSettingsAutoStartToggle")
+        static let accLabelSettingsPlaySoundsToggle = LocalizedStringKey("accLabelSettingsPlaySoundsToggle")
 
         // MARK: - Timer Screen
 

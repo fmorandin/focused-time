@@ -8,7 +8,7 @@
 import SwiftUI
 import AVFoundation
 
-class TimerViewModel: ObservableObject {
+final class TimerViewModel: ObservableObject {
 
     // MARK: - Published Variables
 

@@ -143,11 +143,34 @@ struct FormView: View {
 
                     Toggle("", isOn: $settingsViewModel.autoStart)
                         .onChange(of: settingsViewModel.autoStart, perform: { value in
-                            settingsViewModel.saveToggles(autoStart: value)
+                            settingsViewModel.saveToggles(
+                                for: UserDefaultKeys.autoStartToggle,
+                                value: value
+                            )
                             shouldUpdateTimerView = true
                         })
                         .accessibility(identifier: Accessibility.Identifiers.tgAutoStart)
                         .accessibility(label: Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
+                }
+                .padding(.vertical, 10)
+
+                // Play sounds
+                HStack {
+                    Text(Translation.settingsPlayTimerSounds)
+                        .accessibility(identifier: Accessibility.Identifiers.lblPlaySounds)
+
+                    Spacer()
+
+                    Toggle("", isOn: $settingsViewModel.playSounds)
+                        .onChange(of: settingsViewModel.playSounds, perform: { value in
+                            settingsViewModel.saveToggles(
+                                for: UserDefaultKeys.playTimerSounds,
+                                value: value
+                            )
+                            shouldUpdateTimerView = true
+                        })
+                        .accessibility(identifier: Accessibility.Identifiers.tgPlaySounds)
+                        .accessibility(label: Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
                 }
                 .padding(.vertical, 10)
             }
