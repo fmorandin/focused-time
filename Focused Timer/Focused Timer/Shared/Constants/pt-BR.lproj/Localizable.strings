@@ -20,6 +20,7 @@
 
 "settingsAutoStart" = "Iniciar timer automaticamente";
 "settingsPlayTimerSounds" = "Tocar sons ao terminar timer";
+"settingsKeepScreenOn" = "Manter tela ligada";
 
 "settingsWarnReloadMessage" = "Atualizar as configurações com um timer ativo ou pausado fará a tela recarregar. Para evitar isso, feche a janela sem alterações.";
 
@@ -73,6 +74,7 @@
 "accLabelSettingsNbrOfCyclesTotalTxtFld" = "Campo com o valor do número de ciclos que serão completados";
 "accLabelSettingsAutoStartToggle" = "Botão para alterar a configuração do início automático do timer";
 "accLabelSettingsPlaySoundsToggle" = "Botão para alterar a configuração de tocar sons ao terminar um timer";
+"accLabelSettingsKeepScreenOnToggle" = "Botão para alterar a configuração de manter a tela ligada";
 
 // MARK: - Timer Screen
 

@@ -20,6 +20,7 @@
 
 "settingsAutoStart" = "Auto start timer";
 "settingsPlayTimerSounds" = "Play sounds after timer finishes";
+"settingsKeepScreenOn" = "Keep screen on";
 
 "settingsWarnReloadMessage" = "Update settings with an active timer running or paused will cause the whole cicle to refresh. Close the settings without change to prevent this from happening.";
 
@@ -73,6 +74,7 @@
 "accLabelSettingsNbrOfCyclesTotalTxtFld" = "Input with the value of the number of cycles to be completed";
 "accLabelSettingsAutoStartToggle" = "Toggle to enable the auto start";
 "accLabelSettingsPlaySoundsToggle" = "Toggle to turn on or off the sound played after a timer is done";
+"accLabelSettingsKeepScreenOnToggle" = "Toggle to turn on or off the option to keep the screen on";
 
 // MARK: - Timer Screen
 

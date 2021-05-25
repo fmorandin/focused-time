@@ -8,7 +8,7 @@
 import XCTest
 @testable import Focused_Timer
 
-class SettingsViewModelTests: XCTestCase {
+final class SettingsViewModelTests: XCTestCase {
 
     override func setUp() {
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.focusedTime)
@@ -18,6 +18,7 @@ class SettingsViewModelTests: XCTestCase {
 
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.autoStartToggle)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.playTimerSounds)
+        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.keepScreenOn)
     }
 
     func test_GetFocusedTime() throws {
@@ -90,6 +91,9 @@ class SettingsViewModelTests: XCTestCase {
 
         // AND the value for the play sounds toggle should be returned correctly
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
+
+        // AND the value for keep screen on toggle should be returned correctly
+        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
     }
 
     func test_SaveToggles() throws {
@@ -98,14 +102,17 @@ class SettingsViewModelTests: XCTestCase {
         // GIVEN I have not set any toggle
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
+        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
 
         // WHEN I call the function to save the new values
         settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: true)
         settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: true)
+        settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: true)
 
         // THEN the toggles should be updated
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), true)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), true)
+        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), true)
     }
 
     func test_NegativeTimeValues() throws {
@@ -149,6 +156,7 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
+        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
 
         // WHEN I call the function to save the new value
         settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: 20)
@@ -156,6 +164,7 @@ class SettingsViewModelTests: XCTestCase {
         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: 40)
         settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: true)
         settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: true)
+        settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: true)
 
         // THEN the total time should be updated
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 20)
@@ -163,6 +172,7 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 40)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), true)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), true)
+        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), true)
 
         // WHEN I reset to the default values
         settingsViewModel.resetToDefault()
@@ -173,5 +183,6 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
         XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
+        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
     }
 }

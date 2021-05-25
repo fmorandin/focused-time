@@ -11,9 +11,11 @@ import Foundation
 struct TimerModelMock: TimerModelProtocol {
     func getToggle(for keyName: String) -> Bool {
         switch keyName {
-        case "screenOn":
-            return false
+        case "keepScreenOn":
+            return true
         case "autoStart":
+            return false
+        case "playSounds":
             return false
         default:
             return false

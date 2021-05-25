@@ -7,7 +7,7 @@
 
 import XCTest
 
-class TimerUITests: BaseFeature {
+final class TimerUITests: BaseFeature {
 
     func test_TimerStartedCorrectly()  throws {
         // GIVEN I have the screen on its initial state

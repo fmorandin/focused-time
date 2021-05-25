@@ -15,8 +15,8 @@ struct SettingsModelMock: SettingsModelProtocol {
 
     func getToggle(for keyName: String) -> Bool {
         switch keyName {
-        case "screenOn":
-            return true
+        case "keepScreenOn":
+            return false
         case "autoStart":
             return false
         case "playSounds":

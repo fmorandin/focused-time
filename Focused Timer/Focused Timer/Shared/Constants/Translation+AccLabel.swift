@@ -28,6 +28,8 @@ extension Translation {
 
         static let accLabelSettingsAutoStartToggle = LocalizedStringKey("accLabelSettingsAutoStartToggle")
         static let accLabelSettingsPlaySoundsToggle = LocalizedStringKey("accLabelSettingsPlaySoundsToggle")
+        static let accLabelSettingsKeepScreenOnToggle =
+            LocalizedStringKey("accLabelSettingsKeepScreenOnToggle")
 
         // MARK: - Timer Screen
 

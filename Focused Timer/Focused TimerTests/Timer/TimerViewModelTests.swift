@@ -8,7 +8,7 @@
 import XCTest
 @testable import Focused_Timer
 
-class TimerViewModelTests: XCTestCase {
+final class TimerViewModelTests: XCTestCase {
 
     private let timerViewModel = TimerViewModel(timerModel: TimerModelMock())
 

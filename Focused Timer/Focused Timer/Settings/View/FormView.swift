@@ -173,6 +173,26 @@ struct FormView: View {
                         .accessibility(label: Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
                 }
                 .padding(.vertical, 10)
+
+                // Keep screen on
+                HStack {
+                    Text(Translation.settingsKeepScreenOn)
+                        .accessibility(identifier: Accessibility.Identifiers.lblKeepScreenOn)
+
+                    Spacer()
+
+                    Toggle("", isOn: $settingsViewModel.keepScreenOn)
+                        .onChange(of: settingsViewModel.keepScreenOn, perform: { value in
+                            settingsViewModel.saveToggles(
+                                for: UserDefaultKeys.keepScreenOn,
+                                value: value
+                            )
+                            shouldUpdateTimerView = true
+                        })
+                        .accessibility(identifier: Accessibility.Identifiers.tgKeepScreenOn)
+                        .accessibility(label: Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
+                }
+                .padding(.vertical, 10)
             }
 
             Section {
