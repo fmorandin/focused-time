@@ -7,8 +7,10 @@
 
 import XCTest
 
-class SettingsUITests: BaseFeature {
+// swiftlint:disable type_body_length
+final class SettingsUITests: BaseFeature {
 
+    // swiftlint:disable function_body_length
     func test_OpenModalNoChanges() throws {
         // GIVEN I open the modal
         let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
@@ -45,6 +47,9 @@ class SettingsUITests: BaseFeature {
         let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
+        let keepScreenOnToggle = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        XCTAssertFalse(keepScreenOnToggle.isSelected)
+
         // WHEN I close the modal
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -73,6 +78,9 @@ class SettingsUITests: BaseFeature {
 
         let playSoundsToggleUpdated = app.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggleUpdated.isSelected)
+
+        let keepScreenOnToggleUpdated = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        XCTAssertFalse(keepScreenOnToggleUpdated.isSelected)
     }
 
     func test_UpdateFocusedTimerValue() {
@@ -231,9 +239,13 @@ class SettingsUITests: BaseFeature {
         let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
+        let keepScreenOnToggle = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        XCTAssertFalse(keepScreenOnToggle.isSelected)
+
         // WHEN I update the toggles
         autoStartToggle.tap()
         playSoundsToggle.tap()
+        keepScreenOnToggle.tap()
 
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -243,6 +255,7 @@ class SettingsUITests: BaseFeature {
 
         XCTAssertEqual(autoStartToggle.value as! String, "1")
         XCTAssertEqual(playSoundsToggle.value as! String, "1")
+        XCTAssertEqual(keepScreenOnToggle.value as! String, "1")
     }
 
     func test_WarnMessageWhenTimerIsRunning() {
@@ -312,6 +325,9 @@ class SettingsUITests: BaseFeature {
         let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertEqual(playSoundsToggle.value as! String, "0")
 
+        let keepScreenOnToggle = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        XCTAssertEqual(keepScreenOnToggle.value as! String, "0")
+
         // WHEN I update the fields
         durationTextField.doubleTap()
         durationTextField.typeText("12345")
@@ -327,6 +343,7 @@ class SettingsUITests: BaseFeature {
 
         autoStartToggle.tap()
         playSoundsToggle.tap()
+        keepScreenOnToggle.tap()
 
         // AND I dismiss the modal
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
@@ -351,8 +368,11 @@ class SettingsUITests: BaseFeature {
         let autoStartToggleUpdated = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertEqual(autoStartToggleUpdated.value as! String, "1")
 
-        let playSoundsToggleUpdate = app.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertEqual(playSoundsToggleUpdate.value as! String, "1")
+        let playSoundsToggleUpdated = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertEqual(playSoundsToggleUpdated.value as! String, "1")
+
+        let keepScreenOnToggleUpdated = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        XCTAssertEqual(keepScreenOnToggleUpdated.value as! String, "1")
 
         // WHEN I click to reset to the defaults
         app.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
@@ -380,5 +400,8 @@ class SettingsUITests: BaseFeature {
 
         let playSoundsToggleFinal = app.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertEqual(playSoundsToggleFinal.value as! String, "0")
+
+        let keepScreenOnToggleFinal = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        XCTAssertEqual(keepScreenOnToggleFinal.value as! String, "0")
     }
 }

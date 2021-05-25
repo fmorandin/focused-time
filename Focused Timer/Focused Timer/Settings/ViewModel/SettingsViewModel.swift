@@ -49,6 +49,7 @@ final class SettingsViewModel: ObservableObject {
     }
     @Published var autoStart: Bool = false
     @Published var playSounds: Bool = false
+    @Published var keepScreenOn: Bool = false
 
     // MARK: - Initializer
 
@@ -78,6 +79,7 @@ final class SettingsViewModel: ObservableObject {
 
         self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
         self.playSounds = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
+        self.keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
     }
 
     /// Saves a timer based on a given key
@@ -150,6 +152,7 @@ final class SettingsViewModel: ObservableObject {
         )
         saveToggles(for: UserDefaultKeys.autoStartToggle, value: false)
         saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
+        saveToggles(for: UserDefaultKeys.keepScreenOn, value: false)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
 
         populateAllFieldsSavedValues()

@@ -7,7 +7,7 @@
 
 import XCTest
 
-class HelpViewUITests: BaseFeature {
+final class HelpViewUITests: BaseFeature {
 
     func test_HelpScreenLoadedCorrectly() {
         // WHEN I open the help page
