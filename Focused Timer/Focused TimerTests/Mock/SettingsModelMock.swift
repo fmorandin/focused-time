@@ -19,6 +19,8 @@ struct SettingsModelMock: SettingsModelProtocol {
             return true
         case "autoStart":
             return false
+        case "playSounds":
+            return false
         default:
             return false
         }

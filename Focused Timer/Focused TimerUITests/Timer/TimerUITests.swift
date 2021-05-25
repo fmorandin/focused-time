@@ -265,7 +265,6 @@ class TimerUITests: BaseFeature {
         }
     }
 
-    #warning("Refatorar para algo mais confiável")
     func test_MoveAppToBackgroundAndBackToForeground() {
         // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]

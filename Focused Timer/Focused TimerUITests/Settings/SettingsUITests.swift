@@ -42,6 +42,9 @@ class SettingsUITests: BaseFeature {
         let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
 
+        let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertFalse(playSoundsToggle.isSelected)
+
         // WHEN I close the modal
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -67,6 +70,9 @@ class SettingsUITests: BaseFeature {
 
         let autoStartToggleUpdated = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggleUpdated.isSelected)
+
+        let playSoundsToggleUpdated = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertFalse(playSoundsToggleUpdated.isSelected)
     }
 
     func test_UpdateFocusedTimerValue() {
@@ -218,10 +224,16 @@ class SettingsUITests: BaseFeature {
         let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
-        // WHEN I update the toggles
+        // AND the toggles are in their default values
         let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
+
+        let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertFalse(playSoundsToggle.isSelected)
+
+        // WHEN I update the toggles
         autoStartToggle.tap()
+        playSoundsToggle.tap()
 
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -230,6 +242,7 @@ class SettingsUITests: BaseFeature {
         showSettingsButton.tap()
 
         XCTAssertEqual(autoStartToggle.value as! String, "1")
+        XCTAssertEqual(playSoundsToggle.value as! String, "1")
     }
 
     func test_WarnMessageWhenTimerIsRunning() {
@@ -296,6 +309,9 @@ class SettingsUITests: BaseFeature {
         let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertEqual(autoStartToggle.value as! String, "0")
 
+        let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertEqual(playSoundsToggle.value as! String, "0")
+
         // WHEN I update the fields
         durationTextField.doubleTap()
         durationTextField.typeText("12345")
@@ -310,6 +326,7 @@ class SettingsUITests: BaseFeature {
         numberOfCyclesTextField.typeText("99")
 
         autoStartToggle.tap()
+        playSoundsToggle.tap()
 
         // AND I dismiss the modal
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
@@ -334,6 +351,9 @@ class SettingsUITests: BaseFeature {
         let autoStartToggleUpdated = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertEqual(autoStartToggleUpdated.value as! String, "1")
 
+        let playSoundsToggleUpdate = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertEqual(playSoundsToggleUpdate.value as! String, "1")
+
         // WHEN I click to reset to the defaults
         app.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
 
@@ -357,5 +377,8 @@ class SettingsUITests: BaseFeature {
 
         let autoStartToggleFinal = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertEqual(autoStartToggleFinal.value as! String, "0")
+
+        let playSoundsToggleFinal = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        XCTAssertEqual(playSoundsToggleFinal.value as! String, "0")
     }
 }

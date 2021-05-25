@@ -21,6 +21,7 @@ enum Translation {
     static let settingsSectionAppName = LocalizedStringKey("settingsSectionAppName")
 
     static let settingsAutoStart = LocalizedStringKey("settingsAutoStart")
+    static let settingsPlayTimerSounds = LocalizedStringKey("settingsPlayTimerSounds")
 
     static let settingsWarnReloadMessage = LocalizedStringKey("settingsWarnReloadMessage")
 

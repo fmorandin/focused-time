@@ -17,4 +17,5 @@ enum UserDefaultKeys {
     static let numberOfCycles = "numberOfCycles"
     static let longBreakTime = "longBreakTime"
     static let autoStartToggle = "autoStartToggle"
+    static let playTimerSounds = "playTimerSounds"
 }
