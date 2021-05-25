@@ -161,11 +161,16 @@ final class TimerViewModel: ObservableObject {
     /// Essentially it will do two things: Increase the necessary variables that handles
     /// the cycles and decide what timer should go next
     fileprivate func changeTimerMode() {
+
+        // If the user don't check the option to play sounds
+        // or if they came from a notification, the sound shouldn't be played
         if UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification) {
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
         } else {
-            // to play sound
-            AudioServicesPlaySystemSound(self.systemSoundID)
+            if UserDefaults.standard.bool(forKey: UserDefaultKeys.playTimerSounds) {
+                // to play sound
+                AudioServicesPlaySystemSound(self.systemSoundID)
+            }
         }
 
         self.timerTo = 1
