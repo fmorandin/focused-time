@@ -74,6 +74,7 @@ struct SettingsView: View {
         .onTapGesture {
             self.hideKeyboard()
         }
+        .navigationBarHidden(true)
     }
 }
 
