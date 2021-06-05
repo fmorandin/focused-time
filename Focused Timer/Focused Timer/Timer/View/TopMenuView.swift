@@ -56,7 +56,9 @@ struct TopMenuView: View {
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
             })
             .sheet(isPresented: $showingConfig, content: {
-                SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())
+                NavigationView {
+                    SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())
+                }
             })
             .accessibility(identifier: Accessibility.Identifiers.btnShowSettings)
         }
