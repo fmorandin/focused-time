@@ -64,6 +64,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreakTime)
 
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
+            UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
         }
     }
 }

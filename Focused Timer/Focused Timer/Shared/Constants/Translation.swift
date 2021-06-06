@@ -8,6 +8,11 @@
 import SwiftUI
 
 enum Translation {
+
+    // MARK: - Generic
+
+    static let warningAlertTitle = LocalizedStringKey("warningAlertTitle")
+
     // MARK: - Settings Screen
 
     static let settingsDismissModalButton = LocalizedStringKey("settingsDismissModelButton")
@@ -23,6 +28,7 @@ enum Translation {
     static let settingsAutoStart = LocalizedStringKey("settingsAutoStart")
     static let settingsPlayTimerSounds = LocalizedStringKey("settingsPlayTimerSounds")
     static let settingsKeepScreenOn = LocalizedStringKey("settingsKeepScreenOn")
+    static let settingsKeepScreenOnDisclaimer = LocalizedStringKey("settingsKeepScreenOnDisclaimer")
 
     static let settingsWarnReloadMessage = LocalizedStringKey("settingsWarnReloadMessage")
 

@@ -6,6 +6,10 @@
   
 */
 
+// MARK: - Generic
+
+"warningAlertTitle" = "Warning";
+
 // MARK: - Settings Screen
 
 "settingsDismissModelButton" = "Dismiss settings modal";
@@ -21,8 +25,9 @@
 "settingsAutoStart" = "Auto start timer";
 "settingsPlayTimerSounds" = "Play sounds after timer finishes";
 "settingsKeepScreenOn" = "Keep screen on";
+"settingsKeepScreenOnDisclaimer" = "For the change of keep screen on to be effective, Focused Timer must be restarted.";
 
-"settingsWarnReloadMessage" = "Update settings with an active timer running or paused will cause the whole cicle to refresh. Close the settings without change to prevent this from happening.";
+"settingsWarnReloadMessage" = "Update the configurations for the timer with an active timer running or paused will cause the whole cicle to refresh. Close the settings without change to prevent this from happening.";
 
 "resetSettingsDefaultValue" = "Reset to the default values";
 "resetSettingsAlertTitle" = "Are you sure?";

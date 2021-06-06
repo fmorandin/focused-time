@@ -28,8 +28,15 @@ final class TimerViewModel: ObservableObject {
     private let timerModel: TimerModelProtocol
     private let dateFormatter = DateComponentsFormatter()
     private let localNotificationManager = LocalNotificationManager()
-    private let isNotification = UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification)
-    private var autoStart: Bool
+    private var isAutoStartEnabled: Bool {
+        timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
+    }
+    private var isPlaySoundEnabled: Bool {
+        timerModel.getToggle(for: UserDefaultKeys.playTimerSounds)
+    }
+    private var keepScreenOn: Bool {
+        timerModel.getToggle(for: UserDefaultKeys.keepScreenOn)
+    }
 
     // Create the sound id that will be played when the timer finishes
     private let systemSoundID: SystemSoundID = 1009
@@ -55,8 +62,6 @@ final class TimerViewModel: ObservableObject {
         self.numberOfCompletedCycles = 0
 
         self.accentCircleColor = .orange
-
-        self.autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
 
     // MARK: - Public Methods
@@ -70,7 +75,7 @@ final class TimerViewModel: ObservableObject {
             } else {
                 self.changeTimerMode()
 
-                if self.autoStart {
+                if self.isAutoStartEnabled {
                     self.startTimer()
                 }
 
@@ -99,8 +104,6 @@ final class TimerViewModel: ObservableObject {
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
         accentCircleColor = .orange
-
-        autoStart = timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background
@@ -144,6 +147,10 @@ final class TimerViewModel: ObservableObject {
         timerState == .running || timerState == .paused ? true : false
     }
 
+    func shouldKeepScreenOn() -> Bool {
+        keepScreenOn
+    }
+
     // MARK: - Fileprivate
 
     /// This one is responsible to do the necessary updates for when the
@@ -167,7 +174,7 @@ final class TimerViewModel: ObservableObject {
         if UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification) {
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
         } else {
-            if UserDefaults.standard.bool(forKey: UserDefaultKeys.playTimerSounds) {
+            if isPlaySoundEnabled {
                 // to play sound
                 AudioServicesPlaySystemSound(self.systemSoundID)
             }
