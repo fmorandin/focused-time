@@ -52,10 +52,16 @@ struct TimerView: View {
         .onReceive(NotificationCenter.default.publisher(
                     for: UIApplication.didEnterBackgroundNotification)) { _ in
             timerViewModel.moveAppToBackground()
+
+            UIApplication.shared.isIdleTimerDisabled = false
         }
         .onReceive(NotificationCenter.default.publisher(
                     for: UIApplication.willEnterForegroundNotification)) { _ in
             timerViewModel.moveAppToForeground()
+
+            if timerViewModel.shouldKeepScreenOn() {
+                UIApplication.shared.isIdleTimerDisabled = true
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: .updateTimerView), perform: { _ in
             timerViewModel.resetUpdateTimer()

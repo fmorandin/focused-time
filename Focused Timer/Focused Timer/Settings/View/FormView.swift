@@ -14,7 +14,8 @@ struct FormView: View {
     @StateObject private var settingsViewModel: SettingsViewModel
 
     @State private var shouldUpdateTimerView: Bool
-    @State private var resetDefaultValuesAlert: Bool = false
+    @State private var resetDefaultValuesAlert = false
+    @State private var keepScreenOnDisclaimerAlert = false
 
     // MARK: - Initializer
 
@@ -141,13 +142,12 @@ struct FormView: View {
 
                     Spacer()
 
-                    Toggle("", isOn: $settingsViewModel.autoStart)
-                        .onChange(of: settingsViewModel.autoStart, perform: { value in
+                    Toggle("", isOn: $settingsViewModel.isAutoStartEnabled)
+                        .onChange(of: settingsViewModel.isAutoStartEnabled, perform: { value in
                             settingsViewModel.saveToggles(
                                 for: UserDefaultKeys.autoStartToggle,
                                 value: value
                             )
-                            shouldUpdateTimerView = true
                         })
                         .accessibility(identifier: Accessibility.Identifiers.tgAutoStart)
                         .accessibility(label: Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
@@ -161,13 +161,12 @@ struct FormView: View {
 
                     Spacer()
 
-                    Toggle("", isOn: $settingsViewModel.playSounds)
-                        .onChange(of: settingsViewModel.playSounds, perform: { value in
+                    Toggle("", isOn: $settingsViewModel.isPlaySoundEnabled)
+                        .onChange(of: settingsViewModel.isPlaySoundEnabled, perform: { value in
                             settingsViewModel.saveToggles(
                                 for: UserDefaultKeys.playTimerSounds,
                                 value: value
                             )
-                            shouldUpdateTimerView = true
                         })
                         .accessibility(identifier: Accessibility.Identifiers.tgPlaySounds)
                         .accessibility(label: Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
@@ -187,7 +186,13 @@ struct FormView: View {
                                 for: UserDefaultKeys.keepScreenOn,
                                 value: value
                             )
-                            shouldUpdateTimerView = true
+                            keepScreenOnDisclaimerAlert = true
+                        })
+                        .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
+                            Alert(
+                                title: Text(Translation.warningAlertTitle),
+                                message: Text(Translation.settingsKeepScreenOnDisclaimer),
+                                dismissButton: .default(Text("OK")))
                         })
                         .accessibility(identifier: Accessibility.Identifiers.tgKeepScreenOn)
                         .accessibility(label: Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))

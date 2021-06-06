@@ -7,7 +7,7 @@
 
 import XCTest
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 final class SettingsUITests: BaseFeature {
 
     // swiftlint:disable function_body_length

@@ -47,8 +47,8 @@ final class SettingsViewModel: ObservableObject {
             }
         }
     }
-    @Published var autoStart: Bool = false
-    @Published var playSounds: Bool = false
+    @Published var isAutoStartEnabled: Bool = false
+    @Published var isPlaySoundEnabled: Bool = true
     @Published var keepScreenOn: Bool = false
 
     // MARK: - Initializer
@@ -77,8 +77,8 @@ final class SettingsViewModel: ObservableObject {
         let longBrakInMinutes = longBreakInSeconds / 60
         self.longBreak = String(describing: longBrakInMinutes == 0 ? 1 : longBrakInMinutes)
 
-        self.autoStart = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
-        self.playSounds = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
+        self.isAutoStartEnabled = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
+        self.isPlaySoundEnabled = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
         self.keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
     }
 

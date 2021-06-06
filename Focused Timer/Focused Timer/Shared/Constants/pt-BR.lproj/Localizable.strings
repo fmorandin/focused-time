@@ -6,6 +6,10 @@
   
 */
 
+// MARK: - Generic
+
+"warningAlertTitle" = "Aviso";
+
 // MARK: - Settings Screen
 
 "settingsDismissModelButton" = "Fechar janela de configurações";
@@ -21,8 +25,9 @@
 "settingsAutoStart" = "Iniciar timer automaticamente";
 "settingsPlayTimerSounds" = "Tocar sons ao terminar timer";
 "settingsKeepScreenOn" = "Manter tela ligada";
+"settingsKeepScreenOnDisclaimer" = "O aplicativo deverá ser reiniciado para que a opção de manter a tela ligada seja aplicada.";
 
-"settingsWarnReloadMessage" = "Atualizar as configurações com um timer ativo ou pausado fará a tela recarregar. Para evitar isso, feche a janela sem alterações.";
+"settingsWarnReloadMessage" = "Atualizar as configurações de timer com um timer ativo ou pausado fará a tela recarregar. Para evitar isso, feche a janela sem alterações.";
 
 "resetSettingsDefaultValue" = "Voltar aos valores padrão";
 "resetSettingsAlertTitle" = "Tem certeza?";
