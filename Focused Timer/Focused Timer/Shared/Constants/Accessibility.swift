@@ -13,6 +13,11 @@ enum Accessibility {
 
     enum Identifiers {
 
+        // MARK: - Generic
+
+        static let lblAppVersion = "lblAppVersion"
+        static let btnShareApp = "btnShareApp"
+
         // MARK: - Settings Screen
 
         // Buttons

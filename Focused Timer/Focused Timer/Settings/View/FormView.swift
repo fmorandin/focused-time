@@ -229,6 +229,36 @@ struct FormView: View {
                 }
                 .padding(.vertical, 10)
             }
+
+            Section {
+                HStack {
+                    Text("\(Text(Translation.appVersionTitle)): \(settingsViewModel.appVersionNumber)")
+                        .accessibility(identifier: Accessibility.Identifiers.lblAppVersion)
+
+                    Spacer()
+
+                    Divider()
+
+                    Spacer()
+
+                    Button(action: {
+                        UIApplication.shared.windows.first?.rootViewController?.dismiss(
+                            animated: true,
+                            completion: settingsViewModel.actionSheet
+                        )
+                    }, label: {
+                        HStack {
+                            Text(Translation.shareAppTitle)
+                            Image(systemName: ImageNames.share)
+                        }
+                    })
+                    .accessibility(identifier: Accessibility.Identifiers.btnShareApp)
+                    .buttonStyle(BorderlessButtonStyle())
+                }
+                .padding(.vertical, 10)
+                .font(.callout)
+                .foregroundColor(.secondary)
+            }
         }
         .onDisappear(perform: {
             if shouldUpdateTimerView {

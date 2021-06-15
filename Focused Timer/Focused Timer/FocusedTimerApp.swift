@@ -48,7 +48,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
 
     func requestLocalNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, error in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,
+                                                                          .sound,
+                                                                          .badge]) { _, error in
             if let error = error {
                 debugPrint(error.localizedDescription)
             }
