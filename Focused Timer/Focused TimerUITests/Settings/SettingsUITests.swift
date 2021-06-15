@@ -404,4 +404,28 @@ final class SettingsUITests: BaseFeature {
         let keepScreenOnToggleFinal = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
         XCTAssertEqual(keepScreenOnToggleFinal.value as! String, "0")
     }
+
+    func test_AppVersionAndShare() {
+
+        // GIVEN I open the modal
+        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        showSettingsButton.tap()
+
+        // THEN the about information should be visible
+        let appVersionText = app.staticTexts[Accessibility.Identifiers.lblAppVersion]
+        XCTAssertTrue(appVersionText.isHittable)
+        XCTAssertEqual(appVersionText.label, "App Version: 1.1.0")
+
+        // AND the share option should be visible
+        let btnShareApp = app.buttons[Accessibility.Identifiers.btnShareApp]
+        XCTAssertTrue(btnShareApp.isHittable)
+        XCTAssertEqual(btnShareApp.label, "Share it")
+
+        // WHEN I tap on the share
+        btnShareApp.tap()
+
+        // THEN the share sheet should be displayed
+        let shareSheet = app.navigationBars.firstMatch
+        XCTAssertTrue(shareSheet.isHittable, "The share sheet should be displayed")
+    }
 }

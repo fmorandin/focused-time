@@ -9,6 +9,9 @@
 // MARK: - Generic
 
 "warningAlertTitle" = "Aviso";
+"appVersionTitle" = "Versão da app";
+"shareAppTitle" = "Compartilhe";
+"shareAppMessage" = "Você já conhece o Focused Timer? Eu uso e recomendo! Faça o download aqui: ";
 
 // MARK: - Settings Screen
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 import UserNotifications
 
 struct LocalNotificationManager {
@@ -15,6 +16,7 @@ struct LocalNotificationManager {
     /// Function that will cancel all the scheduled notification and
     /// also clears the already sent notifications
     func clearScheduledNotifications() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
@@ -53,6 +55,7 @@ struct LocalNotificationManager {
         content.body = notificationBody
         content.categoryIdentifier = "TIMER_EXPIRED"
         content.sound = UNNotificationSound.default
+        content.badge = 1
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: remainingTime, repeats: false)
 

@@ -9,6 +9,10 @@ import Foundation
 
 enum ImageNames {
 
+    // MARK: - Generic
+
+    static let share = "square.and.arrow.up"
+
     // MARK: - Settings Screen
 
     static let closeModal = "xmark"

@@ -12,6 +12,9 @@ enum Translation {
     // MARK: - Generic
 
     static let warningAlertTitle = LocalizedStringKey("warningAlertTitle")
+    static let appVersionTitle = LocalizedStringKey("appVersionTitle")
+    static let shareAppTitle = LocalizedStringKey("shareAppTitle")
+    static let shareAppMessage = LocalizedStringKey("shareAppMessage")
 
     // MARK: - Settings Screen
 

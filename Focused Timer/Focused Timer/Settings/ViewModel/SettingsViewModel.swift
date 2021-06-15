@@ -51,6 +51,12 @@ final class SettingsViewModel: ObservableObject {
     @Published var isPlaySoundEnabled: Bool = true
     @Published var keepScreenOn: Bool = false
 
+    // swiftlint:disable force_cast
+    var appVersionNumber: String {
+        let nsObject = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
+        return nsObject as! String
+    }
+
     // MARK: - Initializer
 
     init(settingsModel: SettingsModelProtocol) {
@@ -156,5 +162,22 @@ final class SettingsViewModel: ObservableObject {
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
 
         populateAllFieldsSavedValues()
+    }
+
+    /// Function that defines what is the text and the link used in the share
+    func actionSheet() {
+        let appStoreUrl = URL(string: "https://apps.apple.com/us/app/focused-timer/id1563481123")!
+        let shareMessage = NSString.localizedUserNotificationString(forKey: "shareAppMessage", arguments: nil)
+
+        let activityVC = UIActivityViewController(
+            activityItems: [shareMessage, appStoreUrl],
+            applicationActivities: nil
+        )
+
+        UIApplication.shared.windows.first?.rootViewController?.present(
+            activityVC,
+            animated: true,
+            completion: nil
+        )
     }
 }
