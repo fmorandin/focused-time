@@ -44,19 +44,15 @@ protocol SettingsModelProtocol {
 
 struct SettingsModel: SettingsModelProtocol {
 
-    // MARK: - Private Variables
-
-    private let defaults = UserDefaults.standard
-
     // MARK: - Methods
 
     func saveTime(time: Int, for keyName: String) {
         let timeInSeconds = time * 60
-        defaults.set(timeInSeconds, forKey: keyName)
+        NetworkManager().save(value: timeInSeconds, for: keyName)
     }
 
     func getTime(for keyName: String) -> Int {
-        let totalTime = defaults.integer(forKey: keyName)
+        let totalTime: Int = NetworkManager().getValue(for: keyName)
 
         if totalTime != 0 {
             return totalTime
@@ -75,18 +71,21 @@ struct SettingsModel: SettingsModelProtocol {
     }
 
     func saveNumberOfCycles(numberOfCycles: Int, for keyName: String) {
-        defaults.setValue(numberOfCycles, forKey: keyName)
+        NetworkManager().save(value: numberOfCycles, for: keyName)
     }
 
     func getNumberOfCycles(for keyName: String) -> String {
-        defaults.string(forKey: keyName) ?? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
+        let numberOfCycles: String = NetworkManager().getValue(for: keyName)
+        return numberOfCycles == ""
+            ? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
+            : numberOfCycles
     }
 
     func saveToggle(value: Bool, for keyName: String) {
-        defaults.set(value, forKey: keyName)
+        NetworkManager().save(value: value, for: keyName)
     }
 
     func getToggle(for keyName: String) -> Bool {
-        defaults.bool(forKey: keyName)
+        NetworkManager().getValue(for: keyName)
     }
 }

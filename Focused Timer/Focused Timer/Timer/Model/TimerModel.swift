@@ -32,12 +32,9 @@ protocol TimerModelProtocol {
 
 struct TimerModel: TimerModelProtocol {
 
-    // MARK: - Private Variables
-    private let defaults = UserDefaults.standard
-
     // MARK: - Public Methods
     func getTime(for keyName: String) -> Int {
-        let totalTime = defaults.integer(forKey: keyName)
+        let totalTime: Int = NetworkManager().getValue(for: keyName)
 
         if totalTime != 0 {
             return totalTime
@@ -59,8 +56,8 @@ struct TimerModel: TimerModelProtocol {
     /// necessary information to keep the timer updated
     /// - Parameter remainingTime: how many seconds are remaining in order to the timer finishs
     func saveMoveToBackgroundTime(remainingTime: Int) {
-        defaults.setValue(remainingTime, forKey: UserDefaultKeys.remainingTime)
-        defaults.setValue(Date(), forKey: UserDefaultKeys.timestampAppMovedBackground)
+        NetworkManager().save(value: remainingTime, for: UserDefaultKeys.remainingTime)
+        NetworkManager().save(value: Date(), for: UserDefaultKeys.timestampAppMovedBackground)
     }
 
     /// Function that will return the times that are necessary
@@ -68,25 +65,30 @@ struct TimerModel: TimerModelProtocol {
     /// - Returns: a tuple with the remaining time when the user moved the app to the background and a
     ///            timestamp that indicates when that action happened
     func getSavedTimes() -> (Int?, Date?) {
-        if let remainingTime = defaults.value(forKey: UserDefaultKeys.remainingTime) as? Int,
-           let savedTimestamp = defaults.value(forKey: UserDefaultKeys.timestampAppMovedBackground) as? Date {
-            return (remainingTime, savedTimestamp)
+        let remainingTime: Int = NetworkManager().getValue(for: UserDefaultKeys.remainingTime)
+        guard
+            let savedTimestamp = NetworkManager().getValue(for: UserDefaultKeys.timestampAppMovedBackground)
+        else {
+            return (nil, nil)
         }
 
-        return (nil, nil)
+        return (remainingTime, savedTimestamp)
     }
 
     /// Function to return the number of cycles
     /// - Parameter keyName: the name of the key
     /// - Returns: the string with the number of cycle
     func getNumberOfCycles(for keyName: String) -> String {
-        defaults.string(forKey: keyName) ?? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
+        let numberOfCycles: String = NetworkManager().getValue(for: keyName)
+        return numberOfCycles == ""
+            ? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
+            : numberOfCycles
     }
 
     /// Return the value for the toggle
     /// - Parameter keyName: the keyname of the toggle
     /// - Returns: the value for the toggle
     func getToggle(for keyName: String) -> Bool {
-        defaults.bool(forKey: keyName)
+        NetworkManager().getValue(for: keyName)
     }
 }
