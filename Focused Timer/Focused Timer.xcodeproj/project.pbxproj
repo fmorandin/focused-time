@@ -27,6 +27,7 @@
 		181F5031260A84710051D092 /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F5030260A84710051D092 /* TopMenuView.swift */; };
 		18484B01260956DD0072DCCB /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18484B00260956DD0072DCCB /* FormView.swift */; };
 		18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */; };
+		1870266926B0AB3B00A1DDDE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1870266826B0AB3B00A1DDDE /* NetworkManager.swift */; };
 		1876325C26001F76001ADD23 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876325B26001F76001ADD23 /* HelpView.swift */; };
 		1889095D260E87460062C450 /* HelpViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1889095C260E87460062C450 /* HelpViewUITests.swift */; };
 		189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189EF6A725BA5A6F004A182E /* TimerModel.swift */; };
@@ -83,6 +84,7 @@
 		181F5030260A84710051D092 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
 		18484B00260956DD0072DCCB /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		1870266826B0AB3B00A1DDDE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		1876325B26001F76001ADD23 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		1889095C260E87460062C450 /* HelpViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpViewUITests.swift; sourceTree = "<group>"; };
 		189EF6A725BA5A6F004A182E /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				18A2883725CC85CD00689770 /* Constants */,
 				B63EFF0426559039007534C4 /* Extensions */,
 				B63EFF0526559055007534C4 /* Helpers */,
+				1870266726B0AAD000A1DDDE /* Network */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -184,6 +187,14 @@
 				181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		1870266726B0AAD000A1DDDE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1870266826B0AB3B00A1DDDE /* NetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		1876324E26001F30001ADD23 /* Help */ = {
@@ -545,6 +556,7 @@
 				180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */,
 				A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */,
 				A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */,
+				1870266926B0AB3B00A1DDDE /* NetworkManager.swift in Sources */,
 				A378FC672522BCF90046FC4C /* TimerView.swift in Sources */,
 				181F5027260A82720051D092 /* ButtonsView.swift in Sources */,
 				18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */,
