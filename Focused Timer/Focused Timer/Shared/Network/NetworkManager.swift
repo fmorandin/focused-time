@@ -18,19 +18,7 @@ struct NetworkManager {
 
     // MARK: - Methods
 
-    func save(value: Int, for keyName: String) {
-        defaults.set(value, forKey: keyName)
-    }
-
-    func save(value: String, for keyName: String) {
-        defaults.set(value, forKey: keyName)
-    }
-
-    func save(value: Bool, for keyName: String) {
-        defaults.set(value, forKey: keyName)
-    }
-
-    func save(value: Date, for keyName: String) {
+    func save<T>(value: T, for keyName: String) {
         defaults.set(value, forKey: keyName)
     }
 
