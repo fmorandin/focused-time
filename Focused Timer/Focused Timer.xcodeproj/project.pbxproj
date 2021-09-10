@@ -82,6 +82,7 @@
 		181F5026260A82720051D092 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
 		181F502B260A83040051D092 /* FlowCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowCounterView.swift; sourceTree = "<group>"; };
 		181F5030260A84710051D092 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
+		182782EB26EBF8090034AC28 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		18484B00260956DD0072DCCB /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		1870266826B0AB3B00A1DDDE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -480,6 +481,7 @@
 				en,
 				Base,
 				"pt-BR",
+				"pt-PT",
 			);
 			mainGroup = A378FC262522BB7D0046FC4C;
 			productRefGroup = A378FC302522BB7D0046FC4C /* Products */;
@@ -620,6 +622,7 @@
 			children = (
 				180EDCD425CC86E800452D96 /* en */,
 				180EDCD925CC870400452D96 /* pt-BR */,
+				182782EB26EBF8090034AC28 /* pt-PT */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -751,7 +754,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Focused Timer/Preview Content\"";
 				DEVELOPMENT_TEAM = KFQ838WW9Y;
 				ENABLE_PREVIEWS = YES;
@@ -761,7 +764,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.felipemorandin.FocusedTimer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -775,7 +778,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Focused Timer/Preview Content\"";
 				DEVELOPMENT_TEAM = KFQ838WW9Y;
 				ENABLE_PREVIEWS = YES;
@@ -785,7 +788,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.felipemorandin.FocusedTimer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
