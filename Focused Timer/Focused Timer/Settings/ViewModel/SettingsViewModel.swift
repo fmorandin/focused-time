@@ -21,29 +21,41 @@ final class SettingsViewModel: ObservableObject {
 
     @Published var focusedTime: String = "" {
         didSet {
-            if focusedTime.count > timerLimits {
-                focusedTime = String(focusedTime.prefix(timerLimits))
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                while self.focusedTime.count > self.timerLimits {
+                    self.focusedTime.removeLast()
+                }
             }
         }
     }
     @Published var shortBreakTime: String = "" {
         didSet {
-            if shortBreakTime.count > timerLimits {
-                shortBreakTime = String(shortBreakTime.prefix(timerLimits))
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                while self.shortBreakTime.count > self.timerLimits {
+                    self.shortBreakTime.removeLast()
+                }
             }
         }
     }
     @Published var cycleTotal: String = "" {
         didSet {
-            if cycleTotal.count > numberOfCyclesLimits {
-                cycleTotal = String(cycleTotal.prefix(numberOfCyclesLimits))
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                while self.cycleTotal.count > self.numberOfCyclesLimits {
+                    self.cycleTotal.removeLast()
+                }
             }
         }
     }
     @Published var longBreak: String = "" {
         didSet {
-            if longBreak.count > timerLimits {
-                longBreak = String(longBreak.prefix(timerLimits))
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                while self.longBreak.count > self.timerLimits {
+                    self.longBreak.removeLast()
+                }
             }
         }
     }
@@ -94,8 +106,8 @@ final class SettingsViewModel: ObservableObject {
     ///   - value: the value to be saved
     func saveTime(for keyName: String, value: Int) {
         value > 0 ?
-            settingsModel.saveTime(time: value, for: keyName) :
-            debugPrint("Value \(value) for key \(keyName) should be positve.")
+        settingsModel.saveTime(time: value, for: keyName) :
+        debugPrint("Value \(value) for key \(keyName) should be positve.")
     }
 
     /// Function that returns the value in seconds for a saved timer
@@ -111,11 +123,11 @@ final class SettingsViewModel: ObservableObject {
     func saveNumberOfCycles(_ numberOfCycles: Int) {
 
         numberOfCycles > 0 ?
-            settingsModel.saveNumberOfCycles(
-                numberOfCycles: numberOfCycles,
-                for: UserDefaultKeys.numberOfCycles
-            ) :
-            debugPrint("The value \(numberOfCycles) for the number of cycles should be positive.")
+        settingsModel.saveNumberOfCycles(
+            numberOfCycles: numberOfCycles,
+            for: UserDefaultKeys.numberOfCycles
+        ) :
+        debugPrint("The value \(numberOfCycles) for the number of cycles should be positive.")
     }
 
     /// Returns the number of the cycles
@@ -146,15 +158,15 @@ final class SettingsViewModel: ObservableObject {
     func resetToDefault() {
         saveTime(
             for: UserDefaultKeys.focusedTime,
-            value: DefaultValuesConstants.defaultFocusedTime.rawValue
+               value: DefaultValuesConstants.defaultFocusedTime.rawValue
         )
         saveTime(
             for: UserDefaultKeys.shortBreakTime,
-            value: DefaultValuesConstants.defaultShortBreakTime.rawValue
+               value: DefaultValuesConstants.defaultShortBreakTime.rawValue
         )
         saveTime(
             for: UserDefaultKeys.longBreakTime,
-            value: DefaultValuesConstants.defaultLongBreakTime.rawValue
+               value: DefaultValuesConstants.defaultLongBreakTime.rawValue
         )
         saveToggles(for: UserDefaultKeys.autoStartToggle, value: false)
         saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
