@@ -101,7 +101,18 @@ final class SettingsUITests: BaseFeature {
         durationTextField.doubleTap()
 
         // AND I type an invalid value
-        durationTextField.typeText("12345678")
+
+        // I was using typeText but it was typing in to fast and, because of that, the char limitation was not working
+        // However, if the typing speed is a little more slow (more closer to the velocity of a person taping the screen
+        // everything works fine. That was the reason to do the test like this
+        app.keys["1"].tap()
+        app.keys["2"].tap()
+        app.keys["3"].tap()
+        app.keys["4"].tap()
+        app.keys["5"].tap()
+        app.keys["6"].tap()
+        app.keys["7"].tap()
+        app.keys["8"].tap()
 
         // THEN the input should only accept 5 digits
         let durationTextFieldInvalidValue = String(
@@ -150,7 +161,18 @@ final class SettingsUITests: BaseFeature {
         shortBreakTextField.doubleTap()
 
         // AND I type an invalid value
-        shortBreakTextField.typeText("12345678")
+
+        // I was using typeText but it was typing in to fast and, because of that, the char limitation was not working
+        // However, if the typing speed is a little more slow (more closer to the velocity of a person taping the screen
+        // everything works fine. That was the reason to do the test like this
+        app.keys["1"].tap()
+        app.keys["2"].tap()
+        app.keys["3"].tap()
+        app.keys["4"].tap()
+        app.keys["5"].tap()
+        app.keys["6"].tap()
+        app.keys["7"].tap()
+        app.keys["8"].tap()
 
         // THEN the input should only accept 5 digits
         let shortBreakTextFieldInvalidValue = String(
@@ -413,7 +435,7 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the about information should be visible
         let appVersionText = app.staticTexts[Accessibility.Identifiers.lblAppVersion]
-        XCTAssertEqual(appVersionText.label, "App Version: 1.2.0")
+        XCTAssertEqual(appVersionText.label, "App Version: 1.2.1")
 
         // AND the share option should be visible
         let btnShareApp = app.buttons[Accessibility.Identifiers.btnShareApp]
