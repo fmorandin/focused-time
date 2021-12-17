@@ -167,7 +167,7 @@ final class TimerViewModel: ObservableObject {
     /// This is the function that is called when a timer finishes.
     /// Essentially it will do two things: Increase the necessary variables that handles
     /// the cycles and decide what timer should go next
-    fileprivate func changeTimerMode() {
+    func changeTimerMode() {
 
         // If the user don't check the option to play sounds
         // or if they came from a notification, the sound shouldn't be played
