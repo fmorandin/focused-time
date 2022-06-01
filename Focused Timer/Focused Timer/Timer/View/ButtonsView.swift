@@ -6,27 +6,44 @@
 //
 
 import SwiftUI
+import os
 
 struct ButtonsView: View {
 
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: ButtonsView.self)
+    )
+
     // MARK: - Environment
+
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - Observed Objects
+
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
+
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
+
+        Self.logger.notice("🛠 Initializing Buttons View.")
+
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
     // MARK: - View
+
     var body: some View {
         HStack(spacing: 70) {
             Button(action: {
                 if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
+                    Self.logger.notice("▶️ Play timer button pressed.")
                     timerViewModel.startTimer()
                 } else {
+                    Self.logger.notice("⏸ Pause timer button pressed.")
                     timerViewModel.pauseTimer()
                 }
                 HapticsConstants().impactHeavy.impactOccurred()
@@ -52,6 +69,7 @@ struct ButtonsView: View {
             .accessibility(identifier: Accessibility.Identifiers.btnStartPauseIdentifier)
 
             Button(action: {
+                Self.logger.notice("🔄 Reset timer button pressed.")
                 timerViewModel.resetUpdateTimer()
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {

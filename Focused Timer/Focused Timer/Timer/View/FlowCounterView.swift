@@ -6,17 +6,31 @@
 //
 
 import SwiftUI
+import os
 
 struct FlowCounterView: View {
 
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: ButtonsView.self)
+    )
+
     // MARK: - Environment
+
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - Observed Objects
+
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
+
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
+
+        Self.logger.notice("🛠 Initializing Flow Counter View.")
+
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 

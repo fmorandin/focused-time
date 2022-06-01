@@ -6,8 +6,16 @@
 //
 
 import SwiftUI
+import os
 
 struct SettingsView: View {
+
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: SettingsView.self)
+    )
 
     // MARK: - Environment
 
@@ -28,6 +36,9 @@ struct SettingsView: View {
         viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel()),
         displayWarning: Bool = false
     ) {
+
+        Self.logger.notice("🛠 Initializing Settings View.")
+
         _settingsViewModel = StateObject(wrappedValue: viewModel)
 
         self.shouldDisplayDisclaimer = displayWarning
@@ -42,6 +53,7 @@ struct SettingsView: View {
                 Spacer()
 
                 Button(action: {
+                    Self.logger.notice("❌ Closing Settings View.")
                     self.presentationMode.wrappedValue.dismiss()
                     HapticsConstants().impactMedium.impactOccurred()
                 }, label: {
@@ -75,6 +87,9 @@ struct SettingsView: View {
             self.hideKeyboard()
         }
         .navigationBarHidden(true)
+        .onAppear {
+            Self.logger.notice("⚙️ Settings View opened.")
+        }
     }
 }
 

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os
 
 protocol TimerModelProtocol {
 
@@ -32,8 +33,17 @@ protocol TimerModelProtocol {
 
 struct TimerModel: TimerModelProtocol {
 
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: TimerModel.self)
+    )
+
     // MARK: - Public Methods
+
     func getTime(for keyName: String) -> Int {
+
         let totalTime: Int = NetworkManager().getValue(for: keyName)
 
         if totalTime != 0 {
@@ -56,6 +66,9 @@ struct TimerModel: TimerModelProtocol {
     /// necessary information to keep the timer updated
     /// - Parameter remainingTime: how many seconds are remaining in order to the timer finishs
     func saveMoveToBackgroundTime(remainingTime: Int) {
+
+        Self.logger.notice("💾 Saving the remaing time and the timestamp.")
+
         NetworkManager().save(value: remainingTime, for: UserDefaultKeys.remainingTime)
         NetworkManager().save(value: Date(), for: UserDefaultKeys.timestampAppMovedBackground)
     }
@@ -65,12 +78,15 @@ struct TimerModel: TimerModelProtocol {
     /// - Returns: a tuple with the remaining time when the user moved the app to the background and a
     ///            timestamp that indicates when that action happened
     func getSavedTimes() -> (Int?, Date?) {
+
         let remainingTime: Int = NetworkManager().getValue(for: UserDefaultKeys.remainingTime)
         guard
             let savedTimestamp = NetworkManager().getValue(for: UserDefaultKeys.timestampAppMovedBackground)
         else {
             return (nil, nil)
         }
+
+        Self.logger.notice("📤 Getting the saved remaining time and the timestamp.")
 
         return (remainingTime, savedTimestamp)
     }
@@ -79,6 +95,7 @@ struct TimerModel: TimerModelProtocol {
     /// - Parameter keyName: the name of the key
     /// - Returns: the string with the number of cycle
     func getNumberOfCycles(for keyName: String) -> String {
+
         let numberOfCycles: String = NetworkManager().getValue(for: keyName)
         return numberOfCycles == ""
             ? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
@@ -89,6 +106,7 @@ struct TimerModel: TimerModelProtocol {
     /// - Parameter keyName: the keyname of the toggle
     /// - Returns: the value for the toggle
     func getToggle(for keyName: String) -> Bool {
+
         NetworkManager().getValue(for: keyName)
     }
 }

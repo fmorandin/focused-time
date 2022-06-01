@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import os
 
 struct FormView: View {
 
     // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: FormView.self)
+    )
 
     @StateObject private var settingsViewModel: SettingsViewModel
 
@@ -20,6 +26,9 @@ struct FormView: View {
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
+
+        Self.logger.notice("🛠 Initializing Form View.")
+
         _settingsViewModel = StateObject(wrappedValue: viewModel)
 
         UITableView.appearance().backgroundColor = .clear

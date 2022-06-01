@@ -5,8 +5,9 @@
 //  Created by Felipe Morandin on 01/10/20.
 //
 
-import SwiftUI
 import AVFoundation
+import SwiftUI
+import os
 
 final class TimerViewModel: ObservableObject {
 
@@ -23,6 +24,11 @@ final class TimerViewModel: ObservableObject {
     @Published var accentCircleColor: Color
 
     // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: TimerViewModel.self)
+    )
 
     private var timer = Timer()
     private let timerModel: TimerModelProtocol
@@ -44,6 +50,8 @@ final class TimerViewModel: ObservableObject {
     // MARK: - Initializer
 
     init(timerModel: TimerModelProtocol) {
+
+        Self.logger.notice("🛠 Initializing Timer View Model.")
 
         self.dateFormatter.allowedUnits = [.minute, .second]
         self.dateFormatter.zeroFormattingBehavior = .pad
@@ -69,6 +77,8 @@ final class TimerViewModel: ObservableObject {
     /// Function that handles all the events when the timer is running.
     /// This one also does the logic between the timer types and what to do on any of the them.
     func startTimer() {
+
+        Self.logger.notice("▶️ Starting timer.")
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
             if self.counter <= self.totalTime && self.counter != 0 {
                 self.updateTimerRunning()
@@ -86,6 +96,8 @@ final class TimerViewModel: ObservableObject {
 
     /// This simply sets the state and invalidate the timer so it won't will be running during the pause
     func pauseTimer() {
+
+        Self.logger.notice("⏸ Pausing timer.")
         timerState = .paused
         timer.invalidate()
     }
@@ -93,6 +105,8 @@ final class TimerViewModel: ObservableObject {
     /// This is responsible to set all the properties to their initial state again.
     /// The initial state of the app will always be the focused time.
     func resetUpdateTimer() {
+
+        Self.logger.notice("🔄 Resetting timer.")
         timerState = .initial
         timerTo = 1
         counter = timerModel.getTime(for: UserDefaultKeys.focusedTime)
@@ -112,12 +126,14 @@ final class TimerViewModel: ObservableObject {
     /// Besides the remaining time, the now timestamp will be saved as well in order to calculate
     /// how long the app stand on the background
     func moveAppToBackground() {
+
+        Self.logger.notice("👋🏻 Moving app to the background.")
         if timerState == .running {
             /// The biggest part of what is described above will be handled by the model
             timerModel.saveMoveToBackgroundTime(remainingTime: counter)
 
             // Schedule a notification so user would know when the timer finishes
-            localNotificationManager.schedule(remainingTime: Double(counter))
+            localNotificationManager.scheduleLocalNotification(remainingTime: Double(counter))
         }
     }
 
@@ -126,10 +142,13 @@ final class TimerViewModel: ObservableObject {
     /// will be canceled, the saved values will be read
     /// and the calculation will be done in order to update the timer
     func moveAppToForeground() {
+
+        Self.logger.notice("👋🏻 Moving app to the foreground.")
         // Cancel any scheduled/already sent notifications
         localNotificationManager.clearScheduledNotifications()
 
         if timerState == .running {
+            Self.logger.notice("🏃🏻‍♂️ Timer is running.")
             // Recover the saved values and to the math to update the remaining time
             let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
 
@@ -144,10 +163,12 @@ final class TimerViewModel: ObservableObject {
     }
 
     func shouldDisplaySettingsAlert() -> Bool {
+
         timerState == .running || timerState == .paused ? true : false
     }
 
     func shouldKeepScreenOn() -> Bool {
+
         keepScreenOn
     }
 
@@ -156,6 +177,8 @@ final class TimerViewModel: ObservableObject {
     /// This one is responsible to do the necessary updates for when the
     /// timer is running, independently from the timer type.
     fileprivate func updateTimerRunning() {
+
+        Self.logger.notice("⏲ Setting timer to running, decreasing counter and formatting count time.")
         self.timerState = .running
         self.counter -= 1
         withAnimation(.default) {
@@ -168,6 +191,8 @@ final class TimerViewModel: ObservableObject {
     /// Essentially it will do two things: Increase the necessary variables that handles
     /// the cycles and decide what timer should go next
     fileprivate func changeTimerMode() {
+
+        Self.logger.notice("🆕 Changing Timer mode.")
 
         // If the user don't check the option to play sounds
         // or if they came from a notification, the sound shouldn't be played
@@ -186,11 +211,14 @@ final class TimerViewModel: ObservableObject {
         handleCompletedCycle()
 
         if self.numberOfCompletedCycles == self.totalNumberOfCycles {
+            Self.logger.notice("🥳 Completed the number of cycles.")
             changeTimerType(timerType: .longBreak)
         } else {
             if self.timerType == .focused {
+                Self.logger.notice("🤓 Focused Timer.")
                 changeTimerType(timerType: .focused)
             } else {
+                Self.logger.notice("😮‍💨 Short Break.")
                 changeTimerType(timerType: .shortBreak)
             }
         }
@@ -198,9 +226,12 @@ final class TimerViewModel: ObservableObject {
 
     /// Auxiliary function to keep tracking of the number of completed cycles.
     fileprivate func handleCompletedCycle() {
+
         if timerType == .focused {
+            Self.logger.notice("👏🏻 Cycle completed.")
             numberOfCompletedCycles += 1
         } else if timerType == .longBreak {
+            Self.logger.notice("💪🏻 Long break done.")
             numberOfCompletedCycles = 0
         }
     }
@@ -209,8 +240,11 @@ final class TimerViewModel: ObservableObject {
     /// variables based on the type.
     /// - Parameter timerType: the type of the timer that was running
     fileprivate func changeTimerType(timerType: TimerType) {
+
+        Self.logger.notice("🔃 Time to change the mode.")
         switch timerType {
         case .focused:
+            Self.logger.notice("🔃 Changing from focused to short break.")
             self.timerType = .shortBreak
             counter = timerModel.getTime(for: UserDefaultKeys.shortBreakTime)
             totalTime = timerModel.getTime(for: UserDefaultKeys.shortBreakTime)
@@ -219,6 +253,7 @@ final class TimerViewModel: ObservableObject {
             accentCircleColor = .blue
 
         case .shortBreak:
+            Self.logger.notice("🔃 Changing from short break to focused.")
             self.timerType = .focused
             counter = timerModel.getTime(for: UserDefaultKeys.focusedTime)
             totalTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
@@ -227,6 +262,7 @@ final class TimerViewModel: ObservableObject {
             accentCircleColor = .orange
 
         case .longBreak:
+            Self.logger.notice("🔃 Changing to long break.")
             self.timerType = .longBreak
             counter = timerModel.getTime(for: UserDefaultKeys.longBreakTime)
             totalTime = timerModel.getTime(for: UserDefaultKeys.longBreakTime)

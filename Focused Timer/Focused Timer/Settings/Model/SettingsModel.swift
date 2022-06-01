@@ -47,11 +47,13 @@ struct SettingsModel: SettingsModelProtocol {
     // MARK: - Methods
 
     func saveTime(time: Int, for keyName: String) {
+
         let timeInSeconds = time * 60
         NetworkManager().save(value: timeInSeconds, for: keyName)
     }
 
     func getTime(for keyName: String) -> Int {
+
         let totalTime: Int = NetworkManager().getValue(for: keyName)
 
         if totalTime != 0 {
@@ -71,10 +73,12 @@ struct SettingsModel: SettingsModelProtocol {
     }
 
     func saveNumberOfCycles(numberOfCycles: Int, for keyName: String) {
+
         NetworkManager().save(value: numberOfCycles, for: keyName)
     }
 
     func getNumberOfCycles(for keyName: String) -> String {
+
         let numberOfCycles: String = NetworkManager().getValue(for: keyName)
         return numberOfCycles == ""
             ? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
@@ -82,10 +86,12 @@ struct SettingsModel: SettingsModelProtocol {
     }
 
     func saveToggle(value: Bool, for keyName: String) {
+
         NetworkManager().save(value: value, for: keyName)
     }
 
     func getToggle(for keyName: String) -> Bool {
+
         NetworkManager().getValue(for: keyName)
     }
 }

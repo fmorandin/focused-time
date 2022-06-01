@@ -6,21 +6,36 @@
 //
 
 import SwiftUI
+import os
 
 struct TopMenuView: View {
 
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: TopMenuView.self)
+    )
+
     // MARK: - Environment
+
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - States
+
     @State private var showingConfig = false
     @State private var showingHelp = false
 
     // MARK: - Observed Objects
+
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
+
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
+
+        Self.logger.notice("🛠 Initializing Top Menu View.")
+
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -28,6 +43,7 @@ struct TopMenuView: View {
     var body: some View {
         HStack {
             Button(action: {
+                Self.logger.notice("🆘 Opening Help View.")
                 self.showingHelp.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
@@ -46,6 +62,7 @@ struct TopMenuView: View {
             Spacer()
 
             Button(action: {
+                Self.logger.notice("⚙️ Opening Settings View.")
                 self.showingConfig.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {

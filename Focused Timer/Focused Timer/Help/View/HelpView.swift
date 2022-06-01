@@ -6,8 +6,16 @@
 //
 
 import SwiftUI
+import os
 
 struct HelpView: View {
+
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: HelpView.self)
+    )
 
     // MARK: - Environment
     @Environment(\.colorScheme) var colorScheme
@@ -17,12 +25,12 @@ struct HelpView: View {
     var body: some View {
         ScrollView {
             VStack {
-
                 // Top Section with a close button
                 HStack {
                     Spacer()
 
                     Button(action: {
+                        Self.logger.notice("❌ Closing Help View.")
                         self.presentationMode.wrappedValue.dismiss()
                         HapticsConstants().impactMedium.impactOccurred()
                     }, label: {
@@ -35,7 +43,6 @@ struct HelpView: View {
                         }
                         .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
                     })
-
                 }
                 .padding(.top, 30)
                 .padding(.bottom, 10)
@@ -141,6 +148,9 @@ struct HelpView: View {
                             .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCyclesExplanation)
                     }
                 }
+            }
+            .onAppear {
+                Self.logger.notice("🆘 Help View opened.")
             }
         }
     }
