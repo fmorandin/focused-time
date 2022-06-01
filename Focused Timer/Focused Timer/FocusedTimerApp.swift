@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import os
 
 @main
 struct FocusedTimerApp: App {
@@ -20,11 +21,27 @@ struct FocusedTimerApp: App {
 }
 
 // MARK: - AppDelegate
+
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: AppDelegate.self)
+    )
+
+    // MARK: - Computed Variables
+
+    static var isUITestingEnabled: Bool {
+        ProcessInfo.processInfo.arguments.contains("UI-Testing")
+    }
+
+    // MARK: - Public Methods
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions:
-                        [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+                     [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
         setStateForUITesting()
 
@@ -39,26 +56,39 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.isNotification)
         completionHandler()
     }
 
-    static var isUITestingEnabled: Bool {
-        ProcessInfo.processInfo.arguments.contains("UI-Testing")
+    func requestLocalNotificationPermission() {
+
+        UNUserNotificationCenter
+            .current()
+            .requestAuthorization(options: [
+                .alert,
+                .sound,
+                .badge
+            ]) { _, error in
+
+                Self.logger.notice("📅 Requesting user's permission to send notifications.")
+
+                if let error = error {
+                    Self.logger.error(
+                        "👮🏻‍♂️ Problem requesting user's permission for notification: \(error.localizedDescription)"
+                    )
+                }
+            }
     }
 
-    func requestLocalNotificationPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert,
-                                                                          .sound,
-                                                                          .badge]) { _, error in
-            if let error = error {
-                debugPrint(error.localizedDescription)
-            }
-        }
-    }
+    // MARK: - Private Methods
 
     private func setStateForUITesting() {
+
         if AppDelegate.isUITestingEnabled {
+
+            Self.logger.notice("📲 Starting UI Testing.")
+
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
             UserDefaults.standard.set("4", forKey: UserDefaultKeys.numberOfCycles)
             UserDefaults.standard.set(60, forKey: UserDefaultKeys.focusedTime)

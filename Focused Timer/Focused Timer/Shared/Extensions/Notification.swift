@@ -8,5 +8,6 @@
 import Foundation
 
 extension Notification.Name {
+
     static let updateTimerView = Notification.Name("updateTimerView")
 }

@@ -6,21 +6,36 @@
 //
 
 import SwiftUI
+import os
 
 struct CircleView: View {
 
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: CircleView.self)
+    )
+
     // MARK: - Environment
+
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - Observed Objects
+
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
+
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
+
+        Self.logger.notice("🛠 Initializing Circle View.")
+
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
     // MARK: - View
+
     var body: some View {
         ZStack {
             Circle()

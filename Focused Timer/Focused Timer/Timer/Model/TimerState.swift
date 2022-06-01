@@ -9,6 +9,7 @@ import Foundation
 
 /// Enum to handle the possible timer's state
 enum TimerState {
+
     case running
     case paused
     case initial

@@ -8,11 +8,13 @@
 import SwiftUI
 
 enum TimerType: String {
+
     case focused = "Focus"
     case shortBreak = "Short Break"
     case longBreak = "Long Break"
 
     func getCorrectTranslation() -> LocalizedStringKey {
+
         switch self {
         case .focused:
             return Translation.focusName

@@ -6,17 +6,30 @@
 //
 
 import SwiftUI
+import os
 
 struct TimerView: View {
 
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: TimerView.self)
+    )
+
     // MARK: - Environment
+
     @Environment(\.colorScheme) var colorScheme
 
     // MARK: - Observed Objects
+
     @StateObject var timerViewModel: TimerViewModel
 
     // MARK: Initializer
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
+
+        Self.logger.notice("🛠 Initializing Timer View.")
+
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -50,22 +63,29 @@ struct TimerView: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(
-                    for: UIApplication.didEnterBackgroundNotification)) { _ in
-            timerViewModel.moveAppToBackground()
+            for: UIApplication.didEnterBackgroundNotification)) { _ in
+                Self.logger.notice("‼️ App will be moved to background.")
 
-            UIApplication.shared.isIdleTimerDisabled = false
-        }
-        .onReceive(NotificationCenter.default.publisher(
-                    for: UIApplication.willEnterForegroundNotification)) { _ in
-            timerViewModel.moveAppToForeground()
+                timerViewModel.moveAppToBackground()
 
-            if timerViewModel.shouldKeepScreenOn() {
-                UIApplication.shared.isIdleTimerDisabled = true
+                UIApplication.shared.isIdleTimerDisabled = false
             }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: .updateTimerView), perform: { _ in
-            timerViewModel.resetUpdateTimer()
-        })
+            .onReceive(NotificationCenter.default.publisher(
+                for: UIApplication.willEnterForegroundNotification)) { _ in
+                    timerViewModel.moveAppToForeground()
+                    Self.logger.notice("‼️ App will be moved to foreground.")
+
+                    if timerViewModel.shouldKeepScreenOn() {
+                        UIApplication.shared.isIdleTimerDisabled = true
+                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .updateTimerView), perform: { _ in
+                    Self.logger.notice("🔄 Calling reset update timer.")
+                    timerViewModel.resetUpdateTimer()
+                })
+                .onAppear {
+                    Self.logger.notice("⏱ Timer View opened.")
+                }
     }
 }
 

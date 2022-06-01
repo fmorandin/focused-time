@@ -8,10 +8,16 @@
 import Foundation
 import Combine
 import SwiftUI
+import os
 
 final class SettingsViewModel: ObservableObject {
 
     // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: SettingsViewModel.self)
+    )
 
     private let settingsModel: SettingsModelProtocol
     private let timerLimits = 5
@@ -72,6 +78,9 @@ final class SettingsViewModel: ObservableObject {
     // MARK: - Initializer
 
     init(settingsModel: SettingsModelProtocol) {
+
+        Self.logger.notice("🛠 Initializing Settings View Model.")
+
         self.settingsModel = settingsModel
 
         self.populateAllFieldsSavedValues()
@@ -81,6 +90,9 @@ final class SettingsViewModel: ObservableObject {
 
     /// Function that populates all the fields with the saved values
     private func populateAllFieldsSavedValues() {
+
+        Self.logger.notice("📝 Populating all the fields with the saved values.")
+
         let focusedTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.focusedTime)
         let focusedTimeInMinutes = focusedTimeInSeconds / 60
         self.focusedTime = String(describing: focusedTimeInMinutes == 0 ? 1 : focusedTimeInMinutes)
@@ -105,15 +117,17 @@ final class SettingsViewModel: ObservableObject {
     ///   - keyName: the key name of the value that needs to be saved
     ///   - value: the value to be saved
     func saveTime(for keyName: String, value: Int) {
+
         value > 0 ?
         settingsModel.saveTime(time: value, for: keyName) :
-        debugPrint("Value \(value) for key \(keyName) should be positve.")
+        Self.logger.error("🙅🏻‍♂️ Value \(value) for key \(keyName) should be positve.")
     }
 
     /// Function that returns the value in seconds for a saved timer
     /// - Parameter keyName: the key name that needs to be retrieved
     /// - Returns: the value of the timer in seconds
     func getTimeInMinutes(for keyName: String) -> Int {
+
         let timeInMinutes = settingsModel.getTime(for: keyName) / 60
         return timeInMinutes == 0 ? 1 : timeInMinutes
     }
@@ -127,13 +141,14 @@ final class SettingsViewModel: ObservableObject {
             numberOfCycles: numberOfCycles,
             for: UserDefaultKeys.numberOfCycles
         ) :
-        debugPrint("The value \(numberOfCycles) for the number of cycles should be positive.")
+        Self.logger.error("🙅🏻‍♂️ Value \(numberOfCycles) for key \(UserDefaultKeys.numberOfCycles) should be positve.")
     }
 
     /// Returns the number of the cycles
     /// - Parameter keyName: the key name to be retrieved
     /// - Returns: the number of the cycles
     func getNumberOfCycles(for keyName: String) -> Int {
+
         Int(settingsModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
     }
 
@@ -142,6 +157,7 @@ final class SettingsViewModel: ObservableObject {
     ///   - keyName: the key name of the value that needs to be saved
     ///   - value: the value of the toggle
     func saveToggles(for keyName: String, value: Bool) {
+
         settingsModel.saveToggle(value: value, for: keyName)
     }
 
@@ -149,6 +165,7 @@ final class SettingsViewModel: ObservableObject {
     /// - Parameter keyName: the name of the key to be returned
     /// - Returns: the value of the key
     func getSavedToggles(for keyName: String) -> Bool {
+
         settingsModel.getToggle(for: keyName)
     }
 
@@ -156,6 +173,9 @@ final class SettingsViewModel: ObservableObject {
     /// This saves again all the fields with the default values and then populate
     /// all the fields in the screen again
     func resetToDefault() {
+
+        Self.logger.notice("🔄 Reseting all the items to their default values.")
+
         saveTime(
             for: UserDefaultKeys.focusedTime,
                value: DefaultValuesConstants.defaultFocusedTime.rawValue
@@ -178,6 +198,9 @@ final class SettingsViewModel: ObservableObject {
 
     /// Function that defines what is the text and the link used in the share
     func actionSheet() {
+
+        Self.logger.notice("📤 Opening share sheet.")
+
         let appStoreUrl = URL(string: "https://apps.apple.com/us/app/focused-timer/id1563481123")!
         let shareMessage = NSString.localizedUserNotificationString(forKey: "shareAppMessage", arguments: nil)
 
