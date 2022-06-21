@@ -60,11 +60,11 @@ final class TimerViewModel: ObservableObject {
         self.timerModel = timerModel
 
         /// The initial state for the app will be the focused time
-        self.totalTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
-        self.counter = timerModel.getTime(for: UserDefaultKeys.focusedTime)
+        let savedFocusedTimer = timerModel.getTime(for: UserDefaultKeys.focusedTime)
+        self.totalTime = savedFocusedTimer
+        self.counter = savedFocusedTimer
 
-        self.countTime = self.dateFormatter.string(
-            from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
+        self.countTime = self.dateFormatter.string(from: TimeInterval(savedFocusedTimer)) ?? "-"
 
         self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         self.numberOfCompletedCycles = 0
