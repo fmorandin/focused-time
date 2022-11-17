@@ -363,6 +363,8 @@ final class SettingsUITests: BaseFeature {
         numberOfCyclesTextField.doubleTap()
         numberOfCyclesTextField.typeText("99")
 
+        app.tap()
+
         autoStartToggle.tap()
         playSoundsToggle.tap()
         keepScreenOnToggle.tap()
@@ -432,6 +434,8 @@ final class SettingsUITests: BaseFeature {
         // GIVEN I open the modal
         let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
+
+        app.swipeUp()
 
         // THEN the about information should be visible
         let appVersionText = app.staticTexts[Accessibility.Identifiers.lblAppVersion]
