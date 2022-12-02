@@ -23,6 +23,9 @@ struct FormView: View {
     @State private var resetDefaultValuesAlert = false
     @State private var keepScreenOnDisclaimerAlert = false
 
+    private let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    private let window: UIWindow?
+
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
@@ -34,6 +37,8 @@ struct FormView: View {
         UITableView.appearance().backgroundColor = .clear
 
         _shouldUpdateTimerView = State(wrappedValue: false)
+
+        window = windowScene?.windows.first
     }
 
     // MARK: - Body
@@ -251,7 +256,7 @@ struct FormView: View {
                     Spacer()
 
                     Button(action: {
-                        UIApplication.shared.windows.first?.rootViewController?.dismiss(
+                        window?.rootViewController?.dismiss(
                             animated: true,
                             completion: settingsViewModel.actionSheet
                         )
