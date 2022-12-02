@@ -23,6 +23,9 @@ final class SettingsViewModel: ObservableObject {
     private let timerLimits = 5
     private let numberOfCyclesLimits = 2
 
+    private let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    private var window: UIWindow?
+
     // MARK: - Published Variables
 
     @Published var focusedTime: String = "" {
@@ -84,6 +87,8 @@ final class SettingsViewModel: ObservableObject {
         self.settingsModel = settingsModel
 
         self.populateAllFieldsSavedValues()
+
+        window = windowScene?.windows.first
     }
 
     // MARK: - Methods
@@ -209,7 +214,7 @@ final class SettingsViewModel: ObservableObject {
             applicationActivities: nil
         )
 
-        UIApplication.shared.windows.first?.rootViewController?.present(
+        window?.rootViewController?.present(
             activityVC,
             animated: true,
             completion: nil
