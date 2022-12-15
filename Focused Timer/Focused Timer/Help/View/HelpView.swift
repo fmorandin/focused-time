@@ -31,7 +31,7 @@ struct HelpView: View {
 
                     Button(action: {
                         Self.logger.notice("❌ Closing Help View.")
-                        self.presentationMode.wrappedValue.dismiss()
+                        presentationMode.wrappedValue.dismiss()
                         HapticsConstants().impactMedium.impactOccurred()
                     }, label: {
                         HStack {

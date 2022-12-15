@@ -25,7 +25,7 @@ struct LocalNotificationManager {
     /// also clears the already sent notifications
     func clearScheduledNotifications() {
 
-        Self.logger.notice("🧹 Cleanning up all the scheduled notifications.")
+        Self.logger.notice("🧹 Cleaning up all the scheduled notifications.")
 
         UIApplication.shared.applicationIconBadgeNumber = 0
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -46,7 +46,7 @@ struct LocalNotificationManager {
                 AppDelegate().requestLocalNotificationPermission()
             case .authorized, .provisional:
                 Self.logger.notice("👌🏻 Permission for local notification either authorized or provisional.")
-                self.schedule(remainingTime: remainingTime)
+                schedule(remainingTime: remainingTime)
             default:
                 Self.logger.error("✋🏻 Default option for local notification permissions.")
             }

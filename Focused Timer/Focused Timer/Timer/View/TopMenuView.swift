@@ -44,7 +44,7 @@ struct TopMenuView: View {
         HStack {
             Button(action: {
                 Self.logger.notice("🆘 Opening Help View.")
-                self.showingHelp.toggle()
+                showingHelp.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenHelpModalButton, systemImage: ImageNames.showHelp)
@@ -63,7 +63,7 @@ struct TopMenuView: View {
 
             Button(action: {
                 Self.logger.notice("⚙️ Opening Settings View.")
-                self.showingConfig.toggle()
+                showingConfig.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenSettingsModalButton, systemImage: ImageNames.showSettings)
@@ -72,9 +72,9 @@ struct TopMenuView: View {
                     .padding(.trailing)
                     .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
             })
-            .sheet(isPresented: $showingConfig, content: {
+            .sheet(isPresented: $showingConfig) {
                 SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())
-            })
+            }
             .accessibility(identifier: Accessibility.Identifiers.btnShowSettings)
         }
         .padding(.leading, 40)

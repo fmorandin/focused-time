@@ -53,23 +53,23 @@ final class TimerViewModel: ObservableObject {
 
         Self.logger.notice("🛠 Initializing Timer View Model.")
 
-        self.dateFormatter.allowedUnits = [.minute, .second]
-        self.dateFormatter.zeroFormattingBehavior = .pad
-        self.dateFormatter.unitsStyle = .positional
+        dateFormatter.allowedUnits = [.minute, .second]
+        dateFormatter.zeroFormattingBehavior = .pad
+        dateFormatter.unitsStyle = .positional
 
         self.timerModel = timerModel
 
         /// The initial state for the app will be the focused time
         let savedFocusedTimer = timerModel.getTime(for: UserDefaultKeys.focusedTime)
-        self.totalTime = savedFocusedTimer
-        self.counter = savedFocusedTimer
+        totalTime = savedFocusedTimer
+        counter = savedFocusedTimer
 
-        self.countTime = self.dateFormatter.string(from: TimeInterval(savedFocusedTimer)) ?? "-"
+        countTime = self.dateFormatter.string(from: TimeInterval(savedFocusedTimer)) ?? "-"
 
-        self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
-        self.numberOfCompletedCycles = 0
+        totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
+        numberOfCompletedCycles = 0
 
-        self.accentCircleColor = .orange
+        accentCircleColor = .orange
     }
 
     // MARK: - Public Methods
@@ -79,7 +79,7 @@ final class TimerViewModel: ObservableObject {
     func startTimer() {
 
         Self.logger.notice("▶️ Starting timer.")
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
             if self.counter <= self.totalTime && self.counter != 0 {
                 self.updateTimerRunning()
             } else {
@@ -179,12 +179,12 @@ final class TimerViewModel: ObservableObject {
     fileprivate func updateTimerRunning() {
 
         Self.logger.notice("⏲ Setting timer to running, decreasing counter and formatting count time.")
-        self.timerState = .running
-        self.counter -= 1
+        timerState = .running
+        counter -= 1
         withAnimation(.default) {
-            self.timerTo = CGFloat(self.counter) / CGFloat(self.totalTime)
+            timerTo = CGFloat(counter) / CGFloat(totalTime)
         }
-        self.countTime = self.dateFormatter.string(from: TimeInterval(self.counter)) ?? "-"
+        countTime = dateFormatter.string(from: TimeInterval(counter)) ?? "-"
     }
 
     /// This is the function that is called when a timer finishes.
@@ -201,20 +201,20 @@ final class TimerViewModel: ObservableObject {
         } else {
             if isPlaySoundEnabled {
                 // to play sound
-                AudioServicesPlaySystemSound(self.systemSoundID)
+                AudioServicesPlaySystemSound(systemSoundID)
             }
         }
 
-        self.timerTo = 1
-        self.timerState = .initial
+        timerTo = 1
+        timerState = .initial
 
         handleCompletedCycle()
 
-        if self.numberOfCompletedCycles == self.totalNumberOfCycles {
+        if numberOfCompletedCycles == totalNumberOfCycles {
             Self.logger.notice("🥳 Completed the number of cycles.")
             changeTimerType(timerType: .longBreak)
         } else {
-            if self.timerType == .focused {
+            if timerType == .focused {
                 Self.logger.notice("🤓 Focused Timer.")
                 changeTimerType(timerType: .focused)
             } else {
