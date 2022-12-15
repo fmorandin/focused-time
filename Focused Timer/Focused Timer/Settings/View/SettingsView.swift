@@ -58,10 +58,10 @@ struct SettingsView: View {
                     HapticsConstants().impactMedium.impactOccurred()
                 }, label: {
                     Label(Translation.settingsDismissModalButton, systemImage: ImageNames.closeModal)
-                        .labelStyle(IconOnlyLabelStyle())
+                        .labelStyle(.iconOnly)
                         .font(.system(size: 20))
                         .padding(.trailing)
-                        .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
+                        .foregroundColor((colorScheme == .light ? .black : .white)).opacity(0.5)
                 })
                 .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
 
@@ -75,7 +75,7 @@ struct SettingsView: View {
                     .font(.caption)
                     .fontWeight(.semibold)
                     .padding()
-                    .background(Color.red)
+                    .background(.red)
                     .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
             }
 

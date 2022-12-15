@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import SwiftUI
 import os
 
@@ -20,6 +19,8 @@ final class SettingsViewModel: ObservableObject {
     )
 
     private let settingsModel: SettingsModelProtocol
+
+    // Maximum number of characters for the fields
     private let timerLimits = 5
     private let numberOfCyclesLimits = 2
 
@@ -72,6 +73,9 @@ final class SettingsViewModel: ObservableObject {
     @Published var isPlaySoundEnabled: Bool = true
     @Published var keepScreenOn: Bool = false
 
+    // If the timer is running and the user changes something the timer should be updated
+    @Published var shouldUpdateTimerView = false
+
     // swiftlint:disable force_cast
     var appVersionNumber: String {
         let nsObject = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
@@ -86,7 +90,7 @@ final class SettingsViewModel: ObservableObject {
 
         self.settingsModel = settingsModel
 
-        self.populateAllFieldsSavedValues()
+        populateAllFieldsSavedValues()
 
         window = windowScene?.windows.first
     }
@@ -100,21 +104,21 @@ final class SettingsViewModel: ObservableObject {
 
         let focusedTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.focusedTime)
         let focusedTimeInMinutes = focusedTimeInSeconds / 60
-        self.focusedTime = String(describing: focusedTimeInMinutes == 0 ? 1 : focusedTimeInMinutes)
+        focusedTime = String(describing: focusedTimeInMinutes == 0 ? 1 : focusedTimeInMinutes)
 
         let shortBreakTimeInSeconds = settingsModel.getTime(for: UserDefaultKeys.shortBreakTime)
         let shortBreakTimeInMinutes = shortBreakTimeInSeconds / 60
-        self.shortBreakTime = String(describing: shortBreakTimeInMinutes == 0 ? 1 : shortBreakTimeInMinutes)
+        shortBreakTime = String(describing: shortBreakTimeInMinutes == 0 ? 1 : shortBreakTimeInMinutes)
 
-        self.cycleTotal = settingsModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)
+        cycleTotal = settingsModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)
 
         let longBreakInSeconds = settingsModel.getTime(for: UserDefaultKeys.longBreakTime)
-        let longBrakInMinutes = longBreakInSeconds / 60
-        self.longBreak = String(describing: longBrakInMinutes == 0 ? 1 : longBrakInMinutes)
+        let longBreakInMinutes = longBreakInSeconds / 60
+        longBreak = String(describing: longBreakInMinutes == 0 ? 1 : longBreakInMinutes)
 
-        self.isAutoStartEnabled = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
-        self.isPlaySoundEnabled = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
-        self.keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
+        isAutoStartEnabled = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
+        isPlaySoundEnabled = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
+        keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
     }
 
     /// Saves a timer based on a given key
@@ -123,9 +127,13 @@ final class SettingsViewModel: ObservableObject {
     ///   - value: the value to be saved
     func saveTime(for keyName: String, value: Int) {
 
-        value > 0 ?
-        settingsModel.saveTime(time: value, for: keyName) :
-        Self.logger.error("🙅🏻‍♂️ Value \(value) for key \(keyName) should be positve.")
+        guard value > 0 else {
+            Self.logger.error("🙅🏻‍♂️ Value \(value) for key \(keyName) should be positive.")
+            return
+        }
+
+        settingsModel.saveTime(time: value, for: keyName)
+
     }
 
     /// Function that returns the value in seconds for a saved timer
@@ -141,12 +149,12 @@ final class SettingsViewModel: ObservableObject {
     /// - Parameter numberOfCycles: the number of cycles that will be saved
     func saveNumberOfCycles(_ numberOfCycles: Int) {
 
-        numberOfCycles > 0 ?
-        settingsModel.saveNumberOfCycles(
-            numberOfCycles: numberOfCycles,
-            for: UserDefaultKeys.numberOfCycles
-        ) :
-        Self.logger.error("🙅🏻‍♂️ Value \(numberOfCycles) for key \(UserDefaultKeys.numberOfCycles) should be positve.")
+        guard numberOfCycles > 0 else {
+            Self.logger.error("🙅🏻‍♂️ Value \(numberOfCycles) for key \(UserDefaultKeys.numberOfCycles) should be positive.")
+            return
+        }
+
+        settingsModel.saveNumberOfCycles(numberOfCycles: numberOfCycles, for: UserDefaultKeys.numberOfCycles)
     }
 
     /// Returns the number of the cycles
@@ -202,7 +210,7 @@ final class SettingsViewModel: ObservableObject {
     }
 
     /// Function that defines what is the text and the link used in the share
-    func actionSheet() {
+    func shareSheet() {
 
         Self.logger.notice("📤 Opening share sheet.")
 
