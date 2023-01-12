@@ -95,7 +95,7 @@ final class SettingsViewModel: ObservableObject {
         window = windowScene?.windows.first
     }
 
-    // MARK: - Methods
+    // MARK: - Private Functions
 
     /// Function that populates all the fields with the saved values
     private func populateAllFieldsSavedValues() {
