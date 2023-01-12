@@ -97,6 +97,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
+
+            UIView.setAnimationsEnabled(false)
         }
     }
 }

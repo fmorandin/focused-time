@@ -121,6 +121,5 @@ struct FormView: View {
 struct Form_Previews: PreviewProvider {
     static var previews: some View {
         FormView()
-            .preferredColorScheme(.dark)
     }
 }

@@ -369,6 +369,9 @@ final class SettingsUITests: BaseFeature {
         playSoundsToggle.tap()
         keepScreenOnToggle.tap()
 
+        // alert warning that the app needs to be opened again because of the keep screen on
+        app.alerts.firstMatch.buttons["OK"].tap()
+
         // AND I dismiss the modal
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -398,13 +401,20 @@ final class SettingsUITests: BaseFeature {
         let keepScreenOnToggleUpdated = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
         XCTAssertEqual(keepScreenOnToggleUpdated.value as! String, "1")
 
+        app.swipeUp()
+
         // WHEN I click to reset to the defaults
         app.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
 
-        // AND I confirm in the modal
+        sleep(1)
+
+        // AND first alert about resetting the status
         app.alerts.firstMatch.buttons["OK"].tap()
 
-        sleep(1)
+        // second alert warning that the app needs to be opened again because of the keep screen on
+        app.alerts.firstMatch.buttons["OK"].tap()
+
+        app.swipeDown()
 
         // THEN all the values should be back to the default
         let durationTextFieldFinal = app.textFields[Accessibility.Identifiers.txtFocusedTime]

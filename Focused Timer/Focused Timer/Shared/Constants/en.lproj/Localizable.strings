@@ -22,8 +22,8 @@
 "settingsNumberOfCyclesTotal" = "Number of cycles";
 "settingsLongBreakDuration" = "Long break time (In minutes)";
 
-"settingsSectionTimersName" = "Configurations for the timers";
-"settingsSectionAppName" = "Configurations for the app";
+"settingsSectionTimersName" = "Timer preferences";
+"settingsSectionAppName" = "App preferences";
 
 "settingsAutoStart" = "Auto start timer";
 "settingsPlayTimerSounds" = "Play sounds after timer finishes";
