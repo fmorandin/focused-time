@@ -19,7 +19,6 @@ struct SettingsView: View {
 
     // MARK: - Environment
 
-    @Environment(\.colorScheme) var colorScheme
     @Environment(\.presentationMode) var presentationMode
 
     // MARK: - Observed Objects
@@ -61,7 +60,8 @@ struct SettingsView: View {
                         .labelStyle(.iconOnly)
                         .font(.system(size: 20))
                         .padding(.trailing)
-                        .foregroundColor((colorScheme == .light ? .black : .white)).opacity(0.5)
+                        .foregroundColor(.closeButtonColor)
+                        .opacity(0.5)
                 })
                 .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
 

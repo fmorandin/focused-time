@@ -17,10 +17,6 @@ struct FlowCounterView: View {
         category: String(describing: ButtonsView.self)
     )
 
-    // MARK: - Environment
-
-    @Environment(\.colorScheme) var colorScheme
-
     // MARK: - Observed Objects
 
     @StateObject var timerViewModel: TimerViewModel

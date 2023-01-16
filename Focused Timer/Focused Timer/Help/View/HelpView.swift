@@ -18,7 +18,7 @@ struct HelpView: View {
     )
 
     // MARK: - Environment
-    @Environment(\.colorScheme) var colorScheme
+
     @Environment(\.presentationMode) var presentationMode
 
     // MARK: - View
@@ -38,7 +38,7 @@ struct HelpView: View {
                             Image(systemName: ImageNames.closeModal)
                                 .font(.system(size: 20))
                                 .padding(.trailing)
-                                .foregroundColor((colorScheme == .light ? Color.black : Color.white))
+                                .foregroundColor(.closeButtonColor)
                                 .opacity(0.5)
                         }
                         .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
