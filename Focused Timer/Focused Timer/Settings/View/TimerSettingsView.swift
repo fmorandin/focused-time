@@ -21,7 +21,7 @@ struct TimerSettingsView: View {
 
     // MARK: - Initializer
 
-    init(viewModel: SettingsViewModel) {
+    init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
 
         Self.logger.notice("🛠 Initializing Timer Settings View.")
 

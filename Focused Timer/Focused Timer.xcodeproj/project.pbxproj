@@ -25,6 +25,7 @@
 		181F5027260A82720051D092 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F5026260A82720051D092 /* ButtonsView.swift */; };
 		181F502C260A83040051D092 /* FlowCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F502B260A83040051D092 /* FlowCounterView.swift */; };
 		181F5031260A84710051D092 /* TopMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F5030260A84710051D092 /* TopMenuView.swift */; };
+		18420D642971E8070061DCD5 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18420D632971E8070061DCD5 /* Color+Extension.swift */; };
 		18484B01260956DD0072DCCB /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18484B00260956DD0072DCCB /* FormView.swift */; };
 		18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */; };
 		1870266926B0AB3B00A1DDDE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1870266826B0AB3B00A1DDDE /* NetworkManager.swift */; };
@@ -48,7 +49,7 @@
 		A378FC672522BCF90046FC4C /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC662522BCF90046FC4C /* TimerView.swift */; };
 		B63599002656EDAA006489DA /* Translation+AccLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63598FF2656EDAA006489DA /* Translation+AccLabel.swift */; };
 		B63EFF0326558FF7007534C4 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */; };
-		B63EFF072655907D007534C4 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF062655907D007534C4 /* Notification.swift */; };
+		B63EFF072655907D007534C4 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF062655907D007534C4 /* Notification+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		181F502B260A83040051D092 /* FlowCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowCounterView.swift; sourceTree = "<group>"; };
 		181F5030260A84710051D092 /* TopMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopMenuView.swift; sourceTree = "<group>"; };
 		182782EB26EBF8090034AC28 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		18420D632971E8070061DCD5 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		18484B00260956DD0072DCCB /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		1870266826B0AB3B00A1DDDE /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -114,7 +116,7 @@
 		A378FC662522BCF90046FC4C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		B63598FF2656EDAA006489DA /* Translation+AccLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Translation+AccLabel.swift"; sourceTree = "<group>"; };
 		B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
-		B63EFF062655907D007534C4 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B63EFF062655907D007534C4 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -387,7 +389,8 @@
 		B63EFF0426559039007534C4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B63EFF062655907D007534C4 /* Notification.swift */,
+				18420D632971E8070061DCD5 /* Color+Extension.swift */,
+				B63EFF062655907D007534C4 /* Notification+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -558,7 +561,7 @@
 				18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */,
 				180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */,
 				181F502C260A83040051D092 /* FlowCounterView.swift in Sources */,
-				B63EFF072655907D007534C4 /* Notification.swift in Sources */,
+				B63EFF072655907D007534C4 /* Notification+Extension.swift in Sources */,
 				18C5C30A25BB696900A4893F /* SettingsModel.swift in Sources */,
 				181F5031260A84710051D092 /* TopMenuView.swift in Sources */,
 				B63599002656EDAA006489DA /* Translation+AccLabel.swift in Sources */,
@@ -570,6 +573,7 @@
 				181F5027260A82720051D092 /* ButtonsView.swift in Sources */,
 				18CB6E81293D045A009E672A /* AppSettingsView.swift in Sources */,
 				18CB6E7F293CFF9B009E672A /* TimerSettingsView.swift in Sources */,
+				18420D642971E8070061DCD5 /* Color+Extension.swift in Sources */,
 				18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */,
 				18BF37D025AB76F00056D766 /* SettingsView.swift in Sources */,
 				189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */,

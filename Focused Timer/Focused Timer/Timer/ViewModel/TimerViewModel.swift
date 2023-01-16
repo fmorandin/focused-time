@@ -91,7 +91,7 @@ final class TimerViewModel: ObservableObject {
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
 
-        accentCircleColor = .orange
+        accentCircleColor = .focusColor
     }
 
     // MARK: - Public Methods
@@ -139,7 +139,7 @@ final class TimerViewModel: ObservableObject {
         timer.invalidate()
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
-        accentCircleColor = .orange
+        accentCircleColor = .focusColor
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background
@@ -272,7 +272,7 @@ final class TimerViewModel: ObservableObject {
             totalTime = timerModel.getTime(for: UserDefaultKeys.shortBreakTime)
             countTime = dateFormatter
                 .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.shortBreakTime))) ?? "-"
-            accentCircleColor = .blue
+            accentCircleColor = .shortBreakColor
 
         case .shortBreak:
             Self.logger.notice("🔃 Changing from short break to focused.")
@@ -281,7 +281,7 @@ final class TimerViewModel: ObservableObject {
             totalTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
             countTime = dateFormatter
                 .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
-            accentCircleColor = .orange
+            accentCircleColor = .focusColor
 
         case .longBreak:
             Self.logger.notice("🔃 Changing to long break.")
@@ -290,7 +290,7 @@ final class TimerViewModel: ObservableObject {
             totalTime = timerModel.getTime(for: UserDefaultKeys.longBreakTime)
             countTime = dateFormatter
                 .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.longBreakTime))) ?? "-"
-            accentCircleColor = .green
+            accentCircleColor = .longBreakColor
         }
     }
 }

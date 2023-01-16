@@ -150,7 +150,9 @@ final class SettingsViewModel: ObservableObject {
     func saveNumberOfCycles(_ numberOfCycles: Int) {
 
         guard numberOfCycles > 0 else {
-            Self.logger.error("🙅🏻‍♂️ Value \(numberOfCycles) for key \(UserDefaultKeys.numberOfCycles) should be positive.")
+            Self.logger.error(
+                "🙅🏻‍♂️ Value \(numberOfCycles) for key \(UserDefaultKeys.numberOfCycles) should be positive."
+            )
             return
         }
 

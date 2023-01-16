@@ -17,10 +17,6 @@ struct TimerView: View {
         category: String(describing: TimerView.self)
     )
 
-    // MARK: - Environment
-
-    @Environment(\.colorScheme) var colorScheme
-
     // MARK: - Observed Objects
 
     @StateObject var timerViewModel: TimerViewModel
@@ -36,7 +32,6 @@ struct TimerView: View {
     // MARK: - View
     var body: some View {
         ZStack {
-            Color.black.opacity(0.06).edgesIgnoringSafeArea(.all)
             VStack {
 
                 Spacer()

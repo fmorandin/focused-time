@@ -17,10 +17,6 @@ struct CircleView: View {
         category: String(describing: CircleView.self)
     )
 
-    // MARK: - Environment
-
-    @Environment(\.colorScheme) var colorScheme
-
     // MARK: - Observed Objects
 
     @StateObject var timerViewModel: TimerViewModel
@@ -40,21 +36,26 @@ struct CircleView: View {
         ZStack {
             Circle()
                 .trim(from: 0, to: 1)
-                .stroke((colorScheme == .light ? Color.black : Color.white).opacity(0.09),
-                        style: StrokeStyle(lineWidth: 15, lineCap: .round))
+                .stroke(
+                    Color.timerStrokeColor.opacity(0.09),
+                    style: StrokeStyle(lineWidth: 15, lineCap: .round)
+                )
                 .frame(width: 300, height: 300)
 
             Circle()
                 .trim(from: 0, to: timerViewModel.timerTo)
-                .stroke(timerViewModel.accentCircleColor,
-                        style: StrokeStyle(lineWidth: 25, lineCap: .round))
+                .stroke(
+                    timerViewModel.accentCircleColor,
+                        style: StrokeStyle(lineWidth: 25, lineCap: .round)
+                )
                 .frame(width: 300, height: 300)
                 .rotationEffect(.init(degrees: -90))
                 .shadow(radius: 4)
                 .accessibility(identifier:
                                 timerViewModel.timerType == .focused ?
-                                Accessibility.Identifiers.circleFocused :
-                                Accessibility.Identifiers.circleBreak)
+                               Accessibility.Identifiers.circleFocused :
+                                Accessibility.Identifiers.circleBreak
+                )
 
             VStack {
 

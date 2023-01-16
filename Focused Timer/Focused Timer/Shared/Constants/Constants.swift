@@ -7,14 +7,16 @@
 
 import SwiftUI
 
-struct HapticsConstants {
+// MARK: - Haptics
 
-    // MARK: - Haptics
+struct HapticsConstants {
 
     let impactLight = UIImpactFeedbackGenerator(style: .light)
     let impactMedium = UIImpactFeedbackGenerator(style: .medium)
     let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
 }
+
+// MARK: - Default values for timers
 
 enum DefaultValuesConstants: Int {
 

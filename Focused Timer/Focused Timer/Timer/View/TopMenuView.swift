@@ -17,10 +17,6 @@ struct TopMenuView: View {
         category: String(describing: TopMenuView.self)
     )
 
-    // MARK: - Environment
-
-    @Environment(\.colorScheme) var colorScheme
-
     // MARK: - States
 
     @State private var showingConfig = false
@@ -51,7 +47,8 @@ struct TopMenuView: View {
                     .labelStyle(IconOnlyLabelStyle())
                     .font(.system(size: 25))
                     .padding(.trailing)
-                    .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
+                    .foregroundColor(.topMenuButtonColor)
+                    .opacity(0.5)
 
             })
             .sheet(isPresented: $showingHelp, content: {
@@ -70,7 +67,8 @@ struct TopMenuView: View {
                     .labelStyle(IconOnlyLabelStyle())
                     .font(.system(size: 25))
                     .padding(.trailing)
-                    .foregroundColor((colorScheme == .light ? Color.black : Color.white)).opacity(0.5)
+                    .foregroundColor(.topMenuButtonColor)
+                    .opacity(0.5)
             })
             .sheet(isPresented: $showingConfig) {
                 SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())

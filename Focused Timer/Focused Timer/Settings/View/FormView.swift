@@ -32,8 +32,6 @@ struct FormView: View {
 
         _settingsViewModel = StateObject(wrappedValue: viewModel)
 
-        UITableView.appearance().backgroundColor = .clear
-
         window = windowScene?.windows.first
     }
 
