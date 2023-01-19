@@ -35,7 +35,7 @@ struct TimerSettingsView: View {
             // Focused time
             HStack {
                 Text(Translation.settingsFocusDuration)
-                    .accessibility(identifier: Accessibility.Identifiers.lblFocusDuration)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusDuration)
 
                 Spacer()
 
@@ -51,15 +51,15 @@ struct TimerSettingsView: View {
                 .keyboardType(.numberPad)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
-                .accessibility(identifier: Accessibility.Identifiers.txtFocusedTime)
-                .accessibility(label: Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
+                .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
             }
             .padding(.vertical, 10)
 
             // Short Break time
             HStack {
                 Text(Translation.settingsShortBreakDuration)
-                    .accessibility(identifier: Accessibility.Identifiers.lblShortBreakDuration)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakDuration)
 
                 Spacer()
 
@@ -78,15 +78,15 @@ struct TimerSettingsView: View {
                 .keyboardType(.numberPad)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
-                .accessibility(identifier: Accessibility.Identifiers.txtShortBreakTime)
-                .accessibility(label: Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
+                .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
             }
             .padding(.vertical, 10)
 
             // Long Break
             HStack {
                 Text(Translation.settingsLongBreakDuration)
-                    .accessibility(identifier: Accessibility.Identifiers.lblLongBreakDuration)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakDuration)
 
                 Spacer()
 
@@ -102,15 +102,15 @@ struct TimerSettingsView: View {
                 .keyboardType(.numberPad)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
-                .accessibility(identifier: Accessibility.Identifiers.txtLongBreakTime)
-                .accessibility(label: Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
+                .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
             }
             .padding(.vertical, 10)
 
             // Number of cycles
             HStack {
                 Text(Translation.settingsNumberOfCyclesTotal)
-                    .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCycles)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCycles)
 
                 Spacer()
 
@@ -126,8 +126,8 @@ struct TimerSettingsView: View {
                 .keyboardType(.numberPad)
                 .frame(width: 50)
                 .multilineTextAlignment(.center)
-                .accessibility(identifier: Accessibility.Identifiers.txtNumberOfCycles)
-                .accessibility(label: Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
+                .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
             }
             .padding(.vertical, 10)
         }

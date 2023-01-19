@@ -38,14 +38,14 @@ struct FlowCounterView: View {
             Text(Translation.cycleCounter)
                 .font(.system(.title3, design: .rounded))
                 .fontWeight(.light)
-                .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCyclesCompleted)
+                .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesCompleted)
 
             Spacer()
 
             Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
                 .font(.system(.title3, design: .rounded))
                 .fontWeight(.light)
-                .accessibility(identifier: Accessibility.Identifiers.lblCycleCounter)
+                .accessibilityIdentifier(Accessibility.Identifiers.lblCycleCounter)
                 .accessibility(value: Text(Translation.AccLabel.accLabelCompletedCycleCounter))
 
             Spacer()

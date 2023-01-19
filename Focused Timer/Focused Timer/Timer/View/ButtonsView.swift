@@ -58,7 +58,7 @@ struct ButtonsView: View {
                 .clipShape(Capsule())
                 .shadow(radius: 6)
             })
-            .accessibility(identifier: Accessibility.Identifiers.btnStartPauseIdentifier)
+            .accessibilityIdentifier(Accessibility.Identifiers.btnStartPauseIdentifier)
 
             Button(action: {
                 Self.logger.notice("🔄 Reset timer button pressed.")
@@ -79,7 +79,7 @@ struct ButtonsView: View {
                 .clipShape(Capsule())
                 .shadow(radius: 6)
             })
-            .accessibility(identifier: Accessibility.Identifiers.btnResetIdentifier)
+            .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }
         .padding(.bottom, 20)
     }

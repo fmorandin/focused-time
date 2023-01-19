@@ -37,7 +37,7 @@ struct AppSettingsView: View {
             // Auto Start
             HStack {
                 Text(Translation.settingsAutoStart)
-                    .accessibility(identifier: Accessibility.Identifiers.lblAutoStart)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblAutoStart)
 
                 Spacer()
 
@@ -48,15 +48,15 @@ struct AppSettingsView: View {
                             value: value
                         )
                     }
-                    .accessibility(identifier: Accessibility.Identifiers.tgAutoStart)
-                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
             }
             .padding(.vertical, 10)
 
             // Play sounds
             HStack {
                 Text(Translation.settingsPlayTimerSounds)
-                    .accessibility(identifier: Accessibility.Identifiers.lblPlaySounds)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblPlaySounds)
 
                 Spacer()
 
@@ -67,15 +67,15 @@ struct AppSettingsView: View {
                             value: value
                         )
                     }
-                    .accessibility(identifier: Accessibility.Identifiers.tgPlaySounds)
-                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
             }
             .padding(.vertical, 10)
 
             // Keep screen on
             HStack {
                 Text(Translation.settingsKeepScreenOn)
-                    .accessibility(identifier: Accessibility.Identifiers.lblKeepScreenOn)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblKeepScreenOn)
 
                 Spacer()
 
@@ -93,8 +93,8 @@ struct AppSettingsView: View {
                             message: Text(Translation.settingsKeepScreenOnDisclaimer),
                             dismissButton: .default(Text("OK")))
                     })
-                    .accessibility(identifier: Accessibility.Identifiers.tgKeepScreenOn)
-                    .accessibility(label: Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
             }
             .padding(.vertical, 10)
         }

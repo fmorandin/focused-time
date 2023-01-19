@@ -41,7 +41,7 @@ struct HelpView: View {
                                 .foregroundColor(.closeButtonColor)
                                 .opacity(0.5)
                         }
-                        .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
+                        .accessibilityIdentifier(Accessibility.Identifiers.btnCloseModal)
                     })
                 }
                 .padding(.top, 30)
@@ -65,7 +65,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
-                            .accessibility(identifier: Accessibility.Identifiers.lblTechniqueExplanation)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -74,7 +74,7 @@ struct HelpView: View {
                                 .fontWeight(.bold)
                                 .font(.system(.title3, design: .rounded))
                                 .padding(.leading)
-                                .accessibility(identifier: Accessibility.Identifiers.lblFocusExplanationTitle)
+                                .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanationTitle)
 
                             Spacer()
                         }
@@ -83,7 +83,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
-                            .accessibility(identifier: Accessibility.Identifiers.lblFocusExplanation)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -103,7 +103,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
-                            .accessibility(identifier: Accessibility.Identifiers.lblShortBreakExplanation)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -124,7 +124,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
-                            .accessibility(identifier: Accessibility.Identifiers.lblLongBreakExplanation)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanation)
                     }
 
                     VStack(spacing: 5) {
@@ -145,7 +145,7 @@ struct HelpView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
-                            .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCyclesExplanation)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanation)
                     }
                 }
             }
