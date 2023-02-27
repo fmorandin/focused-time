@@ -55,6 +55,7 @@ struct FormView: View {
                         resetDefaultValuesAlert.toggle()
                     }, label: {
                         Text(Translation.resetSettingsDefaultValue)
+                            .font(.system(.body, design: .rounded))
                     })
                     .buttonStyle(.plain)
                     .foregroundColor(.red)
@@ -80,6 +81,7 @@ struct FormView: View {
             Section {
                 HStack {
                     Text("\(Text(Translation.appVersionTitle)): \(settingsViewModel.appVersionNumber)")
+                        .font(.system(.footnote, design: .rounded))
                         .accessibility(identifier: Accessibility.Identifiers.lblAppVersion)
 
                     Spacer()
@@ -96,6 +98,7 @@ struct FormView: View {
                     }, label: {
                         HStack {
                             Text(Translation.shareAppTitle)
+                                .font(.system(.footnote, design: .rounded))
                             Image(systemName: ImageNames.share)
                         }
                     })
@@ -103,7 +106,7 @@ struct FormView: View {
                     .buttonStyle(.borderless)
                 }
                 .padding(.vertical, 10)
-                .font(.callout)
+                .font(.system(.callout, design: .rounded))
                 .foregroundColor(.secondary)
             }
         }

@@ -59,13 +59,13 @@ struct CircleView: View {
             VStack {
 
                 Text(TimerType.getCorrectTranslation(timerViewModel.timerType)())
-                    .font(.title)
+                    .font(.system(.title, design: .rounded))
                     .fontWeight(.light)
                     .accessibility(identifier: Accessibility.Identifiers.lblTimerType)
                     .accessibility(value: Text(Translation.AccLabel.accLabelTimerTypeName))
 
                 Text(timerViewModel.countTime)
-                    .font(.system(size: 60))
+                    .font(.system(size: 60, design: .rounded))
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .accessibility(identifier: Accessibility.Identifiers.lblCounter)

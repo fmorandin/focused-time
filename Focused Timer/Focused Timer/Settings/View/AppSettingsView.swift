@@ -98,5 +98,12 @@ struct AppSettingsView: View {
             }
             .padding(.vertical, 10)
         }
+        .font(.system(.body, design: .rounded))
+    }
+}
+
+struct AppSettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView(displayWarning: true)
     }
 }

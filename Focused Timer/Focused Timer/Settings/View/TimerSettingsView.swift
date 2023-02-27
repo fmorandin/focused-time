@@ -131,5 +131,12 @@ struct TimerSettingsView: View {
             }
             .padding(.vertical, 10)
         }
+        .font(.system(.body, design: .rounded))
+    }
+}
+
+struct TimerSettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView(displayWarning: true)
     }
 }

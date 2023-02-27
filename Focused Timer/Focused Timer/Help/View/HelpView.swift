@@ -53,7 +53,7 @@ struct HelpView: View {
                         HStack {
                             Text(Translation.techniqueExplanationTitle)
                                 .fontWeight(.bold)
-                                .font(.title3)
+                                .font(.system(.title3, design: .rounded))
                                 .padding(.leading)
                                 .accessibility(
                                     identifier: Accessibility.Identifiers.lblTechniqueExplanationTitle
@@ -63,7 +63,7 @@ struct HelpView: View {
 
                         Text(Translation.techniqueExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.callout)
+                            .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblTechniqueExplanation)
                     }
@@ -72,7 +72,7 @@ struct HelpView: View {
                         HStack {
                             Text(Translation.focusExplanationTitle)
                                 .fontWeight(.bold)
-                                .font(.title3)
+                                .font(.system(.title3, design: .rounded))
                                 .padding(.leading)
                                 .accessibility(identifier: Accessibility.Identifiers.lblFocusExplanationTitle)
 
@@ -81,7 +81,7 @@ struct HelpView: View {
 
                         Text(Translation.focusExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.callout)
+                            .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblFocusExplanation)
                     }
@@ -90,7 +90,7 @@ struct HelpView: View {
                         HStack {
                             Text(Translation.shortBreakExplanationTitle)
                                 .fontWeight(.bold)
-                                .font(.title3)
+                                .font(.system(.title3, design: .rounded))
                                 .padding(.leading)
                                 .accessibility(
                                     identifier: Accessibility.Identifiers.lblShortBreakExplanationTitle
@@ -101,7 +101,7 @@ struct HelpView: View {
 
                         Text(Translation.shortBreakExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.callout)
+                            .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblShortBreakExplanation)
                     }
@@ -111,7 +111,7 @@ struct HelpView: View {
 
                             Text(Translation.longBreakExplanationTitle)
                                 .fontWeight(.bold)
-                                .font(.title3)
+                                .font(.system(.title3, design: .rounded))
                                 .padding(.leading)
                                 .accessibility(
                                     identifier: Accessibility.Identifiers.lblLongBreakExplanationTitle
@@ -122,7 +122,7 @@ struct HelpView: View {
 
                         Text(Translation.longBreakExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.callout)
+                            .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblLongBreakExplanation)
                     }
@@ -132,7 +132,7 @@ struct HelpView: View {
 
                             Text(Translation.numberOfCyclesExplanationTitle)
                                 .fontWeight(.bold)
-                                .font(.title3)
+                                .font(.system(.title3, design: .rounded))
                                 .padding(.leading)
                                 .accessibility(
                                     identifier: Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle
@@ -143,7 +143,7 @@ struct HelpView: View {
 
                         Text(Translation.numberOfCyclesExplanation)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.callout)
+                            .font(.system(.callout, design: .rounded))
                             .padding([.horizontal, .bottom])
                             .accessibility(identifier: Accessibility.Identifiers.lblNumberOfCyclesExplanation)
                     }

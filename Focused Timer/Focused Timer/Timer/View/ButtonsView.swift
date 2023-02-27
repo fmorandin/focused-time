@@ -54,6 +54,7 @@ struct ButtonsView: View {
 
                     Text(timerViewModel.primaryButtonText)
                         .foregroundColor(.white)
+                        .font(.system(.callout, design: .rounded))
                 }
                 .padding(.vertical)
                 .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)
@@ -74,6 +75,7 @@ struct ButtonsView: View {
 
                     Text(Translation.resetTimer)
                         .foregroundColor(.white)
+                        .font(.system(.callout, design: .rounded))
                 }
                 .padding(.vertical)
                 .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)

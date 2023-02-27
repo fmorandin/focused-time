@@ -72,11 +72,12 @@ struct SettingsView: View {
             if (shouldDisplayDisclaimer) {
                 Text(Translation.settingsWarnReloadMessage)
                     .foregroundColor(.white)
-                    .font(.caption)
+                    .font(.system(.caption, design: .rounded))
                     .fontWeight(.semibold)
-                    .padding()
+                    .padding(.all, 10)
                     .background(.red)
                     .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
+                    .padding(.horizontal, 1)
             }
 
             // The list that contains all the available settings to be defined in the app
