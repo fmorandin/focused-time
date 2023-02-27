@@ -47,6 +47,7 @@ enum Translation {
     static let playTimer = LocalizedStringKey("playTimer")
     static let pauseTimer = LocalizedStringKey("pauseTimer")
     static let resetTimer = LocalizedStringKey("resetTimer")
+    static let resumeTimer = LocalizedStringKey("resumeTimer")
     static let cycleCounter = LocalizedStringKey("cycleCounter")
 
     static let focusName = LocalizedStringKey("focusName")

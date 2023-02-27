@@ -43,6 +43,7 @@
 
 "playTimer" = "Play";
 "pauseTimer" = "Pause";
+"resumeTimer" = "Resume";
 "resetTimer" = "Reset";
 "cycleCounter" = "Number of completed cycles";
 

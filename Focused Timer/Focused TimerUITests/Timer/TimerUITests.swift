@@ -87,7 +87,7 @@ final class TimerUITests: BaseFeature {
         if resultPause == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Play"
-            XCTAssertEqual(playButton.label, "Play")
+            XCTAssertEqual(playButton.label, "Resume")
 
             // AND the timer type is still Focus
             XCTAssertEqual(lblTimerType.label, "Focus")
@@ -162,7 +162,7 @@ final class TimerUITests: BaseFeature {
         if resultPause == XCTWaiter.Result.timedOut {
 
             // THEN the button label should be changed to "Play"
-            XCTAssertEqual(playButton.label, "Play")
+            XCTAssertEqual(playButton.label, "Resume")
 
             // AND the timer type is still Focus
             XCTAssertEqual(lblTimerType.label, "Focus")

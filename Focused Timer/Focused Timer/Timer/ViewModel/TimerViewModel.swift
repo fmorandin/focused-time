@@ -23,6 +23,28 @@ final class TimerViewModel: ObservableObject {
     @Published var numberOfCompletedCycles: Int
     @Published var accentCircleColor: Color
 
+    // MARK: - Public Variables
+
+    var primaryButtonImageName: String {
+        switch timerState {
+        case .running:
+            return ImageNames.pause
+        case .paused, .initial:
+            return ImageNames.play
+        }
+    }
+
+    var primaryButtonText: LocalizedStringKey {
+        switch timerState {
+        case .running:
+            return Translation.pauseTimer
+        case .paused:
+            return Translation.resumeTimer
+        case .initial:
+            return Translation.playTimer
+        }
+    }
+
     // MARK: - Private Variables
 
     private static let logger = Logger(

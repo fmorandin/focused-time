@@ -49,15 +49,10 @@ struct ButtonsView: View {
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
                 HStack(spacing: 10) {
-                    Image(systemName:
-                            timerViewModel.timerState == .running ?
-                            ImageNames.pause :
-                            ImageNames.play)
+                    Image(systemName: timerViewModel.primaryButtonImageName)
                         .foregroundColor(.white)
 
-                    Text(timerViewModel.timerState == .running ?
-                            Translation.pauseTimer :
-                            Translation.playTimer)
+                    Text(timerViewModel.primaryButtonText)
                         .foregroundColor(.white)
                 }
                 .padding(.vertical)
