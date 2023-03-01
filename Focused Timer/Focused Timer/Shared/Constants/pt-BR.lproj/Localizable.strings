@@ -13,9 +13,9 @@
 "shareAppTitle" = "Compartilhe";
 "shareAppMessage" = "Você já conhece o Focused Timer? Eu uso e recomendo! Faça o download aqui: ";
 
-// MARK: - Settings Screen
+"dismissModelButton" = "Fechar janela";
 
-"settingsDismissModelButton" = "Fechar janela de configurações";
+// MARK: - Settings Screen
 
 "settingsFocusDuration" = "Tempo concentrado (Em minutos)";
 "settingsShortBreakDuration" = "Tempo descanso (Em minutos)";

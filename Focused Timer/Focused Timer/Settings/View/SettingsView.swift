@@ -56,12 +56,8 @@ struct SettingsView: View {
                     self.presentationMode.wrappedValue.dismiss()
                     HapticsConstants().impactMedium.impactOccurred()
                 }, label: {
-                    Label(Translation.settingsDismissModalButton, systemImage: ImageNames.closeModal)
-                        .labelStyle(.iconOnly)
-                        .font(.system(size: 20))
-                        .padding(.trailing)
-                        .foregroundColor(.closeButtonColor)
-                        .opacity(0.5)
+                    Label(Translation.dismissModalButton, systemImage: ImageNames.closeModal)
+                        .iconNoText()
                 })
                 .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
 

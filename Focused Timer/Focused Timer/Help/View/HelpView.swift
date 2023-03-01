@@ -35,11 +35,8 @@ struct HelpView: View {
                         HapticsConstants().impactMedium.impactOccurred()
                     }, label: {
                         HStack {
-                            Image(systemName: ImageNames.closeModal)
-                                .font(.system(size: 20))
-                                .padding(.trailing)
-                                .foregroundColor(.closeButtonColor)
-                                .opacity(0.5)
+                            Label(Translation.dismissModalButton, systemImage: ImageNames.closeModal)
+                                .iconNoText()
                         }
                         .accessibilityIdentifier(Accessibility.Identifiers.btnCloseModal)
                     })
@@ -52,57 +49,41 @@ struct HelpView: View {
                     VStack(spacing: 5) {
                         HStack {
                             Text(Translation.techniqueExplanationTitle)
-                                .fontWeight(.bold)
-                                .font(.system(.title3, design: .rounded))
-                                .padding(.leading)
-                                .accessibility(
-                                    identifier: Accessibility.Identifiers.lblTechniqueExplanationTitle
-                                )
+                                .helpSectionTitle()
+                                .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanationTitle)
                             Spacer()
                         }
 
                         Text(Translation.techniqueExplanation)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(.callout, design: .rounded))
-                            .padding([.horizontal, .bottom])
+                            .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanation)
                     }
 
                     VStack(spacing: 5) {
                         HStack {
                             Text(Translation.focusExplanationTitle)
-                                .fontWeight(.bold)
-                                .font(.system(.title3, design: .rounded))
-                                .padding(.leading)
+                                .helpSectionTitle()
                                 .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanationTitle)
 
                             Spacer()
                         }
 
                         Text(Translation.focusExplanation)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(.callout, design: .rounded))
-                            .padding([.horizontal, .bottom])
+                            .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanation)
                     }
 
                     VStack(spacing: 5) {
                         HStack {
                             Text(Translation.shortBreakExplanationTitle)
-                                .fontWeight(.bold)
-                                .font(.system(.title3, design: .rounded))
-                                .padding(.leading)
-                                .accessibility(
-                                    identifier: Accessibility.Identifiers.lblShortBreakExplanationTitle
-                                )
+                                .helpSectionTitle()
+                                .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanationTitle)
 
                             Spacer()
                         }
 
                         Text(Translation.shortBreakExplanation)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(.callout, design: .rounded))
-                            .padding([.horizontal, .bottom])
+                            .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanation)
                     }
 
@@ -110,20 +91,14 @@ struct HelpView: View {
                         HStack {
 
                             Text(Translation.longBreakExplanationTitle)
-                                .fontWeight(.bold)
-                                .font(.system(.title3, design: .rounded))
-                                .padding(.leading)
-                                .accessibility(
-                                    identifier: Accessibility.Identifiers.lblLongBreakExplanationTitle
-                                )
+                                .helpSectionTitle()
+                                .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanationTitle)
 
                             Spacer()
                         }
 
                         Text(Translation.longBreakExplanation)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(.callout, design: .rounded))
-                            .padding([.horizontal, .bottom])
+                            .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanation)
                     }
 
@@ -131,20 +106,14 @@ struct HelpView: View {
                         HStack {
 
                             Text(Translation.numberOfCyclesExplanationTitle)
-                                .fontWeight(.bold)
-                                .font(.system(.title3, design: .rounded))
-                                .padding(.leading)
-                                .accessibility(
-                                    identifier: Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle
-                                )
+                                .helpSectionTitle()
+                                .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle)
 
                             Spacer()
                         }
 
                         Text(Translation.numberOfCyclesExplanation)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(.callout, design: .rounded))
-                            .padding([.horizontal, .bottom])
+                            .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanation)
                     }
                 }

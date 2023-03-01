@@ -16,9 +16,9 @@ enum Translation {
     static let shareAppTitle = LocalizedStringKey("shareAppTitle")
     static let shareAppMessage = LocalizedStringKey("shareAppMessage")
 
-    // MARK: - Settings Screen
+    static let dismissModalButton = LocalizedStringKey("dismissModelButton")
 
-    static let settingsDismissModalButton = LocalizedStringKey("settingsDismissModelButton")
+    // MARK: - Settings Screen
 
     static let settingsFocusDuration = LocalizedStringKey("settingsFocusDuration")
     static let settingsShortBreakDuration = LocalizedStringKey("settingsShortBreakDuration")

@@ -13,9 +13,9 @@
 "shareAppTitle" = "Share it";
 "shareAppMessage" = "Have you heard of Focused Timer? I use it and recommend it! Download here: ";
 
-// MARK: - Settings Screen
+"dismissModelButton" = "Dismiss modal";
 
-"settingsDismissModelButton" = "Dismiss settings modal";
+// MARK: - Settings Screen
 
 "settingsFocusDuration" = "Focused time (In minutes)";
 "settingsShortBreakDuration" = "Short break time (In minutes)";

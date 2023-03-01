@@ -15,7 +15,6 @@ extension Color {
     static let longBreakColor = Color("LongBreakColor")
     static let shortBreakColor = Color("ShortBreakColor")
     static let backgroundColor = Color("BackgroundColor")
-    static let closeButtonColor = Color("CloseButtonColor")
     static let timerStrokeColor = Color("TimerStrokeColor")
-    static let topMenuButtonColor = Color("TopMenuButtonColor")
+    static let iconButtonColor = Color("IconButtonColor")
 }

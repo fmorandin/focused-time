@@ -47,7 +47,7 @@ struct TopMenuView: View {
                     .labelStyle(IconOnlyLabelStyle())
                     .font(.system(size: 25))
                     .padding(.trailing)
-                    .foregroundColor(.topMenuButtonColor)
+                    .foregroundColor(.iconButtonColor)
                     .opacity(0.5)
 
             })
@@ -67,7 +67,7 @@ struct TopMenuView: View {
                     .labelStyle(IconOnlyLabelStyle())
                     .font(.system(size: 25))
                     .padding(.trailing)
-                    .foregroundColor(.topMenuButtonColor)
+                    .foregroundColor(.iconButtonColor)
                     .opacity(0.5)
             })
             .sheet(isPresented: $showingConfig) {
