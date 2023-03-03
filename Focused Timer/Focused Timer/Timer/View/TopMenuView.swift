@@ -29,9 +29,7 @@ struct TopMenuView: View {
     // MARK: - Initializer
 
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
-
         Self.logger.notice("🛠 Initializing Top Menu View.")
-
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -44,11 +42,7 @@ struct TopMenuView: View {
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenHelpModalButton, systemImage: ImageNames.showHelp)
-                    .labelStyle(IconOnlyLabelStyle())
-                    .font(.system(size: 25))
-                    .padding(.trailing)
-                    .foregroundColor(.iconButtonColor)
-                    .opacity(0.5)
+                    .iconNoText()
 
             })
             .sheet(isPresented: $showingHelp, content: {
@@ -64,11 +58,7 @@ struct TopMenuView: View {
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label(Translation.timerViewOpenSettingsModalButton, systemImage: ImageNames.showSettings)
-                    .labelStyle(IconOnlyLabelStyle())
-                    .font(.system(size: 25))
-                    .padding(.trailing)
-                    .foregroundColor(.iconButtonColor)
-                    .opacity(0.5)
+                    .iconNoText()
             })
             .sheet(isPresented: $showingConfig) {
                 SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())

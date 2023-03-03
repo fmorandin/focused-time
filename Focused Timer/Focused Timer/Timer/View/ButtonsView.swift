@@ -24,9 +24,7 @@ struct ButtonsView: View {
     // MARK: - Initializer
 
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
-
         Self.logger.notice("🛠 Initializing Buttons View.")
-
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -44,19 +42,11 @@ struct ButtonsView: View {
                 }
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
-                HStack(spacing: 10) {
-                    Image(systemName: timerViewModel.primaryButtonImageName)
-                        .foregroundColor(.white)
-
-                    Text(timerViewModel.primaryButtonText)
-                        .foregroundColor(.white)
-                        .font(.system(.callout, design: .rounded))
-                }
-                .padding(.vertical)
-                .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)
-                .background(timerViewModel.accentCircleColor)
-                .clipShape(Capsule())
-                .shadow(radius: 6)
+                MainButtonLabel(
+                    accentColor: timerViewModel.accentCircleColor,
+                    imageName: timerViewModel.primaryButtonImageName,
+                    text: timerViewModel.primaryButtonText
+                )
             })
             .accessibilityIdentifier(Accessibility.Identifiers.btnStartPauseIdentifier)
 
@@ -65,19 +55,12 @@ struct ButtonsView: View {
                 timerViewModel.resetUpdateTimer()
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
-                HStack(spacing: 10) {
-                    Image(systemName: ImageNames.reset)
-                        .foregroundColor(.white)
+                MainButtonLabel(
+                    accentColor: timerViewModel.accentCircleColor,
+                    imageName: ImageNames.reset,
+                    text: Translation.resetTimer
+                )
 
-                    Text(Translation.resetTimer)
-                        .foregroundColor(.white)
-                        .font(.system(.callout, design: .rounded))
-                }
-                .padding(.vertical)
-                .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)
-                .background(timerViewModel.accentCircleColor)
-                .clipShape(Capsule())
-                .shadow(radius: 6)
             })
             .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }

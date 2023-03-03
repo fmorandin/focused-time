@@ -24,9 +24,7 @@ struct AppSettingsView: View {
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
-
         Self.logger.notice("🛠 Initializing App Settings View.")
-
         _settingsViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -43,10 +41,7 @@ struct AppSettingsView: View {
 
                 Toggle("", isOn: $settingsViewModel.isAutoStartEnabled)
                     .onChange(of: settingsViewModel.isAutoStartEnabled) { value in
-                        settingsViewModel.saveToggles(
-                            for: UserDefaultKeys.autoStartToggle,
-                            value: value
-                        )
+                        settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: value)
                     }
                     .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
@@ -62,10 +57,7 @@ struct AppSettingsView: View {
 
                 Toggle("", isOn: $settingsViewModel.isPlaySoundEnabled)
                     .onChange(of: settingsViewModel.isPlaySoundEnabled) { value in
-                        settingsViewModel.saveToggles(
-                            for: UserDefaultKeys.playTimerSounds,
-                            value: value
-                        )
+                        settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: value)
                     }
                     .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
@@ -81,10 +73,7 @@ struct AppSettingsView: View {
 
                 Toggle("", isOn: $settingsViewModel.keepScreenOn)
                     .onChange(of: settingsViewModel.keepScreenOn) { value in
-                        settingsViewModel.saveToggles(
-                            for: UserDefaultKeys.keepScreenOn,
-                            value: value
-                        )
+                        settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: value)
                         keepScreenOnDisclaimerAlert = true
                     }
                     .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {

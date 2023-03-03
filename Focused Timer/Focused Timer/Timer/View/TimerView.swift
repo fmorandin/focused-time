@@ -23,9 +23,7 @@ struct TimerView: View {
 
     // MARK: Initializer
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
-
         Self.logger.notice("🛠 Initializing Timer View.")
-
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -57,30 +55,25 @@ struct TimerView: View {
                 Spacer()
             }
         }
-        .onReceive(NotificationCenter.default.publisher(
-            for: UIApplication.didEnterBackgroundNotification)) { _ in
-                Self.logger.notice("‼️ App will be moved to background.")
-
-                timerViewModel.moveAppToBackground()
-
-                UIApplication.shared.isIdleTimerDisabled = false
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+            Self.logger.notice("‼️ App will be moved to background.")
+            timerViewModel.moveAppToBackground()
+            UIApplication.shared.isIdleTimerDisabled = false
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            timerViewModel.moveAppToForeground()
+            Self.logger.notice("‼️ App will be moved to foreground.")
+            if timerViewModel.shouldKeepScreenOn() {
+                UIApplication.shared.isIdleTimerDisabled = true
             }
-            .onReceive(NotificationCenter.default.publisher(
-                for: UIApplication.willEnterForegroundNotification)) { _ in
-                    timerViewModel.moveAppToForeground()
-                    Self.logger.notice("‼️ App will be moved to foreground.")
-
-                    if timerViewModel.shouldKeepScreenOn() {
-                        UIApplication.shared.isIdleTimerDisabled = true
-                    }
-                }
-                .onReceive(NotificationCenter.default.publisher(for: .updateTimerView), perform: { _ in
-                    Self.logger.notice("🔄 Calling reset update timer.")
-                    timerViewModel.resetUpdateTimer()
-                })
-                .onAppear {
-                    Self.logger.notice("⏱ Timer View opened.")
-                }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .updateTimerView)) { _ in
+            Self.logger.notice("🔄 Calling reset update timer.")
+            timerViewModel.resetUpdateTimer()
+        }
+        .onAppear {
+            Self.logger.notice("⏱ Timer View opened.")
+        }
     }
 }
 

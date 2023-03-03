@@ -27,11 +27,8 @@ struct FormView: View {
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
-
         Self.logger.notice("🛠 Initializing Form View.")
-
         _settingsViewModel = StateObject(wrappedValue: viewModel)
-
         window = windowScene?.windows.first
     }
 

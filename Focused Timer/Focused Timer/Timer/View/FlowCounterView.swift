@@ -24,9 +24,7 @@ struct FlowCounterView: View {
     // MARK: - Initializer
 
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
-
         Self.logger.notice("🛠 Initializing Flow Counter View.")
-
         _timerViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -36,20 +34,17 @@ struct FlowCounterView: View {
             Spacer()
 
             Text(Translation.cycleCounter)
-                .font(.system(.title3, design: .rounded))
-                .fontWeight(.light)
                 .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesCompleted)
 
             Spacer()
 
             Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
-                .font(.system(.title3, design: .rounded))
-                .fontWeight(.light)
                 .accessibilityIdentifier(Accessibility.Identifiers.lblCycleCounter)
-                .accessibility(value: Text(Translation.AccLabel.accLabelCompletedCycleCounter))
+                .accessibilityValue(Text(Translation.AccLabel.accLabelCompletedCycleCounter))
 
             Spacer()
         }
+        .font(.system(.title3, design: .rounded).weight(.light))
         .padding(.top, 20)
     }
 }

@@ -22,9 +22,7 @@ struct TimerSettingsView: View {
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
-
         Self.logger.notice("🛠 Initializing Timer Settings View.")
-
         _settingsViewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -47,10 +45,7 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                 })
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.numberPad)
-                .frame(width: 50)
-                .multilineTextAlignment(.center)
+                .settingsTextField()
                 .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
                 .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
             }
@@ -74,10 +69,7 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                 })
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.numberPad)
-                .frame(width: 50)
-                .multilineTextAlignment(.center)
+                .settingsTextField()
                 .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
                 .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
             }
@@ -98,10 +90,7 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                 })
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.numberPad)
-                .frame(width: 50)
-                .multilineTextAlignment(.center)
+                .settingsTextField()
                 .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
                 .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
             }
@@ -122,10 +111,7 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                 })
-                .textFieldStyle(.roundedBorder)
-                .keyboardType(.numberPad)
-                .frame(width: 50)
-                .multilineTextAlignment(.center)
+                .settingsTextField()
                 .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
                 .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
             }

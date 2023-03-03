@@ -31,4 +31,21 @@ extension View {
             .font(.system(.callout, design: .rounded))
             .padding([.horizontal, .bottom])
     }
+
+    // Warning box that currently is being used only in settings view if a timer is running
+    func warningBox() -> some View {
+        self
+            .foregroundColor(.white)
+            .font(.system(.caption, design: .rounded).bold())
+            .padding(.all, 10)
+            .background(.red)
+    }
+
+    func settingsTextField() -> some View {
+        self
+            .textFieldStyle(.roundedBorder)
+            .keyboardType(.numberPad)
+            .frame(width: 50)
+            .multilineTextAlignment(.center)
+    }
 }

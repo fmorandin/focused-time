@@ -17,32 +17,12 @@ struct HelpView: View {
         category: String(describing: HelpView.self)
     )
 
-    // MARK: - Environment
-
-    @Environment(\.presentationMode) var presentationMode
-
     // MARK: - View
     var body: some View {
         ScrollView {
             VStack {
                 // Top Section with a close button
-                HStack {
-                    Spacer()
-
-                    Button(action: {
-                        Self.logger.notice("❌ Closing Help View.")
-                        presentationMode.wrappedValue.dismiss()
-                        HapticsConstants().impactMedium.impactOccurred()
-                    }, label: {
-                        HStack {
-                            Label(Translation.dismissModalButton, systemImage: ImageNames.closeModal)
-                                .iconNoText()
-                        }
-                        .accessibilityIdentifier(Accessibility.Identifiers.btnCloseModal)
-                    })
-                }
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+                CloseButton()
 
                 // Body
                 VStack {

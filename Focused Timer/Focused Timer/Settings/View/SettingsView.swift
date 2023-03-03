@@ -35,11 +35,8 @@ struct SettingsView: View {
         viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel()),
         displayWarning: Bool = false
     ) {
-
         Self.logger.notice("🛠 Initializing Settings View.")
-
         _settingsViewModel = StateObject(wrappedValue: viewModel)
-
         self.shouldDisplayDisclaimer = displayWarning
     }
 
@@ -48,32 +45,12 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             // Top Section with a close button
-            HStack {
-                Spacer()
-
-                Button(action: {
-                    Self.logger.notice("❌ Closing Settings View.")
-                    self.presentationMode.wrappedValue.dismiss()
-                    HapticsConstants().impactMedium.impactOccurred()
-                }, label: {
-                    Label(Translation.dismissModalButton, systemImage: ImageNames.closeModal)
-                        .iconNoText()
-                })
-                .accessibility(identifier: Accessibility.Identifiers.btnCloseModal)
-
-            }
-            .padding(.top, 30)
-            .padding(.bottom, 10)
+            CloseButton()
 
             if (shouldDisplayDisclaimer) {
                 Text(Translation.settingsWarnReloadMessage)
-                    .foregroundColor(.white)
-                    .font(.system(.caption, design: .rounded))
-                    .fontWeight(.semibold)
-                    .padding(.all, 10)
-                    .background(.red)
+                    .warningBox()
                     .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
-                    .padding(.horizontal, 1)
             }
 
             // The list that contains all the available settings to be defined in the app
