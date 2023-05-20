@@ -41,9 +41,6 @@ enum Accessibility {
         static let lblShortBreakDuration = "lblShortBreakDuration"
         static let lblNumberOfCycles = "lblNumberOfCycles"
         static let lblLongBreakDuration = "lblLongBreakDuration"
-        static let lblAutoStart = "lblAutoStart"
-        static let lblPlaySounds = "lblPlaySounds"
-        static let lblKeepScreenOn = "lblKeepScreenOn"
 
         static let lblWarnReloadMessage = "lblWarnReloadMessage"
 

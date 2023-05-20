@@ -33,59 +33,38 @@ struct AppSettingsView: View {
     var body: some View {
         Section(header: Text(Translation.settingsSectionAppName)) {
             // Auto Start
-            HStack {
-                Text(Translation.settingsAutoStart)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblAutoStart)
-
-                Spacer()
-
-                Toggle("", isOn: $settingsViewModel.isAutoStartEnabled)
-                    .onChange(of: settingsViewModel.isAutoStartEnabled) { value in
-                        settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: value)
-                    }
-                    .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
-            }
-            .padding(.vertical, 10)
+            Toggle(Translation.settingsAutoStart, isOn: $settingsViewModel.isAutoStartEnabled)
+                .onChange(of: settingsViewModel.isAutoStartEnabled) { value in
+                    settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: value)
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
+                .padding(.vertical, 10)
 
             // Play sounds
-            HStack {
-                Text(Translation.settingsPlayTimerSounds)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblPlaySounds)
-
-                Spacer()
-
-                Toggle("", isOn: $settingsViewModel.isPlaySoundEnabled)
-                    .onChange(of: settingsViewModel.isPlaySoundEnabled) { value in
-                        settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: value)
-                    }
-                    .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
-            }
-            .padding(.vertical, 10)
+            Toggle(Translation.settingsPlayTimerSounds, isOn: $settingsViewModel.isPlaySoundEnabled)
+                .onChange(of: settingsViewModel.isPlaySoundEnabled) { value in
+                    settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: value)
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
+                .padding(.vertical, 10)
 
             // Keep screen on
-            HStack {
-                Text(Translation.settingsKeepScreenOn)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblKeepScreenOn)
-
-                Spacer()
-
-                Toggle("", isOn: $settingsViewModel.keepScreenOn)
-                    .onChange(of: settingsViewModel.keepScreenOn) { value in
-                        settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: value)
-                        keepScreenOnDisclaimerAlert = true
-                    }
-                    .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
-                        Alert(
-                            title: Text(Translation.warningAlertTitle),
-                            message: Text(Translation.settingsKeepScreenOnDisclaimer),
-                            dismissButton: .default(Text("OK")))
-                    })
-                    .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
-            }
-            .padding(.vertical, 10)
+            Toggle(Translation.settingsKeepScreenOn, isOn: $settingsViewModel.keepScreenOn)
+                .onChange(of: settingsViewModel.keepScreenOn) { value in
+                    settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: value)
+                    keepScreenOnDisclaimerAlert = true
+                }
+                .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
+                    Alert(
+                        title: Text(Translation.warningAlertTitle),
+                        message: Text(Translation.settingsKeepScreenOnDisclaimer),
+                        dismissButton: .default(Text("OK")))
+                })
+                .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
+                .padding(.vertical, 10)
         }
         .font(.system(.body, design: .rounded))
     }
