@@ -81,6 +81,7 @@ final class SettingsViewModel: ObservableObject {
         let nsObject = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
         return nsObject as! String
     }
+    // swiftlint:enable force_cast
 
     // MARK: - Initializer
 

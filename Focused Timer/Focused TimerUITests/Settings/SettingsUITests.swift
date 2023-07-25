@@ -10,7 +10,6 @@ import XCTest
 // swiftlint:disable type_body_length file_length
 final class SettingsUITests: BaseFeature {
 
-    // swiftlint:disable function_body_length
     func test_OpenModalNoChanges() throws {
         // GIVEN I open the modal
         let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
@@ -467,3 +466,4 @@ final class SettingsUITests: BaseFeature {
         XCTAssertTrue(shareSheet.isHittable, "The share sheet should be displayed")
     }
 }
+// swiftlint:enable type_body_length file_length function_body_length force_cast

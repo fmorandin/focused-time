@@ -265,5 +265,6 @@ final class TimerViewModelTests: XCTestCase {
             XCTAssertEqual(timerViewModel.timerType, .focused)
         }
     }
+    // swiftlint:enable function_body_length
 
 }
