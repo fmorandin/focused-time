@@ -372,15 +372,15 @@ final class TimerUITests: BaseFeature {
         let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
         if resultShortBreak == XCTWaiter.Result.timedOut {
             // resultShortBreak the mode will be changed to shortBreak
-#warning("Commented because the tap in the toggles are not working after update the simulator to iOS 16.4")
-            //            let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
-            //            XCTAssertTrue(circleFocused.exists)
+
+            let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
+            XCTAssertTrue(circleFocused.exists)
 
             let playButtonFocus = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
             XCTAssertEqual(playButtonFocus.label, "Play")
 
-            //            let lblTimerTypeFocus = app.staticTexts[Accessibility.Identifiers.lblTimerType]
-            //            XCTAssertEqual(lblTimerTypeFocus.label, "Focus")
+            let lblTimerTypeFocus = app.staticTexts[Accessibility.Identifiers.lblTimerType]
+            XCTAssertEqual(lblTimerTypeFocus.label, "Focus")
 
             let lblCounterFocus = app.staticTexts[Accessibility.Identifiers.lblCounter]
             XCTAssertEqual(lblCounterFocus.label, "01:00")
