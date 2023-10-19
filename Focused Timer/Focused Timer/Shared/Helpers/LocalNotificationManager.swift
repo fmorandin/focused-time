@@ -27,7 +27,7 @@ struct LocalNotificationManager {
 
         Self.logger.notice("🧹 Cleaning up all the scheduled notifications.")
 
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        UNUserNotificationCenter.current().setBadgeCount(0)
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
