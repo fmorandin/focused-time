@@ -37,17 +37,20 @@ struct TimerSettingsView: View {
 
                 Spacer()
 
-                TextField("", text: $settingsViewModel.focusedTime, onEditingChanged: { isEditing in
-                    if !isEditing {
+                TextField("", text: $settingsViewModel.focusedTime)
+                    .onChange(of: settingsViewModel.focusedTime) {
+                        settingsViewModel.focusedTime = String(
+                            settingsViewModel.focusedTime.prefix(settingsViewModel.timerLimits)
+                        )
+
                         let focusedTime = Int($settingsViewModel.focusedTime.wrappedValue) ?? 0
                         settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: focusedTime)
 
                         settingsViewModel.shouldUpdateTimerView = true
                     }
-                })
-                .settingsTextField()
-                .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
+                    .settingsTextField()
+                    .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
             }
             .padding(.vertical, 10)
 
@@ -58,8 +61,12 @@ struct TimerSettingsView: View {
 
                 Spacer()
 
-                TextField("", text: $settingsViewModel.shortBreakTime, onEditingChanged: { isEditing in
-                    if !isEditing {
+                TextField("", text: $settingsViewModel.shortBreakTime)
+                    .onChange(of: settingsViewModel.shortBreakTime) {
+                        settingsViewModel.shortBreakTime = String(
+                            settingsViewModel.shortBreakTime.prefix(settingsViewModel.timerLimits)
+                        )
+
                         let shortBreakTime = Int($settingsViewModel.shortBreakTime.wrappedValue) ?? 0
                         settingsViewModel.saveTime(
                             for: UserDefaultKeys.shortBreakTime,
@@ -68,10 +75,9 @@ struct TimerSettingsView: View {
 
                         settingsViewModel.shouldUpdateTimerView = true
                     }
-                })
-                .settingsTextField()
-                .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
+                    .settingsTextField()
+                    .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
             }
             .padding(.vertical, 10)
 
@@ -82,18 +88,22 @@ struct TimerSettingsView: View {
 
                 Spacer()
 
-                TextField("", text: $settingsViewModel.longBreak, onEditingChanged: { isEditing in
-                    if !isEditing {
+                TextField("", text: $settingsViewModel.longBreak)
+                    .onChange(of: settingsViewModel.longBreak) {
+                        settingsViewModel.longBreak = String(
+                            settingsViewModel.longBreak.prefix(settingsViewModel.timerLimits)
+                        )
+
                         let longBreak = Int($settingsViewModel.longBreak.wrappedValue) ?? 0
                         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: longBreak)
 
                         settingsViewModel.shouldUpdateTimerView = true
                     }
-                })
-                .settingsTextField()
-                .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
+                    .settingsTextField()
+                    .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
             }
+
             .padding(.vertical, 10)
 
             // Number of cycles
@@ -103,17 +113,20 @@ struct TimerSettingsView: View {
 
                 Spacer()
 
-                TextField("", text: $settingsViewModel.cycleTotal, onEditingChanged: { isEditing in
-                    if !isEditing {
+                TextField("", text: $settingsViewModel.cycleTotal)
+                    .onChange(of: settingsViewModel.cycleTotal) {
+                        settingsViewModel.cycleTotal = String(
+                            settingsViewModel.cycleTotal.prefix(settingsViewModel.numberOfCyclesLimits)
+                        )
+
                         let numberOfCycles = Int($settingsViewModel.cycleTotal.wrappedValue) ?? 0
                         settingsViewModel.saveNumberOfCycles(numberOfCycles)
 
                         settingsViewModel.shouldUpdateTimerView = true
                     }
-                })
-                .settingsTextField()
-                .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
+                    .settingsTextField()
+                    .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
+                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
             }
             .padding(.vertical, 10)
         }

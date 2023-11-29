@@ -21,54 +21,18 @@ final class SettingsViewModel: ObservableObject {
     private let settingsModel: SettingsModelProtocol
 
     // Maximum number of characters for the fields
-    private let timerLimits = 5
-    private let numberOfCyclesLimits = 2
+    let timerLimits = 5
+    let numberOfCyclesLimits = 2
 
     private let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
     private var window: UIWindow?
 
     // MARK: - Published Variables
 
-    @Published var focusedTime: String = "" {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                while self.focusedTime.count > self.timerLimits {
-                    self.focusedTime.removeLast()
-                }
-            }
-        }
-    }
-    @Published var shortBreakTime: String = "" {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                while self.shortBreakTime.count > self.timerLimits {
-                    self.shortBreakTime.removeLast()
-                }
-            }
-        }
-    }
-    @Published var cycleTotal: String = "" {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                while self.cycleTotal.count > self.numberOfCyclesLimits {
-                    self.cycleTotal.removeLast()
-                }
-            }
-        }
-    }
-    @Published var longBreak: String = "" {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                while self.longBreak.count > self.timerLimits {
-                    self.longBreak.removeLast()
-                }
-            }
-        }
-    }
+    @Published var focusedTime: String = ""
+    @Published var shortBreakTime: String = ""
+    @Published var cycleTotal: String = ""
+    @Published var longBreak: String = ""
     @Published var isAutoStartEnabled: Bool = false
     @Published var isPlaySoundEnabled: Bool = true
     @Published var keepScreenOn: Bool = false
