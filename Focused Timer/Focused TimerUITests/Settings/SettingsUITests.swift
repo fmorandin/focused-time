@@ -264,9 +264,9 @@ final class SettingsUITests: BaseFeature {
         XCTAssertFalse(keepScreenOnToggle.isSelected)
 
         // WHEN I update the toggles
-        autoStartToggle.tap()
-        playSoundsToggle.tap()
-        keepScreenOnToggle.tap()
+        autoStartToggle.switches.firstMatch.tap()
+        playSoundsToggle.switches.firstMatch.tap()
+        keepScreenOnToggle.switches.firstMatch.tap()
 
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -364,9 +364,9 @@ final class SettingsUITests: BaseFeature {
 
         app.tap()
 
-        autoStartToggle.tap()
-        playSoundsToggle.tap()
-        keepScreenOnToggle.tap()
+        autoStartToggle.switches.firstMatch.tap()
+        playSoundsToggle.switches.firstMatch.tap()
+        keepScreenOnToggle.switches.firstMatch.tap()
 
         // alert warning that the app needs to be opened again because of the keep screen on
         app.alerts.firstMatch.buttons["OK"].tap()

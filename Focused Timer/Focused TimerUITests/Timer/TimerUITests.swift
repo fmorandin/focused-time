@@ -330,7 +330,7 @@ final class TimerUITests: BaseFeature {
         // WHEN I update the toggles
         let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
-        autoStartToggle.tap()
+        autoStartToggle.switches.firstMatch.tap()
 
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
