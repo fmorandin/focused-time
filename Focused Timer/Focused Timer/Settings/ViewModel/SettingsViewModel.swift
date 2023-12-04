@@ -21,7 +21,7 @@ final class SettingsViewModel: ObservableObject {
     private let settingsModel: SettingsModelProtocol
 
     // Maximum number of characters for the fields
-    let timerLimits = 5
+    let timerLimits = 3
     let numberOfCyclesLimits = 2
 
     private let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene

@@ -117,8 +117,8 @@ final class SettingsUITests: BaseFeature {
         let durationTextFieldInvalidValue = String(
             describing: app.textFields[Accessibility.Identifiers.txtFocusedTime].value!
         )
-        XCTAssertEqual(durationTextFieldInvalidValue.count, 5)
-        XCTAssertEqual(durationTextFieldInvalidValue, "12345")
+        XCTAssertEqual(durationTextFieldInvalidValue.count, 3)
+        XCTAssertEqual(durationTextFieldInvalidValue, "123")
 
         // WHEN I tap to edit the field again
         durationTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
@@ -177,8 +177,8 @@ final class SettingsUITests: BaseFeature {
         let shortBreakTextFieldInvalidValue = String(
             describing: app.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
         )
-        XCTAssertEqual(shortBreakTextFieldInvalidValue.count, 5)
-        XCTAssertEqual(shortBreakTextFieldInvalidValue, "12345")
+        XCTAssertEqual(shortBreakTextFieldInvalidValue.count, 3)
+        XCTAssertEqual(shortBreakTextFieldInvalidValue, "123")
 
         // WHEN I tap to edit the field again
         shortBreakTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
@@ -380,10 +380,10 @@ final class SettingsUITests: BaseFeature {
 
         // THEN all the values that were updated should be correct
         let durationTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtFocusedTime]
-        XCTAssertEqual(String(describing: durationTextFieldUpdated.value!), "12345")
+        XCTAssertEqual(String(describing: durationTextFieldUpdated.value!), "123")
 
         let shortBreakTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtShortBreakTime]
-        XCTAssertEqual(String(describing: shortBreakTextFieldUpdated.value!), "1234")
+        XCTAssertEqual(String(describing: shortBreakTextFieldUpdated.value!), "123")
 
         let longBreakTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtLongBreakTime]
         XCTAssertEqual(String(describing: longBreakTextFieldUpdated.value!), "123")
