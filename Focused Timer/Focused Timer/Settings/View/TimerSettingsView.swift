@@ -38,6 +38,7 @@ struct TimerSettingsView: View {
                 Spacer()
 
                 TextField("", text: $settingsViewModel.focusedTime)
+                    .frame(width: 60)
                     .onChange(of: settingsViewModel.focusedTime) {
                         settingsViewModel.focusedTime = String(
                             settingsViewModel.focusedTime.prefix(settingsViewModel.timerLimits)
@@ -62,6 +63,7 @@ struct TimerSettingsView: View {
                 Spacer()
 
                 TextField("", text: $settingsViewModel.shortBreakTime)
+                    .frame(width: 60)
                     .onChange(of: settingsViewModel.shortBreakTime) {
                         settingsViewModel.shortBreakTime = String(
                             settingsViewModel.shortBreakTime.prefix(settingsViewModel.timerLimits)
@@ -89,6 +91,7 @@ struct TimerSettingsView: View {
                 Spacer()
 
                 TextField("", text: $settingsViewModel.longBreak)
+                    .frame(width: 60)
                     .onChange(of: settingsViewModel.longBreak) {
                         settingsViewModel.longBreak = String(
                             settingsViewModel.longBreak.prefix(settingsViewModel.timerLimits)
@@ -114,6 +117,7 @@ struct TimerSettingsView: View {
                 Spacer()
 
                 TextField("", text: $settingsViewModel.cycleTotal)
+                    .frame(width: 60)
                     .onChange(of: settingsViewModel.cycleTotal) {
                         settingsViewModel.cycleTotal = String(
                             settingsViewModel.cycleTotal.prefix(settingsViewModel.numberOfCyclesLimits)
