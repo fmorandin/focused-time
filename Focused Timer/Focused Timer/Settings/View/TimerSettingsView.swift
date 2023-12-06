@@ -5,6 +5,7 @@
 //  Created by Felipe Morandin on 04/12/22.
 //
 
+import Combine
 import SwiftUI
 import os
 
@@ -133,6 +134,15 @@ struct TimerSettingsView: View {
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
             }
             .padding(.vertical, 10)
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)
+        ) { _ in
+            DispatchQueue.main.async {
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.selectAll(_:)), to: nil, from: nil, for: nil
+                )
+            }
         }
         .font(.system(.body, design: .rounded))
     }
