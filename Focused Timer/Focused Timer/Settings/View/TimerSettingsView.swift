@@ -20,6 +20,13 @@ struct TimerSettingsView: View {
 
     @StateObject private var settingsViewModel: SettingsViewModel
 
+    // MARK: - Validators
+
+    @State private var focusedTimerHasValidationErrors: Bool = false
+    @State private var shortBreakHasValidationErrors: Bool = false
+    @State private var longBreakHasValidationErrors: Bool = false
+    @State private var numberOfCyclesHasValidationErrors: Bool = false
+
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
@@ -45,12 +52,18 @@ struct TimerSettingsView: View {
                             settingsViewModel.focusedTime.prefix(settingsViewModel.timerLimits)
                         )
 
-                        let focusedTime = Int($settingsViewModel.focusedTime.wrappedValue) ?? 0
+                        let focusedTime = Int($settingsViewModel.focusedTime.wrappedValue)
+                        guard let focusedTime else {
+                            focusedTimerHasValidationErrors = true
+                            return
+                        }
                         settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: focusedTime)
 
+                        focusedTimerHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .settingsTextField()
+                    .border(focusedTimerHasValidationErrors ? .red : .clear)
                     .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
             }
@@ -70,12 +83,14 @@ struct TimerSettingsView: View {
                             settingsViewModel.shortBreakTime.prefix(settingsViewModel.timerLimits)
                         )
 
-                        let shortBreakTime = Int($settingsViewModel.shortBreakTime.wrappedValue) ?? 0
-                        settingsViewModel.saveTime(
-                            for: UserDefaultKeys.shortBreakTime,
-                            value: shortBreakTime
-                        )
+                        let shortBreakTime = Int($settingsViewModel.shortBreakTime.wrappedValue)
+                        guard let shortBreakTime else {
+                            shortBreakHasValidationErrors = true
+                            return
+                        }
+                        settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: shortBreakTime)
 
+                        shortBreakHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .settingsTextField()
@@ -98,9 +113,14 @@ struct TimerSettingsView: View {
                             settingsViewModel.longBreak.prefix(settingsViewModel.timerLimits)
                         )
 
-                        let longBreak = Int($settingsViewModel.longBreak.wrappedValue) ?? 0
+                        let longBreak = Int($settingsViewModel.longBreak.wrappedValue)
+                        guard let longBreak else {
+                            longBreakHasValidationErrors = true
+                            return
+                        }
                         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: longBreak)
 
+                        longBreakHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .settingsTextField()
@@ -124,9 +144,14 @@ struct TimerSettingsView: View {
                             settingsViewModel.cycleTotal.prefix(settingsViewModel.numberOfCyclesLimits)
                         )
 
-                        let numberOfCycles = Int($settingsViewModel.cycleTotal.wrappedValue) ?? 0
+                        let numberOfCycles = Int($settingsViewModel.cycleTotal.wrappedValue)
+                        guard let numberOfCycles else {
+                            numberOfCyclesHasValidationErrors = true
+                            return
+                        }
                         settingsViewModel.saveNumberOfCycles(numberOfCycles)
 
+                        numberOfCyclesHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .settingsTextField()
