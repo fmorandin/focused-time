@@ -62,8 +62,8 @@ struct TimerSettingsView: View {
                         focusedTimerHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
-                    .settingsTextField()
                     .border(focusedTimerHasValidationErrors ? .red : .clear)
+                    .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
             }
@@ -93,6 +93,7 @@ struct TimerSettingsView: View {
                         shortBreakHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
+                    .border(shortBreakHasValidationErrors ? .red : .clear)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
@@ -123,6 +124,7 @@ struct TimerSettingsView: View {
                         longBreakHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
+                    .border(longBreakHasValidationErrors ? .red : .clear)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
@@ -154,6 +156,7 @@ struct TimerSettingsView: View {
                         numberOfCyclesHasValidationErrors = false
                         settingsViewModel.shouldUpdateTimerView = true
                     }
+                    .border(numberOfCyclesHasValidationErrors ? .red : .clear)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
