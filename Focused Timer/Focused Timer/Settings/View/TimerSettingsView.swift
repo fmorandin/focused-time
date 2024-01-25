@@ -40,8 +40,12 @@ struct TimerSettingsView: View {
         Section(header: Text(Translation.settingsSectionTimersName)) {
             // Focused time
             HStack {
-                Text(Translation.settingsFocusDuration)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusDuration)
+                withAnimation {
+                    Text(Translation.settingsFocusDuration)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblFocusDuration)
+                        .foregroundStyle(focusedTimerHasValidationErrors ? .red : .primaryFont)
+                        .animation(.bouncy(duration: 0.7), value: focusedTimerHasValidationErrors)
+                }
 
                 Spacer()
 
@@ -63,6 +67,7 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .border(focusedTimerHasValidationErrors ? .red : .clear)
+                    .animation(.bouncy(duration: 0.7), value: focusedTimerHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
@@ -71,8 +76,12 @@ struct TimerSettingsView: View {
 
             // Short Break time
             HStack {
-                Text(Translation.settingsShortBreakDuration)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakDuration)
+                withAnimation {
+                    Text(Translation.settingsShortBreakDuration)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakDuration)
+                        .foregroundStyle(shortBreakHasValidationErrors ? .red : .primaryFont)
+                        .animation(.bouncy(duration: 0.7), value: shortBreakHasValidationErrors)
+                }
 
                 Spacer()
 
@@ -94,6 +103,7 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .border(shortBreakHasValidationErrors ? .red : .clear)
+                    .animation(.bouncy(duration: 0.7), value: shortBreakHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
@@ -102,8 +112,12 @@ struct TimerSettingsView: View {
 
             // Long Break
             HStack {
-                Text(Translation.settingsLongBreakDuration)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakDuration)
+                withAnimation {
+                    Text(Translation.settingsLongBreakDuration)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakDuration)
+                        .foregroundStyle(longBreakHasValidationErrors ? .red : .primaryFont)
+                        .animation(.bouncy(duration: 0.7), value: longBreakHasValidationErrors)
+                }
 
                 Spacer()
 
@@ -125,17 +139,21 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .border(longBreakHasValidationErrors ? .red : .clear)
+                    .animation(.bouncy(duration: 0.7), value: longBreakHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
             }
-
             .padding(.vertical, 10)
 
             // Number of cycles
             HStack {
-                Text(Translation.settingsNumberOfCyclesTotal)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCycles)
+                withAnimation {
+                    Text(Translation.settingsNumberOfCyclesTotal)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCycles)
+                        .foregroundColor(numberOfCyclesHasValidationErrors ? .red : .primaryFont)
+                        .animation(.bouncy(duration: 0.7), value: numberOfCyclesHasValidationErrors)
+                }
 
                 Spacer()
 
@@ -157,11 +175,13 @@ struct TimerSettingsView: View {
                         settingsViewModel.shouldUpdateTimerView = true
                     }
                     .border(numberOfCyclesHasValidationErrors ? .red : .clear)
+                    .animation(.bouncy(duration: 0.7), value: numberOfCyclesHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
                     .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
             }
             .padding(.vertical, 10)
+
         }
         .onReceive(
             NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)

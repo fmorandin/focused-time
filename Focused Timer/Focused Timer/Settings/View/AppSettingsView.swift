@@ -35,7 +35,10 @@ struct AppSettingsView: View {
             // Auto Start
             Toggle(Translation.settingsAutoStart, isOn: $settingsViewModel.isAutoStartEnabled)
                 .onChange(of: settingsViewModel.isAutoStartEnabled) { _, newValue in
-                    settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: newValue)
+                    settingsViewModel.saveToggles(
+                        for: UserDefaultKeys.autoStartToggle,
+                        value: newValue
+                    )
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
                 .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
@@ -44,7 +47,10 @@ struct AppSettingsView: View {
             // Play sounds
             Toggle(Translation.settingsPlayTimerSounds, isOn: $settingsViewModel.isPlaySoundEnabled)
                 .onChange(of: settingsViewModel.isPlaySoundEnabled) { _, newValue in
-                    settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: newValue)
+                    settingsViewModel.saveToggles(
+                        for: UserDefaultKeys.playTimerSounds
+                        , value: newValue
+                    )
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
                 .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
@@ -53,7 +59,10 @@ struct AppSettingsView: View {
             // Keep screen on
             Toggle(Translation.settingsKeepScreenOn, isOn: $settingsViewModel.keepScreenOn)
                 .onChange(of: settingsViewModel.keepScreenOn) { _, newValue in
-                    settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: newValue)
+                    settingsViewModel.saveToggles(
+                        for: UserDefaultKeys.keepScreenOn,
+                        value: newValue
+                    )
                     keepScreenOnDisclaimerAlert = true
                 }
                 .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
