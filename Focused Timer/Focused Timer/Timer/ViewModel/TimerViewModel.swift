@@ -9,6 +9,48 @@ import AVFoundation
 import SwiftUI
 import os
 
+protocol RepeatingTimerProtocol: AnyObject {
+    func invalidate()
+}
+
+protocol RepeatingTimerFactoryProtocol {
+    func scheduledTimer(
+        withTimeInterval interval: TimeInterval,
+        repeats: Bool,
+        block: @escaping (RepeatingTimerProtocol) -> Void
+    ) -> RepeatingTimerProtocol
+}
+
+private final class FoundationRepeatingTimer: RepeatingTimerProtocol {
+    private var timer: Timer?
+
+    init(timer: Timer) {
+        self.timer = timer
+    }
+
+    func invalidate() {
+        timer?.invalidate()
+    }
+}
+
+struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
+    func scheduledTimer(
+        withTimeInterval interval: TimeInterval,
+        repeats: Bool,
+        block: @escaping (RepeatingTimerProtocol) -> Void
+    ) -> RepeatingTimerProtocol {
+        var wrappedTimer: FoundationRepeatingTimer?
+        let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: repeats) { _ in
+            guard let wrappedTimer else { return }
+            block(wrappedTimer)
+        }
+
+        let createdTimer = FoundationRepeatingTimer(timer: timer)
+        wrappedTimer = createdTimer
+        return createdTimer
+    }
+}
+
 final class TimerViewModel: ObservableObject {
 
     // MARK: - Published Variables
@@ -52,10 +94,12 @@ final class TimerViewModel: ObservableObject {
         category: String(describing: TimerViewModel.self)
     )
 
-    private var timer = Timer()
+    private var timer: RepeatingTimerProtocol?
+    private let timerFactory: RepeatingTimerFactoryProtocol
     private let timerModel: TimerModelProtocol
     private let dateFormatter = DateComponentsFormatter()
     private let localNotificationManager = LocalNotificationManager()
+    private let nowProvider: () -> Date
     private var isAutoStartEnabled: Bool {
         timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
     }
@@ -71,7 +115,11 @@ final class TimerViewModel: ObservableObject {
 
     // MARK: - Initializer
 
-    init(timerModel: TimerModelProtocol) {
+    init(
+        timerModel: TimerModelProtocol,
+        timerFactory: RepeatingTimerFactoryProtocol = FoundationRepeatingTimerFactory(),
+        nowProvider: @escaping () -> Date = Date.init
+    ) {
 
         Self.logger.notice("🛠 Initializing Timer View Model.")
 
@@ -80,6 +128,8 @@ final class TimerViewModel: ObservableObject {
         dateFormatter.unitsStyle = .positional
 
         self.timerModel = timerModel
+        self.timerFactory = timerFactory
+        self.nowProvider = nowProvider
 
         /// The initial state for the app will be the focused time
         let savedFocusedTimer = timerModel.getTime(for: UserDefaultKeys.focusedTime)
@@ -101,7 +151,9 @@ final class TimerViewModel: ObservableObject {
     func startTimer() {
 
         Self.logger.notice("▶️ Starting timer.")
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { timer in
+        timer = timerFactory.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] scheduledTimer in
+            guard let self else { return }
+
             if self.counter <= self.totalTime && self.counter != 0 {
                 self.updateTimerRunning()
             } else {
@@ -111,9 +163,9 @@ final class TimerViewModel: ObservableObject {
                     self.startTimer()
                 }
 
-                timer.invalidate()
+                scheduledTimer.invalidate()
             }
-        })
+        }
     }
 
     /// This simply sets the state and invalidate the timer so it won't will be running during the pause
@@ -121,7 +173,7 @@ final class TimerViewModel: ObservableObject {
 
         Self.logger.notice("⏸ Pausing timer.")
         timerState = .paused
-        timer.invalidate()
+        timer?.invalidate()
     }
 
     /// This is responsible to set all the properties to their initial state again.
@@ -136,7 +188,7 @@ final class TimerViewModel: ObservableObject {
         timerType = .focused
         countTime = dateFormatter.string(
             from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
-        timer.invalidate()
+        timer?.invalidate()
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
         accentCircleColor = .focusColor
@@ -177,7 +229,7 @@ final class TimerViewModel: ObservableObject {
             guard let remainingTime = savedRemainingTime,
                   let timestampBackground = savedTimestampBackground else { return }
 
-            let timeInBackground = Int(DateInterval(start: timestampBackground, end: Date()).duration)
+            let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
 
             let totalRemainingTime = remainingTime - timeInBackground
             counter = totalRemainingTime <= 0 ? 0 : totalRemainingTime

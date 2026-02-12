@@ -31,6 +31,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         category: String(describing: AppDelegate.self)
     )
 
+    private enum UITestEnvironmentKeys {
+        static let numberOfCycles = "UI_TEST_NUMBER_OF_CYCLES"
+        static let focusedTimeSeconds = "UI_TEST_FOCUSED_SECONDS"
+        static let shortBreakTimeSeconds = "UI_TEST_SHORT_BREAK_SECONDS"
+        static let longBreakTimeSeconds = "UI_TEST_LONG_BREAK_SECONDS"
+    }
+
     // MARK: - Computed Variables
 
     static var isUITestingEnabled: Bool {
@@ -89,11 +96,17 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
 
             Self.logger.notice("📲 Starting UI Testing.")
 
+            let environment = ProcessInfo.processInfo.environment
+            let numberOfCycles = Int(environment[UITestEnvironmentKeys.numberOfCycles] ?? "") ?? 4
+            let focusedTime = Int(environment[UITestEnvironmentKeys.focusedTimeSeconds] ?? "") ?? 60
+            let shortBreakTime = Int(environment[UITestEnvironmentKeys.shortBreakTimeSeconds] ?? "") ?? 60
+            let longBreakTime = Int(environment[UITestEnvironmentKeys.longBreakTimeSeconds] ?? "") ?? 60
+
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-            UserDefaults.standard.set("4", forKey: UserDefaultKeys.numberOfCycles)
-            UserDefaults.standard.set(60, forKey: UserDefaultKeys.focusedTime)
-            UserDefaults.standard.set(60, forKey: UserDefaultKeys.shortBreakTime)
-            UserDefaults.standard.set(60, forKey: UserDefaultKeys.longBreakTime)
+            UserDefaults.standard.set("\(numberOfCycles)", forKey: UserDefaultKeys.numberOfCycles)
+            UserDefaults.standard.set(focusedTime, forKey: UserDefaultKeys.focusedTime)
+            UserDefaults.standard.set(shortBreakTime, forKey: UserDefaultKeys.shortBreakTime)
+            UserDefaults.standard.set(longBreakTime, forKey: UserDefaultKeys.longBreakTime)
 
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)

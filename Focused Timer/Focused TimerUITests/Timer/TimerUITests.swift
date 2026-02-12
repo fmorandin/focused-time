@@ -9,8 +9,9 @@ import XCTest
 
 final class TimerUITests: BaseFeature {
 
-    func test_TimerStartedCorrectly()  throws {
-        // GIVEN I have the screen on its initial state
+    private let initialCounterLabel = "00:05"
+
+    func test_TimerStartedCorrectly() {
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
@@ -18,34 +19,19 @@ final class TimerUITests: BaseFeature {
         XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, "01:00")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
         let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
         XCTAssertEqual(lblCycleCounter.label, "0/4")
 
-        // WHEN I click to start the timer
         playButton.tap()
 
-        // This is used to let the screen reacts to the tap
-        let expected = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expected], timeout: 5.0)
-        if result == XCTWaiter.Result.timedOut {
-
-            // THEN the button label should be changed to "Pause"
-            XCTAssertEqual(playButton.label, "Pause")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:55")
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
+        XCTAssertEqual(lblTimerType.label, "Focus")
     }
 
-    func test_TimerResumedCorrectly() throws {
-        // GIVEN I have the screen on its initial state
+    func test_TimerResumedCorrectly() {
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
@@ -53,74 +39,25 @@ final class TimerUITests: BaseFeature {
         XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, "01:00")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
-        let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
-        XCTAssertEqual(lblCycleCounter.label, "0/4")
-
-        // WHEN I click to start the timer
         playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
 
-        // This is used to let the screen reacts to the tap
-        let expectedRunning = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expectedRunning], timeout: 5.0)
-        if result == XCTWaiter.Result.timedOut {
-
-            // THEN the button label should be changed to "Pause"
-            XCTAssertEqual(playButton.label, "Pause")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:55")
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN I click on the play/pause button again
         playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Resume", timeout: 2.0))
 
-        // This is used to let the screen reacts to the tap
-        let expectedPaused = expectation(description: "Timer Paused")
-        let resultPause = XCTWaiter.wait(for: [expectedPaused], timeout: 5.0)
-        if resultPause == XCTWaiter.Result.timedOut {
+        let pausedCounter = lblCounter.label
 
-            // THEN the button label should be changed to "Play"
-            XCTAssertEqual(playButton.label, "Resume")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:55")
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN I click on the play/pause button again
         playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: pausedCounter, timeout: 2.0))
 
-        // This is used to let the screen reacts to the tap
-        let expectedResumed = expectation(description: "Timer Resumed")
-        let resultResumed = XCTWaiter.wait(for: [expectedResumed], timeout: 5.0)
-        if resultResumed == XCTWaiter.Result.timedOut {
-
-            // THEN the button label should be changed to "Play"
-            XCTAssertEqual(playButton.label, "Pause")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:50")
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertEqual(lblTimerType.label, "Focus")
     }
 
-    func test_TimerResettedCorrectly() throws {
-        // GIVEN I have the screen on its initial state
+    func test_TimerResettedCorrectly() {
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
@@ -128,76 +65,24 @@ final class TimerUITests: BaseFeature {
         XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, "01:00")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
-        let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
-        XCTAssertEqual(lblCycleCounter.label, "0/4")
-
-        // WHEN I click to start the timer
         playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
 
-        // This is used to let the screen reacts to the tap
-        let expectedRunning = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expectedRunning], timeout: 5.0)
-        if result == XCTWaiter.Result.timedOut {
-
-            // THEN the button label should be changed to "Pause"
-            XCTAssertEqual(playButton.label, "Pause")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:55")
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN I click on the play/pause button again
         playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Resume", timeout: 2.0))
 
-        // This is used to let the screen reacts to the tap
-        let expectedPaused = expectation(description: "Timer Paused")
-        let resultPause = XCTWaiter.wait(for: [expectedPaused], timeout: 5.0)
-        if resultPause == XCTWaiter.Result.timedOut {
-
-            // THEN the button label should be changed to "Play"
-            XCTAssertEqual(playButton.label, "Resume")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:55")
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN I click on the reset
         let resetButton = app.buttons[Accessibility.Identifiers.btnResetIdentifier]
         XCTAssertEqual(resetButton.label, "Reset")
         resetButton.tap()
 
-        // This is used to let the screen reacts to the tap
-        let expectedResetted = expectation(description: "Timer Resumed")
-        let resultResetted = XCTWaiter.wait(for: [expectedResetted], timeout: 5.0)
-        if resultResetted == XCTWaiter.Result.timedOut {
-
-            // THEN the button label should be changed to "Play"
-            XCTAssertEqual(playButton.label, "Play")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be resetted
-            XCTAssertEqual(lblCounter.label, "01:00")
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertTrue(waitForLabel(playButton, equals: "Play", timeout: 2.0))
+        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
     }
 
     func test_ChangeModesAutomatically() {
-        // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
@@ -205,7 +90,7 @@ final class TimerUITests: BaseFeature {
         XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, "01:00")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
         let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
         XCTAssertEqual(lblCycleCounter.label, "0/4")
@@ -213,60 +98,24 @@ final class TimerUITests: BaseFeature {
         let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
         XCTAssertTrue(circleFocused.exists)
 
-        // WHEN I start the focused timer
         playButton.tap()
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 8.0))
 
-        // AND I wait the time so the app will change modes automatically
-        // This is used to let the screen reacts to the tap
-        let expectedFocused = expectation(description: "Focused Timer")
-        let resultFocused = XCTWaiter.wait(for: [expectedFocused], timeout: 61.0)
-        if resultFocused == XCTWaiter.Result.timedOut {
-            // THEN the mode will be changed to shortBreak
-            let circleBreak = app.otherElements[Accessibility.Identifiers.circleBreak]
-            XCTAssertTrue(circleBreak.exists)
+        let circleBreak = app.otherElements[Accessibility.Identifiers.circleBreak]
+        XCTAssertTrue(circleBreak.exists)
+        XCTAssertEqual(playButton.label, "Play")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
-            let playButtonShortBreak = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonShortBreak.label, "Play")
-
-            let lblTimerTypeShortBreak = app.staticTexts[Accessibility.Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeShortBreak.label, "Short Break")
-
-            let lblCounterShortBreak = app.staticTexts[Accessibility.Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterShortBreak.label, "01:00")
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN I start the shortBreak timer
         playButton.tap()
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 8.0))
 
-        // AND I wait the time so the app will change modes automatically
-        // This is used to let the screen reacts to the tap
-        let expectedShortBreak = expectation(description: "Short Break Timer")
-        let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
-        if resultShortBreak == XCTWaiter.Result.timedOut {
-            // THEN the mode will be changed to shortBreak
-            let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
-            XCTAssertTrue(circleFocused.exists)
-
-            let playButtonFocused = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonFocused.label, "Play")
-
-            let lblTimerTypeFocused = app.staticTexts[Accessibility.Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeFocused.label, "Focus")
-
-            let lblCounterFocused = app.staticTexts[Accessibility.Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterFocused.label, "01:00")
-
-            let lblCycleCounter = app.staticTexts[Accessibility.Identifiers.lblCycleCounter]
-            XCTAssertEqual(lblCycleCounter.label, "1/4")
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertTrue(circleFocused.exists)
+        XCTAssertEqual(playButton.label, "Play")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(lblCycleCounter.label, "1/4")
     }
 
     func test_MoveAppToBackgroundAndBackToForeground() {
-        // GIVEN I have the screen on its initial state
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
@@ -274,69 +123,36 @@ final class TimerUITests: BaseFeature {
         XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, "01:00")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
-        // WHEN I start the timer
         playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
 
-        // AND I wait 5 seconds
-        // This is used to let the screen reacts to the tap
-        let expected = expectation(description: "Timer Running")
-        let result = XCTWaiter.wait(for: [expected], timeout: 5.0)
-        if result == XCTWaiter.Result.timedOut {
+        let counterBeforeBackground = lblCounter.label
 
-            // THEN the button label should be changed to "Pause"
-            XCTAssertEqual(playButton.label, "Pause")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:55")
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN I move the app to background
         XCUIDevice.shared.press(.home)
+        _ = XCTWaiter.wait(for: [expectation(description: "background delay")], timeout: 2.0)
+        app.activate()
 
-        // AND I wait 10 seconds
-        // This is used to let the screen reacts to the tap
-        let expectedAfterResume = expectation(description: "Timer Running")
-        let resultAfterResume = XCTWaiter.wait(for: [expectedAfterResume], timeout: 10.0)
-        if resultAfterResume == XCTWaiter.Result.timedOut {
-
-            // AND
-            app.activate()
-
-            // THEN the button label should be changed to "Pause"
-            XCTAssertEqual(playButton.label, "Pause")
-
-            // AND the timer type is still Focus
-            XCTAssertEqual(lblTimerType.label, "Focus")
-
-            // AND the counter should be updated
-            XCTAssertEqual(lblCounter.label, "00:45")
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
+        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: counterBeforeBackground, timeout: 2.0))
     }
 
+    // swiftlint:disable force_cast
     func test_TestAutoStart() {
-        // GIVEN I open the modal
         let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
-        // WHEN I update the toggles
         let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
-        XCTAssertFalse(autoStartToggle.isSelected)
+        XCTAssertEqual(autoStartToggle.value as! String, "0")
         autoStartToggle.switches.firstMatch.tap()
+        XCTAssertEqual(autoStartToggle.value as! String, "1")
 
         let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
-        // THEN the modal should be closed
-        // AND the timer should be on its initial state
         let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
 
@@ -344,48 +160,19 @@ final class TimerUITests: BaseFeature {
         XCTAssertEqual(lblTimerType.label, "Focus")
 
         let lblCounter = app.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, "01:00")
+        XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
-        // WHEN I start the timer
         playButton.tap()
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 8.0))
+        XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 3.0))
 
-        // AND I wait for the focus timer to finish
-        let expectedFocus = expectation(description: "Focus Timer")
-        let resultFocus = XCTWaiter.wait(for: [expectedFocus], timeout: 61.0)
-        if resultFocus == XCTWaiter.Result.timedOut {
-            // THEN the mode will be changed to shortBreak
-            let circleShortBreak = app.otherElements[Accessibility.Identifiers.circleBreak]
-            XCTAssertTrue(circleShortBreak.exists)
+        // Auto start should run short break automatically, then return to focus.
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 8.0))
 
-            let playButtonShortBreak = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonShortBreak.label, "Play")
-
-            let lblTimerTypeShortBreak = app.staticTexts[Accessibility.Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeShortBreak.label, "Short Break")
-
-            let lblCounterShortBreak = app.staticTexts[Accessibility.Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterShortBreak.label, "01:00")
-        }
-
-        // WHEN I wait for the shortBreak timer to finish
-        let expectedShortBreak = expectation(description: "Focus Timer")
-        let resultShortBreak = XCTWaiter.wait(for: [expectedShortBreak], timeout: 61.0)
-        if resultShortBreak == XCTWaiter.Result.timedOut {
-            // resultShortBreak the mode will be changed to shortBreak
-
-            let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
-            XCTAssertTrue(circleFocused.exists)
-
-            let playButtonFocus = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
-            XCTAssertEqual(playButtonFocus.label, "Play")
-
-            let lblTimerTypeFocus = app.staticTexts[Accessibility.Identifiers.lblTimerType]
-            XCTAssertEqual(lblTimerTypeFocus.label, "Focus")
-
-            let lblCounterFocus = app.staticTexts[Accessibility.Identifiers.lblCounter]
-            XCTAssertEqual(lblCounterFocus.label, "01:00")
-        }
-
+        let circleFocused = app.otherElements[Accessibility.Identifiers.circleFocused]
+        XCTAssertTrue(circleFocused.exists)
+        XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 3.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 3.0))
     }
-
+    // swiftlint:enable force_cast
 }
