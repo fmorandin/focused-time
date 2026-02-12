@@ -10,261 +10,219 @@ import XCTest
 
 final class TimerViewModelTests: XCTestCase {
 
-    private let timerViewModel = TimerViewModel(timerModel: TimerModelMock())
+    private final class TestRepeatingTimer: RepeatingTimerProtocol {
+        private(set) var isInvalidated = false
+        private let block: (RepeatingTimerProtocol) -> Void
 
-    func test_StartTimer() throws {
-        let expected = expectation(description: "Timer Running")
+        init(block: @escaping (RepeatingTimerProtocol) -> Void) {
+            self.block = block
+        }
 
-        // AND the timer state is .initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+        func tick() {
+            guard !isInvalidated else { return }
+            block(self)
+        }
+
+        func invalidate() {
+            isInvalidated = true
+        }
+    }
+
+    private final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
+        private(set) var createdTimers: [TestRepeatingTimer] = []
+
+        func scheduledTimer(
+            withTimeInterval _: TimeInterval,
+            repeats _: Bool,
+            block: @escaping (RepeatingTimerProtocol) -> Void
+        ) -> RepeatingTimerProtocol {
+            let timer = TestRepeatingTimer(block: block)
+            createdTimers.append(timer)
+            return timer
+        }
+
+        func advance(by ticks: Int = 1) {
+            guard ticks > 0 else { return }
+
+            for _ in 0..<ticks {
+                let activeTimers = createdTimers.filter { !$0.isInvalidated }
+                activeTimers.forEach { $0.tick() }
+            }
+        }
+    }
+
+    private var timerFactory: TestRepeatingTimerFactory!
+    private var timerViewModel: TimerViewModel!
+
+    override func setUp() {
+        super.setUp()
+        timerFactory = TestRepeatingTimerFactory()
+        timerViewModel = TimerViewModel(timerModel: TimerModelMock(), timerFactory: timerFactory)
+    }
+
+    override func tearDown() {
+        timerViewModel = nil
+        timerFactory = nil
+        super.tearDown()
+    }
+
+    func test_StartTimer() {
+        XCTAssertEqual(timerViewModel.timerState, .initial)
         XCTAssertEqual(timerViewModel.counter, 5)
         XCTAssertEqual(timerViewModel.timerTo, 1.0)
         XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
         XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
 
-        // WHEN I start the timer
         timerViewModel.startTimer()
+        timerFactory.advance()
 
-        // THEN the timer state should be running
-        let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
-        if result == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.counter, 0)
-            XCTAssertNotEqual(timerViewModel.timerTo, 0)
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertEqual(timerViewModel.timerState, .running)
+        XCTAssertEqual(timerViewModel.counter, 4)
 
-        // WHEN the timer ends
-        let finalExpectation = expectation(description: "Timer finished")
-        let finalResult = XCTWaiter.wait(for: [finalExpectation], timeout: 5.0)
-        if finalResult == XCTWaiter.Result.timedOut {
+        // 5 ticks to reach zero + 1 tick to trigger mode change
+        timerFactory.advance(by: 5)
 
-            // THEN the values should be changed for the shortBreak time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 2)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        }
+        XCTAssertEqual(timerViewModel.timerState, .initial)
+        XCTAssertEqual(timerViewModel.counter, 2)
+        XCTAssertEqual(timerViewModel.timerTo, 1.0)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
     }
 
-    func test_PauseTimer() throws {
-        let expected = expectation(description: "Timer Running")
+    func test_PauseTimer() {
+        XCTAssertEqual(timerViewModel.timerState, .initial)
 
-        // AND the timer state is .initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-
-        // WHEN I start the timer
         timerViewModel.startTimer()
-
-        // THEN the timer state should be running
-        _ = XCTWaiter.wait(for: [expected], timeout: 1.0)
-
-        // WHEN I pause the timer
+        timerFactory.advance()
         timerViewModel.pauseTimer()
 
-        // THEN the status should be updated
-        XCTAssertEqual(timerViewModel.timerState, TimerState.paused)
+        XCTAssertEqual(timerViewModel.timerState, .paused)
+        let pausedCounter = timerViewModel.counter
+
+        // The timer was invalidated, so extra ticks should not change the counter.
+        timerFactory.advance(by: 3)
+        XCTAssertEqual(timerViewModel.counter, pausedCounter)
     }
 
-    func test_ResetTimer() throws {
-        let expected = expectation(description: "Timer Running")
-
-        // AND the timer state is .initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+    func test_ResetTimer() {
+        XCTAssertEqual(timerViewModel.timerState, .initial)
         XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-        XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
 
-        // WHEN I start the timer
         timerViewModel.startTimer()
+        timerFactory.advance(by: 2)
 
-        // THEN the timer state should be running
-        let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
-        if result == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.counter, 0)
-            XCTAssertNotEqual(timerViewModel.timerTo, 0)
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertEqual(timerViewModel.timerState, .running)
+        XCTAssertEqual(timerViewModel.counter, 3)
 
-        // WHEN I reset the timer
         timerViewModel.resetUpdateTimer()
 
-        // THEN the status should be updated back to initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-
-        // AND the related fields should be reseted
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-    }
-
-    func test_FocusAndShortBreakTimes() throws {
-        let expected = expectation(description: "Timer Running")
-
-        // AND the timer state is .initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+        XCTAssertEqual(timerViewModel.timerState, .initial)
         XCTAssertEqual(timerViewModel.counter, 5)
         XCTAssertEqual(timerViewModel.timerTo, 1.0)
         XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-        XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
+        XCTAssertEqual(timerViewModel.timerType, .focused)
+    }
 
-        // WHEN I start the timer
+    func test_FocusAndShortBreakTimes() {
+        XCTAssertEqual(timerViewModel.timerType, .focused)
+
+        // Focused cycle end -> short break
         timerViewModel.startTimer()
+        timerFactory.advance(by: 6)
 
-        // THEN the timer state should be running
-        let result = XCTWaiter.wait(for: [expected], timeout: 1.0)
-        if result == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.counter, 0)
-            XCTAssertNotEqual(timerViewModel.timerTo, 0)
-        } else {
-            XCTFail("Delay interrupted")
-        }
+        XCTAssertEqual(timerViewModel.timerState, .initial)
+        XCTAssertEqual(timerViewModel.counter, 2)
+        XCTAssertEqual(timerViewModel.timerType, .shortBreak)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
 
-        // WHEN the timer ends
-        let finalFocusedExpectation = expectation(description: "Timer finished")
-        let finalFocusedResult = XCTWaiter.wait(for: [finalFocusedExpectation], timeout: 5.0)
-        if finalFocusedResult == XCTWaiter.Result.timedOut {
-
-            // THEN the values should be changed for the shortBreak time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 2)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-        }
-
-        // WHEN I start the timer
+        // Short break end -> focused
         timerViewModel.startTimer()
+        timerFactory.advance(by: 3)
 
-        // WHEN the timer ends
-        let finalShortBreakExpectation = expectation(description: "Timer finished")
-        let finalShortBreakResult = XCTWaiter.wait(for: [finalShortBreakExpectation], timeout: 5.0)
-        if finalShortBreakResult == XCTWaiter.Result.timedOut {
-
-            // THEN the values should be changed for the focused time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 5)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-        }
+        XCTAssertEqual(timerViewModel.timerState, .initial)
+        XCTAssertEqual(timerViewModel.counter, 5)
+        XCTAssertEqual(timerViewModel.timerType, .focused)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
     }
 
     // swiftlint:disable function_body_length
     func test_CompleteFlowIncludingLongBreak() {
-
-        // AND the timer state is .initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+        XCTAssertEqual(timerViewModel.timerState, .initial)
         XCTAssertEqual(timerViewModel.counter, 5)
         XCTAssertEqual(timerViewModel.timerTo, 1.0)
         XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
         XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
         XCTAssertEqual(timerViewModel.timerType, .focused)
 
-        // ------------- focused
-        // WHEN I start the timer
+        // 1st focused -> short break
         timerViewModel.startTimer()
+        timerFactory.advance(by: 6)
+        XCTAssertEqual(timerViewModel.timerType, .shortBreak)
+        XCTAssertEqual(timerViewModel.counter, 2)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
 
-        // THEN the timer state should be running
-        let expected1 = expectation(description: "Timer Running")
-        let result1 = XCTWaiter.wait(for: [expected1], timeout: 1.0)
-        if result1 == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.counter, 0)
-            XCTAssertNotEqual(timerViewModel.timerTo, 0)
-            XCTAssertEqual(timerViewModel.timerType, .focused)
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN the timer ends
-        let finalFocusedExpectation1 = expectation(description: "Timer finished")
-        let finalFocusedResult1 = XCTWaiter.wait(for: [finalFocusedExpectation1], timeout: 5.0)
-        if finalFocusedResult1 == XCTWaiter.Result.timedOut {
-
-            // THEN the values should be changed for the short break time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 2)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-            XCTAssertEqual(timerViewModel.timerType, .shortBreak)
-        }
-
-        // ------------- shortBreak
-        // WHEN I start the timer
+        // 1st short break -> focused
         timerViewModel.startTimer()
+        timerFactory.advance(by: 3)
+        XCTAssertEqual(timerViewModel.timerType, .focused)
+        XCTAssertEqual(timerViewModel.counter, 5)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
 
-        // WHEN the timer ends
-        let finalShortBreakExpectation1 = expectation(description: "Timer finished")
-        let finalShortBreakResult1 = XCTWaiter.wait(for: [finalShortBreakExpectation1], timeout: 5.0)
-        if finalShortBreakResult1 == XCTWaiter.Result.timedOut {
+        // 2nd focused -> long break
+        timerViewModel.startTimer()
+        timerFactory.advance(by: 6)
+        XCTAssertEqual(timerViewModel.timerType, .longBreak)
+        XCTAssertEqual(timerViewModel.counter, 3)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 2)
 
-            // THEN the values should be changed for the focused time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 5)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-            XCTAssertEqual(timerViewModel.timerType, .focused)
-        }
-
-        // ------------------- 2nd cycle
-
-        // AND the timer state is .initial
-        XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
+        // Long break -> focused and cycles reset
+        timerViewModel.startTimer()
+        timerFactory.advance(by: 4)
+        XCTAssertEqual(timerViewModel.timerState, .initial)
         XCTAssertEqual(timerViewModel.counter, 5)
         XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
-        XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
+        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
         XCTAssertEqual(timerViewModel.timerType, .focused)
-
-        // ------------- focused
-        // WHEN I start the timer
-        timerViewModel.startTimer()
-
-        // THEN the timer state should be running
-        let expected2 = expectation(description: "Timer Running")
-        let result2 = XCTWaiter.wait(for: [expected2], timeout: 1.0)
-        if result2 == XCTWaiter.Result.timedOut {
-            XCTAssertEqual(timerViewModel.timerState, TimerState.running)
-            XCTAssertNotEqual(timerViewModel.counter, 0)
-            XCTAssertNotEqual(timerViewModel.timerTo, 0)
-            XCTAssertEqual(timerViewModel.timerType, .focused)
-        } else {
-            XCTFail("Delay interrupted")
-        }
-
-        // WHEN the timer ends
-        let finalFocusedExpectation2 = expectation(description: "Timer finished")
-        let finalFocusedResult2 = XCTWaiter.wait(for: [finalFocusedExpectation2], timeout: 5.0)
-        if finalFocusedResult2 == XCTWaiter.Result.timedOut {
-
-            // THEN the values should be changed for the shortBreak time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.timerType, .longBreak)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 2)
-            XCTAssertEqual(timerViewModel.counter, 3)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-
-        }
-
-        // ------------- long break
-        // WHEN I start the timer
-        timerViewModel.startTimer()
-
-        // WHEN the timer ends
-        let finalShortBreakExpectation2 = expectation(description: "Timer finished")
-        let finalShortBreakResult2 = XCTWaiter.wait(for: [finalShortBreakExpectation2], timeout: 5.0)
-        if finalShortBreakResult2 == XCTWaiter.Result.timedOut {
-
-            // THEN the values should be changed for the focused time
-            XCTAssertEqual(timerViewModel.timerState, TimerState.initial)
-            XCTAssertEqual(timerViewModel.counter, 5)
-            XCTAssertEqual(timerViewModel.timerTo, 1.0)
-            XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-            XCTAssertEqual(timerViewModel.timerType, .focused)
-        }
     }
     // swiftlint:enable function_body_length
 
+    func test_MoveAppToForeground_UsesInjectedNowProvider() {
+        let savedDate = Date(timeIntervalSince1970: 10)
+        let nowDate = Date(timeIntervalSince1970: 14)
+
+        struct TimeAwareTimerModelMock: TimerModelProtocol {
+            let savedRemainingTime: Int
+            let savedTimestamp: Date
+
+            func getTime(for key: String) -> Int {
+                TimerModelMock().getTime(for: key)
+            }
+
+            func saveMoveToBackgroundTime(remainingTime _: Int) {}
+
+            func getSavedTimes() -> (Int?, Date?) {
+                (savedRemainingTime, savedTimestamp)
+            }
+
+            func getNumberOfCycles(for keyName: String) -> String {
+                TimerModelMock().getNumberOfCycles(for: keyName)
+            }
+
+            func getToggle(for keyName: String) -> Bool {
+                TimerModelMock().getToggle(for: keyName)
+            }
+        }
+
+        let deterministicVM = TimerViewModel(
+            timerModel: TimeAwareTimerModelMock(savedRemainingTime: 20, savedTimestamp: savedDate),
+            timerFactory: timerFactory,
+            nowProvider: { nowDate }
+        )
+
+        deterministicVM.startTimer()
+        timerFactory.advance() // set state to running
+
+        deterministicVM.moveAppToForeground()
+
+        XCTAssertEqual(deterministicVM.counter, 16)
+    }
 }

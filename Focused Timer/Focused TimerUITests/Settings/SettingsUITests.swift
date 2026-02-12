@@ -216,10 +216,18 @@ final class SettingsUITests: BaseFeature {
 
         // WHEN I delete the default value
         let numberOfCyclesTextField = app.textFields[Accessibility.Identifiers.txtNumberOfCycles]
-        numberOfCyclesTextField.doubleTap()
+        numberOfCyclesTextField.tap()
+        numberOfCyclesTextField.typeText(XCUIKeyboardKey.delete.rawValue)
 
         // AND I type an invalid value
-        numberOfCyclesTextField.typeText("12345678")
+        app.keys["1"].tap()
+        app.keys["2"].tap()
+        app.keys["3"].tap()
+        app.keys["4"].tap()
+        app.keys["5"].tap()
+        app.keys["6"].tap()
+        app.keys["7"].tap()
+        app.keys["8"].tap()
 
         // THEN the input should only accept 2 digits
         let numberOfCyclesTextFieldInvalidValue = String(
@@ -229,7 +237,7 @@ final class SettingsUITests: BaseFeature {
         XCTAssertEqual(numberOfCyclesTextFieldInvalidValue, "12")
 
         // WHEN I tap to edit the field again
-        numberOfCyclesTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
+        numberOfCyclesTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 2))
 
         // AND I add the new value
         numberOfCyclesTextField.typeText("20")
@@ -297,7 +305,8 @@ final class SettingsUITests: BaseFeature {
         XCTAssertEqual(playButton.label, "Play")
         playButton.tap()
 
-        sleep(2) // This was used to let the timer run a little before procceed
+        
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
 
         // AND open it again
         showSettingsButton.tap()
@@ -405,12 +414,12 @@ final class SettingsUITests: BaseFeature {
         // WHEN I click to reset to the defaults
         app.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
 
-        sleep(1)
-
         // AND first alert about resetting the status
+        XCTAssertTrue(waitForExistence(app.alerts.firstMatch, timeout: 2.0))
         app.alerts.firstMatch.buttons["OK"].tap()
 
         // second alert warning that the app needs to be opened again because of the keep screen on
+        XCTAssertTrue(waitForExistence(app.alerts.firstMatch, timeout: 2.0))
         app.alerts.firstMatch.buttons["OK"].tap()
 
         app.swipeDown()
