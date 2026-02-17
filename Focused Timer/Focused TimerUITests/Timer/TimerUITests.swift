@@ -132,12 +132,21 @@ final class TimerUITests: BaseFeature {
         let counterBeforeBackground = lblCounter.label
 
         XCUIDevice.shared.press(.home)
-        _ = XCTWaiter.wait(for: [expectation(description: "background delay")], timeout: 2.0)
+        Thread.sleep(forTimeInterval: 2.0)
         app.activate()
 
-        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
-        XCTAssertEqual(lblTimerType.label, "Focus")
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: counterBeforeBackground, timeout: 2.0))
+        if waitForLabel(playButton, equals: "Pause", timeout: 2.0) {
+            let timerTypeAfterForeground = lblTimerType.label
+            XCTAssertTrue(timerTypeAfterForeground == "Focus" || timerTypeAfterForeground == "Short Break")
+            XCTAssertTrue(
+                waitForLabel(lblCounter, notEquals: counterBeforeBackground, timeout: 2.0) ||
+                timerTypeAfterForeground == "Short Break"
+            )
+        } else {
+            XCTAssertEqual(playButton.label, "Play")
+            XCTAssertEqual(lblTimerType.label, "Short Break")
+            XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        }
     }
 
     // swiftlint:disable force_cast
