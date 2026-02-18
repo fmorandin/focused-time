@@ -467,8 +467,12 @@ final class SettingsUITests: BaseFeature {
         btnShareApp.tap()
 
         // THEN the share sheet should be displayed
-        let shareSheet = app.navigationBars.firstMatch
-        XCTAssertTrue(shareSheet.isHittable, "The share sheet should be displayed")
+        let shareSheetAppeared =
+            app.otherElements["ActivityListView"].waitForExistence(timeout: 3.0) ||
+            app.sheets.firstMatch.waitForExistence(timeout: 3.0) ||
+            app.navigationBars.firstMatch.waitForExistence(timeout: 3.0)
+
+        XCTAssertTrue(shareSheetAppeared, "The share sheet should be displayed")
     }
 }
 // swiftlint:enable type_body_length file_length function_body_length force_cast

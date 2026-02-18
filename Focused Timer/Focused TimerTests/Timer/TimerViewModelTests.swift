@@ -5,11 +5,12 @@
 //  Created by Felipe Morandin on 28/09/20.
 //
 
-import XCTest
 import AudioToolbox
+import Testing
 @testable import Focused_Timer
 
-final class TimerViewModelTests: XCTestCase {
+@Suite("TimerViewModel Tests", .serialized)
+struct TimerViewModelTests {
 
     fileprivate final class TestRepeatingTimer: RepeatingTimerProtocol {
         private(set) var isInvalidated = false
@@ -123,141 +124,162 @@ final class TimerViewModelTests: XCTestCase {
         }
     }
 
-    private var timerFactory: TestRepeatingTimerFactory!
-    private var timerViewModel: TimerViewModel!
+    private func makeSUT(
+        timerModel: TimerModelProtocol = TimerModelMock(),
+        nowProvider: @escaping () -> Date = Date.init,
+        localNotificationManager: LocalNotificationManaging = NotificationManagerSpy(),
+        soundPlayer: SystemSoundPlaying = SoundPlayerMock(),
+        notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreMock()
+    ) -> (viewModel: TimerViewModel, timerFactory: TestRepeatingTimerFactory) {
+        let timerFactory = TestRepeatingTimerFactory()
+        let viewModel = TimerViewModel(
+            timerModel: timerModel,
+            timerFactory: timerFactory,
+            nowProvider: nowProvider,
+            localNotificationManager: localNotificationManager,
+            soundPlayer: soundPlayer,
+            notificationFlagStore: notificationFlagStore
+        )
 
-    override func setUp() {
-        super.setUp()
-        timerFactory = TestRepeatingTimerFactory()
-        timerViewModel = TimerViewModel(timerModel: TimerModelMock(), timerFactory: timerFactory)
+        return (viewModel, timerFactory)
     }
 
-    override func tearDown() {
-        timerViewModel = nil
-        timerFactory = nil
-        super.tearDown()
-    }
+    @Test("Start timer decrements and transitions to short break")
+    func startTimer() {
+        let (timerViewModel, timerFactory) = makeSUT()
 
-    func test_StartTimer() {
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-        XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 5)
+        #expect(timerViewModel.timerTo == 1.0)
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
+        #expect(timerViewModel.totalNumberOfCycles == 2)
 
         timerViewModel.startTimer()
         timerFactory.advance()
 
-        XCTAssertEqual(timerViewModel.timerState, .running)
-        XCTAssertEqual(timerViewModel.counter, 4)
+        #expect(timerViewModel.timerState == .running)
+        #expect(timerViewModel.counter == 4)
 
-        // 5 ticks to reach zero + 1 tick to trigger mode change
+        // 5 ticks to reach zero + 1 tick to trigger mode change.
         timerFactory.advance(by: 5)
 
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 2)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 2)
+        #expect(timerViewModel.timerTo == 1.0)
+        #expect(timerViewModel.numberOfCompletedCycles == 1)
     }
 
-    func test_PauseTimer() {
-        XCTAssertEqual(timerViewModel.timerState, .initial)
+    @Test("Pause timer invalidates the active timer")
+    func pauseTimer() {
+        let (timerViewModel, timerFactory) = makeSUT()
+
+        #expect(timerViewModel.timerState == .initial)
 
         timerViewModel.startTimer()
         timerFactory.advance()
         timerViewModel.pauseTimer()
 
-        XCTAssertEqual(timerViewModel.timerState, .paused)
+        #expect(timerViewModel.timerState == .paused)
         let pausedCounter = timerViewModel.counter
 
         // The timer was invalidated, so extra ticks should not change the counter.
         timerFactory.advance(by: 3)
-        XCTAssertEqual(timerViewModel.counter, pausedCounter)
+        #expect(timerViewModel.counter == pausedCounter)
     }
 
-    func test_ResetTimer() {
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 5)
+    @Test("Reset timer restores initial focused state")
+    func resetTimer() {
+        let (timerViewModel, timerFactory) = makeSUT()
+
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 5)
 
         timerViewModel.startTimer()
         timerFactory.advance(by: 2)
 
-        XCTAssertEqual(timerViewModel.timerState, .running)
-        XCTAssertEqual(timerViewModel.counter, 3)
+        #expect(timerViewModel.timerState == .running)
+        #expect(timerViewModel.counter == 3)
 
         timerViewModel.resetUpdateTimer()
 
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-        XCTAssertEqual(timerViewModel.timerType, .focused)
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 5)
+        #expect(timerViewModel.timerTo == 1.0)
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
+        #expect(timerViewModel.timerType == .focused)
     }
 
-    func test_FocusAndShortBreakTimes() {
-        XCTAssertEqual(timerViewModel.timerType, .focused)
+    @Test("Focus and short break timers transition correctly")
+    func focusAndShortBreakTimes() {
+        let (timerViewModel, timerFactory) = makeSUT()
 
-        // Focused cycle end -> short break
+        #expect(timerViewModel.timerType == .focused)
+
+        // Focused cycle end -> short break.
         timerViewModel.startTimer()
         timerFactory.advance(by: 6)
 
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 2)
-        XCTAssertEqual(timerViewModel.timerType, .shortBreak)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 2)
+        #expect(timerViewModel.timerType == .shortBreak)
+        #expect(timerViewModel.numberOfCompletedCycles == 1)
 
-        // Short break end -> focused
+        // Short break end -> focused.
         timerViewModel.startTimer()
         timerFactory.advance(by: 3)
 
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerType, .focused)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 5)
+        #expect(timerViewModel.timerType == .focused)
+        #expect(timerViewModel.numberOfCompletedCycles == 1)
     }
 
     // swiftlint:disable function_body_length
-    func test_CompleteFlowIncludingLongBreak() {
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-        XCTAssertEqual(timerViewModel.totalNumberOfCycles, 2)
-        XCTAssertEqual(timerViewModel.timerType, .focused)
+    @Test("Full flow reaches long break and resets cycles")
+    func completeFlowIncludingLongBreak() {
+        let (timerViewModel, timerFactory) = makeSUT()
 
-        // 1st focused -> short break
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 5)
+        #expect(timerViewModel.timerTo == 1.0)
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
+        #expect(timerViewModel.totalNumberOfCycles == 2)
+        #expect(timerViewModel.timerType == .focused)
+
+        // 1st focused -> short break.
         timerViewModel.startTimer()
         timerFactory.advance(by: 6)
-        XCTAssertEqual(timerViewModel.timerType, .shortBreak)
-        XCTAssertEqual(timerViewModel.counter, 2)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
+        #expect(timerViewModel.timerType == .shortBreak)
+        #expect(timerViewModel.counter == 2)
+        #expect(timerViewModel.numberOfCompletedCycles == 1)
 
-        // 1st short break -> focused
+        // 1st short break -> focused.
         timerViewModel.startTimer()
         timerFactory.advance(by: 3)
-        XCTAssertEqual(timerViewModel.timerType, .focused)
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 1)
+        #expect(timerViewModel.timerType == .focused)
+        #expect(timerViewModel.counter == 5)
+        #expect(timerViewModel.numberOfCompletedCycles == 1)
 
-        // 2nd focused -> long break
+        // 2nd focused -> long break.
         timerViewModel.startTimer()
         timerFactory.advance(by: 6)
-        XCTAssertEqual(timerViewModel.timerType, .longBreak)
-        XCTAssertEqual(timerViewModel.counter, 3)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 2)
+        #expect(timerViewModel.timerType == .longBreak)
+        #expect(timerViewModel.counter == 3)
+        #expect(timerViewModel.numberOfCompletedCycles == 2)
 
-        // Long break -> focused and cycles reset
+        // Long break -> focused and cycles reset.
         timerViewModel.startTimer()
         timerFactory.advance(by: 4)
-        XCTAssertEqual(timerViewModel.timerState, .initial)
-        XCTAssertEqual(timerViewModel.counter, 5)
-        XCTAssertEqual(timerViewModel.timerTo, 1.0)
-        XCTAssertEqual(timerViewModel.numberOfCompletedCycles, 0)
-        XCTAssertEqual(timerViewModel.timerType, .focused)
+        #expect(timerViewModel.timerState == .initial)
+        #expect(timerViewModel.counter == 5)
+        #expect(timerViewModel.timerTo == 1.0)
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
+        #expect(timerViewModel.timerType == .focused)
     }
     // swiftlint:enable function_body_length
 
-    func test_MoveAppToForeground_UsesInjectedNowProvider() {
+    @Test("moveAppToForeground uses injected now provider")
+    func moveAppToForegroundUsesInjectedNowProvider() {
         let savedDate = Date(timeIntervalSince1970: 10)
         let nowDate = Date(timeIntervalSince1970: 14)
 
@@ -284,156 +306,165 @@ final class TimerViewModelTests: XCTestCase {
             }
         }
 
-        let deterministicVM = TimerViewModel(
+        let timerFactory = TestRepeatingTimerFactory()
+        let viewModel = TimerViewModel(
             timerModel: TimeAwareTimerModelMock(savedRemainingTime: 20, savedTimestamp: savedDate),
             timerFactory: timerFactory,
             nowProvider: { nowDate }
         )
 
-        deterministicVM.startTimer()
-        timerFactory.advance() // set state to running
+        viewModel.startTimer()
+        timerFactory.advance() // Sets state to running.
+        viewModel.moveAppToForeground()
 
-        deterministicVM.moveAppToForeground()
-
-        XCTAssertEqual(deterministicVM.counter, 16)
+        #expect(viewModel.counter == 16)
     }
 
-    func test_StartTimerTwice_UsesSingleActiveTimer() {
+    @Test("Calling startTimer twice keeps a single active timer")
+    func startTimerTwiceUsesSingleActiveTimer() {
+        let (timerViewModel, timerFactory) = makeSUT()
+
         timerViewModel.startTimer()
         timerViewModel.startTimer()
 
         timerFactory.advance()
 
-        XCTAssertEqual(timerViewModel.counter, 4)
+        #expect(timerViewModel.counter == 4)
     }
 
-    func test_MoveAppToBackground_WhenRunning_SavesAndSchedulesNotification() {
+    @Test("moveAppToBackground when running saves remaining time and schedules notification")
+    func moveAppToBackgroundWhenRunningSavesAndSchedulesNotification() {
         let timerModel = TimerModelSpy()
         let notificationManager = NotificationManagerSpy()
-        let vm = TimerViewModel(
+        let (viewModel, timerFactory) = makeSUT(
             timerModel: timerModel,
-            timerFactory: timerFactory,
             localNotificationManager: notificationManager
         )
 
-        vm.startTimer()
+        viewModel.startTimer()
         timerFactory.advance()
-        vm.moveAppToBackground()
+        viewModel.moveAppToBackground()
 
-        XCTAssertEqual(timerModel.savedRemainingTimesFromBackground, [4])
-        XCTAssertEqual(notificationManager.scheduledRemainingTimes, [4.0])
+        #expect(timerModel.savedRemainingTimesFromBackground == [4])
+        #expect(notificationManager.scheduledRemainingTimes == [4.0])
     }
 
-    func test_MoveAppToBackground_WhenNotRunning_DoesNothing() {
+    @Test("moveAppToBackground when not running does nothing")
+    func moveAppToBackgroundWhenNotRunningDoesNothing() {
         let timerModel = TimerModelSpy()
         let notificationManager = NotificationManagerSpy()
-        let vm = TimerViewModel(
+        let (viewModel, _) = makeSUT(
             timerModel: timerModel,
-            timerFactory: timerFactory,
             localNotificationManager: notificationManager
         )
 
-        vm.moveAppToBackground()
+        viewModel.moveAppToBackground()
 
-        XCTAssertTrue(timerModel.savedRemainingTimesFromBackground.isEmpty)
-        XCTAssertTrue(notificationManager.scheduledRemainingTimes.isEmpty)
+        #expect(timerModel.savedRemainingTimesFromBackground.isEmpty)
+        #expect(notificationManager.scheduledRemainingTimes.isEmpty)
     }
 
-    func test_MoveAppToForeground_AlwaysClearsNotifications() {
+    @Test("moveAppToForeground always clears notifications")
+    func moveAppToForegroundAlwaysClearsNotifications() {
         let notificationManager = NotificationManagerSpy()
-        let vm = TimerViewModel(
+        let (viewModel, _) = makeSUT(
             timerModel: TimerModelSpy(),
-            timerFactory: timerFactory,
             localNotificationManager: notificationManager
         )
 
-        vm.moveAppToForeground()
+        viewModel.moveAppToForeground()
 
-        XCTAssertEqual(notificationManager.clearCalls, 1)
+        #expect(notificationManager.clearCalls == 1)
     }
 
-    func test_MoveAppToForeground_WhenSavedTimesMissing_DoesNotChangeCounter() {
+    @Test("moveAppToForeground with missing saved times keeps current counter")
+    func moveAppToForegroundWhenSavedTimesMissingDoesNotChangeCounter() {
         let timerModel = TimerModelSpy()
         timerModel.savedTimes = (nil, nil)
-        let vm = TimerViewModel(timerModel: timerModel, timerFactory: timerFactory)
+        let (viewModel, timerFactory) = makeSUT(timerModel: timerModel)
 
-        vm.startTimer()
+        viewModel.startTimer()
         timerFactory.advance()
-        let counterBeforeForeground = vm.counter
+        let counterBeforeForeground = viewModel.counter
 
-        vm.moveAppToForeground()
+        viewModel.moveAppToForeground()
 
-        XCTAssertEqual(vm.counter, counterBeforeForeground)
+        #expect(viewModel.counter == counterBeforeForeground)
     }
 
-    func test_MoveAppToForeground_WhenBackgroundTimeExceedsRemaining_ClampsCounterToZero() {
+    @Test("moveAppToForeground clamps counter to zero when background time exceeds remaining")
+    func moveAppToForegroundWhenBackgroundTimeExceedsRemainingClampsCounterToZero() {
         let nowDate = Date(timeIntervalSince1970: 20)
         let timerModel = TimerModelSpy()
         timerModel.savedTimes = (2, Date(timeIntervalSince1970: 10))
-        let vm = TimerViewModel(
+        let (viewModel, timerFactory) = makeSUT(
             timerModel: timerModel,
-            timerFactory: timerFactory,
             nowProvider: { nowDate }
         )
 
-        vm.startTimer()
+        viewModel.startTimer()
         timerFactory.advance()
-        vm.moveAppToForeground()
+        viewModel.moveAppToForeground()
 
-        XCTAssertEqual(vm.counter, 0)
+        #expect(viewModel.counter == 0)
     }
 
-    func test_MoveAppToForeground_WhenTimerNotRunning_DoesNotApplySavedTimes() {
+    @Test("moveAppToForeground does not apply saved times when timer is not running")
+    func moveAppToForegroundWhenTimerNotRunningDoesNotApplySavedTimes() {
         let timerModel = TimerModelSpy()
         timerModel.savedTimes = (1, Date(timeIntervalSince1970: 0))
-        let vm = TimerViewModel(timerModel: timerModel, timerFactory: timerFactory, nowProvider: { Date(timeIntervalSince1970: 100) })
+        let (viewModel, _) = makeSUT(
+            timerModel: timerModel,
+            nowProvider: { Date(timeIntervalSince1970: 100) }
+        )
 
-        let initialCounter = vm.counter
-        vm.moveAppToForeground()
+        let initialCounter = viewModel.counter
+        viewModel.moveAppToForeground()
 
-        XCTAssertEqual(vm.counter, initialCounter)
+        #expect(viewModel.counter == initialCounter)
     }
 
-    func test_TimerFinishesFromNotification_DoesNotPlaySoundAndResetsFlag() {
+    @Test("Timer completion from notification skips sound and resets notification flag")
+    func timerFinishesFromNotificationDoesNotPlaySoundAndResetsFlag() throws {
         let timerModel = TimerModelSpy()
         timerModel.toggles[UserDefaultKeys.playTimerSounds] = true
         let soundPlayer = SoundPlayerMock()
         let notificationFlags = NotificationFlagStoreMock()
         notificationFlags.value = true
-        let vm = TimerViewModel(
+        let (viewModel, timerFactory) = makeSUT(
             timerModel: timerModel,
-            timerFactory: timerFactory,
             soundPlayer: soundPlayer,
             notificationFlagStore: notificationFlags
         )
 
-        vm.counter = 0
-        vm.startTimer()
+        viewModel.counter = 0
+        viewModel.startTimer()
         timerFactory.advance()
 
-        XCTAssertTrue(soundPlayer.playedSoundIDs.isEmpty)
-        XCTAssertEqual(notificationFlags.setCalls.count, 1)
-        XCTAssertEqual(notificationFlags.setCalls.first?.0, false)
-        XCTAssertEqual(notificationFlags.setCalls.first?.1, UserDefaultKeys.isNotification)
+        #expect(soundPlayer.playedSoundIDs.isEmpty)
+        #expect(notificationFlags.setCalls.count == 1)
+        let call = try #require(notificationFlags.setCalls.first)
+        #expect(call.0 == false)
+        #expect(call.1 == UserDefaultKeys.isNotification)
     }
 
-    func test_TimerFinishesWithPlaySoundEnabled_PlaysSound() {
+    @Test("Timer completion plays sound when enabled and not triggered from notification")
+    func timerFinishesWithPlaySoundEnabledPlaysSound() {
         let timerModel = TimerModelSpy()
         timerModel.toggles[UserDefaultKeys.playTimerSounds] = true
         let soundPlayer = SoundPlayerMock()
         let notificationFlags = NotificationFlagStoreMock()
         notificationFlags.value = false
-        let vm = TimerViewModel(
+        let (viewModel, timerFactory) = makeSUT(
             timerModel: timerModel,
-            timerFactory: timerFactory,
             soundPlayer: soundPlayer,
             notificationFlagStore: notificationFlags
         )
 
-        vm.counter = 0
-        vm.startTimer()
+        viewModel.counter = 0
+        viewModel.startTimer()
         timerFactory.advance()
 
-        XCTAssertEqual(soundPlayer.playedSoundIDs.count, 1)
+        #expect(soundPlayer.playedSoundIDs.count == 1)
     }
 }

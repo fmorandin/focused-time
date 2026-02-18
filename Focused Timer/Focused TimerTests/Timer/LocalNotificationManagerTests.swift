@@ -3,11 +3,12 @@
 //  Focused TimerTests
 //
 
-import XCTest
+import Testing
 import UserNotifications
 @testable import Focused_Timer
 
-final class LocalNotificationManagerTests: XCTestCase {
+@Suite("LocalNotificationManager Tests", .serialized)
+struct LocalNotificationManagerTests {
 
     private final class NotificationCenterMock: UserNotificationCenterProtocol {
         var authorizationStatus: UNAuthorizationStatus = .notDetermined
@@ -37,18 +38,20 @@ final class LocalNotificationManagerTests: XCTestCase {
         }
     }
 
-    func test_ClearScheduledNotifications_ClearsBadgeAndQueues() {
+    @Test("clearScheduledNotifications clears badge and pending/delivered queues")
+    func clearScheduledNotificationsClearsBadgeAndQueues() {
         let center = NotificationCenterMock()
         let manager = LocalNotificationManager(notificationCenter: center)
 
         manager.clearScheduledNotifications()
 
-        XCTAssertEqual(center.badgeValues, [0])
-        XCTAssertEqual(center.removedPendingCalls, 1)
-        XCTAssertEqual(center.removedDeliveredCalls, 1)
+        #expect(center.badgeValues == [0])
+        #expect(center.removedPendingCalls == 1)
+        #expect(center.removedDeliveredCalls == 1)
     }
 
-    func test_ScheduleLocalNotification_WhenStatusNotDetermined_RequestsPermissionOnly() {
+    @Test("scheduleLocalNotification requests permission when authorization is not determined")
+    func scheduleLocalNotificationWhenStatusNotDeterminedRequestsPermissionOnly() {
         let center = NotificationCenterMock()
         center.authorizationStatus = .notDetermined
         var requestPermissionCalls = 0
@@ -59,24 +62,27 @@ final class LocalNotificationManagerTests: XCTestCase {
 
         manager.scheduleLocalNotification(remainingTime: 12)
 
-        XCTAssertEqual(requestPermissionCalls, 1)
-        XCTAssertTrue(center.addedRequests.isEmpty)
+        #expect(requestPermissionCalls == 1)
+        #expect(center.addedRequests.isEmpty)
     }
 
-    func test_ScheduleLocalNotification_WhenAuthorized_AddsRequestWithExpectedTriggerTime() {
+    @Test("scheduleLocalNotification adds non-repeating request when authorized")
+    func scheduleLocalNotificationWhenAuthorizedAddsRequestWithExpectedTriggerTime() throws {
         let center = NotificationCenterMock()
         center.authorizationStatus = .authorized
         let manager = LocalNotificationManager(notificationCenter: center)
 
         manager.scheduleLocalNotification(remainingTime: 9)
 
-        XCTAssertEqual(center.addedRequests.count, 1)
-        let trigger = center.addedRequests.first?.trigger as? UNTimeIntervalNotificationTrigger
-        XCTAssertEqual(trigger?.timeInterval, 9)
-        XCTAssertEqual(trigger?.repeats, false)
+        #expect(center.addedRequests.count == 1)
+        let request = try #require(center.addedRequests.first)
+        let trigger = try #require(request.trigger as? UNTimeIntervalNotificationTrigger)
+        #expect(trigger.timeInterval == 9)
+        #expect(!trigger.repeats)
     }
 
-    func test_ScheduleLocalNotification_WhenDenied_DoesNotRequestPermissionOrSchedule() {
+    @Test("scheduleLocalNotification ignores denied authorization")
+    func scheduleLocalNotificationWhenDeniedDoesNotRequestPermissionOrSchedule() {
         let center = NotificationCenterMock()
         center.authorizationStatus = .denied
         var requestPermissionCalls = 0
@@ -87,7 +93,7 @@ final class LocalNotificationManagerTests: XCTestCase {
 
         manager.scheduleLocalNotification(remainingTime: 15)
 
-        XCTAssertEqual(requestPermissionCalls, 0)
-        XCTAssertTrue(center.addedRequests.isEmpty)
+        #expect(requestPermissionCalls == 0)
+        #expect(center.addedRequests.isEmpty)
     }
 }

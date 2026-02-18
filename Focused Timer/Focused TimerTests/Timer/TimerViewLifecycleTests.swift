@@ -3,10 +3,12 @@
 //  Focused TimerTests
 //
 
-import XCTest
+import Foundation
+import Testing
 @testable import Focused_Timer
 
-final class TimerViewLifecycleTests: XCTestCase {
+@Suite("TimerView Lifecycle Tests", .serialized)
+struct TimerViewLifecycleTests {
 
     private final class TimerModelLifecycleMock: TimerModelProtocol {
         var focusedTime = 5
@@ -49,27 +51,30 @@ final class TimerViewLifecycleTests: XCTestCase {
         }
     }
 
-    func test_ShouldKeepScreenOn_ReflectsSavedToggle() {
+    @Test("shouldKeepScreenOn reflects persisted toggle")
+    func shouldKeepScreenOnReflectsSavedToggle() {
         let timerModel = TimerModelLifecycleMock()
         timerModel.keepScreenOn = true
         let viewModel = TimerViewModel(timerModel: timerModel)
 
-        XCTAssertTrue(viewModel.shouldKeepScreenOn())
+        #expect(viewModel.shouldKeepScreenOn())
     }
 
-    func test_ShouldDisplaySettingsAlert_DependsOnTimerState() {
+    @Test("shouldDisplaySettingsAlert depends on timer state")
+    func shouldDisplaySettingsAlertDependsOnTimerState() {
         let viewModel = TimerViewModel(timerModel: TimerModelLifecycleMock())
 
-        XCTAssertFalse(viewModel.shouldDisplaySettingsAlert())
+        #expect(!viewModel.shouldDisplaySettingsAlert())
 
         viewModel.timerState = .running
-        XCTAssertTrue(viewModel.shouldDisplaySettingsAlert())
+        #expect(viewModel.shouldDisplaySettingsAlert())
 
         viewModel.timerState = .paused
-        XCTAssertTrue(viewModel.shouldDisplaySettingsAlert())
+        #expect(viewModel.shouldDisplaySettingsAlert())
     }
 
-    func test_ResetUpdateTimer_UsesLatestFocusedTimeFromModel() {
+    @Test("resetUpdateTimer reloads latest focused time")
+    func resetUpdateTimerUsesLatestFocusedTimeFromModel() {
         let timerModel = TimerModelLifecycleMock()
         timerModel.focusedTime = 10
         let viewModel = TimerViewModel(timerModel: timerModel)
@@ -77,9 +82,9 @@ final class TimerViewLifecycleTests: XCTestCase {
         viewModel.startTimer()
         viewModel.resetUpdateTimer()
 
-        XCTAssertEqual(viewModel.counter, 10)
-        XCTAssertEqual(viewModel.totalTime, 10)
-        XCTAssertEqual(viewModel.timerState, .initial)
-        XCTAssertEqual(viewModel.timerType, .focused)
+        #expect(viewModel.counter == 10)
+        #expect(viewModel.totalTime == 10)
+        #expect(viewModel.timerState == .initial)
+        #expect(viewModel.timerType == .focused)
     }
 }

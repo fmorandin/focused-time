@@ -3,12 +3,13 @@
 //  Focused TimerTests
 //
 
-import XCTest
+import Testing
 import UIKit
 @testable import Focused_Timer
 
 @MainActor
-final class AppDelegateTests: XCTestCase {
+@Suite("AppDelegate Tests", .serialized)
+struct AppDelegateTests {
 
     private final class AppDelegateSpy: AppDelegate {
         private(set) var requestPermissionCalls = 0
@@ -18,14 +19,15 @@ final class AppDelegateTests: XCTestCase {
         }
     }
 
-    func test_DidFinishLaunching_ResetsNotificationFlagAndRequestsPermission() {
+    @Test("didFinishLaunching resets notification flag and requests notification permission")
+    func didFinishLaunchingResetsNotificationFlagAndRequestsPermission() {
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.isNotification)
         let appDelegate = AppDelegateSpy()
 
         let result = appDelegate.application(UIApplication.shared, didFinishLaunchingWithOptions: nil)
 
-        XCTAssertTrue(result)
-        XCTAssertEqual(appDelegate.requestPermissionCalls, 1)
-        XCTAssertFalse(UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification))
+        #expect(result)
+        #expect(appDelegate.requestPermissionCalls == 1)
+        #expect(!UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification))
     }
 }
