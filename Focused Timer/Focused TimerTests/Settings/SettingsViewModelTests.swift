@@ -5,10 +5,13 @@
 //  Created by Felipe Morandin on 31/01/21.
 //
 
-import XCTest
+import Foundation
+import Testing
 @testable import Focused_Timer
 
-final class SettingsViewModelTests: XCTestCase {
+@MainActor
+@Suite("SettingsViewModel Tests", .serialized)
+struct SettingsViewModelTests {
 
     private final class SettingsModelSpy: SettingsModelProtocol {
         var savedTimes: [(Int, String)] = []
@@ -40,144 +43,134 @@ final class SettingsViewModelTests: XCTestCase {
         }
     }
 
-    override func setUp() {
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.focusedTime)
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.shortBreakTime)
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.numberOfCycles)
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.longBreakTime)
-
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.autoStartToggle)
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.playTimerSounds)
-        UserDefaults.standard.removeObject(forKey: UserDefaultKeys.keepScreenOn)
+    private func clearPersistedValues() {
+        let defaults = UserDefaults.standard
+        [
+            UserDefaultKeys.focusedTime,
+            UserDefaultKeys.shortBreakTime,
+            UserDefaultKeys.numberOfCycles,
+            UserDefaultKeys.longBreakTime,
+            UserDefaultKeys.autoStartToggle,
+            UserDefaultKeys.playTimerSounds,
+            UserDefaultKeys.keepScreenOn
+        ].forEach { defaults.removeObject(forKey: $0) }
     }
 
-    func test_GetFocusedTime() throws {
+    private func makePersistedSUT() -> SettingsViewModel {
+        clearPersistedValues()
+        return SettingsViewModel(settingsModel: SettingsModel())
+    }
 
+    @Test(
+        "getTimeInMinutes returns expected values from mock settings",
+        arguments: [
+            ("focusedTime", 25),
+            ("shortBreakTime", 5),
+            ("longBreak", 30)
+        ]
+    )
+    func getTimeInMinutesFromMock(key: String, expected: Int) {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
-        // THEN the total time should be returned
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: "focusedTime"), 25)
+        #expect(settingsViewModel.getTimeInMinutes(for: key) == expected)
     }
 
-    func test_GetShortBreakTimer() throws {
+    @Test("saveTime persists valid values")
+    func saveTimers() {
+        let settingsViewModel = makePersistedSUT()
 
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 25)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 5)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 30)
 
-        // THEN the total time should be returned
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: "shortBreakTime"), 5)
-    }
-
-    func test_GetLongBreak() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
-
-        // THEN the total time should be returned
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: "longBreak"), 30)
-    }
-
-    func test_SaveTimers() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
-
-        // GIVEN I have not set any total time yet
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 5)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
-
-        // WHEN I call the function to save the new value
         settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: 20)
         settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: 5)
         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: 30)
 
-        // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 20)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 5)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 20)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 5)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 30)
     }
 
-    func test_SaveNumberOfCycles() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+    @Test("saveNumberOfCycles persists valid value")
+    func saveNumberOfCycles() {
+        let settingsViewModel = makePersistedSUT()
 
-        // GIVEN I have not set the number of cycles yet
-        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles), 4)
+        #expect(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles) == 4)
 
-        // WHEN I call the function to save the new value
         settingsViewModel.saveNumberOfCycles(5)
 
-        // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles), 5)
+        #expect(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles) == 5)
     }
 
-    func test_GetNumberOfCycles() throws {
+    @Test("getNumberOfCycles returns value from mock")
+    func getNumberOfCycles() {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
-        // THEN the number of cycles will be returned correctly
-        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles), 10)
+        #expect(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles) == 10)
     }
 
-    func test_GetToggles() throws {
+    @Test(
+        "getSavedToggles returns expected values from mock settings",
+        arguments: [
+            UserDefaultKeys.autoStartToggle,
+            UserDefaultKeys.playTimerSounds,
+            UserDefaultKeys.keepScreenOn
+        ]
+    )
+    func getToggles(key: String) {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
-        // THEN the value for the auto start will be returned correctly
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
-
-        // AND the value for the play sounds toggle should be returned correctly
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
-
-        // AND the value for keep screen on toggle should be returned correctly
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
+        #expect(settingsViewModel.getSavedToggles(for: key) == false)
     }
 
-    func test_SaveToggles() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+    @Test("saveToggles persists updated values")
+    func saveToggles() {
+        let settingsViewModel = makePersistedSUT()
 
-        // GIVEN I have not set any toggle
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle) == false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds) == false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn) == false)
 
-        // WHEN I call the function to save the new values
         settingsViewModel.saveToggles(for: UserDefaultKeys.autoStartToggle, value: true)
         settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: true)
         settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: true)
 
-        // THEN the toggles should be updated
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), true)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), true)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), true)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle) == true)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds) == true)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn) == true)
     }
 
-    func test_NegativeTimeValues() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+    @Test("negative time values are ignored")
+    func negativeTimeValues() {
+        let settingsViewModel = makePersistedSUT()
 
-        // GIVEN I have not set any total time yet
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 5)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 25)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 5)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 30)
 
-        // WHEN I call the function to save the new value
         settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: -20)
         settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: -10)
         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: -30)
 
-        // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 5)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 25)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 5)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 30)
     }
 
-    func test_NegativeNumberOfCyclesValue() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+    @Test("negative number of cycles is ignored")
+    func negativeNumberOfCyclesValue() {
+        let settingsViewModel = makePersistedSUT()
 
-        // GIVEN I have not set the number of cycles yet
-        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles), 4)
+        #expect(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles) == 4)
 
-        // WHEN I call the function to save the new value
         settingsViewModel.saveNumberOfCycles(-5)
 
-        // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles), 4)
+        #expect(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles) == 4)
     }
 
-    func test_ZeroTimeValues_AreNotPersisted() {
+    @Test("zero time values are not persisted")
+    func zeroTimeValuesAreNotPersisted() {
         let settingsModel = SettingsModelSpy()
         let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
 
@@ -185,30 +178,30 @@ final class SettingsViewModelTests: XCTestCase {
         settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: 0)
         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: 0)
 
-        XCTAssertTrue(settingsModel.savedTimes.isEmpty)
+        #expect(settingsModel.savedTimes.isEmpty)
     }
 
-    func test_ZeroNumberOfCycles_AreNotPersisted() {
+    @Test("zero number of cycles is not persisted")
+    func zeroNumberOfCyclesAreNotPersisted() {
         let settingsModel = SettingsModelSpy()
         let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
 
         settingsViewModel.saveNumberOfCycles(0)
 
-        XCTAssertTrue(settingsModel.savedCycles.isEmpty)
+        #expect(settingsModel.savedCycles.isEmpty)
     }
 
-    func test_ResetDefaultValues() throws {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+    @Test("resetToDefault restores all default settings")
+    func resetDefaultValues() {
+        let settingsViewModel = makePersistedSUT()
 
-        // GIVEN I have not set any total time yet
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 5)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 25)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 5)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 30)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle) == false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds) == false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn) == false)
 
-        // WHEN I call the function to save the new value
         settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: 20)
         settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: 10)
         settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: 40)
@@ -216,23 +209,20 @@ final class SettingsViewModelTests: XCTestCase {
         settingsViewModel.saveToggles(for: UserDefaultKeys.playTimerSounds, value: true)
         settingsViewModel.saveToggles(for: UserDefaultKeys.keepScreenOn, value: true)
 
-        // THEN the total time should be updated
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 20)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 10)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 40)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), true)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), true)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), true)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 20)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 10)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 40)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle) == true)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds) == true)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn) == true)
 
-        // WHEN I reset to the default values
         settingsViewModel.resetToDefault()
 
-        // THEN the values should be back to its default values
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime), 25)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime), 5)
-        XCTAssertEqual(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime), 30)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle), false)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds), false)
-        XCTAssertEqual(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn), false)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.focusedTime) == 25)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.shortBreakTime) == 5)
+        #expect(settingsViewModel.getTimeInMinutes(for: UserDefaultKeys.longBreakTime) == 30)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.autoStartToggle) == false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds) == false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn) == false)
     }
 }
