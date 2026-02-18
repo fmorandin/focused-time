@@ -6,11 +6,12 @@
 //
 
 import XCTest
+import AudioToolbox
 @testable import Focused_Timer
 
 final class TimerViewModelTests: XCTestCase {
 
-    private final class TestRepeatingTimer: RepeatingTimerProtocol {
+    fileprivate final class TestRepeatingTimer: RepeatingTimerProtocol {
         private(set) var isInvalidated = false
         private let block: (RepeatingTimerProtocol) -> Void
 
@@ -28,7 +29,7 @@ final class TimerViewModelTests: XCTestCase {
         }
     }
 
-    private final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
+    fileprivate final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
         private(set) var createdTimers: [TestRepeatingTimer] = []
 
         func scheduledTimer(
@@ -48,6 +49,77 @@ final class TimerViewModelTests: XCTestCase {
                 let activeTimers = createdTimers.filter { !$0.isInvalidated }
                 activeTimers.forEach { $0.tick() }
             }
+        }
+    }
+
+    private final class NotificationManagerSpy: LocalNotificationManaging {
+        private(set) var clearCalls = 0
+        private(set) var scheduledRemainingTimes: [Double] = []
+
+        func clearScheduledNotifications() {
+            clearCalls += 1
+        }
+
+        func scheduleLocalNotification(remainingTime: Double) {
+            scheduledRemainingTimes.append(remainingTime)
+        }
+    }
+
+    private final class NotificationFlagStoreMock: NotificationFlagStoring {
+        var value = false
+        private(set) var setCalls: [(Bool, String)] = []
+
+        func bool(forKey _: String) -> Bool {
+            value
+        }
+
+        func set(_ value: Bool, forKey defaultName: String) {
+            self.value = value
+            setCalls.append((value, defaultName))
+        }
+    }
+
+    private final class SoundPlayerMock: SystemSoundPlaying {
+        private(set) var playedSoundIDs: [SystemSoundID] = []
+
+        func playSystemSound(_ id: SystemSoundID) {
+            playedSoundIDs.append(id)
+        }
+    }
+
+    private final class TimerModelSpy: TimerModelProtocol {
+        var times: [String: Int] = [
+            UserDefaultKeys.focusedTime: 5,
+            UserDefaultKeys.shortBreakTime: 2,
+            UserDefaultKeys.longBreakTime: 3
+        ]
+        var toggles: [String: Bool] = [
+            UserDefaultKeys.autoStartToggle: false,
+            UserDefaultKeys.playTimerSounds: false,
+            UserDefaultKeys.keepScreenOn: true
+        ]
+        var numberOfCycles = "2"
+        var savedTimes: (Int?, Date?) = (0, Date())
+        private(set) var savedRemainingTimesFromBackground: [Int] = []
+
+        func getTime(for keyName: String) -> Int {
+            times[keyName] ?? 0
+        }
+
+        func saveMoveToBackgroundTime(remainingTime: Int) {
+            savedRemainingTimesFromBackground.append(remainingTime)
+        }
+
+        func getSavedTimes() -> (Int?, Date?) {
+            savedTimes
+        }
+
+        func getNumberOfCycles(for _: String) -> String {
+            numberOfCycles
+        }
+
+        func getToggle(for keyName: String) -> Bool {
+            toggles[keyName] ?? false
         }
     }
 
@@ -224,5 +296,144 @@ final class TimerViewModelTests: XCTestCase {
         deterministicVM.moveAppToForeground()
 
         XCTAssertEqual(deterministicVM.counter, 16)
+    }
+
+    func test_StartTimerTwice_UsesSingleActiveTimer() {
+        timerViewModel.startTimer()
+        timerViewModel.startTimer()
+
+        timerFactory.advance()
+
+        XCTAssertEqual(timerViewModel.counter, 4)
+    }
+
+    func test_MoveAppToBackground_WhenRunning_SavesAndSchedulesNotification() {
+        let timerModel = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let vm = TimerViewModel(
+            timerModel: timerModel,
+            timerFactory: timerFactory,
+            localNotificationManager: notificationManager
+        )
+
+        vm.startTimer()
+        timerFactory.advance()
+        vm.moveAppToBackground()
+
+        XCTAssertEqual(timerModel.savedRemainingTimesFromBackground, [4])
+        XCTAssertEqual(notificationManager.scheduledRemainingTimes, [4.0])
+    }
+
+    func test_MoveAppToBackground_WhenNotRunning_DoesNothing() {
+        let timerModel = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let vm = TimerViewModel(
+            timerModel: timerModel,
+            timerFactory: timerFactory,
+            localNotificationManager: notificationManager
+        )
+
+        vm.moveAppToBackground()
+
+        XCTAssertTrue(timerModel.savedRemainingTimesFromBackground.isEmpty)
+        XCTAssertTrue(notificationManager.scheduledRemainingTimes.isEmpty)
+    }
+
+    func test_MoveAppToForeground_AlwaysClearsNotifications() {
+        let notificationManager = NotificationManagerSpy()
+        let vm = TimerViewModel(
+            timerModel: TimerModelSpy(),
+            timerFactory: timerFactory,
+            localNotificationManager: notificationManager
+        )
+
+        vm.moveAppToForeground()
+
+        XCTAssertEqual(notificationManager.clearCalls, 1)
+    }
+
+    func test_MoveAppToForeground_WhenSavedTimesMissing_DoesNotChangeCounter() {
+        let timerModel = TimerModelSpy()
+        timerModel.savedTimes = (nil, nil)
+        let vm = TimerViewModel(timerModel: timerModel, timerFactory: timerFactory)
+
+        vm.startTimer()
+        timerFactory.advance()
+        let counterBeforeForeground = vm.counter
+
+        vm.moveAppToForeground()
+
+        XCTAssertEqual(vm.counter, counterBeforeForeground)
+    }
+
+    func test_MoveAppToForeground_WhenBackgroundTimeExceedsRemaining_ClampsCounterToZero() {
+        let nowDate = Date(timeIntervalSince1970: 20)
+        let timerModel = TimerModelSpy()
+        timerModel.savedTimes = (2, Date(timeIntervalSince1970: 10))
+        let vm = TimerViewModel(
+            timerModel: timerModel,
+            timerFactory: timerFactory,
+            nowProvider: { nowDate }
+        )
+
+        vm.startTimer()
+        timerFactory.advance()
+        vm.moveAppToForeground()
+
+        XCTAssertEqual(vm.counter, 0)
+    }
+
+    func test_MoveAppToForeground_WhenTimerNotRunning_DoesNotApplySavedTimes() {
+        let timerModel = TimerModelSpy()
+        timerModel.savedTimes = (1, Date(timeIntervalSince1970: 0))
+        let vm = TimerViewModel(timerModel: timerModel, timerFactory: timerFactory, nowProvider: { Date(timeIntervalSince1970: 100) })
+
+        let initialCounter = vm.counter
+        vm.moveAppToForeground()
+
+        XCTAssertEqual(vm.counter, initialCounter)
+    }
+
+    func test_TimerFinishesFromNotification_DoesNotPlaySoundAndResetsFlag() {
+        let timerModel = TimerModelSpy()
+        timerModel.toggles[UserDefaultKeys.playTimerSounds] = true
+        let soundPlayer = SoundPlayerMock()
+        let notificationFlags = NotificationFlagStoreMock()
+        notificationFlags.value = true
+        let vm = TimerViewModel(
+            timerModel: timerModel,
+            timerFactory: timerFactory,
+            soundPlayer: soundPlayer,
+            notificationFlagStore: notificationFlags
+        )
+
+        vm.counter = 0
+        vm.startTimer()
+        timerFactory.advance()
+
+        XCTAssertTrue(soundPlayer.playedSoundIDs.isEmpty)
+        XCTAssertEqual(notificationFlags.setCalls.count, 1)
+        XCTAssertEqual(notificationFlags.setCalls.first?.0, false)
+        XCTAssertEqual(notificationFlags.setCalls.first?.1, UserDefaultKeys.isNotification)
+    }
+
+    func test_TimerFinishesWithPlaySoundEnabled_PlaysSound() {
+        let timerModel = TimerModelSpy()
+        timerModel.toggles[UserDefaultKeys.playTimerSounds] = true
+        let soundPlayer = SoundPlayerMock()
+        let notificationFlags = NotificationFlagStoreMock()
+        notificationFlags.value = false
+        let vm = TimerViewModel(
+            timerModel: timerModel,
+            timerFactory: timerFactory,
+            soundPlayer: soundPlayer,
+            notificationFlagStore: notificationFlags
+        )
+
+        vm.counter = 0
+        vm.startTimer()
+        timerFactory.advance()
+
+        XCTAssertEqual(soundPlayer.playedSoundIDs.count, 1)
     }
 }

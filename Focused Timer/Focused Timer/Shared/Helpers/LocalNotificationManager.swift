@@ -10,6 +10,35 @@ import UIKit
 import UserNotifications
 import os
 
+protocol UserNotificationCenterProtocol {
+    func setBadge(to value: Int)
+    func removeAllPendingNotificationRequests()
+    func removeAllDeliveredNotifications()
+    func getAuthorizationStatus(completionHandler: @escaping (UNAuthorizationStatus) -> Void)
+    func add(_ request: UNNotificationRequest)
+}
+
+extension UNUserNotificationCenter: UserNotificationCenterProtocol {
+    func setBadge(to value: Int) {
+        setBadgeCount(value)
+    }
+
+    func getAuthorizationStatus(completionHandler: @escaping (UNAuthorizationStatus) -> Void) {
+        getNotificationSettings { settings in
+            completionHandler(settings.authorizationStatus)
+        }
+    }
+
+    func add(_ request: UNNotificationRequest) {
+        add(request, withCompletionHandler: nil)
+    }
+}
+
+protocol LocalNotificationManaging {
+    func clearScheduledNotifications()
+    func scheduleLocalNotification(remainingTime: Double)
+}
+
 struct LocalNotificationManager {
 
     // MARK: - Private Variables
@@ -18,6 +47,18 @@ struct LocalNotificationManager {
         subsystem: Bundle.main.bundleIdentifier!,
         category: String(describing: LocalNotificationManager.self)
     )
+    private let notificationCenter: UserNotificationCenterProtocol
+    private let requestPermission: () -> Void
+
+    init(
+        notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
+        requestPermission: @escaping () -> Void = {
+            AppDelegate().requestLocalNotificationPermission()
+        }
+    ) {
+        self.notificationCenter = notificationCenter
+        self.requestPermission = requestPermission
+    }
 
     // MARK: - Public Functions
 
@@ -27,9 +68,9 @@ struct LocalNotificationManager {
 
         Self.logger.notice("🧹 Cleaning up all the scheduled notifications.")
 
-        UNUserNotificationCenter.current().setBadgeCount(0)
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        notificationCenter.setBadge(to: 0)
+        notificationCenter.removeAllPendingNotificationRequests()
+        notificationCenter.removeAllDeliveredNotifications()
     }
 
     /// Function that will receive the request to schedule a notification and
@@ -39,11 +80,11 @@ struct LocalNotificationManager {
 
         Self.logger.notice("🕵🏻 Checking the status of the permission to send local notifications.")
 
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            switch settings.authorizationStatus {
+        notificationCenter.getAuthorizationStatus { authorizationStatus in
+            switch authorizationStatus {
             case .notDetermined:
                 Self.logger.notice("🧐 Permission for local notification not determined.")
-                AppDelegate().requestLocalNotificationPermission()
+                requestPermission()
             case .authorized, .provisional:
                 Self.logger.notice("👌🏻 Permission for local notification either authorized or provisional.")
                 schedule(remainingTime: remainingTime)
@@ -59,9 +100,6 @@ struct LocalNotificationManager {
     /// - Parameters:
     ///   - remainingTime: The remaining time for the timer to finish
     private func schedule(remainingTime: Double) {
-
-        let center = UNUserNotificationCenter.current()
-
         let notificationTitle = NSString.localizedUserNotificationString(
             forKey: "notificationTitle", arguments: nil)
         let notificationBody = NSString.localizedUserNotificationString(
@@ -78,8 +116,10 @@ struct LocalNotificationManager {
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
 
-        center.add(request)
+        notificationCenter.add(request)
 
         Self.logger.notice("📆 Local notification scheduled.")
     }
 }
+
+extension LocalNotificationManager: LocalNotificationManaging {}

@@ -13,6 +13,23 @@ protocol RepeatingTimerProtocol: AnyObject {
     func invalidate()
 }
 
+protocol SystemSoundPlaying {
+    func playSystemSound(_ id: SystemSoundID)
+}
+
+struct AudioSystemSoundPlayer: SystemSoundPlaying {
+    func playSystemSound(_ id: SystemSoundID) {
+        AudioServicesPlaySystemSound(id)
+    }
+}
+
+protocol NotificationFlagStoring {
+    func bool(forKey defaultName: String) -> Bool
+    func set(_ value: Bool, forKey defaultName: String)
+}
+
+extension UserDefaults: NotificationFlagStoring {}
+
 protocol RepeatingTimerFactoryProtocol {
     func scheduledTimer(
         withTimeInterval interval: TimeInterval,
@@ -98,7 +115,9 @@ final class TimerViewModel: ObservableObject {
     private let timerFactory: RepeatingTimerFactoryProtocol
     private let timerModel: TimerModelProtocol
     private let dateFormatter = DateComponentsFormatter()
-    private let localNotificationManager = LocalNotificationManager()
+    private let localNotificationManager: LocalNotificationManaging
+    private let soundPlayer: SystemSoundPlaying
+    private let notificationFlagStore: NotificationFlagStoring
     private let nowProvider: () -> Date
     private var isAutoStartEnabled: Bool {
         timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
@@ -118,7 +137,10 @@ final class TimerViewModel: ObservableObject {
     init(
         timerModel: TimerModelProtocol,
         timerFactory: RepeatingTimerFactoryProtocol = FoundationRepeatingTimerFactory(),
-        nowProvider: @escaping () -> Date = Date.init
+        nowProvider: @escaping () -> Date = Date.init,
+        localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
+        soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
+        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard
     ) {
 
         Self.logger.notice("🛠 Initializing Timer View Model.")
@@ -130,6 +152,9 @@ final class TimerViewModel: ObservableObject {
         self.timerModel = timerModel
         self.timerFactory = timerFactory
         self.nowProvider = nowProvider
+        self.localNotificationManager = localNotificationManager
+        self.soundPlayer = soundPlayer
+        self.notificationFlagStore = notificationFlagStore
 
         /// The initial state for the app will be the focused time
         let savedFocusedTimer = timerModel.getTime(for: UserDefaultKeys.focusedTime)
@@ -151,6 +176,7 @@ final class TimerViewModel: ObservableObject {
     func startTimer() {
 
         Self.logger.notice("▶️ Starting timer.")
+        timer?.invalidate()
         timer = timerFactory.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] scheduledTimer in
             guard let self else { return }
 
@@ -270,12 +296,12 @@ final class TimerViewModel: ObservableObject {
 
         // If the user don't check the option to play sounds
         // or if they came from a notification, the sound shouldn't be played
-        if UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification) {
-            UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
+        if notificationFlagStore.bool(forKey: UserDefaultKeys.isNotification) {
+            notificationFlagStore.set(false, forKey: UserDefaultKeys.isNotification)
         } else {
             if isPlaySoundEnabled {
                 // to play sound
-                AudioServicesPlaySystemSound(systemSoundID)
+                soundPlayer.playSystemSound(systemSoundID)
             }
         }
 
