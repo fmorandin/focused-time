@@ -10,6 +10,36 @@ import XCTest
 
 final class SettingsViewModelTests: XCTestCase {
 
+    private final class SettingsModelSpy: SettingsModelProtocol {
+        var savedTimes: [(Int, String)] = []
+        var savedCycles: [(Int, String)] = []
+        var savedToggles: [(Bool, String)] = []
+
+        func saveTime(time: Int, for keyName: String) {
+            savedTimes.append((time, keyName))
+        }
+
+        func getTime(for _: String) -> Int {
+            1500
+        }
+
+        func saveNumberOfCycles(numberOfCycles: Int, for keyName: String) {
+            savedCycles.append((numberOfCycles, keyName))
+        }
+
+        func getNumberOfCycles(for _: String) -> String {
+            "4"
+        }
+
+        func saveToggle(value: Bool, for keyName: String) {
+            savedToggles.append((value, keyName))
+        }
+
+        func getToggle(for _: String) -> Bool {
+            false
+        }
+    }
+
     override func setUp() {
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.focusedTime)
         UserDefaults.standard.removeObject(forKey: UserDefaultKeys.shortBreakTime)
@@ -145,6 +175,26 @@ final class SettingsViewModelTests: XCTestCase {
 
         // THEN the total time should be updated
         XCTAssertEqual(settingsViewModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles), 4)
+    }
+
+    func test_ZeroTimeValues_AreNotPersisted() {
+        let settingsModel = SettingsModelSpy()
+        let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
+
+        settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: 0)
+        settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: 0)
+        settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: 0)
+
+        XCTAssertTrue(settingsModel.savedTimes.isEmpty)
+    }
+
+    func test_ZeroNumberOfCycles_AreNotPersisted() {
+        let settingsModel = SettingsModelSpy()
+        let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
+
+        settingsViewModel.saveNumberOfCycles(0)
+
+        XCTAssertTrue(settingsModel.savedCycles.isEmpty)
     }
 
     func test_ResetDefaultValues() throws {
