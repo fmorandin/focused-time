@@ -46,4 +46,12 @@ class BaseFeature: XCTestCase {
     func waitForExistence(_ element: XCUIElement, timeout: TimeInterval = 5.0) -> Bool {
         element.waitForExistence(timeout: timeout)
     }
+
+    func slowTypeText(_ text: String, into element: XCUIElement, delay: useconds_t = 120_000) {
+        element.tap()
+        for character in text {
+            element.typeText(String(character))
+            usleep(delay)
+        }
+    }
 }
