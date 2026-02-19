@@ -32,7 +32,7 @@ struct MainButtonLabel: View {
 struct MainButtonLabel_Previews: PreviewProvider {
     static var previews: some View {
          MainButtonLabel(
-            accentColor: Color.focusColor,
+            accentColor: Color.accentColor,
             imageName: ImageNames.play,
             text: Translation.playTimer
          )

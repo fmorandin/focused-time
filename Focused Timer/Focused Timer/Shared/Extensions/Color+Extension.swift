@@ -11,7 +11,7 @@ import SwiftUI
 
 extension Color {
 
-    static let focusColor = Color("FocusColor")
+    static let accentColor = Color("AccentColor")
     static let longBreakColor = Color("LongBreakColor")
     static let shortBreakColor = Color("ShortBreakColor")
     static let backgroundColor = Color("BackgroundColor")
