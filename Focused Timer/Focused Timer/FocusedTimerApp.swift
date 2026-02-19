@@ -32,6 +32,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     )
 
     private enum UITestEnvironmentKeys {
+
         static let numberOfCycles = "UI_TEST_NUMBER_OF_CYCLES"
         static let focusedTimeSeconds = "UI_TEST_FOCUSED_SECONDS"
         static let shortBreakTimeSeconds = "UI_TEST_SHORT_BREAK_SECONDS"
