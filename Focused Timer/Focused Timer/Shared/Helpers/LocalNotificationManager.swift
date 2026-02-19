@@ -19,6 +19,7 @@ protocol UserNotificationCenterProtocol {
 }
 
 extension UNUserNotificationCenter: UserNotificationCenterProtocol {
+
     func setBadge(to value: Int) {
         setBadgeCount(value)
     }
