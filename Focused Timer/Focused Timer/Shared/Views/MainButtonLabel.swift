@@ -22,7 +22,7 @@ struct MainButtonLabel: View {
         }
         .foregroundColor(.white)
         .padding(.vertical)
-        .frame(width: (UIScreen.main.bounds.width / 2) - 70, height: 60)
+        .frame(maxWidth: .infinity, minHeight: 60, maxHeight: 60)
         .background(accentColor)
         .clipShape(Capsule())
         .shadow(radius: 6)
