@@ -166,7 +166,7 @@ final class TimerViewModel: ObservableObject {
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
 
-        accentCircleColor = .focusColor
+        accentCircleColor = .accentColor
     }
 
     // MARK: - Public Methods
@@ -217,7 +217,7 @@ final class TimerViewModel: ObservableObject {
         timer?.invalidate()
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         numberOfCompletedCycles = 0
-        accentCircleColor = .focusColor
+        accentCircleColor = .accentColor
     }
 
     /// Method that handles the necessary actions for when the app is moved to the background
@@ -359,7 +359,7 @@ final class TimerViewModel: ObservableObject {
             totalTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
             countTime = dateFormatter
                 .string(from: TimeInterval(timerModel.getTime(for: UserDefaultKeys.focusedTime))) ?? "-"
-            accentCircleColor = .focusColor
+            accentCircleColor = .accentColor
 
         case .longBreak:
             Self.logger.notice("🔃 Changing to long break.")
