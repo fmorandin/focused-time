@@ -56,14 +56,18 @@ struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
         repeats: Bool,
         block: @escaping (RepeatingTimerProtocol) -> Void
     ) -> RepeatingTimerProtocol {
-        var wrappedTimer: FoundationRepeatingTimer?
+        final class TimerWrapper {
+            var timer: FoundationRepeatingTimer?
+        }
+
+        let wrapper = TimerWrapper()
         let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: repeats) { _ in
-            guard let wrappedTimer else { return }
+            guard let wrappedTimer = wrapper.timer else { return }
             block(wrappedTimer)
         }
 
         let createdTimer = FoundationRepeatingTimer(timer: timer)
-        wrappedTimer = createdTimer
+        wrapper.timer = createdTimer
         return createdTimer
     }
 }
