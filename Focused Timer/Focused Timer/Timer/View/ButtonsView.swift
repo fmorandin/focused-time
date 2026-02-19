@@ -65,6 +65,7 @@ struct ButtonsView: View {
             .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }
         .padding(.bottom, 20)
+        .padding(.horizontal, 24)
     }
 }
 
