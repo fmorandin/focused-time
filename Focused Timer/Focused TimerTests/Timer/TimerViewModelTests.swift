@@ -9,141 +9,140 @@ import AudioToolbox
 import Testing
 @testable import Focused_Timer
 
+private final class TestRepeatingTimer: RepeatingTimerProtocol {
+    private(set) var isInvalidated = false
+    private let block: (RepeatingTimerProtocol) -> Void
+
+    init(block: @escaping (RepeatingTimerProtocol) -> Void) {
+        self.block = block
+    }
+
+    func tick() {
+        guard !isInvalidated else { return }
+        block(self)
+    }
+
+    func invalidate() {
+        isInvalidated = true
+    }
+}
+
+private final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
+    private(set) var createdTimers: [TestRepeatingTimer] = []
+
+    func scheduledTimer(
+        withTimeInterval _: TimeInterval,
+        repeats _: Bool,
+        block: @escaping (RepeatingTimerProtocol) -> Void
+    ) -> RepeatingTimerProtocol {
+        let timer = TestRepeatingTimer(block: block)
+        createdTimers.append(timer)
+        return timer
+    }
+
+    func advance(by ticks: Int = 1) {
+        guard ticks > 0 else { return }
+
+        for _ in 0..<ticks {
+            let activeTimers = createdTimers.filter { !$0.isInvalidated }
+            activeTimers.forEach { $0.tick() }
+        }
+    }
+}
+
+private final class NotificationManagerSpy: LocalNotificationManaging {
+    private(set) var clearCalls = 0
+    private(set) var scheduledRemainingTimes: [Double] = []
+
+    func clearScheduledNotifications() {
+        clearCalls += 1
+    }
+
+    func scheduleLocalNotification(remainingTime: Double) {
+        scheduledRemainingTimes.append(remainingTime)
+    }
+}
+
+private final class NotificationFlagStoreMock: NotificationFlagStoring {
+    var value = false
+    private(set) var setCalls: [(Bool, String)] = []
+
+    func bool(forKey _: String) -> Bool {
+        value
+    }
+
+    func set(_ value: Bool, forKey defaultName: String) {
+        self.value = value
+        setCalls.append((value, defaultName))
+    }
+}
+
+private final class SoundPlayerMock: SystemSoundPlaying {
+    private(set) var playedSoundIDs: [SystemSoundID] = []
+
+    func playSystemSound(_ id: SystemSoundID) {
+        playedSoundIDs.append(id)
+    }
+}
+
+private final class TimerModelSpy: TimerModelProtocol {
+    var times: [String: Int] = [
+        UserDefaultKeys.focusedTime: 5,
+        UserDefaultKeys.shortBreakTime: 2,
+        UserDefaultKeys.longBreakTime: 3
+    ]
+    var toggles: [String: Bool] = [
+        UserDefaultKeys.autoStartToggle: false,
+        UserDefaultKeys.playTimerSounds: false,
+        UserDefaultKeys.keepScreenOn: true
+    ]
+    var numberOfCycles = "2"
+    var savedTimes: (Int?, Date?) = (0, Date())
+    private(set) var savedRemainingTimesFromBackground: [Int] = []
+
+    func getTime(for keyName: String) -> Int {
+        times[keyName] ?? 0
+    }
+
+    func saveMoveToBackgroundTime(remainingTime: Int) {
+        savedRemainingTimesFromBackground.append(remainingTime)
+    }
+
+    func getSavedTimes() -> (Int?, Date?) {
+        savedTimes
+    }
+
+    func getNumberOfCycles(for _: String) -> String {
+        numberOfCycles
+    }
+
+    func getToggle(for keyName: String) -> Bool {
+        toggles[keyName] ?? false
+    }
+}
+
+private func makeSUT(
+    timerModel: TimerModelProtocol = TimerModelMock(),
+    nowProvider: @escaping () -> Date = Date.init,
+    localNotificationManager: LocalNotificationManaging = NotificationManagerSpy(),
+    soundPlayer: SystemSoundPlaying = SoundPlayerMock(),
+    notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreMock()
+) -> (viewModel: TimerViewModel, timerFactory: TestRepeatingTimerFactory) {
+    let timerFactory = TestRepeatingTimerFactory()
+    let viewModel = TimerViewModel(
+        timerModel: timerModel,
+        timerFactory: timerFactory,
+        nowProvider: nowProvider,
+        localNotificationManager: localNotificationManager,
+        soundPlayer: soundPlayer,
+        notificationFlagStore: notificationFlagStore
+    )
+
+    return (viewModel, timerFactory)
+}
+
 @Suite("TimerViewModel Tests", .serialized)
 struct TimerViewModelTests {
-
-    fileprivate final class TestRepeatingTimer: RepeatingTimerProtocol {
-        private(set) var isInvalidated = false
-        private let block: (RepeatingTimerProtocol) -> Void
-
-        init(block: @escaping (RepeatingTimerProtocol) -> Void) {
-            self.block = block
-        }
-
-        func tick() {
-            guard !isInvalidated else { return }
-            block(self)
-        }
-
-        func invalidate() {
-            isInvalidated = true
-        }
-    }
-
-    fileprivate final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
-        private(set) var createdTimers: [TestRepeatingTimer] = []
-
-        func scheduledTimer(
-            withTimeInterval _: TimeInterval,
-            repeats _: Bool,
-            block: @escaping (RepeatingTimerProtocol) -> Void
-        ) -> RepeatingTimerProtocol {
-            let timer = TestRepeatingTimer(block: block)
-            createdTimers.append(timer)
-            return timer
-        }
-
-        func advance(by ticks: Int = 1) {
-            guard ticks > 0 else { return }
-
-            for _ in 0..<ticks {
-                let activeTimers = createdTimers.filter { !$0.isInvalidated }
-                activeTimers.forEach { $0.tick() }
-            }
-        }
-    }
-
-    private final class NotificationManagerSpy: LocalNotificationManaging {
-        private(set) var clearCalls = 0
-        private(set) var scheduledRemainingTimes: [Double] = []
-
-        func clearScheduledNotifications() {
-            clearCalls += 1
-        }
-
-        func scheduleLocalNotification(remainingTime: Double) {
-            scheduledRemainingTimes.append(remainingTime)
-        }
-    }
-
-    private final class NotificationFlagStoreMock: NotificationFlagStoring {
-        var value = false
-        private(set) var setCalls: [(Bool, String)] = []
-
-        func bool(forKey _: String) -> Bool {
-            value
-        }
-
-        func set(_ value: Bool, forKey defaultName: String) {
-            self.value = value
-            setCalls.append((value, defaultName))
-        }
-    }
-
-    private final class SoundPlayerMock: SystemSoundPlaying {
-        private(set) var playedSoundIDs: [SystemSoundID] = []
-
-        func playSystemSound(_ id: SystemSoundID) {
-            playedSoundIDs.append(id)
-        }
-    }
-
-    private final class TimerModelSpy: TimerModelProtocol {
-        var times: [String: Int] = [
-            UserDefaultKeys.focusedTime: 5,
-            UserDefaultKeys.shortBreakTime: 2,
-            UserDefaultKeys.longBreakTime: 3
-        ]
-        var toggles: [String: Bool] = [
-            UserDefaultKeys.autoStartToggle: false,
-            UserDefaultKeys.playTimerSounds: false,
-            UserDefaultKeys.keepScreenOn: true
-        ]
-        var numberOfCycles = "2"
-        var savedTimes: (Int?, Date?) = (0, Date())
-        private(set) var savedRemainingTimesFromBackground: [Int] = []
-
-        func getTime(for keyName: String) -> Int {
-            times[keyName] ?? 0
-        }
-
-        func saveMoveToBackgroundTime(remainingTime: Int) {
-            savedRemainingTimesFromBackground.append(remainingTime)
-        }
-
-        func getSavedTimes() -> (Int?, Date?) {
-            savedTimes
-        }
-
-        func getNumberOfCycles(for _: String) -> String {
-            numberOfCycles
-        }
-
-        func getToggle(for keyName: String) -> Bool {
-            toggles[keyName] ?? false
-        }
-    }
-
-    private func makeSUT(
-        timerModel: TimerModelProtocol = TimerModelMock(),
-        nowProvider: @escaping () -> Date = Date.init,
-        localNotificationManager: LocalNotificationManaging = NotificationManagerSpy(),
-        soundPlayer: SystemSoundPlaying = SoundPlayerMock(),
-        notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreMock()
-    ) -> (viewModel: TimerViewModel, timerFactory: TestRepeatingTimerFactory) {
-        let timerFactory = TestRepeatingTimerFactory()
-        let viewModel = TimerViewModel(
-            timerModel: timerModel,
-            timerFactory: timerFactory,
-            nowProvider: nowProvider,
-            localNotificationManager: localNotificationManager,
-            soundPlayer: soundPlayer,
-            notificationFlagStore: notificationFlagStore
-        )
-
-        return (viewModel, timerFactory)
-    }
-
     @Test("Start timer decrements and transitions to short break")
     func startTimer() {
         let (timerViewModel, timerFactory) = makeSUT()
@@ -234,7 +233,6 @@ struct TimerViewModelTests {
         #expect(timerViewModel.numberOfCompletedCycles == 1)
     }
 
-    // swiftlint:disable function_body_length
     @Test("Full flow reaches long break and resets cycles")
     func completeFlowIncludingLongBreak() {
         let (timerViewModel, timerFactory) = makeSUT()
@@ -276,7 +274,6 @@ struct TimerViewModelTests {
         #expect(timerViewModel.numberOfCompletedCycles == 0)
         #expect(timerViewModel.timerType == .focused)
     }
-    // swiftlint:enable function_body_length
 
     @Test("moveAppToForeground uses injected now provider")
     func moveAppToForegroundUsesInjectedNowProvider() {
@@ -287,8 +284,8 @@ struct TimerViewModelTests {
             let savedRemainingTime: Int
             let savedTimestamp: Date
 
-            func getTime(for key: String) -> Int {
-                TimerModelMock().getTime(for: key)
+            func getTime(for keyName: String) -> Int {
+                TimerModelMock().getTime(for: keyName)
             }
 
             func saveMoveToBackgroundTime(remainingTime _: Int) {}

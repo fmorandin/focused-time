@@ -69,10 +69,10 @@ struct SettingsViewModelTests {
             ("longBreak", 30)
         ]
     )
-    func getTimeInMinutesFromMock(key: String, expected: Int) {
+    func getTimeInMinutesFromMock(keyName: String, expected: Int) {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
-        #expect(settingsViewModel.getTimeInMinutes(for: key) == expected)
+        #expect(settingsViewModel.getTimeInMinutes(for: keyName) == expected)
     }
 
     @Test("saveTime persists valid values")
@@ -118,10 +118,10 @@ struct SettingsViewModelTests {
             UserDefaultKeys.keepScreenOn
         ]
     )
-    func getToggles(key: String) {
+    func getToggles(keyName: String) {
         let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
 
-        #expect(settingsViewModel.getSavedToggles(for: key) == false)
+        #expect(settingsViewModel.getSavedToggles(for: keyName) == false)
     }
 
     @Test("saveToggles persists updated values")

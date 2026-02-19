@@ -26,12 +26,12 @@ struct SettingsModelMock: SettingsModelProtocol {
         }
     }
 
-    func saveTime(time: Int, for key: String) {
+    func saveTime(time: Int, for keyName: String) {
         debugPrint("⏱ saved")
     }
 
-    func getTime(for key: String) -> Int {
-        switch key {
+    func getTime(for keyName: String) -> Int {
+        switch keyName {
         case "focusedTime":
             return 1500
         case "shortBreakTime":
