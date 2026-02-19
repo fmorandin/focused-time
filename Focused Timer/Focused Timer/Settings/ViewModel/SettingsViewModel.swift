@@ -40,12 +40,14 @@ final class SettingsViewModel: ObservableObject {
     // If the timer is running and the user changes something the timer should be updated
     @Published var shouldUpdateTimerView = false
 
-    // swiftlint:disable force_cast
     var appVersionNumber: String {
-        let nsObject = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as AnyObject
-        return nsObject as! String
+        guard let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+            Self.logger.error("Missing CFBundleShortVersionString in Info.plist.")
+            return "0"
+        }
+
+        return version
     }
-    // swiftlint:enable force_cast
 
     // MARK: - Initializer
 

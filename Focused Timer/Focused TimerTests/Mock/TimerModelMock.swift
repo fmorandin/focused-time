@@ -32,8 +32,8 @@ struct TimerModelMock: TimerModelProtocol {
 
     func saveMoveToBackgroundTime(remainingTime: Int) {}
 
-    func getTime(for key: String) -> Int {
-        switch key {
+    func getTime(for keyName: String) -> Int {
+        switch keyName {
         case "focusedTime":
             return 5
         case "shortBreakTime":

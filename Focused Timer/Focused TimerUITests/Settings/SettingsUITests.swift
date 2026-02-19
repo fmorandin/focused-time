@@ -7,50 +7,53 @@
 
 import XCTest
 
-// swiftlint:disable type_body_length file_length
 final class SettingsUITests: BaseFeature {
 
     func test_OpenModalNoChanges() throws {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
-        let focusDurationLabel = app.staticTexts[Accessibility.Identifiers.lblFocusDuration]
+        let focusDurationLabel = application.staticTexts[Accessibility.Identifiers.lblFocusDuration]
         XCTAssertTrue(focusDurationLabel.isHittable)
 
-        let shortBreakDurationLabel = app.staticTexts[Accessibility.Identifiers.lblShortBreakDuration]
+        let shortBreakDurationLabel = application.staticTexts[Accessibility.Identifiers.lblShortBreakDuration]
         XCTAssertTrue(shortBreakDurationLabel.isHittable)
 
-        let longBreakDurationLabel = app.staticTexts[Accessibility.Identifiers.lblLongBreakDuration]
+        let longBreakDurationLabel = application.staticTexts[Accessibility.Identifiers.lblLongBreakDuration]
         XCTAssertTrue(longBreakDurationLabel.isHittable)
 
-        let numberOfCyclesLabel = app.staticTexts[Accessibility.Identifiers.lblNumberOfCycles]
+        let numberOfCyclesLabel = application.staticTexts[Accessibility.Identifiers.lblNumberOfCycles]
         XCTAssertTrue(numberOfCyclesLabel.isHittable)
 
         // THEN the duration should have the default value
-        let durationTextField = String(describing: app.textFields[Accessibility.Identifiers.txtFocusedTime].value!)
+        let durationTextField = String(
+            describing: application.textFields[Accessibility.Identifiers.txtFocusedTime].value!
+        )
         XCTAssertEqual(durationTextField, "1")
 
-        let shortBreakTextField = String(describing: app.textFields[Accessibility.Identifiers.txtShortBreakTime].value!)
+        let shortBreakTextField = String(
+            describing: application.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
+        )
         XCTAssertEqual(shortBreakTextField, "1")
 
         let numberOfCyclesTextField = String(
-            describing: app.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
+            describing: application.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
         )
         XCTAssertEqual(numberOfCyclesTextField, "4")
 
-        let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
+        let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
 
-        let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
-        let keepScreenOnToggle = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggle = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
         XCTAssertFalse(keepScreenOnToggle.isSelected)
 
         // WHEN I close the modal
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // AND open it again
@@ -58,45 +61,47 @@ final class SettingsUITests: BaseFeature {
 
         // THE duration value should keep the same
         let durationTextFieldUpdated = String(
-            describing: app.textFields[Accessibility.Identifiers.txtFocusedTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtFocusedTime].value!
         )
         XCTAssertEqual(durationTextFieldUpdated, "1")
 
         let shortBreakTextFieldUpdated = String(
-            describing: app.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
         )
         XCTAssertEqual(shortBreakTextFieldUpdated, "1")
 
         let numberOfCyclesTextFieldUpdated = String(
-            describing: app.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
+            describing: application.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
         )
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "4")
 
-        let autoStartToggleUpdated = app.switches[Accessibility.Identifiers.tgAutoStart]
+        let autoStartToggleUpdated = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggleUpdated.isSelected)
 
-        let playSoundsToggleUpdated = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggleUpdated.isSelected)
 
-        let keepScreenOnToggleUpdated = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggleUpdated = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
         XCTAssertFalse(keepScreenOnToggleUpdated.isSelected)
     }
 
     func test_UpdateFocusedTimerValue() {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
-        let focusDurationLabel = app.staticTexts[Accessibility.Identifiers.lblFocusDuration]
+        let focusDurationLabel = application.staticTexts[Accessibility.Identifiers.lblFocusDuration]
         XCTAssertTrue(focusDurationLabel.isHittable)
 
         // THEN the duration should have the default value
-        let durationTextFieldValue = String(describing: app.textFields[Accessibility.Identifiers.txtFocusedTime].value!)
+        let durationTextFieldValue = String(
+            describing: application.textFields[Accessibility.Identifiers.txtFocusedTime].value!
+        )
         XCTAssertEqual(durationTextFieldValue, "1")
 
         // WHEN I delete the default value
-        let durationTextField = app.textFields[Accessibility.Identifiers.txtFocusedTime]
+        let durationTextField = application.textFields[Accessibility.Identifiers.txtFocusedTime]
         durationTextField.doubleTap()
 
         // AND I type an invalid value
@@ -108,7 +113,7 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the input should only accept 5 digits
         let durationTextFieldInvalidValue = String(
-            describing: app.textFields[Accessibility.Identifiers.txtFocusedTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtFocusedTime].value!
         )
         XCTAssertEqual(durationTextFieldInvalidValue.count, 3)
         XCTAssertEqual(durationTextFieldInvalidValue, "123")
@@ -120,7 +125,7 @@ final class SettingsUITests: BaseFeature {
         durationTextField.typeText("100")
 
         // AND I exit the modal
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -128,28 +133,28 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the value should be the one that was updated
         let durationTextFieldUpdated = String(
-            describing: app.textFields[Accessibility.Identifiers.txtFocusedTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtFocusedTime].value!
         )
         XCTAssertEqual(durationTextFieldUpdated, "100")
     }
 
     func test_UpdateShortBreakTimerValue() {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
-        let shortBreakDurationLabel = app.staticTexts[Accessibility.Identifiers.lblShortBreakDuration]
+        let shortBreakDurationLabel = application.staticTexts[Accessibility.Identifiers.lblShortBreakDuration]
         XCTAssertTrue(shortBreakDurationLabel.isHittable)
 
         // THEN the duration should have the default value
         let shortBreakTextFieldValue = String(
-            describing: app.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
         )
         XCTAssertEqual(shortBreakTextFieldValue, "1")
 
         // WHEN I delete the default value
-        let shortBreakTextField = app.textFields[Accessibility.Identifiers.txtShortBreakTime]
+        let shortBreakTextField = application.textFields[Accessibility.Identifiers.txtShortBreakTime]
         shortBreakTextField.doubleTap()
 
         // AND I type an invalid value
@@ -161,7 +166,7 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the input should only accept 5 digits
         let shortBreakTextFieldInvalidValue = String(
-            describing: app.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
         )
         XCTAssertEqual(shortBreakTextFieldInvalidValue.count, 3)
         XCTAssertEqual(shortBreakTextFieldInvalidValue, "123")
@@ -172,7 +177,7 @@ final class SettingsUITests: BaseFeature {
         // AND I add the new value
         shortBreakTextField.typeText("50")
 
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -180,28 +185,28 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the value should be the one that was updated
         let shortBreakTextFieldUpdated = String(
-            describing: app.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
+            describing: application.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
         )
         XCTAssertEqual(shortBreakTextFieldUpdated, "50")
     }
 
     func test_UpdateNumberOfCyclesValues() {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
-        let numberOfCyclesLabel = app.staticTexts[Accessibility.Identifiers.lblNumberOfCycles]
+        let numberOfCyclesLabel = application.staticTexts[Accessibility.Identifiers.lblNumberOfCycles]
         XCTAssertTrue(numberOfCyclesLabel.isHittable)
 
         // THEN the number of cycles should have the default value
         let numberOfCyclesTextFieldValue = String(
-            describing: app.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
+            describing: application.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
         )
         XCTAssertEqual(numberOfCyclesTextFieldValue, "4")
 
         // WHEN I delete the default value
-        let numberOfCyclesTextField = app.textFields[Accessibility.Identifiers.txtNumberOfCycles]
+        let numberOfCyclesTextField = application.textFields[Accessibility.Identifiers.txtNumberOfCycles]
         numberOfCyclesTextField.tap()
         numberOfCyclesTextField.typeText(XCUIKeyboardKey.delete.rawValue)
 
@@ -210,7 +215,7 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the input should only accept 2 digits
         let numberOfCyclesTextFieldInvalidValue = String(
-            describing: app.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
+            describing: application.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
         )
         XCTAssertEqual(numberOfCyclesTextFieldInvalidValue.count, 2)
         XCTAssertEqual(numberOfCyclesTextFieldInvalidValue, "12")
@@ -221,7 +226,7 @@ final class SettingsUITests: BaseFeature {
         // AND I add the new value
         numberOfCyclesTextField.typeText("20")
 
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -229,25 +234,24 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the value should be the one that was updated
         let numberOfCyclesTextFieldUpdated = String(
-            describing: app.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
+            describing: application.textFields[Accessibility.Identifiers.txtNumberOfCycles].value!
         )
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "20")
     }
 
-    // swiftlint:disable force_cast
     func test_UpdateToggles() {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // AND the toggles are in their default values
-        let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
+        let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
 
-        let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
+        let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
-        let keepScreenOnToggle = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggle = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
         XCTAssertFalse(keepScreenOnToggle.isSelected)
 
         // WHEN I update the toggles
@@ -255,191 +259,84 @@ final class SettingsUITests: BaseFeature {
         playSoundsToggle.switches.firstMatch.tap()
         keepScreenOnToggle.switches.firstMatch.tap()
 
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
         showSettingsButton.tap()
 
-        XCTAssertEqual(autoStartToggle.value as! String, "1")
-        XCTAssertEqual(playSoundsToggle.value as! String, "1")
-        XCTAssertEqual(keepScreenOnToggle.value as! String, "1")
+        XCTAssertEqual(
+            stringValue(for: autoStartToggle, message: "Auto start toggle value should be a String."),
+            "1"
+        )
+        XCTAssertEqual(
+            stringValue(for: playSoundsToggle, message: "Play sounds toggle value should be a String."),
+            "1"
+        )
+        XCTAssertEqual(
+            stringValue(for: keepScreenOnToggle, message: "Keep screen on toggle value should be a String."),
+            "1"
+        )
     }
 
     func test_WarnMessageWhenTimerIsRunning() {
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
         // THEN the warn should not be displayed
-        let lblWarnMessageVisible = app.staticTexts[Accessibility.Identifiers.lblWarnReloadMessage].exists
+        let lblWarnMessageVisible = application.staticTexts[Accessibility.Identifiers.lblWarnReloadMessage].exists
         XCTAssertFalse(lblWarnMessageVisible, "The warn reload message shouldn't be displayed")
 
         // WHEN I dismiss the modal
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
 
         // AND I start the timer
-        let playButton = app.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
+        let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")
         playButton.tap()
 
-        
         XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
 
         // AND open it again
         showSettingsButton.tap()
 
         // THEN the warning should be displayed
-        let lblWarnMessageVisibleUpdated = app.staticTexts[Accessibility.Identifiers.lblWarnReloadMessage].exists
+        let lblWarnMessageVisibleUpdated = application.staticTexts[
+            Accessibility.Identifiers.lblWarnReloadMessage
+        ].exists
         XCTAssert(lblWarnMessageVisibleUpdated, "The warn reload message should be displayed")
     }
 
-    // swiftlint:disable function_body_length
     func test_ResetToDefault() {
-
-        // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
-        // WHEN the fields are loaded
-        let focusDurationLabel = app.staticTexts[Accessibility.Identifiers.lblFocusDuration]
-        XCTAssertTrue(focusDurationLabel.isHittable)
+        assertDefaultSettingsValues()
+        updateSettingsValues()
 
-        let shortBreakDurationLabel = app.staticTexts[Accessibility.Identifiers.lblShortBreakDuration]
-        XCTAssertTrue(shortBreakDurationLabel.isHittable)
-
-        let longBreakDurationLabel = app.staticTexts[Accessibility.Identifiers.lblLongBreakDuration]
-        XCTAssertTrue(longBreakDurationLabel.isHittable)
-
-        let numberOfCyclesLabel = app.staticTexts[Accessibility.Identifiers.lblNumberOfCycles]
-        XCTAssertTrue(numberOfCyclesLabel.isHittable)
-
-        // THEN the duration should have the default value
-        let durationTextField = app.textFields[Accessibility.Identifiers.txtFocusedTime]
-        XCTAssertEqual(String(describing: durationTextField.value!), "1")
-
-        let shortBreakTextField = app.textFields[Accessibility.Identifiers.txtShortBreakTime]
-        XCTAssertEqual(String(describing: shortBreakTextField.value!), "1")
-
-        let longBreakTextField = app.textFields[Accessibility.Identifiers.txtLongBreakTime]
-        XCTAssertEqual(String(describing: longBreakTextField.value!), "1")
-
-        let numberOfCyclesTextField = app.textFields[Accessibility.Identifiers.txtNumberOfCycles]
-        XCTAssertEqual(String(describing: numberOfCyclesTextField.value!), "4")
-
-        let autoStartToggle = app.switches[Accessibility.Identifiers.tgAutoStart]
-        XCTAssertEqual(autoStartToggle.value as! String, "0")
-
-        let playSoundsToggle = app.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertEqual(playSoundsToggle.value as! String, "0")
-
-        let keepScreenOnToggle = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
-        XCTAssertEqual(keepScreenOnToggle.value as! String, "0")
-
-        // WHEN I update the fields
-        durationTextField.doubleTap()
-        durationTextField.typeText("12345")
-
-        shortBreakTextField.doubleTap()
-        shortBreakTextField.typeText("1234")
-
-        longBreakTextField.doubleTap()
-        longBreakTextField.typeText("123")
-
-        numberOfCyclesTextField.doubleTap()
-        numberOfCyclesTextField.typeText("99")
-
-        app.tap()
-
-        autoStartToggle.switches.firstMatch.tap()
-        playSoundsToggle.switches.firstMatch.tap()
-        keepScreenOnToggle.switches.firstMatch.tap()
-
-        // alert warning that the app needs to be opened again because of the keep screen on
-        app.alerts.firstMatch.buttons["OK"].tap()
-
-        // AND I dismiss the modal
-        let dismissSettingsButton = app.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
-
-        // AND I open it again
         showSettingsButton.tap()
 
-        // THEN all the values that were updated should be correct
-        let durationTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtFocusedTime]
-        XCTAssertEqual(String(describing: durationTextFieldUpdated.value!), "123")
-
-        let shortBreakTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtShortBreakTime]
-        XCTAssertEqual(String(describing: shortBreakTextFieldUpdated.value!), "123")
-
-        let longBreakTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtLongBreakTime]
-        XCTAssertEqual(String(describing: longBreakTextFieldUpdated.value!), "123")
-
-        let numberOfCyclesTextFieldUpdated = app.textFields[Accessibility.Identifiers.txtNumberOfCycles]
-        XCTAssertEqual(String(describing: numberOfCyclesTextFieldUpdated.value!), "99")
-
-        let autoStartToggleUpdated = app.switches[Accessibility.Identifiers.tgAutoStart]
-        XCTAssertEqual(autoStartToggleUpdated.value as! String, "1")
-
-        let playSoundsToggleUpdated = app.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertEqual(playSoundsToggleUpdated.value as! String, "1")
-
-        let keepScreenOnToggleUpdated = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
-        XCTAssertEqual(keepScreenOnToggleUpdated.value as! String, "1")
-
-        app.swipeUp()
-
-        // WHEN I click to reset to the defaults
-        app.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
-
-        // AND first alert about resetting the status
-        XCTAssertTrue(waitForExistence(app.alerts.firstMatch, timeout: 2.0))
-        app.alerts.firstMatch.buttons["OK"].tap()
-
-        // second alert warning that the app needs to be opened again because of the keep screen on
-        XCTAssertTrue(waitForExistence(app.alerts.firstMatch, timeout: 2.0))
-        app.alerts.firstMatch.buttons["OK"].tap()
-
-        app.swipeDown()
-
-        // THEN all the values should be back to the default
-        let durationTextFieldFinal = app.textFields[Accessibility.Identifiers.txtFocusedTime]
-        XCTAssertEqual(String(describing: durationTextFieldFinal.value!), "25")
-
-        let shortBreakTextFieldFinal = app.textFields[Accessibility.Identifiers.txtShortBreakTime]
-        XCTAssertEqual(String(describing: shortBreakTextFieldFinal.value!), "5")
-
-        let longBreakTextFieldFinal = app.textFields[Accessibility.Identifiers.txtLongBreakTime]
-        XCTAssertEqual(String(describing: longBreakTextFieldFinal.value!), "30")
-
-        let numberOfCyclesTextFieldFinal = app.textFields[Accessibility.Identifiers.txtNumberOfCycles]
-        XCTAssertEqual(String(describing: numberOfCyclesTextFieldFinal.value!), "4")
-
-        let autoStartToggleFinal = app.switches[Accessibility.Identifiers.tgAutoStart]
-        XCTAssertEqual(autoStartToggleFinal.value as! String, "0")
-
-        let playSoundsToggleFinal = app.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertEqual(playSoundsToggleFinal.value as! String, "0")
-
-        let keepScreenOnToggleFinal = app.switches[Accessibility.Identifiers.tgKeepScreenOn]
-        XCTAssertEqual(keepScreenOnToggleFinal.value as! String, "0")
+        assertUpdatedSettingsValues()
+        resetSettingsToDefaults()
+        assertFinalDefaultSettingsValues()
     }
 
     func test_AppVersionAndShare() {
 
         // GIVEN I open the modal
-        let showSettingsButton = app.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
         showSettingsButton.tap()
 
-        app.swipeUp()
+        application.swipeUp()
 
         // THEN the about information should be visible
-        let appVersionText = app.staticTexts[Accessibility.Identifiers.lblAppVersion]
+        let appVersionText = application.staticTexts[Accessibility.Identifiers.lblAppVersion]
         XCTAssertEqual(appVersionText.label, "App Version: 2.0.0")
 
         // AND the share option should be visible
-        let btnShareApp = app.buttons[Accessibility.Identifiers.btnShareApp]
+        let btnShareApp = application.buttons[Accessibility.Identifiers.btnShareApp]
         XCTAssertEqual(btnShareApp.label, "Share it")
 
         // WHEN I tap on the share
@@ -447,11 +344,11 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the share sheet should be displayed
         let shareSheetAppeared =
-            app.otherElements["ActivityListView"].waitForExistence(timeout: 3.0) ||
-            app.sheets.firstMatch.waitForExistence(timeout: 3.0) ||
-            app.navigationBars.firstMatch.waitForExistence(timeout: 3.0)
+            application.otherElements["ActivityListView"].waitForExistence(timeout: 3.0) ||
+            application.sheets.firstMatch.waitForExistence(timeout: 3.0) ||
+            application.navigationBars.firstMatch.waitForExistence(timeout: 3.0)
 
         XCTAssertTrue(shareSheetAppeared, "The share sheet should be displayed")
     }
+
 }
-// swiftlint:enable type_body_length file_length function_body_length force_cast

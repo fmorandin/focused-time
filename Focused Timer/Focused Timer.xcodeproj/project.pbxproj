@@ -28,6 +28,7 @@
 		18373AE729AF438900276411 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18373AE629AF438900276411 /* View+Extension.swift */; };
 		18373AEA29B1E63D00276411 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18373AE929B1E63D00276411 /* CloseButton.swift */; };
 		18373AEC29B270FD00276411 /* MainButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18373AEB29B270FD00276411 /* MainButtonLabel.swift */; };
+		18388F012F476C840027DACC /* SettingsUITests+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18388F002F476C840027DACC /* SettingsUITests+Helpers.swift */; };
 		18420D642971E8070061DCD5 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18420D632971E8070061DCD5 /* Color+Extension.swift */; };
 		18484B01260956DD0072DCCB /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18484B00260956DD0072DCCB /* FormView.swift */; };
 		18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */; };
@@ -95,6 +96,7 @@
 		18373AE629AF438900276411 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		18373AE929B1E63D00276411 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		18373AEB29B270FD00276411 /* MainButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainButtonLabel.swift; sourceTree = "<group>"; };
+		18388F002F476C840027DACC /* SettingsUITests+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsUITests+Helpers.swift"; sourceTree = "<group>"; };
 		18420D632971E8070061DCD5 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		18484B00260956DD0072DCCB /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			isa = PBXGroup;
 			children = (
 				181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */,
+				18388F002F476C840027DACC /* SettingsUITests+Helpers.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -436,10 +439,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A378FC542522BB7E0046FC4C /* Build configuration list for PBXNativeTarget "Focused Timer" */;
 			buildPhases = (
+				188808A825FFFAD800F4638D /* ShellScript */,
 				A378FC2B2522BB7D0046FC4C /* Sources */,
 				A378FC2C2522BB7D0046FC4C /* Frameworks */,
 				A378FC2D2522BB7D0046FC4C /* Resources */,
-				188808A825FFFAD800F4638D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -576,7 +579,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nif test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nSWIFTLINT_BIN=\"$(command -v swiftlint || true)\"\nif [ -z \"${SWIFTLINT_BIN}\" ]; then\n  if [ \"${CI_XCODE_CLOUD:-}\" = \"1\" ] || [ \"${CI_XCODE_CLOUD:-}\" = \"true\" ]; then\n    echo \"error: SwiftLint is required on Xcode Cloud but was not found in PATH.\"\n    exit 1\n  fi\n\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\n  exit 0\nfi\n\n\"${SWIFTLINT_BIN}\" lint --config \"${SRCROOT}/.swiftlint.yml\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -637,6 +640,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18388F012F476C840027DACC /* SettingsUITests+Helpers.swift in Sources */,
 				A378FC502522BB7E0046FC4C /* TimerUITests.swift in Sources */,
 				181E4A4525C74A74006CBDF4 /* SettingsUITests.swift in Sources */,
 				1889095D260E87460062C450 /* HelpViewUITests.swift in Sources */,
