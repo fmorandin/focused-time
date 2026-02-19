@@ -65,14 +65,14 @@ struct AppSettingsView: View {
                     )
                     keepScreenOnDisclaimerAlert = true
                 }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
+                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
                 .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
                     Alert(
                         title: Text(Translation.warningAlertTitle),
                         message: Text(Translation.settingsKeepScreenOnDisclaimer),
                         dismissButton: .default(Text("OK")))
                 })
-                .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
                 .padding(.vertical, 10)
         }
         .font(.system(.body, design: .rounded))
