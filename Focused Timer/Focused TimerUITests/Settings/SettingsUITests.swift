@@ -436,7 +436,7 @@ final class SettingsUITests: BaseFeature {
 
         // THEN the about information should be visible
         let appVersionText = app.staticTexts[Accessibility.Identifiers.lblAppVersion]
-        XCTAssertEqual(appVersionText.label, "App Version: 1.2.2")
+        XCTAssertEqual(appVersionText.label, "App Version: 2.0.0")
 
         // AND the share option should be visible
         let btnShareApp = app.buttons[Accessibility.Identifiers.btnShareApp]
