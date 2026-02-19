@@ -104,14 +104,7 @@ final class SettingsUITests: BaseFeature {
         // I was using typeText but it was typing in to fast and, because of that, the char limitation was not working
         // However, if the typing speed is a little more slow (more closer to the velocity of a person taping the screen
         // everything works fine. That was the reason to do the test like this
-        app.keys["1"].tap()
-        app.keys["2"].tap()
-        app.keys["3"].tap()
-        app.keys["4"].tap()
-        app.keys["5"].tap()
-        app.keys["6"].tap()
-        app.keys["7"].tap()
-        app.keys["8"].tap()
+        slowTypeText("12345678", into: durationTextField)
 
         // THEN the input should only accept 5 digits
         let durationTextFieldInvalidValue = String(
@@ -164,14 +157,7 @@ final class SettingsUITests: BaseFeature {
         // I was using typeText but it was typing in to fast and, because of that, the char limitation was not working
         // However, if the typing speed is a little more slow (more closer to the velocity of a person taping the screen
         // everything works fine. That was the reason to do the test like this
-        app.keys["1"].tap()
-        app.keys["2"].tap()
-        app.keys["3"].tap()
-        app.keys["4"].tap()
-        app.keys["5"].tap()
-        app.keys["6"].tap()
-        app.keys["7"].tap()
-        app.keys["8"].tap()
+        slowTypeText("12345678", into: shortBreakTextField)
 
         // THEN the input should only accept 5 digits
         let shortBreakTextFieldInvalidValue = String(
@@ -220,14 +206,7 @@ final class SettingsUITests: BaseFeature {
         numberOfCyclesTextField.typeText(XCUIKeyboardKey.delete.rawValue)
 
         // AND I type an invalid value
-        app.keys["1"].tap()
-        app.keys["2"].tap()
-        app.keys["3"].tap()
-        app.keys["4"].tap()
-        app.keys["5"].tap()
-        app.keys["6"].tap()
-        app.keys["7"].tap()
-        app.keys["8"].tap()
+        slowTypeText("12345678", into: numberOfCyclesTextField)
 
         // THEN the input should only accept 2 digits
         let numberOfCyclesTextFieldInvalidValue = String(
