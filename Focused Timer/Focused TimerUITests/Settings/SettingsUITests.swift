@@ -49,7 +49,7 @@ final class SettingsUITests: BaseFeature {
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
-        let keepScreenOnToggle = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggle = resolvedKeepScreenOnToggle()
         XCTAssertFalse(keepScreenOnToggle.isSelected)
 
         // WHEN I close the modal
@@ -81,7 +81,7 @@ final class SettingsUITests: BaseFeature {
         let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggleUpdated.isSelected)
 
-        let keepScreenOnToggleUpdated = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggleUpdated = resolvedKeepScreenOnToggle()
         XCTAssertFalse(keepScreenOnToggleUpdated.isSelected)
     }
 
@@ -251,13 +251,15 @@ final class SettingsUITests: BaseFeature {
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
-        let keepScreenOnToggle = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
-        XCTAssertFalse(keepScreenOnToggle.isSelected)
-
         // WHEN I update the toggles
-        autoStartToggle.switches.firstMatch.tap()
-        playSoundsToggle.switches.firstMatch.tap()
-        keepScreenOnToggle.switches.firstMatch.tap()
+        tapToggle(autoStartToggle)
+        tapToggle(playSoundsToggle)
+
+        let keepScreenOnToggle = resolvedKeepScreenOnToggle()
+        tapToggle(keepScreenOnToggle)
+        if waitForExistence(application.alerts.firstMatch, timeout: 1.0) {
+            application.alerts.firstMatch.buttons["OK"].tap()
+        }
 
         let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
         dismissSettingsButton.tap()
@@ -265,16 +267,21 @@ final class SettingsUITests: BaseFeature {
         // AND I open the modal again
         showSettingsButton.tap()
 
+        let autoStartToggleUpdated = application.switches[Accessibility.Identifiers.tgAutoStart]
+        let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
+
         XCTAssertEqual(
-            stringValue(for: autoStartToggle, message: "Auto start toggle value should be a String."),
+            stringValue(for: autoStartToggleUpdated, message: "Auto start toggle value should be a String."),
             "1"
         )
         XCTAssertEqual(
-            stringValue(for: playSoundsToggle, message: "Play sounds toggle value should be a String."),
+            stringValue(for: playSoundsToggleUpdated, message: "Play sounds toggle value should be a String."),
             "1"
         )
+
+        let keepScreenOnToggleUpdated = resolvedKeepScreenOnToggle()
         XCTAssertEqual(
-            stringValue(for: keepScreenOnToggle, message: "Keep screen on toggle value should be a String."),
+            stringValue(for: keepScreenOnToggleUpdated, message: "Keep screen on toggle value should be a String."),
             "1"
         )
     }

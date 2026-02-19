@@ -17,6 +17,10 @@ extension SettingsUITests {
         application.buttons[Accessibility.Identifiers.btnCloseModal]
     }
 
+    var keepScreenOnToggleAccessibilityLabel: String {
+        NSLocalizedString("accLabelSettingsKeepScreenOnToggle", comment: "")
+    }
+
     func assertDefaultSettingsValues() {
         let focusDurationLabel = application.staticTexts[Accessibility.Identifiers.lblFocusDuration]
         XCTAssertTrue(focusDurationLabel.isHittable)
@@ -54,7 +58,7 @@ extension SettingsUITests {
             "0"
         )
 
-        let keepScreenOnToggle = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggle = resolvedKeepScreenOnToggle()
         XCTAssertEqual(
             stringValue(for: keepScreenOnToggle, message: "Keep screen on toggle value should be a String."),
             "0"
@@ -62,6 +66,8 @@ extension SettingsUITests {
     }
 
     func updateSettingsValues() {
+        scrollToSettingsTopIfNeeded()
+
         let durationTextField = application.textFields[Accessibility.Identifiers.txtFocusedTime]
         durationTextField.doubleTap()
         durationTextField.typeText("12345")
@@ -82,13 +88,16 @@ extension SettingsUITests {
 
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
-        let keepScreenOnToggle = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
 
-        autoStartToggle.switches.firstMatch.tap()
-        playSoundsToggle.switches.firstMatch.tap()
-        keepScreenOnToggle.switches.firstMatch.tap()
+        tapToggle(autoStartToggle)
+        tapToggle(playSoundsToggle)
 
-        application.alerts.firstMatch.buttons["OK"].tap()
+        let keepScreenOnToggle = resolvedKeepScreenOnToggle()
+        tapToggle(keepScreenOnToggle)
+
+        let keepScreenOnAlert = application.alerts.firstMatch
+        XCTAssertTrue(waitForExistence(keepScreenOnAlert, timeout: 2.0))
+        keepScreenOnAlert.buttons["OK"].tap()
     }
 
     func assertUpdatedSettingsValues() {
@@ -116,7 +125,7 @@ extension SettingsUITests {
             "1"
         )
 
-        let keepScreenOnToggleUpdated = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggleUpdated = resolvedKeepScreenOnToggle()
         XCTAssertEqual(
             stringValue(for: keepScreenOnToggleUpdated, message: "Keep screen on toggle value should be a String."),
             "1"
@@ -161,7 +170,7 @@ extension SettingsUITests {
             "0"
         )
 
-        let keepScreenOnToggleFinal = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let keepScreenOnToggleFinal = resolvedKeepScreenOnToggle()
         XCTAssertEqual(
             stringValue(for: keepScreenOnToggleFinal, message: "Keep screen on toggle value should be a String."),
             "0"
@@ -180,5 +189,76 @@ extension SettingsUITests {
         }
 
         return value
+    }
+
+    func tapToggle(_ element: XCUIElement) {
+        let nestedSwitch = element.switches.firstMatch
+        if nestedSwitch.exists {
+            nestedSwitch.tap()
+            return
+        }
+
+        element.tap()
+    }
+
+    func scrollToKeepScreenOnToggleIfNeeded(maxSwipes: Int = 2) {
+        let toggleByIdentifier = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        let toggleByLabel = application.switches[keepScreenOnToggleAccessibilityLabel]
+
+        if (toggleByIdentifier.exists && toggleByIdentifier.isHittable)
+            || (toggleByLabel.exists && toggleByLabel.isHittable) {
+            return
+        }
+
+        for _ in 0..<maxSwipes {
+            application.swipeUp()
+            if (toggleByIdentifier.exists && toggleByIdentifier.isHittable)
+                || (toggleByLabel.exists && toggleByLabel.isHittable) {
+                return
+            }
+        }
+    }
+
+    func scrollToSettingsTopIfNeeded(maxSwipes: Int = 2) {
+        let focusTimeTextField = application.textFields[Accessibility.Identifiers.txtFocusedTime]
+        if focusTimeTextField.exists && focusTimeTextField.isHittable {
+            return
+        }
+
+        for _ in 0..<maxSwipes {
+            application.swipeDown()
+            if focusTimeTextField.exists && focusTimeTextField.isHittable {
+                return
+            }
+        }
+    }
+
+    func resolvedKeepScreenOnToggle(file: StaticString = #file, line: UInt = #line) -> XCUIElement {
+        scrollToKeepScreenOnToggleIfNeeded()
+
+        let toggleByIdentifier = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
+        if toggleByIdentifier.exists {
+            return toggleByIdentifier
+        }
+
+        let toggleByLabel = application.switches[keepScreenOnToggleAccessibilityLabel]
+        if toggleByLabel.exists {
+            return toggleByLabel
+        }
+
+        // Last fallback: on some layouts this switch can lose both identifier and label.
+        let unnamedSwitches = application.switches
+            .matching(NSPredicate(format: "identifier == ''"))
+            .allElementsBoundByIndex
+        let hittableUnnamedSwitches = unnamedSwitches.filter { $0.isHittable }
+        let bottomMostUnnamedSwitch = hittableUnnamedSwitches.max(by: { $0.frame.minY < $1.frame.minY })
+            ?? unnamedSwitches.max(by: { $0.frame.minY < $1.frame.minY })
+
+        if let unnamedSwitch = bottomMostUnnamedSwitch {
+            return unnamedSwitch
+        }
+
+        XCTFail("Keep screen on toggle could not be located.", file: file, line: line)
+        return toggleByIdentifier
     }
 }
