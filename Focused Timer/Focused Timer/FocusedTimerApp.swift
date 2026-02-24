@@ -22,7 +22,8 @@ struct FocusedTimerApp: App {
 
 // MARK: - AppDelegate
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+@MainActor
+class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotificationCenterDelegate {
 
     // MARK: - Private Variables
 
@@ -78,13 +79,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                 .sound,
                 .badge
             ]) { _, error in
-
-                Self.logger.notice("📅 Requesting user's permission to send notifications.")
-
-                if let error = error {
-                    Self.logger.error(
-                        "👮🏻‍♂️ Problem requesting user's permission for notification: \(error.localizedDescription)"
-                    )
+                Task { @MainActor in
+                    Self.logger.notice("📅 Requesting user's permission to send notifications.")
+                    if let error = error {
+                        Self.logger.error(
+                            "👮🏻‍♂️ Problem requesting user's permission for notification: \(error.localizedDescription)"
+                        )
+                    }
                 }
             }
     }

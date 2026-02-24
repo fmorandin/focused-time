@@ -51,23 +51,36 @@ private final class FoundationRepeatingTimer: RepeatingTimerProtocol {
 }
 
 struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
+    private final class FoundationTimerTarget: NSObject {
+        var timer: FoundationRepeatingTimer?
+        let block: (RepeatingTimerProtocol) -> Void
+
+        init(block: @escaping (RepeatingTimerProtocol) -> Void) {
+            self.block = block
+        }
+
+        @objc func fire() {
+            guard let timer else { return }
+            block(timer)
+        }
+    }
+
     func scheduledTimer(
         withTimeInterval interval: TimeInterval,
         repeats: Bool,
         block: @escaping (RepeatingTimerProtocol) -> Void
     ) -> RepeatingTimerProtocol {
-        final class TimerWrapper {
-            var timer: FoundationRepeatingTimer?
-        }
+        let target = FoundationTimerTarget(block: block)
+        let selectorTimer = Timer.scheduledTimer(
+            timeInterval: interval,
+            target: target,
+            selector: #selector(FoundationTimerTarget.fire),
+            userInfo: nil,
+            repeats: repeats
+        )
 
-        let wrapper = TimerWrapper()
-        let timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: repeats) { _ in
-            guard let wrappedTimer = wrapper.timer else { return }
-            block(wrappedTimer)
-        }
-
-        let createdTimer = FoundationRepeatingTimer(timer: timer)
-        wrapper.timer = createdTimer
+        let createdTimer = FoundationRepeatingTimer(timer: selectorTimer)
+        target.timer = createdTimer
         return createdTimer
     }
 }

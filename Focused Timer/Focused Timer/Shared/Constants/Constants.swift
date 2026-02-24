@@ -9,6 +9,7 @@ import SwiftUI
 
 // MARK: - Haptics
 
+@MainActor
 struct HapticsConstants {
 
     let impactLight = UIImpactFeedbackGenerator(style: .light)

@@ -7,6 +7,7 @@
 
 import XCTest
 
+@MainActor
 class BaseFeature: XCTestCase {
 
     let application = XCUIApplication()

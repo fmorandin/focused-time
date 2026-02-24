@@ -7,14 +7,14 @@
 
 import Foundation
 import UIKit
-import UserNotifications
+@preconcurrency import UserNotifications
 import os
 
-protocol UserNotificationCenterProtocol {
+protocol UserNotificationCenterProtocol: Sendable {
     func setBadge(to value: Int)
     func removeAllPendingNotificationRequests()
     func removeAllDeliveredNotifications()
-    func getAuthorizationStatus(completionHandler: @escaping (UNAuthorizationStatus) -> Void)
+    func getAuthorizationStatus(completionHandler: @escaping @Sendable (UNAuthorizationStatus) -> Void)
     func add(_ request: UNNotificationRequest)
 }
 
@@ -24,7 +24,7 @@ extension UNUserNotificationCenter: UserNotificationCenterProtocol {
         setBadgeCount(value)
     }
 
-    func getAuthorizationStatus(completionHandler: @escaping (UNAuthorizationStatus) -> Void) {
+    func getAuthorizationStatus(completionHandler: @escaping @Sendable (UNAuthorizationStatus) -> Void) {
         getNotificationSettings { settings in
             completionHandler(settings.authorizationStatus)
         }
@@ -49,12 +49,14 @@ struct LocalNotificationManager {
         category: String(describing: LocalNotificationManager.self)
     )
     private let notificationCenter: UserNotificationCenterProtocol
-    private let requestPermission: () -> Void
+    private let requestPermission: @Sendable () -> Void
 
     init(
         notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
-        requestPermission: @escaping () -> Void = {
-            AppDelegate().requestLocalNotificationPermission()
+        requestPermission: @escaping @Sendable () -> Void = {
+            Task { @MainActor in
+                AppDelegate().requestLocalNotificationPermission()
+            }
         }
     ) {
         self.notificationCenter = notificationCenter
@@ -81,6 +83,8 @@ struct LocalNotificationManager {
 
         Self.logger.notice("🕵🏻 Checking the status of the permission to send local notifications.")
 
+        let requestPermission = self.requestPermission
+        let notificationCenter = self.notificationCenter
         notificationCenter.getAuthorizationStatus { authorizationStatus in
             switch authorizationStatus {
             case .notDetermined:
@@ -88,7 +92,7 @@ struct LocalNotificationManager {
                 requestPermission()
             case .authorized, .provisional:
                 Self.logger.notice("👌🏻 Permission for local notification either authorized or provisional.")
-                schedule(remainingTime: remainingTime)
+                Self.schedule(remainingTime: remainingTime, notificationCenter: notificationCenter)
             default:
                 Self.logger.error("✋🏻 Default option for local notification permissions.")
             }
@@ -100,7 +104,7 @@ struct LocalNotificationManager {
     /// Function that will schedule a notification based on the remaining time for the given timer to finish
     /// - Parameters:
     ///   - remainingTime: The remaining time for the timer to finish
-    private func schedule(remainingTime: Double) {
+    private static func schedule(remainingTime: Double, notificationCenter: UserNotificationCenterProtocol) {
         let notificationTitle = NSString.localizedUserNotificationString(
             forKey: "notificationTitle", arguments: nil)
         let notificationBody = NSString.localizedUserNotificationString(
