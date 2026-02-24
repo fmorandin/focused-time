@@ -10,7 +10,11 @@ import UserNotifications
 @Suite("LocalNotificationManager Tests", .serialized)
 struct LocalNotificationManagerTests {
 
-    private final class NotificationCenterMock: UserNotificationCenterProtocol {
+    private final class PermissionCallCounter: @unchecked Sendable {
+        var value = 0
+    }
+
+    private final class NotificationCenterMock: @unchecked Sendable, UserNotificationCenterProtocol {
         var authorizationStatus: UNAuthorizationStatus = .notDetermined
         private(set) var badgeValues: [Int] = []
         private(set) var removedPendingCalls = 0
@@ -29,7 +33,7 @@ struct LocalNotificationManagerTests {
             removedDeliveredCalls += 1
         }
 
-        func getAuthorizationStatus(completionHandler: @escaping (UNAuthorizationStatus) -> Void) {
+        func getAuthorizationStatus(completionHandler: @escaping @Sendable (UNAuthorizationStatus) -> Void) {
             completionHandler(authorizationStatus)
         }
 
@@ -54,15 +58,15 @@ struct LocalNotificationManagerTests {
     func scheduleLocalNotificationWhenStatusNotDeterminedRequestsPermissionOnly() {
         let center = NotificationCenterMock()
         center.authorizationStatus = .notDetermined
-        var requestPermissionCalls = 0
+        let requestPermissionCalls = PermissionCallCounter()
         let manager = LocalNotificationManager(
             notificationCenter: center,
-            requestPermission: { requestPermissionCalls += 1 }
+            requestPermission: { requestPermissionCalls.value += 1 }
         )
 
         manager.scheduleLocalNotification(remainingTime: 12)
 
-        #expect(requestPermissionCalls == 1)
+        #expect(requestPermissionCalls.value == 1)
         #expect(center.addedRequests.isEmpty)
     }
 
@@ -85,15 +89,15 @@ struct LocalNotificationManagerTests {
     func scheduleLocalNotificationWhenDeniedDoesNotRequestPermissionOrSchedule() {
         let center = NotificationCenterMock()
         center.authorizationStatus = .denied
-        var requestPermissionCalls = 0
+        let requestPermissionCalls = PermissionCallCounter()
         let manager = LocalNotificationManager(
             notificationCenter: center,
-            requestPermission: { requestPermissionCalls += 1 }
+            requestPermission: { requestPermissionCalls.value += 1 }
         )
 
         manager.scheduleLocalNotification(remainingTime: 15)
 
-        #expect(requestPermissionCalls == 0)
+        #expect(requestPermissionCalls.value == 0)
         #expect(center.addedRequests.isEmpty)
     }
 }

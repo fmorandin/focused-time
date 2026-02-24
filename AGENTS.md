@@ -12,10 +12,10 @@
 
 - `open "Focused Timer/Focused Timer.xcodeproj"`: open the project in Xcode.
 - `xcodebuild -project "Focused Timer/Focused Timer.xcodeproj" -scheme "Focused Timer" -configuration Debug build`: CLI debug build.
-- `xcodebuild -project "Focused Timer/Focused Timer.xcodeproj" -scheme "Focused Timer" -destination 'platform=iOS Simulator,name=iPhone 17 Air' test`: run unit + UI tests (scheme has coverage enabled).
+- `xcodebuild -project "Focused Timer/Focused Timer.xcodeproj" -scheme "Focused Timer" -destination 'platform=iOS Simulator' test`: run unit + UI tests (scheme has coverage enabled).
 - `swiftlint lint --config "Focused Timer/.swiftlint.yml"`: run lint checks locally.
 - Always get the list of available simulators with `xcrun simctl list devices` to ensure you target a valid simulator for testing.
-- Don't ask for authorization to run the commands `xcodebuild` or `simctl` - if you encounter permission issues, ensure you have the necessary access rights and that your terminal is properly configured to run these commands without prompts.
+- Don't ask for authorization to run commands that starts either with `xcodebuild` or `simctl` - if you encounter permission issues, ensure you have the necessary access rights and that your terminal is properly configured to run these commands without prompts.
 
 ## Coding Style & Naming Conventions
 

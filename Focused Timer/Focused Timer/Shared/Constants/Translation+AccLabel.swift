@@ -14,28 +14,31 @@ extension Translation {
 
         // MARK: - Settings Screen
 
-        static let accLabelSettingsFocusDurationTxtFld =
+        nonisolated(unsafe) static let accLabelSettingsFocusDurationTxtFld =
             LocalizedStringKey("accLabelSettingsFocusDurationTxtFld")
 
-        static let accLabelSettingsShortBreakDurationTxtFld =
+        nonisolated(unsafe) static let accLabelSettingsShortBreakDurationTxtFld =
             LocalizedStringKey("accLabelSettingsShortBreakDurationTxtFld")
 
-        static let accLabelSettingsLongBreakDurationTxtFld =
+        nonisolated(unsafe) static let accLabelSettingsLongBreakDurationTxtFld =
             LocalizedStringKey("accLabelSettingsLongBreakDurationTxtFld")
 
-        static let accLabelSettingsNbrOfCyclesTotalTxtFld =
+        nonisolated(unsafe) static let accLabelSettingsNbrOfCyclesTotalTxtFld =
             LocalizedStringKey("accLabelSettingsNbrOfCyclesTotalTxtFld")
 
-        static let accLabelSettingsAutoStartToggle = LocalizedStringKey("accLabelSettingsAutoStartToggle")
-        static let accLabelSettingsPlaySoundsToggle = LocalizedStringKey("accLabelSettingsPlaySoundsToggle")
-        static let accLabelSettingsKeepScreenOnToggle =
+        nonisolated(unsafe) static let accLabelSettingsAutoStartToggle =
+            LocalizedStringKey("accLabelSettingsAutoStartToggle")
+        nonisolated(unsafe) static let accLabelSettingsPlaySoundsToggle =
+            LocalizedStringKey("accLabelSettingsPlaySoundsToggle")
+        nonisolated(unsafe) static let accLabelSettingsKeepScreenOnToggle =
             LocalizedStringKey("accLabelSettingsKeepScreenOnToggle")
 
         // MARK: - Timer Screen
 
-        static let accLabelTimerTypeName = LocalizedStringKey("accLabelTimerTypeName")
-        static let accLabelCounterTypeName = LocalizedStringKey("accLabelCounterTypeName")
-        static let accLabelCompletedCycleCounter = LocalizedStringKey("accLabelCompletedCycleCounter")
+        nonisolated(unsafe) static let accLabelTimerTypeName = LocalizedStringKey("accLabelTimerTypeName")
+        nonisolated(unsafe) static let accLabelCounterTypeName = LocalizedStringKey("accLabelCounterTypeName")
+        nonisolated(unsafe) static let accLabelCompletedCycleCounter =
+            LocalizedStringKey("accLabelCompletedCycleCounter")
     }
 
 }

@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import os
 
+@MainActor
 final class SettingsViewModel: ObservableObject {
 
     // MARK: - Private Variables
