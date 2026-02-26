@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class HelpViewUITests: BaseFeature {
+final class HelpViewUITests: BaseFeature, @unchecked Sendable {
 
     func test_HelpScreenLoadedCorrectly() {
         // WHEN I open the help page

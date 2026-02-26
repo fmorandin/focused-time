@@ -180,7 +180,7 @@ extension SettingsUITests {
     func stringValue(
         for element: XCUIElement,
         message: String,
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line
     ) -> String {
         guard let value = element.value as? String else {
@@ -233,7 +233,7 @@ extension SettingsUITests {
         }
     }
 
-    func resolvedKeepScreenOnToggle(file: StaticString = #file, line: UInt = #line) -> XCUIElement {
+    func resolvedKeepScreenOnToggle(file: StaticString = #filePath, line: UInt = #line) -> XCUIElement {
         scrollToKeepScreenOnToggleIfNeeded()
 
         let toggleByIdentifier = application.switches[Accessibility.Identifiers.tgKeepScreenOn]

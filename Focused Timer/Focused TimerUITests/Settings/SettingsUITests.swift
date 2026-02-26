@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class SettingsUITests: BaseFeature {
+final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_OpenModalNoChanges() throws {
         // GIVEN I open the modal

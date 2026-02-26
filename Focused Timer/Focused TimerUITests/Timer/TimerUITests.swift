@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class TimerUITests: BaseFeature {
+final class TimerUITests: BaseFeature, @unchecked Sendable {
 
     private let initialCounterLabel = "00:05"
 
