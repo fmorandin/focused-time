@@ -8,25 +8,29 @@
 import XCTest
 
 @MainActor
-class BaseFeature: XCTestCase {
+class BaseFeature: XCTestCase, @unchecked Sendable {
 
     let application = XCUIApplication()
 
     override func setUp() {
         super.setUp()
-        application.launchArguments += ["UI-Testing"]
+        MainActor.assumeIsolated {
+            application.launchArguments += ["UI-Testing"]
 
-        // Keep UI tests deterministic and fast by reducing cycle durations.
-        application.launchEnvironment["UI_TEST_FOCUSED_SECONDS"] = "5"
-        application.launchEnvironment["UI_TEST_SHORT_BREAK_SECONDS"] = "5"
-        application.launchEnvironment["UI_TEST_LONG_BREAK_SECONDS"] = "5"
-        application.launchEnvironment["UI_TEST_NUMBER_OF_CYCLES"] = "4"
+            // Keep UI tests deterministic and fast by reducing cycle durations.
+            application.launchEnvironment["UI_TEST_FOCUSED_SECONDS"] = "5"
+            application.launchEnvironment["UI_TEST_SHORT_BREAK_SECONDS"] = "5"
+            application.launchEnvironment["UI_TEST_LONG_BREAK_SECONDS"] = "5"
+            application.launchEnvironment["UI_TEST_NUMBER_OF_CYCLES"] = "4"
 
-        application.launch()
+            application.launch()
+        }
     }
 
     override func tearDown() {
-        application.terminate()
+        MainActor.assumeIsolated {
+            application.terminate()
+        }
     }
 
     @discardableResult
