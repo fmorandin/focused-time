@@ -11,7 +11,7 @@ struct MainButtonLabel: View {
 
     var accentColor: Color
     var imageName: String
-    var text: LocalizedStringKey
+    var text: LocalizedStringResource
 
     var body: some View {
         HStack(spacing: 10) {
@@ -34,7 +34,7 @@ struct MainButtonLabel_Previews: PreviewProvider {
          MainButtonLabel(
             accentColor: Color.accentColor,
             imageName: ImageNames.play,
-            text: Translation.playTimer
+            text: LocalizedStringResource("playTimer", table: "Localizable")
          )
     }
 }

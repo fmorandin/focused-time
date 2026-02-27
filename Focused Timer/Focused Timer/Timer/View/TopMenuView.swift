@@ -41,7 +41,7 @@ struct TopMenuView: View {
                 showingHelp.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
-                Label(Translation.timerViewOpenHelpModalButton, systemImage: ImageNames.showHelp)
+                Label("timerViewOpenHelpModalButton", systemImage: ImageNames.showHelp)
                     .iconNoText()
 
             })
@@ -57,7 +57,7 @@ struct TopMenuView: View {
                 showingConfig.toggle()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
-                Label(Translation.timerViewOpenSettingsModalButton, systemImage: ImageNames.showSettings)
+                Label("timerViewOpenSettingsModalButton", systemImage: ImageNames.showSettings)
                     .iconNoText()
             })
             .sheet(isPresented: $showingConfig) {

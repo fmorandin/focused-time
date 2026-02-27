@@ -58,7 +58,7 @@ struct ButtonsView: View {
                 MainButtonLabel(
                     accentColor: timerViewModel.accentCircleColor,
                     imageName: ImageNames.reset,
-                    text: Translation.resetTimer
+                    text: LocalizedStringResource("resetTimer", table: "Localizable")
                 )
 
             })

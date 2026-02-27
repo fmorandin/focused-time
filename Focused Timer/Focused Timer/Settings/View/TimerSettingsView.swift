@@ -37,11 +37,11 @@ struct TimerSettingsView: View {
     // MARK: - View Body
 
     var body: some View {
-        Section(header: Text(Translation.settingsSectionTimersName)) {
+        Section(header: Text("settingsSectionTimersName")) {
             // Focused time
             HStack {
                 withAnimation {
-                    Text(Translation.settingsFocusDuration)
+                    Text("settingsFocusDuration")
                         .accessibilityIdentifier(Accessibility.Identifiers.lblFocusDuration)
                         .foregroundStyle(focusedTimerHasValidationErrors ? .red : .primaryFont)
                         .animation(.bouncy(duration: 0.7), value: focusedTimerHasValidationErrors)
@@ -70,14 +70,14 @@ struct TimerSettingsView: View {
                     .animation(.bouncy(duration: 0.7), value: focusedTimerHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsFocusDurationTxtFld))
+                    .accessibilityLabel(Text("accLabelSettingsFocusDurationTxtFld"))
             }
             .padding(.vertical, 10)
 
             // Short Break time
             HStack {
                 withAnimation {
-                    Text(Translation.settingsShortBreakDuration)
+                    Text("settingsShortBreakDuration")
                         .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakDuration)
                         .foregroundStyle(shortBreakHasValidationErrors ? .red : .primaryFont)
                         .animation(.bouncy(duration: 0.7), value: shortBreakHasValidationErrors)
@@ -106,14 +106,14 @@ struct TimerSettingsView: View {
                     .animation(.bouncy(duration: 0.7), value: shortBreakHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsShortBreakDurationTxtFld))
+                    .accessibilityLabel(Text("accLabelSettingsShortBreakDurationTxtFld"))
             }
             .padding(.vertical, 10)
 
             // Long Break
             HStack {
                 withAnimation {
-                    Text(Translation.settingsLongBreakDuration)
+                    Text("settingsLongBreakDuration")
                         .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakDuration)
                         .foregroundStyle(longBreakHasValidationErrors ? .red : .primaryFont)
                         .animation(.bouncy(duration: 0.7), value: longBreakHasValidationErrors)
@@ -142,14 +142,14 @@ struct TimerSettingsView: View {
                     .animation(.bouncy(duration: 0.7), value: longBreakHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsLongBreakDurationTxtFld))
+                    .accessibilityLabel(Text("accLabelSettingsLongBreakDurationTxtFld"))
             }
             .padding(.vertical, 10)
 
             // Number of cycles
             HStack {
                 withAnimation {
-                    Text(Translation.settingsNumberOfCyclesTotal)
+                    Text("settingsNumberOfCyclesTotal")
                         .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCycles)
                         .foregroundColor(numberOfCyclesHasValidationErrors ? .red : .primaryFont)
                         .animation(.bouncy(duration: 0.7), value: numberOfCyclesHasValidationErrors)
@@ -178,7 +178,7 @@ struct TimerSettingsView: View {
                     .animation(.bouncy(duration: 0.7), value: numberOfCyclesHasValidationErrors)
                     .settingsTextField()
                     .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
-                    .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsNbrOfCyclesTotalTxtFld))
+                    .accessibilityLabel(Text("accLabelSettingsNbrOfCyclesTotalTxtFld"))
             }
             .padding(.vertical, 10)
 

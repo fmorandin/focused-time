@@ -110,14 +110,14 @@ final class TimerViewModel: ObservableObject {
         }
     }
 
-    var primaryButtonText: LocalizedStringKey {
+    var primaryButtonText: LocalizedStringResource {
         switch timerState {
         case .running:
-            return Translation.pauseTimer
+            return LocalizedStringResource("pauseTimer", table: "Localizable")
         case .paused:
-            return Translation.resumeTimer
+            return LocalizedStringResource("resumeTimer", table: "Localizable")
         case .initial:
-            return Translation.playTimer
+            return LocalizedStringResource("playTimer", table: "Localizable")
         }
     }
 

@@ -49,7 +49,7 @@ struct FormView: View {
                     Button(action: {
                         resetDefaultValuesAlert.toggle()
                     }, label: {
-                        Text(Translation.resetSettingsDefaultValue)
+                        Text("resetSettingsDefaultValue")
                             .font(.system(.body, design: .rounded))
                     })
                     .buttonStyle(.plain)
@@ -57,8 +57,8 @@ struct FormView: View {
                     .accessibility(identifier: Accessibility.Identifiers.btnResetSettingsDefault)
                     .alert(isPresented: $resetDefaultValuesAlert, content: {
                         Alert(
-                            title: Text(Translation.resetSettingsAlertTitle),
-                            message: Text(Translation.resetSettingsAlertMessage),
+                            title: Text("resetSettingsAlertTitle"),
+                            message: Text("resetSettingsAlertMessage"),
                             primaryButton: .default(Text("OK"),
                                                     action: {
                                                         settingsViewModel.shouldUpdateTimerView = true
@@ -75,7 +75,7 @@ struct FormView: View {
 
             Section {
                 HStack {
-                    Text("\(Text(Translation.appVersionTitle)): \(settingsViewModel.appVersionNumber)")
+                    Text("\(Text("appVersionTitle")): \(settingsViewModel.appVersionNumber)")
                         .font(.system(.footnote, design: .rounded))
                         .accessibility(identifier: Accessibility.Identifiers.lblAppVersion)
 
@@ -92,7 +92,7 @@ struct FormView: View {
                         )
                     }, label: {
                         HStack {
-                            Text(Translation.shareAppTitle)
+                            Text("shareAppTitle")
                                 .font(.system(.footnote, design: .rounded))
                             Image(systemName: ImageNames.share)
                         }

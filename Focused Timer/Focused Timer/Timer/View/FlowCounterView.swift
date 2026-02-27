@@ -33,14 +33,14 @@ struct FlowCounterView: View {
         HStack {
             Spacer()
 
-            Text(Translation.cycleCounter)
+            Text("cycleCounter")
                 .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesCompleted)
 
             Spacer()
 
             Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
                 .accessibilityIdentifier(Accessibility.Identifiers.lblCycleCounter)
-                .accessibilityValue(Text(Translation.AccLabel.accLabelCompletedCycleCounter))
+                .accessibilityValue(Text("accLabelCompletedCycleCounter"))
 
             Spacer()
         }
