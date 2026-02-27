@@ -8,13 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E842725F6E56600ACF34C /* LocalNotificationManager.swift */; };
-		C412EEAF4B004F41AE887BAC /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D502E609469341368AE6D67B /* LocalizationTests.swift */; };
-		AA2222220000000000002222 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA1111110000000000001111 /* Localizable.xcstrings */; };
 		180EDCE325CC888700452D96 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Accessibility.swift */; };
 		180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
 		180EDCF825CCC1B300452D96 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Accessibility.swift */; };
 		180EDD0025CCC27900452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
-		AA3333330000000000003333 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA1111110000000000001111 /* Localizable.xcstrings */; };
 		181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A1425C701A9006CBDF4 /* BaseFeature.swift */; };
 		181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */; };
 		181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */; };
@@ -33,6 +30,7 @@
 		18681F9B25AB88CF009447D9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18681F9A25AB88CF009447D9 /* SettingsViewModel.swift */; };
 		1870266926B0AB3B00A1DDDE /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1870266826B0AB3B00A1DDDE /* NetworkManager.swift */; };
 		1876325C26001F76001ADD23 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1876325B26001F76001ADD23 /* HelpView.swift */; };
+		18794EFC2F52356200958093 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA1111110000000000001111 /* Localizable.xcstrings */; };
 		1889095D260E87460062C450 /* HelpViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1889095C260E87460062C450 /* HelpViewUITests.swift */; };
 		189EF6A825BA5A6F004A182E /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189EF6A725BA5A6F004A182E /* TimerModel.swift */; };
 		18BF37D025AB76F00056D766 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BF37CF25AB76F00056D766 /* SettingsView.swift */; };
@@ -50,8 +48,11 @@
 		A378FC452522BB7E0046FC4C /* TimerViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC442522BB7E0046FC4C /* TimerViewModelTests.swift */; };
 		A378FC502522BB7E0046FC4C /* TimerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC4F2522BB7E0046FC4C /* TimerUITests.swift */; };
 		A378FC672522BCF90046FC4C /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC662522BCF90046FC4C /* TimerView.swift */; };
+		AA2222220000000000002222 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA1111110000000000001111 /* Localizable.xcstrings */; };
+		AA3333330000000000003333 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = AA1111110000000000001111 /* Localizable.xcstrings */; };
 		B63EFF0326558FF7007534C4 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */; };
 		B63EFF072655907D007534C4 /* Notification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF062655907D007534C4 /* Notification+Extension.swift */; };
+		C412EEAF4B004F41AE887BAC /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D502E609469341368AE6D67B /* LocalizationTests.swift */; };
 		F00100012C00000100000001 /* LocalNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100112C00000100000001 /* LocalNotificationManagerTests.swift */; };
 		F00100022C00000100000001 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100122C00000100000001 /* AppDelegateTests.swift */; };
 		F00100032C00000100000001 /* TimerViewLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100132C00000100000001 /* TimerViewLifecycleTests.swift */; };
@@ -76,7 +77,6 @@
 
 /* Begin PBXFileReference section */
 		180E842725F6E56600ACF34C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
-		AA1111110000000000001111 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = "text.json.xcstrings"; name = Localizable.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		180EDCE225CC888700452D96 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		180EDCE725CC9BF000452D96 /* ImageNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
 		181E4A1425C701A9006CBDF4 /* BaseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFeature.swift; sourceTree = "<group>"; };
@@ -120,9 +120,10 @@
 		A378FC4F2522BB7E0046FC4C /* TimerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerUITests.swift; sourceTree = "<group>"; };
 		A378FC512522BB7E0046FC4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A378FC662522BCF90046FC4C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
-		D502E609469341368AE6D67B /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
+		AA1111110000000000001111 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		B63EFF062655907D007534C4 /* Notification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification+Extension.swift"; sourceTree = "<group>"; };
+		D502E609469341368AE6D67B /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		F00100112C00000100000001 /* LocalNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManagerTests.swift; sourceTree = "<group>"; };
 		F00100122C00000100000001 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		F00100132C00000100000001 /* TimerViewLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewLifecycleTests.swift; sourceTree = "<group>"; };
@@ -200,14 +201,6 @@
 				181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		C0726831746148D9B4CCAFD0 /* Localization */ = {
-			isa = PBXGroup;
-			children = (
-				D502E609469341368AE6D67B /* LocalizationTests.swift */,
-			);
-			path = Localization;
 			sourceTree = "<group>";
 		};
 		18681F9525AB882E009447D9 /* Timer */ = {
@@ -434,6 +427,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		C0726831746148D9B4CCAFD0 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				D502E609469341368AE6D67B /* LocalizationTests.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -550,6 +551,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18794EFC2F52356200958093 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -664,7 +666,6 @@
 			targetProxy = A378FC4C2522BB7E0046FC4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
 
 /* Begin XCBuildConfiguration section */
 		A378FC522522BB7E0046FC4C /* Debug */ = {

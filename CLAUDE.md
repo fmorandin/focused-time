@@ -4,6 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
+### Version Control
+
+You have access to and can use the `gh` CLI for GitHub operations.
+
 ### Build & Test
 
 All commands run from the repo root. The Xcode project is at `Focused Timer/Focused Timer.xcodeproj`.
