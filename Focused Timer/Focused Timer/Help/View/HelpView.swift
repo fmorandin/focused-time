@@ -28,41 +28,41 @@ struct HelpView: View {
                 VStack {
                     VStack(spacing: 5) {
                         HStack {
-                            Text(Translation.techniqueExplanationTitle)
+                            Text("techniqueExplanationTitle")
                                 .helpSectionTitle()
                                 .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanationTitle)
                             Spacer()
                         }
 
-                        Text(Translation.techniqueExplanation)
+                        Text("techniqueExplanation")
                             .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanation)
                     }
 
                     VStack(spacing: 5) {
                         HStack {
-                            Text(Translation.focusExplanationTitle)
+                            Text("focusExplanationTitle")
                                 .helpSectionTitle()
                                 .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanationTitle)
 
                             Spacer()
                         }
 
-                        Text(Translation.focusExplanation)
+                        Text("focusExplanation")
                             .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanation)
                     }
 
                     VStack(spacing: 5) {
                         HStack {
-                            Text(Translation.shortBreakExplanationTitle)
+                            Text("shortBreakExplanationTitle")
                                 .helpSectionTitle()
                                 .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanationTitle)
 
                             Spacer()
                         }
 
-                        Text(Translation.shortBreakExplanation)
+                        Text("shortBreakExplanation")
                             .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanation)
                     }
@@ -70,14 +70,14 @@ struct HelpView: View {
                     VStack(spacing: 5) {
                         HStack {
 
-                            Text(Translation.longBreakExplanationTitle)
+                            Text("longBreakExplanationTitle")
                                 .helpSectionTitle()
                                 .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanationTitle)
 
                             Spacer()
                         }
 
-                        Text(Translation.longBreakExplanation)
+                        Text("longBreakExplanation")
                             .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanation)
                     }
@@ -85,14 +85,14 @@ struct HelpView: View {
                     VStack(spacing: 5) {
                         HStack {
 
-                            Text(Translation.numberOfCyclesExplanationTitle)
+                            Text("numberOfCyclesExplanationTitle")
                                 .helpSectionTitle()
                                 .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle)
 
                             Spacer()
                         }
 
-                        Text(Translation.numberOfCyclesExplanation)
+                        Text("numberOfCyclesExplanation")
                             .helpSectionText()
                             .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanation)
                     }

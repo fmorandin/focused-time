@@ -31,9 +31,9 @@ struct AppSettingsView: View {
     // MARK: - View Body
 
     var body: some View {
-        Section(header: Text(Translation.settingsSectionAppName)) {
+        Section(header: Text("settingsSectionAppName")) {
             // Auto Start
-            Toggle(Translation.settingsAutoStart, isOn: $settingsViewModel.isAutoStartEnabled)
+            Toggle("settingsAutoStart", isOn: $settingsViewModel.isAutoStartEnabled)
                 .onChange(of: settingsViewModel.isAutoStartEnabled) { _, newValue in
                     settingsViewModel.saveToggles(
                         for: UserDefaultKeys.autoStartToggle,
@@ -41,11 +41,11 @@ struct AppSettingsView: View {
                     )
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsAutoStartToggle))
+                .accessibilityLabel(Text("accLabelSettingsAutoStartToggle"))
                 .padding(.vertical, 10)
 
             // Play sounds
-            Toggle(Translation.settingsPlayTimerSounds, isOn: $settingsViewModel.isPlaySoundEnabled)
+            Toggle("settingsPlayTimerSounds", isOn: $settingsViewModel.isPlaySoundEnabled)
                 .onChange(of: settingsViewModel.isPlaySoundEnabled) { _, newValue in
                     settingsViewModel.saveToggles(
                         for: UserDefaultKeys.playTimerSounds
@@ -53,11 +53,11 @@ struct AppSettingsView: View {
                     )
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsPlaySoundsToggle))
+                .accessibilityLabel(Text("accLabelSettingsPlaySoundsToggle"))
                 .padding(.vertical, 10)
 
             // Keep screen on
-            Toggle(Translation.settingsKeepScreenOn, isOn: $settingsViewModel.keepScreenOn)
+            Toggle("settingsKeepScreenOn", isOn: $settingsViewModel.keepScreenOn)
                 .onChange(of: settingsViewModel.keepScreenOn) { _, newValue in
                     settingsViewModel.saveToggles(
                         for: UserDefaultKeys.keepScreenOn,
@@ -66,11 +66,11 @@ struct AppSettingsView: View {
                     keepScreenOnDisclaimerAlert = true
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
-                .accessibilityLabel(Text(Translation.AccLabel.accLabelSettingsKeepScreenOnToggle))
+                .accessibilityLabel(Text("accLabelSettingsKeepScreenOnToggle"))
                 .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
                     Alert(
-                        title: Text(Translation.warningAlertTitle),
-                        message: Text(Translation.settingsKeepScreenOnDisclaimer),
+                        title: Text("warningAlertTitle"),
+                        message: Text("settingsKeepScreenOnDisclaimer"),
                         dismissButton: .default(Text("OK")))
                 })
                 .padding(.vertical, 10)

@@ -30,7 +30,7 @@ struct CloseButton: View {
                 presentationMode.wrappedValue.dismiss()
                 HapticsConstants().impactMedium.impactOccurred()
             }, label: {
-                Label(Translation.dismissModalButton, systemImage: ImageNames.closeModal)
+                Label("dismissModalButton", systemImage: ImageNames.closeModal)
                     .iconNoText()
                     .accessibilityIdentifier(Accessibility.Identifiers.btnCloseModal)
             })

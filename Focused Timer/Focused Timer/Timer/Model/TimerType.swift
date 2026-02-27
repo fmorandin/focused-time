@@ -5,7 +5,7 @@
 //  Created by Felipe Morandin on 09/02/21.
 //
 
-import SwiftUI
+import Foundation
 
 enum TimerType: String {
 
@@ -13,15 +13,15 @@ enum TimerType: String {
     case shortBreak = "Short Break"
     case longBreak = "Long Break"
 
-    func getCorrectTranslation() -> LocalizedStringKey {
+    func getCorrectTranslation() -> LocalizedStringResource {
 
         switch self {
         case .focused:
-            return Translation.focusName
+            return LocalizedStringResource("focusName", table: "Localizable")
         case .shortBreak:
-            return Translation.shortBreakName
+            return LocalizedStringResource("shortBreakName", table: "Localizable")
         case .longBreak:
-            return Translation.longBreakName
+            return LocalizedStringResource("longBreakName", table: "Localizable")
         }
     }
 }

@@ -48,7 +48,7 @@ struct SettingsView: View {
             CloseButton()
 
             if (shouldDisplayDisclaimer) {
-                Text(Translation.settingsWarnReloadMessage)
+                Text("settingsWarnReloadMessage")
                     .warningBox()
                     .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
             }

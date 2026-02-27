@@ -60,14 +60,14 @@ struct CircleView: View {
                     .font(.system(.title, design: .rounded))
                     .fontWeight(.light)
                     .accessibilityIdentifier(Accessibility.Identifiers.lblTimerType)
-                    .accessibility(value: Text(Translation.AccLabel.accLabelTimerTypeName))
+                    .accessibility(value: Text("accLabelTimerTypeName"))
 
                 Text(timerViewModel.countTime)
                     .font(.system(size: 60, design: .rounded))
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
-                    .accessibility(value: Text(Translation.AccLabel.accLabelCounterTypeName))
+                    .accessibility(value: Text("accLabelCounterTypeName"))
             }
         }
     }
