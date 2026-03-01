@@ -93,4 +93,8 @@ iOSInjectionProject/
 .DS_Store
 
 .derivedData
+
+# AI Tools
+
 .claude
+CLAUDE.md
