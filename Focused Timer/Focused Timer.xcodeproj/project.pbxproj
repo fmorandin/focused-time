@@ -41,6 +41,7 @@
 		18D7443825D35DBF00D5FF96 /* TimerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7443725D35DBF00D5FF96 /* TimerType.swift */; };
 		18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DF2DEF260A9BBE00F1BB69 /* Constants.swift */; };
 		29F8954DA12503440924A3B7 /* UserDefaultsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C79F597FFDAEFCA7D840E /* UserDefaultsRepository.swift */; };
+		54D2196F885C37909155B318 /* TimerUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DFCC82419AB208B5DBE6D2 /* TimerUseCaseTests.swift */; };
 		9C1132C1351747F9DDFBBF36 /* TimerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110EB58D704A706D8E2A8DB7 /* TimerUseCase.swift */; };
 		A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271525269A2C00083BB2 /* TimerViewModel.swift */; };
 		A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271B2526A0B200083BB2 /* TimerState.swift */; };
@@ -132,6 +133,7 @@
 		A378FC662522BCF90046FC4C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		AA1111110000000000001111 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		C3DFCC82419AB208B5DBE6D2 /* TimerUseCaseTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerUseCaseTests.swift; sourceTree = "<group>"; };
 		D21C79F597FFDAEFCA7D840E /* UserDefaultsRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserDefaultsRepository.swift; sourceTree = "<group>"; };
 		D502E609469341368AE6D67B /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
 		F00100112C00000100000001 /* LocalNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManagerTests.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				F00100112C00000100000001 /* LocalNotificationManagerTests.swift */,
 				F00100122C00000100000001 /* AppDelegateTests.swift */,
 				F00100132C00000100000001 /* TimerViewLifecycleTests.swift */,
+				C3DFCC82419AB208B5DBE6D2 /* TimerUseCaseTests.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -691,6 +694,7 @@
 				181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */,
 				181E4A3A25C743B4006CBDF4 /* SettingsModelMock.swift in Sources */,
 				181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */,
+				54D2196F885C37909155B318 /* TimerUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
