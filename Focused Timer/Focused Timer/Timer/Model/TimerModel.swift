@@ -40,11 +40,19 @@ struct TimerModel: TimerModelProtocol {
         category: String(describing: TimerModel.self)
     )
 
+    private let repository: StorageRepository
+
+    // MARK: - Initializer
+
+    init(repository: StorageRepository = UserDefaultsRepository()) {
+        self.repository = repository
+    }
+
     // MARK: - Public Methods
 
     func getTime(for keyName: String) -> Int {
 
-        let totalTime: Int = NetworkManager().getValue(for: keyName)
+        let totalTime: Int = repository.integer(for: keyName)
 
         if totalTime != 0 {
             return totalTime
@@ -69,8 +77,8 @@ struct TimerModel: TimerModelProtocol {
 
         Self.logger.notice("💾 Saving the remaing time and the timestamp.")
 
-        NetworkManager().save(value: remainingTime, for: UserDefaultKeys.remainingTime)
-        NetworkManager().save(value: Date(), for: UserDefaultKeys.timestampAppMovedBackground)
+        repository.save(remainingTime, for: UserDefaultKeys.remainingTime)
+        repository.save(Date(), for: UserDefaultKeys.timestampAppMovedBackground)
     }
 
     /// Function that will return the times that are necessary
@@ -79,9 +87,9 @@ struct TimerModel: TimerModelProtocol {
     ///            timestamp that indicates when that action happened
     func getSavedTimes() -> (Int?, Date?) {
 
-        let remainingTime: Int = NetworkManager().getValue(for: UserDefaultKeys.remainingTime)
+        let remainingTime: Int = repository.integer(for: UserDefaultKeys.remainingTime)
         guard
-            let savedTimestamp = NetworkManager().getValue(for: UserDefaultKeys.timestampAppMovedBackground)
+            let savedTimestamp = repository.date(for: UserDefaultKeys.timestampAppMovedBackground)
         else {
             return (nil, nil)
         }
@@ -96,7 +104,7 @@ struct TimerModel: TimerModelProtocol {
     /// - Returns: the string with the number of cycle
     func getNumberOfCycles(for keyName: String) -> String {
 
-        let numberOfCycles: String = NetworkManager().getValue(for: keyName)
+        let numberOfCycles: String = repository.string(for: keyName)
         return numberOfCycles == ""
             ? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
             : numberOfCycles
@@ -107,6 +115,6 @@ struct TimerModel: TimerModelProtocol {
     /// - Returns: the value for the toggle
     func getToggle(for keyName: String) -> Bool {
 
-        NetworkManager().getValue(for: keyName)
+        repository.bool(for: keyName)
     }
 }

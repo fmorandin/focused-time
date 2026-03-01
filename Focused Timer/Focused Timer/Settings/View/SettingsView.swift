@@ -17,10 +17,6 @@ struct SettingsView: View {
         category: String(describing: SettingsView.self)
     )
 
-    // MARK: - Environment
-
-    @Environment(\.presentationMode) var presentationMode
-
     // MARK: - Observed Objects
 
     @StateObject private var settingsViewModel: SettingsViewModel
@@ -81,5 +77,6 @@ extension View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView(displayWarning: true)
+            .environmentObject(Router())
     }
 }

@@ -17,19 +17,20 @@ struct FormView: View {
         category: String(describing: FormView.self)
     )
 
+    // MARK: - Environment
+
+    @EnvironmentObject private var router: Router
+    @Environment(\.dismiss) private var dismiss
+
     @StateObject private var settingsViewModel: SettingsViewModel
 
     @State private var resetDefaultValuesAlert = false
-
-    private let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-    private let window: UIWindow?
 
     // MARK: - Initializer
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         Self.logger.notice("🛠 Initializing Form View.")
         _settingsViewModel = StateObject(wrappedValue: viewModel)
-        window = windowScene?.windows.first
     }
 
     // MARK: - Body
@@ -86,10 +87,13 @@ struct FormView: View {
                     Spacer()
 
                     Button(action: {
-                        window?.rootViewController?.dismiss(
-                            animated: true,
-                            completion: settingsViewModel.shareSheet
-                        )
+                        dismiss()
+                        // UIKitShareService grabs the key window lazily after the
+                        // sheet finishes its dismissal animation.
+                        Task { @MainActor in
+                            try? await Task.sleep(for: .milliseconds(300))
+                            settingsViewModel.shareSheet()
+                        }
                     }, label: {
                         HStack {
                             Text("shareAppTitle")
@@ -107,7 +111,7 @@ struct FormView: View {
         }
         .onDisappear(perform: {
             if settingsViewModel.shouldUpdateTimerView {
-                NotificationCenter.default.post(name: .updateTimerView, object: nil)
+                router.signalSettingsChanged()
             }
         })
     }
@@ -116,5 +120,6 @@ struct FormView: View {
 struct Form_Previews: PreviewProvider {
     static var previews: some View {
         FormView()
+            .environmentObject(Router())
     }
 }
