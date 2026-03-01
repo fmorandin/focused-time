@@ -2,8 +2,6 @@
 //  TopMenuView.swift
 //  Focused Timer
 //
-//  Created by Felipe Morandin on 23/03/21.
-//
 
 import SwiftUI
 import os
@@ -17,35 +15,34 @@ struct TopMenuView: View {
         category: String(describing: TopMenuView.self)
     )
 
-    // MARK: - States
+    // MARK: - Environment
 
-    @State private var showingConfig = false
-    @State private var showingHelp = false
+    @EnvironmentObject private var router: Router
 
     // MARK: - Observed Objects
 
-    @StateObject var timerViewModel: TimerViewModel
+    @ObservedObject var timerViewModel: TimerViewModel
 
     // MARK: - Initializer
 
-    init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
+    init(viewModel: TimerViewModel) {
         Self.logger.notice("🛠 Initializing Top Menu View.")
-        _timerViewModel = StateObject(wrappedValue: viewModel)
+        self.timerViewModel = viewModel
     }
 
     // MARK: - View
+
     var body: some View {
         HStack {
             Button(action: {
                 Self.logger.notice("🆘 Opening Help View.")
-                showingHelp.toggle()
+                router.openHelp()
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label("timerViewOpenHelpModalButton", systemImage: ImageNames.showHelp)
                     .iconNoText()
-
             })
-            .sheet(isPresented: $showingHelp, content: {
+            .sheet(isPresented: $router.isShowingHelp, content: {
                 HelpView()
             })
             .accessibilityIdentifier(Accessibility.Identifiers.btnShowHelp)
@@ -54,14 +51,14 @@ struct TopMenuView: View {
 
             Button(action: {
                 Self.logger.notice("⚙️ Opening Settings View.")
-                showingConfig.toggle()
+                router.openSettings(isTimerActive: timerViewModel.shouldDisplaySettingsAlert())
                 HapticsConstants().impactLight.impactOccurred()
             }, label: {
                 Label("timerViewOpenSettingsModalButton", systemImage: ImageNames.showSettings)
                     .iconNoText()
             })
-            .sheet(isPresented: $showingConfig) {
-                SettingsView(displayWarning: timerViewModel.shouldDisplaySettingsAlert())
+            .sheet(isPresented: $router.isShowingSettings) {
+                SettingsView(displayWarning: router.settingsDisplaysWarning)
             }
             .accessibilityIdentifier(Accessibility.Identifiers.btnShowSettings)
         }
@@ -72,6 +69,7 @@ struct TopMenuView: View {
 
 struct TopMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        TopMenuView()
+        TopMenuView(viewModel: TimerViewModel(timerModel: TimerModel()))
+            .environmentObject(Router())
     }
 }

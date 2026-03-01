@@ -44,17 +44,27 @@ protocol SettingsModelProtocol {
 
 struct SettingsModel: SettingsModelProtocol {
 
+    // MARK: - Private Variables
+
+    private let repository: StorageRepository
+
+    // MARK: - Initializer
+
+    init(repository: StorageRepository = UserDefaultsRepository()) {
+        self.repository = repository
+    }
+
     // MARK: - Methods
 
     func saveTime(time: Int, for keyName: String) {
 
         let timeInSeconds = time * 60
-        NetworkManager().save(value: timeInSeconds, for: keyName)
+        repository.save(timeInSeconds, for: keyName)
     }
 
     func getTime(for keyName: String) -> Int {
 
-        let totalTime: Int = NetworkManager().getValue(for: keyName)
+        let totalTime: Int = repository.integer(for: keyName)
 
         if totalTime != 0 {
             return totalTime
@@ -74,12 +84,12 @@ struct SettingsModel: SettingsModelProtocol {
 
     func saveNumberOfCycles(numberOfCycles: Int, for keyName: String) {
 
-        NetworkManager().save(value: numberOfCycles, for: keyName)
+        repository.save(numberOfCycles, for: keyName)
     }
 
     func getNumberOfCycles(for keyName: String) -> String {
 
-        let numberOfCycles: String = NetworkManager().getValue(for: keyName)
+        let numberOfCycles: String = repository.string(for: keyName)
         return numberOfCycles == ""
             ? "\(DefaultValuesConstants.defaultNumberOfCycles.rawValue)"
             : numberOfCycles
@@ -87,11 +97,11 @@ struct SettingsModel: SettingsModelProtocol {
 
     func saveToggle(value: Bool, for keyName: String) {
 
-        NetworkManager().save(value: value, for: keyName)
+        repository.save(value, for: keyName)
     }
 
     func getToggle(for keyName: String) -> Bool {
 
-        NetworkManager().getValue(for: keyName)
+        repository.bool(for: keyName)
     }
 }

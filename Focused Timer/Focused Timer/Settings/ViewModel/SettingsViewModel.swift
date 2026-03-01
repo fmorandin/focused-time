@@ -2,8 +2,6 @@
 //  SettingsViewModel.swift
 //  Focused Timer
 //
-//  Created by Felipe Morandin on 10/01/21.
-//
 
 import Foundation
 import SwiftUI
@@ -20,13 +18,11 @@ final class SettingsViewModel: ObservableObject {
     )
 
     private let settingsModel: SettingsModelProtocol
+    private let shareService: ShareService
 
     // Maximum number of characters for the fields
     let timerLimits = 3
     let numberOfCyclesLimits = 2
-
-    private let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-    private var window: UIWindow?
 
     // MARK: - Published Variables
 
@@ -52,20 +48,21 @@ final class SettingsViewModel: ObservableObject {
 
     // MARK: - Initializer
 
-    init(settingsModel: SettingsModelProtocol) {
-
+    init(
+        settingsModel: SettingsModelProtocol,
+        shareService: ShareService = UIKitShareService()
+    ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
 
         self.settingsModel = settingsModel
+        self.shareService = shareService
 
         populateAllFieldsSavedValues()
-
-        window = windowScene?.windows.first
     }
 
     // MARK: - Private Functions
 
-    /// Function that populates all the fields with the saved values
+    /// Populates all the fields with the saved values
     private func populateAllFieldsSavedValues() {
 
         Self.logger.notice("📝 Populating all the fields with the saved values.")
@@ -89,10 +86,9 @@ final class SettingsViewModel: ObservableObject {
         keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
     }
 
+    // MARK: - Public Functions
+
     /// Saves a timer based on a given key
-    /// - Parameters:
-    ///   - keyName: the key name of the value that needs to be saved
-    ///   - value: the value to be saved
     func saveTime(for keyName: String, value: Int) {
 
         guard value > 0 else {
@@ -101,20 +97,16 @@ final class SettingsViewModel: ObservableObject {
         }
 
         settingsModel.saveTime(time: value, for: keyName)
-
     }
 
-    /// Function that returns the value in seconds for a saved timer
-    /// - Parameter keyName: the key name that needs to be retrieved
-    /// - Returns: the value of the timer in seconds
+    /// Returns the value in minutes for a saved timer
     func getTimeInMinutes(for keyName: String) -> Int {
 
         let timeInMinutes = settingsModel.getTime(for: keyName) / 60
         return timeInMinutes == 0 ? 1 : timeInMinutes
     }
 
-    /// Method that saves the number of cycles
-    /// - Parameter numberOfCycles: the number of cycles that will be saved
+    /// Saves the number of cycles
     func saveNumberOfCycles(_ numberOfCycles: Int) {
 
         guard numberOfCycles > 0 else {
@@ -127,49 +119,40 @@ final class SettingsViewModel: ObservableObject {
         settingsModel.saveNumberOfCycles(numberOfCycles: numberOfCycles, for: UserDefaultKeys.numberOfCycles)
     }
 
-    /// Returns the number of the cycles
-    /// - Parameter keyName: the key name to be retrieved
-    /// - Returns: the number of the cycles
+    /// Returns the number of cycles
     func getNumberOfCycles(for keyName: String) -> Int {
 
         Int(settingsModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
     }
 
-    /// Function to save the autoStart toggle value. Can be easilly changed to be more generic if necessary
-    /// - Parameters:
-    ///   - keyName: the key name of the value that needs to be saved
-    ///   - value: the value of the toggle
+    /// Saves a toggle value for the given key
     func saveToggles(for keyName: String, value: Bool) {
 
         settingsModel.saveToggle(value: value, for: keyName)
     }
 
-    /// Function that retrieves the boolean valeu for a given key
-    /// - Parameter keyName: the name of the key to be returned
-    /// - Returns: the value of the key
+    /// Returns the saved value for a toggle key
     func getSavedToggles(for keyName: String) -> Bool {
 
         settingsModel.getToggle(for: keyName)
     }
 
-    /// Function that will reset the values to the default ones.
-    /// This saves again all the fields with the default values and then populate
-    /// all the fields in the screen again
+    /// Resets all settings to their default values
     func resetToDefault() {
 
         Self.logger.notice("🔄 Reseting all the items to their default values.")
 
         saveTime(
             for: UserDefaultKeys.focusedTime,
-               value: DefaultValuesConstants.defaultFocusedTime.rawValue
+            value: DefaultValuesConstants.defaultFocusedTime.rawValue
         )
         saveTime(
             for: UserDefaultKeys.shortBreakTime,
-               value: DefaultValuesConstants.defaultShortBreakTime.rawValue
+            value: DefaultValuesConstants.defaultShortBreakTime.rawValue
         )
         saveTime(
             for: UserDefaultKeys.longBreakTime,
-               value: DefaultValuesConstants.defaultLongBreakTime.rawValue
+            value: DefaultValuesConstants.defaultLongBreakTime.rawValue
         )
         saveToggles(for: UserDefaultKeys.autoStartToggle, value: false)
         saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
@@ -179,23 +162,10 @@ final class SettingsViewModel: ObservableObject {
         populateAllFieldsSavedValues()
     }
 
-    /// Function that defines what is the text and the link used in the share
+    /// Triggers the system share sheet for the app
     func shareSheet() {
 
         Self.logger.notice("📤 Opening share sheet.")
-
-        let appStoreUrl = URL(string: "https://apps.apple.com/us/app/focused-timer/id1563481123")!
-        let shareMessage = NSString.localizedUserNotificationString(forKey: "shareAppMessage", arguments: nil)
-
-        let activityVC = UIActivityViewController(
-            activityItems: [shareMessage, appStoreUrl],
-            applicationActivities: nil
-        )
-
-        window?.rootViewController?.present(
-            activityVC,
-            animated: true,
-            completion: nil
-        )
+        shareService.shareApp()
     }
 }

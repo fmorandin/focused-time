@@ -2,8 +2,6 @@
 //  TimerView.swift
 //  Focused Timer
 //
-//  Created by Felipe Morandin on 28/09/20.
-//
 
 import SwiftUI
 import os
@@ -17,6 +15,10 @@ struct TimerView: View {
         category: String(describing: TimerView.self)
     )
 
+    // MARK: - Environment
+
+    @EnvironmentObject private var router: Router
+
     // MARK: - Observed Objects
 
     @StateObject var timerViewModel: TimerViewModel
@@ -24,6 +26,7 @@ struct TimerView: View {
     private let setIdleTimerDisabled: (Bool) -> Void
 
     // MARK: Initializer
+
     init(
         viewModel: TimerViewModel = .init(timerModel: TimerModel()),
         notificationCenter: NotificationCenter = .default,
@@ -38,6 +41,7 @@ struct TimerView: View {
     }
 
     // MARK: - View
+
     var body: some View {
         ZStack {
             VStack {
@@ -77,9 +81,12 @@ struct TimerView: View {
                 setIdleTimerDisabled(true)
             }
         }
-        .onReceive(notificationCenter.publisher(for: .updateTimerView)) { _ in
-            Self.logger.notice("🔄 Calling reset update timer.")
-            timerViewModel.resetUpdateTimer()
+        .onChange(of: router.settingsDidChange) { _, didChange in
+            if didChange {
+                Self.logger.notice("🔄 Settings changed — resetting timer.")
+                timerViewModel.resetUpdateTimer()
+                router.settingsDidChange = false
+            }
         }
         .onAppear {
             Self.logger.notice("⏱ Timer View opened.")
@@ -90,5 +97,6 @@ struct TimerView: View {
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
         TimerView()
+            .environmentObject(Router())
     }
 }
