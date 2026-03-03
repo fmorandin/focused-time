@@ -537,4 +537,60 @@ struct TimerViewModelTests {
         // After one tick the counter decrements to 4
         #expect(viewModel.countTime == "00:04")
     }
+
+    // MARK: - Observable Properties
+
+    @Test("accentCircleColor matches focused theme initially")
+    func accentCircleColorInitialState() {
+        let (viewModel, _) = makeSUT()
+
+        #expect(viewModel.accentCircleColor == TimerTheme.color(for: .focused))
+    }
+
+    @Test("accentCircleColor updates to shortBreak color after focused timer ends")
+    func accentCircleColorUpdatesAfterFocusedTimerEnds() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        viewModel.startTimer()
+        timerFactory.advance(by: 6) // 5 ticks to complete focused + 1 to transition
+
+        #expect(viewModel.timerType == .shortBreak)
+        #expect(viewModel.accentCircleColor == TimerTheme.color(for: .shortBreak))
+    }
+
+    @Test("accentCircleColor updates to longBreak color after second focused timer ends")
+    func accentCircleColorUpdatesAfterLongBreakTransition() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        // First focused cycle → short break
+        viewModel.startTimer()
+        timerFactory.advance(by: 6)
+        #expect(viewModel.timerType == .shortBreak)
+
+        // Short break → second focused cycle
+        viewModel.startTimer()
+        timerFactory.advance(by: 3)
+        #expect(viewModel.timerType == .focused)
+
+        // Second focused cycle → long break
+        viewModel.startTimer()
+        timerFactory.advance(by: 6)
+
+        #expect(viewModel.timerType == .longBreak)
+        #expect(viewModel.accentCircleColor == TimerTheme.color(for: .longBreak))
+    }
+
+    @Test("accentCircleColor resets to focused color after timer reset")
+    func accentCircleColorResetsAfterTimerReset() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        viewModel.startTimer()
+        timerFactory.advance(by: 6)
+        #expect(viewModel.timerType == .shortBreak)
+
+        viewModel.resetUpdateTimer()
+
+        #expect(viewModel.timerType == .focused)
+        #expect(viewModel.accentCircleColor == TimerTheme.color(for: .focused))
+    }
 }

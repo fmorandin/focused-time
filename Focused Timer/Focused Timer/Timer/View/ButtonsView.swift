@@ -17,15 +17,15 @@ struct ButtonsView: View {
         category: String(describing: ButtonsView.self)
     )
 
-    // MARK: - Observed Objects
+    // MARK: - Properties
 
-    @StateObject var timerViewModel: TimerViewModel
+    let timerViewModel: TimerViewModel
 
     // MARK: - Initializer
 
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
         Self.logger.notice("🛠 Initializing Buttons View.")
-        _timerViewModel = StateObject(wrappedValue: viewModel)
+        self.timerViewModel = viewModel
     }
 
     // MARK: - View

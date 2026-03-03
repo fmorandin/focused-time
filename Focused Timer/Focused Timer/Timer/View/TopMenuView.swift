@@ -17,11 +17,11 @@ struct TopMenuView: View {
 
     // MARK: - Environment
 
-    @EnvironmentObject private var router: Router
+    @Environment(Router.self) private var router
 
-    // MARK: - Observed Objects
+    // MARK: - Properties
 
-    @ObservedObject var timerViewModel: TimerViewModel
+    let timerViewModel: TimerViewModel
 
     // MARK: - Initializer
 
@@ -33,6 +33,7 @@ struct TopMenuView: View {
     // MARK: - View
 
     var body: some View {
+        @Bindable var router = router
         HStack {
             Button(action: {
                 Self.logger.notice("🆘 Opening Help View.")
@@ -70,6 +71,6 @@ struct TopMenuView: View {
 struct TopMenuView_Previews: PreviewProvider {
     static var previews: some View {
         TopMenuView(viewModel: TimerViewModel(timerModel: TimerModel()))
-            .environmentObject(Router())
+            .environment(Router())
     }
 }

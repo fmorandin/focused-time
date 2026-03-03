@@ -17,9 +17,9 @@ struct SettingsView: View {
         category: String(describing: SettingsView.self)
     )
 
-    // MARK: - Observed Objects
+    // MARK: - State
 
-    @StateObject private var settingsViewModel: SettingsViewModel
+    @State private var settingsViewModel: SettingsViewModel
 
     // MARK: - Private Var
 
@@ -32,7 +32,7 @@ struct SettingsView: View {
         displayWarning: Bool = false
     ) {
         Self.logger.notice("🛠 Initializing Settings View.")
-        _settingsViewModel = StateObject(wrappedValue: viewModel)
+        _settingsViewModel = State(wrappedValue: viewModel)
         self.shouldDisplayDisclaimer = displayWarning
     }
 
@@ -77,6 +77,6 @@ extension View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView(displayWarning: true)
-            .environmentObject(Router())
+            .environment(Router())
     }
 }

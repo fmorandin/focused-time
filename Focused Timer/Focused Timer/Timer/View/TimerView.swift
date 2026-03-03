@@ -17,11 +17,11 @@ struct TimerView: View {
 
     // MARK: - Environment
 
-    @EnvironmentObject private var router: Router
+    @Environment(Router.self) private var router
 
-    // MARK: - Observed Objects
+    // MARK: - State
 
-    @StateObject var timerViewModel: TimerViewModel
+    @State var timerViewModel: TimerViewModel
     private let notificationCenter: NotificationCenter
     private let setIdleTimerDisabled: (Bool) -> Void
 
@@ -35,7 +35,7 @@ struct TimerView: View {
         }
     ) {
         Self.logger.notice("🛠 Initializing Timer View.")
-        _timerViewModel = StateObject(wrappedValue: viewModel)
+        _timerViewModel = State(wrappedValue: viewModel)
         self.notificationCenter = notificationCenter
         self.setIdleTimerDisabled = setIdleTimerDisabled
     }
@@ -97,6 +97,6 @@ struct TimerView: View {
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
         TimerView()
-            .environmentObject(Router())
+            .environment(Router())
     }
 }

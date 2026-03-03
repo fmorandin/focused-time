@@ -250,4 +250,32 @@ struct SettingsViewModelTests {
         #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.playTimerSounds) == false)
         #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.keepScreenOn) == false)
     }
+
+    // MARK: - Observable Properties
+
+    @Test("shouldUpdateTimerView starts as false")
+    func shouldUpdateTimerViewInitialValue() {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+
+        #expect(settingsViewModel.shouldUpdateTimerView == false)
+    }
+
+    @Test("resetToDefault repopulates field properties from persisted defaults")
+    func resetToDefaultRepopulatesFieldProperties() {
+        let settingsViewModel = makePersistedSUT()
+
+        // Directly mutate the display fields (as views do)
+        settingsViewModel.focusedTime = "50"
+        settingsViewModel.shortBreakTime = "20"
+        settingsViewModel.longBreak = "60"
+        settingsViewModel.cycleTotal = "8"
+
+        settingsViewModel.resetToDefault()
+
+        // After reset, fields should reflect the default values: 25 min, 5 min, 30 min, 4 cycles
+        #expect(settingsViewModel.focusedTime == "25")
+        #expect(settingsViewModel.shortBreakTime == "5")
+        #expect(settingsViewModel.longBreak == "30")
+        #expect(settingsViewModel.cycleTotal == "4")
+    }
 }

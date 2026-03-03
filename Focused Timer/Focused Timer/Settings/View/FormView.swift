@@ -19,10 +19,10 @@ struct FormView: View {
 
     // MARK: - Environment
 
-    @EnvironmentObject private var router: Router
+    @Environment(Router.self) private var router
     @Environment(\.dismiss) private var dismiss
 
-    @StateObject private var settingsViewModel: SettingsViewModel
+    let settingsViewModel: SettingsViewModel
 
     @State private var resetDefaultValuesAlert = false
 
@@ -30,7 +30,7 @@ struct FormView: View {
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         Self.logger.notice("🛠 Initializing Form View.")
-        _settingsViewModel = StateObject(wrappedValue: viewModel)
+        self.settingsViewModel = viewModel
     }
 
     // MARK: - Body
@@ -120,6 +120,6 @@ struct FormView: View {
 struct Form_Previews: PreviewProvider {
     static var previews: some View {
         FormView()
-            .environmentObject(Router())
+            .environment(Router())
     }
 }

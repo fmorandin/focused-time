@@ -14,12 +14,12 @@ struct FocusedTimerApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     /// Shared navigation state injected into the entire view hierarchy.
-    @StateObject private var router = Router()
+    @State private var router = Router()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(router)
+                .environment(router)
         }
     }
 }

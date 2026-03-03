@@ -9,20 +9,22 @@
 //
 
 import Foundation
+import Observation
 
-final class Router: ObservableObject {
+@Observable
+final class Router {
 
     // MARK: - Sheet Presentation
 
-    @Published var isShowingSettings = false
-    @Published var isShowingHelp = false
+    var isShowingSettings = false
+    var isShowingHelp = false
 
     // MARK: - Cross-Feature Signaling
 
     /// Set to `true` by the settings sheet when the user changes settings.
     /// `TimerView` observes this and resets the timer when it becomes `true`,
     /// then resets it back to `false`. Replaces the old `NotificationCenter` approach.
-    @Published var settingsDidChange = false
+    var settingsDidChange = false
 
     /// Whether to show the "timer is running" warning in the settings sheet.
     /// Populated by the caller before setting `isShowingSettings = true`.

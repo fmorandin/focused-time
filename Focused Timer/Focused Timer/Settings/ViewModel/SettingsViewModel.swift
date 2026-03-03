@@ -4,11 +4,13 @@
 //
 
 import Foundation
+import Observation
 import SwiftUI
 import os
 
 @MainActor
-final class SettingsViewModel: ObservableObject {
+@Observable
+final class SettingsViewModel {
 
     // MARK: - Private Variables
 
@@ -24,18 +26,18 @@ final class SettingsViewModel: ObservableObject {
     let timerLimits = 3
     let numberOfCyclesLimits = 2
 
-    // MARK: - Published Variables
+    // MARK: - Observable Variables
 
-    @Published var focusedTime: String = ""
-    @Published var shortBreakTime: String = ""
-    @Published var cycleTotal: String = ""
-    @Published var longBreak: String = ""
-    @Published var isAutoStartEnabled: Bool = false
-    @Published var isPlaySoundEnabled: Bool = true
-    @Published var keepScreenOn: Bool = false
+    var focusedTime: String = ""
+    var shortBreakTime: String = ""
+    var cycleTotal: String = ""
+    var longBreak: String = ""
+    var isAutoStartEnabled: Bool = false
+    var isPlaySoundEnabled: Bool = true
+    var keepScreenOn: Bool = false
 
     // If the timer is running and the user changes something the timer should be updated
-    @Published var shouldUpdateTimerView = false
+    var shouldUpdateTimerView = false
 
     var appVersionNumber: String {
         guard let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
