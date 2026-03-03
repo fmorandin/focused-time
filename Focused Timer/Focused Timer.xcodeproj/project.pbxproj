@@ -40,9 +40,13 @@
 		18CB6E81293D045A009E672A /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CB6E80293D045A009E672A /* AppSettingsView.swift */; };
 		18D7443825D35DBF00D5FF96 /* TimerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7443725D35DBF00D5FF96 /* TimerType.swift */; };
 		18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DF2DEF260A9BBE00F1BB69 /* Constants.swift */; };
+		1FC1A1A2F95345E51E4643D1 /* TimerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C05526F052860499DA8703 /* TimerModelTests.swift */; };
 		29F8954DA12503440924A3B7 /* UserDefaultsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C79F597FFDAEFCA7D840E /* UserDefaultsRepository.swift */; };
+		338C9DE2E77E5AB04F83120D /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476E8BD039462868EA08239 /* RouterTests.swift */; };
 		54D2196F885C37909155B318 /* TimerUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DFCC82419AB208B5DBE6D2 /* TimerUseCaseTests.swift */; };
 		9C1132C1351747F9DDFBBF36 /* TimerUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110EB58D704A706D8E2A8DB7 /* TimerUseCase.swift */; };
+		9D107C49EC2C0F47B205F685 /* DefaultValuesConstantsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D5027221C78AF472A42C6A /* DefaultValuesConstantsTests.swift */; };
+		9F0D471110BD79520BC3A953 /* UserDefaultsRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42B2E47F567F997C2E4A539 /* UserDefaultsRepositoryTests.swift */; };
 		A34E271625269A2C00083BB2 /* TimerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271525269A2C00083BB2 /* TimerViewModel.swift */; };
 		A34E271C2526A0B200083BB2 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A34E271B2526A0B200083BB2 /* TimerState.swift */; };
 		A378FC332522BB7D0046FC4C /* FocusedTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A378FC322522BB7D0046FC4C /* FocusedTimerApp.swift */; };
@@ -58,10 +62,13 @@
 		B63EFF0326558FF7007534C4 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */; };
 		C412EEAF4B004F41AE887BAC /* LocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D502E609469341368AE6D67B /* LocalizationTests.swift */; };
 		D18125B6EE3AEA90DB4A37D3 /* ShareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A7ACE62F530C46535D8CC0E /* ShareService.swift */; };
+		D5869D2703E28A91B98A4FC4 /* SettingsModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C9E457F0415839BB1D5AC8 /* SettingsModelTests.swift */; };
 		DA053B0BCF2BB6C374A03ED9 /* TimerTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459DE8DB0F794E852043E5BF /* TimerTheme.swift */; };
+		DAED13E8610B4D8BDA827FDC /* TimerTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5429E52B2256C5CB8CA0CCC /* TimerTypeTests.swift */; };
 		F00100012C00000100000001 /* LocalNotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100112C00000100000001 /* LocalNotificationManagerTests.swift */; };
 		F00100022C00000100000001 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100122C00000100000001 /* AppDelegateTests.swift */; };
 		F00100032C00000100000001 /* TimerViewLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100132C00000100000001 /* TimerViewLifecycleTests.swift */; };
+		FE8681A04BE7D7FE625E4F8D /* TimerThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83EC0047C082AE8896958 /* TimerThemeTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,7 +121,11 @@
 		18DF2DEF260A9BBE00F1BB69 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		229EA23AA7B25BFB13C875AA /* Router.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		2A7ACE62F530C46535D8CC0E /* ShareService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
+		33D5027221C78AF472A42C6A /* DefaultValuesConstantsTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DefaultValuesConstantsTests.swift; sourceTree = "<group>"; };
+		38C9E457F0415839BB1D5AC8 /* SettingsModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsModelTests.swift; sourceTree = "<group>"; };
 		459DE8DB0F794E852043E5BF /* TimerTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerTheme.swift; sourceTree = "<group>"; };
+		6CB83EC0047C082AE8896958 /* TimerThemeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerThemeTests.swift; sourceTree = "<group>"; };
+		8476E8BD039462868EA08239 /* RouterTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		9107CF66261C1198F9DA1A42 /* StorageRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
 		A34E271525269A2C00083BB2 /* TimerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewModel.swift; sourceTree = "<group>"; };
 		A34E271B2526A0B200083BB2 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
@@ -132,10 +143,13 @@
 		A378FC512522BB7E0046FC4C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A378FC662522BCF90046FC4C /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		AA1111110000000000001111 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		B42B2E47F567F997C2E4A539 /* UserDefaultsRepositoryTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserDefaultsRepositoryTests.swift; sourceTree = "<group>"; };
 		B63EFF0226558FF7007534C4 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		C3DFCC82419AB208B5DBE6D2 /* TimerUseCaseTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerUseCaseTests.swift; sourceTree = "<group>"; };
+		D1C05526F052860499DA8703 /* TimerModelTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerModelTests.swift; sourceTree = "<group>"; };
 		D21C79F597FFDAEFCA7D840E /* UserDefaultsRepository.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UserDefaultsRepository.swift; sourceTree = "<group>"; };
 		D502E609469341368AE6D67B /* LocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationTests.swift; sourceTree = "<group>"; };
+		D5429E52B2256C5CB8CA0CCC /* TimerTypeTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerTypeTests.swift; sourceTree = "<group>"; };
 		F00100112C00000100000001 /* LocalNotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManagerTests.swift; sourceTree = "<group>"; };
 		F00100122C00000100000001 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		F00100132C00000100000001 /* TimerViewLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewLifecycleTests.swift; sourceTree = "<group>"; };
@@ -206,6 +220,9 @@
 				F00100122C00000100000001 /* AppDelegateTests.swift */,
 				F00100132C00000100000001 /* TimerViewLifecycleTests.swift */,
 				C3DFCC82419AB208B5DBE6D2 /* TimerUseCaseTests.swift */,
+				D1C05526F052860499DA8703 /* TimerModelTests.swift */,
+				6CB83EC0047C082AE8896958 /* TimerThemeTests.swift */,
+				D5429E52B2256C5CB8CA0CCC /* TimerTypeTests.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -214,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */,
+				38C9E457F0415839BB1D5AC8 /* SettingsModelTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -407,6 +425,7 @@
 				18681F9425AB8821009447D9 /* Settings */,
 				C0726831746148D9B4CCAFD0 /* Localization */,
 				A378FC462522BB7E0046FC4C /* Info.plist */,
+				FBD51FFEAC4122BCDC9FABF5 /* Shared */,
 			);
 			path = "Focused TimerTests";
 			sourceTree = "<group>";
@@ -487,6 +506,16 @@
 				D502E609469341368AE6D67B /* LocalizationTests.swift */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		FBD51FFEAC4122BCDC9FABF5 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				8476E8BD039462868EA08239 /* RouterTests.swift */,
+				B42B2E47F567F997C2E4A539 /* UserDefaultsRepositoryTests.swift */,
+				33D5027221C78AF472A42C6A /* DefaultValuesConstantsTests.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -695,6 +724,13 @@
 				181E4A3A25C743B4006CBDF4 /* SettingsModelMock.swift in Sources */,
 				181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */,
 				54D2196F885C37909155B318 /* TimerUseCaseTests.swift in Sources */,
+				338C9DE2E77E5AB04F83120D /* RouterTests.swift in Sources */,
+				9F0D471110BD79520BC3A953 /* UserDefaultsRepositoryTests.swift in Sources */,
+				9D107C49EC2C0F47B205F685 /* DefaultValuesConstantsTests.swift in Sources */,
+				1FC1A1A2F95345E51E4643D1 /* TimerModelTests.swift in Sources */,
+				FE8681A04BE7D7FE625E4F8D /* TimerThemeTests.swift in Sources */,
+				DAED13E8610B4D8BDA827FDC /* TimerTypeTests.swift in Sources */,
+				D5869D2703E28A91B98A4FC4 /* SettingsModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
