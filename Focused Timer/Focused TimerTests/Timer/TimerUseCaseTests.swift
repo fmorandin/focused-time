@@ -8,6 +8,7 @@
 //  an App Intent, or a Widget extension.
 //
 
+// swiftlint:disable file_length
 import AudioToolbox
 import Testing
 @testable import Focused_Timer
@@ -135,6 +136,7 @@ private func makeSUT(
 // MARK: - Tests
 
 @Suite("TimerUseCase Tests", .serialized)
+// swiftlint:disable:next type_body_length
 struct TimerUseCaseTests {
 
     // MARK: Initialization

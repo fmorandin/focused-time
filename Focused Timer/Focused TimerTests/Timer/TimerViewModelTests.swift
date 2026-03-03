@@ -5,6 +5,7 @@
 //  Created by Felipe Morandin on 28/09/20.
 //
 
+// swiftlint:disable file_length
 import AudioToolbox
 import Testing
 @testable import Focused_Timer
