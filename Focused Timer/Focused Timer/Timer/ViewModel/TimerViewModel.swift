@@ -3,11 +3,12 @@
 //  Focused Timer
 //
 //  Thin SwiftUI adapter over TimerUseCase.
-//  Owns @Published state for observation, formats raw values for display,
+//  Uses @Observable for fine-grained observation, formats raw values for display,
 //  and delegates all business logic to the use case.
 //
 
 import AVFoundation
+import Observation
 import SwiftUI
 import os
 
@@ -91,19 +92,20 @@ struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
 
 // MARK: - ViewModel
 
-final class TimerViewModel: ObservableObject {
+@Observable
+final class TimerViewModel {
 
-    // MARK: - Published Variables (view-facing state)
+    // MARK: - Observable Variables (view-facing state)
 
-    @Published var totalTime: Int
-    @Published var timerState: TimerState = .initial
-    @Published var timerTo: CGFloat = 1
-    @Published var counter: Int
-    @Published var countTime: String
-    @Published var timerType: TimerType = .focused
-    @Published var totalNumberOfCycles: Int
-    @Published var numberOfCompletedCycles: Int
-    @Published var accentCircleColor: Color
+    var totalTime: Int
+    var timerState: TimerState = .initial
+    var timerTo: CGFloat = 1
+    var counter: Int
+    var countTime: String
+    var timerType: TimerType = .focused
+    var totalNumberOfCycles: Int
+    var numberOfCompletedCycles: Int
+    var accentCircleColor: Color
 
     // MARK: - Computed Display Properties
 

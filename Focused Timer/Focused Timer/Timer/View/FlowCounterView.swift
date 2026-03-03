@@ -14,18 +14,18 @@ struct FlowCounterView: View {
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
-        category: String(describing: ButtonsView.self)
+        category: String(describing: FlowCounterView.self)
     )
 
-    // MARK: - Observed Objects
+    // MARK: - Properties
 
-    @StateObject var timerViewModel: TimerViewModel
+    let timerViewModel: TimerViewModel
 
     // MARK: - Initializer
 
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
         Self.logger.notice("🛠 Initializing Flow Counter View.")
-        _timerViewModel = StateObject(wrappedValue: viewModel)
+        self.timerViewModel = viewModel
     }
 
     // MARK: - View

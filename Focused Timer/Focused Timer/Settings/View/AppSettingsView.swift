@@ -14,10 +14,10 @@ struct AppSettingsView: View {
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
-        category: String(describing: FormView.self)
+        category: String(describing: AppSettingsView.self)
     )
 
-    @StateObject private var settingsViewModel: SettingsViewModel
+    @Bindable var settingsViewModel: SettingsViewModel
 
     @State private var keepScreenOnDisclaimerAlert = false
 
@@ -25,7 +25,7 @@ struct AppSettingsView: View {
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         Self.logger.notice("🛠 Initializing App Settings View.")
-        _settingsViewModel = StateObject(wrappedValue: viewModel)
+        self.settingsViewModel = viewModel
     }
 
     // MARK: - View Body

@@ -5,7 +5,6 @@
 //  Created by Felipe Morandin on 04/12/22.
 //
 
-import Combine
 import SwiftUI
 import os
 
@@ -15,10 +14,10 @@ struct TimerSettingsView: View {
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier!,
-        category: String(describing: FormView.self)
+        category: String(describing: TimerSettingsView.self)
     )
 
-    @StateObject private var settingsViewModel: SettingsViewModel
+    @Bindable var settingsViewModel: SettingsViewModel
 
     // MARK: - Validators
 
@@ -31,7 +30,7 @@ struct TimerSettingsView: View {
 
     init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
         Self.logger.notice("🛠 Initializing Timer Settings View.")
-        _settingsViewModel = StateObject(wrappedValue: viewModel)
+        self.settingsViewModel = viewModel
     }
 
     // MARK: - View Body
