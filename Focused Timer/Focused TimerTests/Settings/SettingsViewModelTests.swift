@@ -191,6 +191,31 @@ struct SettingsViewModelTests {
         #expect(settingsModel.savedCycles.isEmpty)
     }
 
+    // MARK: - Metadata and Field Limits
+
+    @Test("appVersionNumber returns a non-empty, non-fallback version string")
+    func appVersionNumberIsNonEmpty() {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+
+        #expect(!settingsViewModel.appVersionNumber.isEmpty)
+        // "0" is the fallback returned when CFBundleShortVersionString is missing from Info.plist
+        #expect(settingsViewModel.appVersionNumber != "0")
+    }
+
+    @Test("timerLimits maximum character count is 3")
+    func timerLimitsConstantIsThree() {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+
+        #expect(settingsViewModel.timerLimits == 3)
+    }
+
+    @Test("numberOfCyclesLimits maximum character count is 2")
+    func numberOfCyclesLimitsConstantIsTwo() {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+
+        #expect(settingsViewModel.numberOfCyclesLimits == 2)
+    }
+
     @Test("resetToDefault restores all default settings")
     func resetDefaultValues() {
         let settingsViewModel = makePersistedSUT()

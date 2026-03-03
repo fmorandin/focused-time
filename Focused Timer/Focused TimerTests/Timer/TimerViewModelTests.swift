@@ -464,4 +464,76 @@ struct TimerViewModelTests {
 
         #expect(soundPlayer.playedSoundIDs.count == 1)
     }
+
+    // MARK: - Computed Display Properties
+
+    @Test("primaryButtonImageName returns play icon in initial state")
+    func primaryButtonImageNameInInitialState() {
+        let (viewModel, _) = makeSUT()
+
+        #expect(viewModel.primaryButtonImageName == ImageNames.play)
+    }
+
+    @Test("primaryButtonImageName returns pause icon while running")
+    func primaryButtonImageNameWhileRunning() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        viewModel.startTimer()
+        timerFactory.advance()
+
+        #expect(viewModel.primaryButtonImageName == ImageNames.pause)
+    }
+
+    @Test("primaryButtonImageName returns play icon while paused")
+    func primaryButtonImageNameWhilePaused() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        viewModel.startTimer()
+        timerFactory.advance()
+        viewModel.pauseTimer()
+
+        #expect(viewModel.primaryButtonImageName == ImageNames.play)
+    }
+
+    @Test("primaryButtonText localization key is playTimer in initial state")
+    func primaryButtonTextKeyInInitialState() {
+        let (viewModel, _) = makeSUT()
+
+        #expect(viewModel.primaryButtonText.key == "playTimer")
+    }
+
+    @Test("primaryButtonText localization key is pauseTimer while running")
+    func primaryButtonTextKeyWhileRunning() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        viewModel.startTimer()
+        timerFactory.advance()
+
+        #expect(viewModel.primaryButtonText.key == "pauseTimer")
+    }
+
+    @Test("primaryButtonText localization key is resumeTimer while paused")
+    func primaryButtonTextKeyWhilePaused() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        viewModel.startTimer()
+        timerFactory.advance()
+        viewModel.pauseTimer()
+
+        #expect(viewModel.primaryButtonText.key == "resumeTimer")
+    }
+
+    @Test("countTime formats counter as zero-padded MM:SS string")
+    func countTimeFormatsCounterAsMinutesAndSeconds() {
+        let (viewModel, timerFactory) = makeSUT()
+
+        // TimerModelMock returns focusedTime = 5 seconds
+        #expect(viewModel.countTime == "00:05")
+
+        viewModel.startTimer()
+        timerFactory.advance()
+
+        // After one tick the counter decrements to 4
+        #expect(viewModel.countTime == "00:04")
+    }
 }
