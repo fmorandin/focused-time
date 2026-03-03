@@ -5,6 +5,7 @@
 
 import Testing
 import UIKit
+import UserNotifications
 @testable import Focused_Timer
 
 @MainActor
@@ -29,5 +30,19 @@ struct AppDelegateTests {
         #expect(result)
         #expect(appDelegate.requestPermissionCalls == 1)
         #expect(!UserDefaults.standard.bool(forKey: UserDefaultKeys.isNotification))
+    }
+
+    @Test("isUITestingEnabled returns false in the normal unit-test environment")
+    func isUITestingEnabledReturnsFalseInNormalTests() {
+        #expect(!AppDelegate.isUITestingEnabled)
+    }
+
+    @Test("didFinishLaunching registers the app delegate as UNUserNotificationCenter delegate")
+    func didFinishLaunchingSetsNotificationCenterDelegate() {
+        let appDelegate = AppDelegateSpy()
+        _ = appDelegate.application(UIApplication.shared, didFinishLaunchingWithOptions: nil)
+
+        // Verify the notification center delegate was set — it should be an AppDelegate instance.
+        #expect(UNUserNotificationCenter.current().delegate is AppDelegate)
     }
 }

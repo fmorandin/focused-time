@@ -191,3 +191,45 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 3.0))
     }
 }
+
+// MARK: - Long Break Flow
+
+/// Uses 2 Pomodoro cycles so the long break phase is reachable in a short test duration.
+/// BaseFeature.setUp() is intentionally not called to avoid launching the app twice with
+/// conflicting cycle counts.
+final class TimerLongBreakUITests: BaseFeature, @unchecked Sendable {
+
+    override func setUp() {
+        MainActor.assumeIsolated {
+            application.launchArguments += ["UI-Testing"]
+            application.launchEnvironment["UI_TEST_FOCUSED_SECONDS"] = "5"
+            application.launchEnvironment["UI_TEST_SHORT_BREAK_SECONDS"] = "5"
+            application.launchEnvironment["UI_TEST_LONG_BREAK_SECONDS"] = "5"
+            application.launchEnvironment["UI_TEST_NUMBER_OF_CYCLES"] = "2"
+            application.launch()
+        }
+    }
+
+    func test_LongBreakDisplayedAfterAllCycles() {
+        let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
+        let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
+        let lblCycleCounter = application.staticTexts[Accessibility.Identifiers.lblCycleCounter]
+
+        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(lblCycleCounter.label, "0/2")
+
+        // 1st focused session → short break
+        playButton.tap()
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 8.0))
+        XCTAssertEqual(lblCycleCounter.label, "1/2")
+
+        // Short break → 2nd focused session
+        playButton.tap()
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 8.0))
+
+        // 2nd focused session → long break (all cycles complete)
+        playButton.tap()
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Long Break", timeout: 8.0))
+        XCTAssertEqual(lblCycleCounter.label, "2/2")
+    }
+}

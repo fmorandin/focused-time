@@ -617,4 +617,83 @@ struct TimerUseCaseTests {
         // Timer should be in .initial state — no auto-restart.
         #expect(useCase.timerState == .initial)
     }
+
+    // MARK: - Background in Non-Focused Phases
+
+    @Test("moveAppToBackground in short-break phase saves time and schedules notification")
+    func backgroundWhenInShortBreakPhaseSchedulesCorrectly() {
+        let model = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, notificationManager: notificationManager)
+
+        // Advance to short break
+        useCase.startTimer()
+        timerFactory.advance(by: 6) // focused (5 decrements) + mode-change (1) → counter = 2
+
+        useCase.startTimer()
+        timerFactory.advance()      // counter 2 → 1, state = .running
+        useCase.moveAppToBackground()
+
+        #expect(model.savedRemainingTimesFromBackground == [1])
+        #expect(notificationManager.scheduledRemainingTimes == [1.0])
+    }
+
+    @Test("moveAppToBackground in long-break phase saves time and schedules notification")
+    func backgroundWhenInLongBreakPhaseSchedulesCorrectly() {
+        let model = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, notificationManager: notificationManager)
+
+        // Drive to long break: focused → short break → focused → long break
+        useCase.startTimer(); timerFactory.advance(by: 6) // focused → short break
+        useCase.startTimer(); timerFactory.advance(by: 3) // short break → focused
+        useCase.startTimer(); timerFactory.advance(by: 6) // focused → long break, counter = 3
+
+        useCase.startTimer()
+        timerFactory.advance()      // counter 3 → 2, state = .running
+        useCase.moveAppToBackground()
+
+        #expect(model.savedRemainingTimesFromBackground == [2])
+        #expect(notificationManager.scheduledRemainingTimes == [2.0])
+    }
+
+    @Test("timer expired in background: counter clamps to zero, next tick advances phase")
+    func foregroundClampsCounterToZeroAndNextTickAdvancesPhase() {
+        let model = TimerModelSpy()
+        model.savedTimes = (2, Date(timeIntervalSince1970: 10))
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 20) } // 10 s elapsed > 2 s remaining → clamps to 0
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()              // state → .running, counter → 4
+        useCase.moveAppToForeground()       // counter clamped to 0 (timer still active)
+
+        #expect(useCase.counter == 0)
+        #expect(useCase.timerState == .running)
+
+        timerFactory.advance()              // counter == 0 → changeTimerMode → short break
+
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.numberOfCompletedCycles == 1)
+        #expect(useCase.counter == 2)       // shortBreakTime from model
+    }
+
+    @Test("auto-start drives full short-break cycle and returns to focused")
+    func autoStartCompletesShortBreakAndReturnsToFocused() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.autoStartToggle] = true
+        let (useCase, timerFactory) = makeSUT(timerModel: model)
+
+        useCase.startTimer()
+        // 6 ticks: focused (5 decrements + 1 mode-change) → short break with auto-restart
+        // 3 ticks: short break (2 decrements + 1 mode-change) → focused with auto-restart
+        timerFactory.advance(by: 9)
+
+        #expect(useCase.timerType == .focused)
+        #expect(useCase.timerState == .initial)  // set by changeTimerMode before auto-restart fires
+        #expect(useCase.counter == 5)            // focusedTime from model
+        #expect(useCase.numberOfCompletedCycles == 1) // only focused→shortBreak increments count
+    }
 }

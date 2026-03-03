@@ -49,4 +49,20 @@ final class HelpViewUITests: BaseFeature, @unchecked Sendable {
         let numberOfCyclesExplanation = application.staticTexts[Accessibility.Identifiers.lblNumberOfCyclesExplanation]
         XCTAssert(numberOfCyclesExplanation.exists, "The number of cycles explanation should be present")
     }
+
+    func test_HelpScreenCanBeDismissed() {
+        // GIVEN the help screen is open
+        application.buttons[Accessibility.Identifiers.btnShowHelp].tap()
+
+        let techniqueExplanationTitle = application.staticTexts[Accessibility.Identifiers.lblTechniqueExplanationTitle]
+        XCTAssertTrue(techniqueExplanationTitle.exists, "Help screen should be displayed after opening")
+
+        // WHEN I tap the close button
+        application.buttons[Accessibility.Identifiers.btnCloseModal].tap()
+
+        // THEN the main timer screen should be accessible again and help content gone
+        let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
+        XCTAssertTrue(waitForExistence(playButton), "Timer start button should be visible after dismissing help")
+        XCTAssertFalse(techniqueExplanationTitle.exists, "Help content should no longer be visible")
+    }
 }
