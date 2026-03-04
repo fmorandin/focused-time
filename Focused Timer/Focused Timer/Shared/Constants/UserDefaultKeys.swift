@@ -19,4 +19,5 @@ enum UserDefaultKeys {
     static let autoStartToggle = "autoStartToggle"
     static let playTimerSounds = "playTimerSounds"
     static let keepScreenOn = "keepScreenOn"
+    static let enableNotifications = "enableNotifications"
 }

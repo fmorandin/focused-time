@@ -56,6 +56,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
                      didFinishLaunchingWithOptions launchOptions:
                      [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
+        UserDefaults.standard.register(defaults: [UserDefaultKeys.enableNotifications: true])
+
         setStateForUITesting()
 
         requestLocalNotificationPermission()
@@ -116,6 +118,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
 
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
+            UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
 
             UIView.setAnimationsEnabled(false)
         }

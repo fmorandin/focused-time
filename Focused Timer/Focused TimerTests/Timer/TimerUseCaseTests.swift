@@ -99,7 +99,8 @@ private final class TimerModelSpy: TimerModelProtocol {
     var toggles: [String: Bool] = [
         UserDefaultKeys.autoStartToggle: false,
         UserDefaultKeys.playTimerSounds: false,
-        UserDefaultKeys.keepScreenOn: true
+        UserDefaultKeys.keepScreenOn: true,
+        UserDefaultKeys.enableNotifications: true
     ]
     var numberOfCycles = "2"
     var savedTimes: (Int?, Date?) = (0, Date())
@@ -680,6 +681,55 @@ struct TimerUseCaseTests {
         #expect(useCase.timerType == .shortBreak)
         #expect(useCase.numberOfCompletedCycles == 1)
         #expect(useCase.counter == 2)       // shortBreakTime from model
+    }
+
+    // MARK: Notification Gating
+
+    @Test("moveAppToBackground schedules notification when notifications are enabled")
+    func moveAppToBackgroundSchedulesNotificationWhenEnabled() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableNotifications] = true
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            notificationManager: notificationManager
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToBackground()
+
+        #expect(notificationManager.scheduledRemainingTimes.count == 1)
+    }
+
+    @Test("moveAppToBackground skips notification scheduling when notifications are disabled")
+    func moveAppToBackgroundSkipsNotificationWhenDisabled() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableNotifications] = false
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            notificationManager: notificationManager
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToBackground()
+
+        #expect(notificationManager.scheduledRemainingTimes.isEmpty)
+    }
+
+    @Test("moveAppToBackground saves remaining time even when notifications are disabled")
+    func moveAppToBackgroundSavesTimeWhenNotificationsDisabled() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableNotifications] = false
+        let (useCase, timerFactory) = makeSUT(timerModel: model)
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToBackground()
+
+        #expect(model.savedRemainingTimesFromBackground.isEmpty == false)
     }
 
     @Test("auto-start drives full short-break cycle and returns to focused")

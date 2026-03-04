@@ -71,6 +71,23 @@
         }
       }
     },
+    "accLabelSettingsEnableNotificationsToggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle to enable or disable in-app notifications"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botão para ativar ou desativar as notificações do aplicativo"
+          }
+        }
+      }
+    },
     "accLabelSettingsAutoStartToggle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -561,6 +578,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuar"
+          }
+        }
+      }
+    },
+    "settingsEnableNotifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable notifications"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar notificações"
+          }
+        }
+      }
+    },
+    "settingsNotificationsDeniedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications are disabled in iOS Settings. Enable them to receive alerts when your timer ends."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As notificações estão desativadas nas configurações do iOS. Ative-as para receber alertas quando o timer terminar."
+          }
+        }
+      }
+    },
+    "settingsNotificationsOpenSettings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Configurações"
           }
         }
       }

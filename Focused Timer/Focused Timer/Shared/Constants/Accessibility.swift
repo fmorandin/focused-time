@@ -34,7 +34,10 @@ enum Accessibility {
         static let tgAutoStart = "tgAutoStart"
         static let tgPlaySounds = "tgPlaySounds"
         static let tgKeepScreenOn = "tgKeepScreenOn"
+        static let tgEnableNotifications = "tgEnableNotifications"
         static let lblKeepScreenOnDisclaimer = "lblKeepScreenOnDisclaimer"
+        static let lblNotificationsDeniedMessage = "lblNotificationsDeniedMessage"
+        static let btnOpenNotificationsSettings = "btnOpenNotificationsSettings"
 
         // Labels
         static let lblFocusDuration = "lblFocusDuration"

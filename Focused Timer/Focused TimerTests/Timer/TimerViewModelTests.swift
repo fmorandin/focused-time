@@ -95,7 +95,8 @@ private final class TimerModelSpy: TimerModelProtocol {
     var toggles: [String: Bool] = [
         UserDefaultKeys.autoStartToggle: false,
         UserDefaultKeys.playTimerSounds: false,
-        UserDefaultKeys.keepScreenOn: true
+        UserDefaultKeys.keepScreenOn: true,
+        UserDefaultKeys.enableNotifications: true
     ]
     var numberOfCycles = "2"
     var savedTimes: (Int?, Date?) = (0, Date())
@@ -143,6 +144,7 @@ private func makeSUT(
 }
 
 @Suite("TimerViewModel Tests", .serialized)
+// swiftlint:disable:next type_body_length
 struct TimerViewModelTests {
     @Test("Start timer decrements and transitions to short break")
     func startTimer() {
