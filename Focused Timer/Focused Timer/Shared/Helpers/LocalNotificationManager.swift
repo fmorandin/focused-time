@@ -18,6 +18,18 @@ protocol UserNotificationCenterProtocol: Sendable {
     func add(_ request: UNNotificationRequest)
 }
 
+extension UserNotificationCenterProtocol {
+
+    /// Async wrapper around the completion-handler based `getAuthorizationStatus`.
+    func getAuthorizationStatus() async -> UNAuthorizationStatus {
+        await withCheckedContinuation { continuation in
+            self.getAuthorizationStatus { status in
+                continuation.resume(returning: status)
+            }
+        }
+    }
+}
+
 extension UNUserNotificationCenter: UserNotificationCenterProtocol {
 
     func setBadge(to value: Int) {

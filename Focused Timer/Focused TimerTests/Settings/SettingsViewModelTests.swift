@@ -7,11 +7,24 @@
 
 import Foundation
 import Testing
+import UserNotifications
 @testable import Focused_Timer
 
 @MainActor
 @Suite("SettingsViewModel Tests", .serialized)
 struct SettingsViewModelTests {
+
+    private final class NotificationCenterStub: @unchecked Sendable, UserNotificationCenterProtocol {
+        var authorizationStatus: UNAuthorizationStatus = .authorized
+
+        func setBadge(to _: Int) {}
+        func removeAllPendingNotificationRequests() {}
+        func removeAllDeliveredNotifications() {}
+        func getAuthorizationStatus(completionHandler: @escaping @Sendable (UNAuthorizationStatus) -> Void) {
+            completionHandler(authorizationStatus)
+        }
+        func add(_: UNNotificationRequest) {}
+    }
 
     private final class SettingsModelSpy: SettingsModelProtocol {
         var savedTimes: [(Int, String)] = []
@@ -52,7 +65,8 @@ struct SettingsViewModelTests {
             UserDefaultKeys.longBreakTime,
             UserDefaultKeys.autoStartToggle,
             UserDefaultKeys.playTimerSounds,
-            UserDefaultKeys.keepScreenOn
+            UserDefaultKeys.keepScreenOn,
+            UserDefaultKeys.enableNotifications
         ].forEach { defaults.removeObject(forKey: $0) }
     }
 
@@ -277,5 +291,90 @@ struct SettingsViewModelTests {
         #expect(settingsViewModel.shortBreakTime == "5")
         #expect(settingsViewModel.longBreak == "30")
         #expect(settingsViewModel.cycleTotal == "4")
+    }
+
+    // MARK: - Notifications
+
+    @Test("isNotificationsEnabled defaults to true via registered UserDefaults")
+    func isNotificationsEnabledDefaultsToTrue() {
+        UserDefaults.standard.register(defaults: [UserDefaultKeys.enableNotifications: true])
+        clearPersistedValues()
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModel())
+
+        #expect(settingsViewModel.isNotificationsEnabled == true)
+    }
+
+    @Test("isNotificationsEnabled persists false when saved")
+    func isNotificationsEnabledPersistsFalse() {
+        let settingsViewModel = makePersistedSUT()
+
+        settingsViewModel.saveToggles(for: UserDefaultKeys.enableNotifications, value: false)
+
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.enableNotifications) == false)
+    }
+
+    @Test("resetToDefault restores enableNotifications to true")
+    func resetToDefaultRestoresNotificationsEnabled() {
+        let settingsViewModel = makePersistedSUT()
+
+        settingsViewModel.saveToggles(for: UserDefaultKeys.enableNotifications, value: false)
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.enableNotifications) == false)
+
+        settingsViewModel.resetToDefault()
+
+        #expect(settingsViewModel.getSavedToggles(for: UserDefaultKeys.enableNotifications) == true)
+    }
+
+    @Test("isNotificationsDeniedBySystem is false initially")
+    func isNotificationsDeniedBySystemInitiallyFalse() {
+        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+
+        #expect(settingsViewModel.isNotificationsDeniedBySystem == false)
+    }
+
+    @Test("checkNotificationAuthorizationStatus sets denied flag when status is denied")
+    func checkNotificationAuthorizationStatusSetsDenied() async {
+        let center = NotificationCenterStub()
+        center.authorizationStatus = .denied
+        let settingsViewModel = SettingsViewModel(
+            settingsModel: SettingsModelMock(),
+            notificationCenter: center
+        )
+
+        await settingsViewModel.checkNotificationAuthorizationStatus()
+
+        #expect(settingsViewModel.isNotificationsDeniedBySystem == true)
+    }
+
+    @Test("checkNotificationAuthorizationStatus clears denied flag when status is authorized")
+    func checkNotificationAuthorizationStatusClearsDeniedWhenAuthorized() async {
+        let center = NotificationCenterStub()
+        center.authorizationStatus = .denied
+        let settingsViewModel = SettingsViewModel(
+            settingsModel: SettingsModelMock(),
+            notificationCenter: center
+        )
+
+        await settingsViewModel.checkNotificationAuthorizationStatus()
+        #expect(settingsViewModel.isNotificationsDeniedBySystem == true)
+
+        center.authorizationStatus = .authorized
+        await settingsViewModel.checkNotificationAuthorizationStatus()
+
+        #expect(settingsViewModel.isNotificationsDeniedBySystem == false)
+    }
+
+    @Test("checkNotificationAuthorizationStatus does not set denied flag when status is notDetermined")
+    func checkNotificationAuthorizationStatusNotDeterminedIsNotDenied() async {
+        let center = NotificationCenterStub()
+        center.authorizationStatus = .notDetermined
+        let settingsViewModel = SettingsViewModel(
+            settingsModel: SettingsModelMock(),
+            notificationCenter: center
+        )
+
+        await settingsViewModel.checkNotificationAuthorizationStatus()
+
+        #expect(settingsViewModel.isNotificationsDeniedBySystem == false)
     }
 }

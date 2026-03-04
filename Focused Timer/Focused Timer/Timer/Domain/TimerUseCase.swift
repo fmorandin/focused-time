@@ -58,6 +58,9 @@ final class TimerUseCase {
     private var isPlaySoundEnabled: Bool {
         timerModel.getToggle(for: UserDefaultKeys.playTimerSounds)
     }
+    private var isNotificationsEnabled: Bool {
+        timerModel.getToggle(for: UserDefaultKeys.enableNotifications)
+    }
 
     // MARK: - Initializer
 
@@ -137,7 +140,9 @@ final class TimerUseCase {
         Self.logger.notice("👋🏻 Moving app to the background.")
         if timerState == .running {
             timerModel.saveMoveToBackgroundTime(remainingTime: counter)
-            localNotificationManager.scheduleLocalNotification(remainingTime: Double(counter))
+            if isNotificationsEnabled {
+                localNotificationManager.scheduleLocalNotification(remainingTime: Double(counter))
+            }
         }
     }
 

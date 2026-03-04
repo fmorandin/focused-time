@@ -6,6 +6,8 @@
 import Foundation
 import Observation
 import SwiftUI
+import UIKit
+import UserNotifications
 import os
 
 @MainActor
@@ -21,6 +23,7 @@ final class SettingsViewModel {
 
     private let settingsModel: SettingsModelProtocol
     private let shareService: ShareService
+    private let notificationCenter: UserNotificationCenterProtocol
 
     // Maximum number of characters for the fields
     let timerLimits = 3
@@ -35,6 +38,8 @@ final class SettingsViewModel {
     var isAutoStartEnabled: Bool = false
     var isPlaySoundEnabled: Bool = true
     var keepScreenOn: Bool = false
+    var isNotificationsEnabled: Bool = true
+    var isNotificationsDeniedBySystem: Bool = false
 
     // If the timer is running and the user changes something the timer should be updated
     var shouldUpdateTimerView = false
@@ -52,12 +57,14 @@ final class SettingsViewModel {
 
     init(
         settingsModel: SettingsModelProtocol,
-        shareService: ShareService = UIKitShareService()
+        shareService: ShareService = UIKitShareService(),
+        notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current()
     ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
 
         self.settingsModel = settingsModel
         self.shareService = shareService
+        self.notificationCenter = notificationCenter
 
         populateAllFieldsSavedValues()
     }
@@ -86,6 +93,7 @@ final class SettingsViewModel {
         isAutoStartEnabled = settingsModel.getToggle(for: UserDefaultKeys.autoStartToggle)
         isPlaySoundEnabled = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
         keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
+        isNotificationsEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableNotifications)
     }
 
     // MARK: - Public Functions
@@ -159,9 +167,27 @@ final class SettingsViewModel {
         saveToggles(for: UserDefaultKeys.autoStartToggle, value: false)
         saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
         saveToggles(for: UserDefaultKeys.keepScreenOn, value: false)
+        saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
 
         populateAllFieldsSavedValues()
+    }
+
+    /// Checks the system-level notification authorization status and updates `isNotificationsDeniedBySystem`.
+    func checkNotificationAuthorizationStatus() async {
+
+        let status = await notificationCenter.getAuthorizationStatus()
+        isNotificationsDeniedBySystem = status == .denied
+    }
+
+    /// Opens the iOS Settings app at the Notifications page for this app.
+    func openNotificationSettings() {
+
+        guard let settingsURL = URL(string: UIApplication.openNotificationSettingsURLString) else {
+            Self.logger.error("Failed to create the notification settings URL.")
+            return
+        }
+        UIApplication.shared.open(settingsURL)
     }
 
     /// Triggers the system share sheet for the app

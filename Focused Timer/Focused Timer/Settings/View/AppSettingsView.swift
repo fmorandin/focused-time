@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import os
 
 struct AppSettingsView: View {
@@ -74,8 +75,47 @@ struct AppSettingsView: View {
                         dismissButton: .default(Text("OK")))
                 })
                 .padding(.vertical, 10)
+
+            // Enable notifications
+            Toggle("settingsEnableNotifications", isOn: $settingsViewModel.isNotificationsEnabled)
+                .onChange(of: settingsViewModel.isNotificationsEnabled) { _, newValue in
+                    settingsViewModel.saveToggles(
+                        for: UserDefaultKeys.enableNotifications,
+                        value: newValue
+                    )
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgEnableNotifications)
+                .accessibilityLabel(Text("accLabelSettingsEnableNotificationsToggle"))
+                .disabled(settingsViewModel.isNotificationsDeniedBySystem)
+                .padding(.vertical, 10)
+
+            if settingsViewModel.isNotificationsDeniedBySystem {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("settingsNotificationsDeniedMessage", systemImage: "bell.slash.fill")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblNotificationsDeniedMessage)
+
+                    Button("settingsNotificationsOpenSettings") {
+                        settingsViewModel.openNotificationSettings()
+                    }
+                    .font(.caption)
+                    .accessibilityIdentifier(Accessibility.Identifiers.btnOpenNotificationsSettings)
+                }
+                .padding(.vertical, 4)
+            }
         }
         .font(.system(.body, design: .rounded))
+        .task {
+            await settingsViewModel.checkNotificationAuthorizationStatus()
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
+        ) { _ in
+            Task {
+                await settingsViewModel.checkNotificationAuthorizationStatus()
+            }
+        }
     }
 }
 

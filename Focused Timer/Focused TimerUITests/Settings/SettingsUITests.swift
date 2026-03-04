@@ -358,4 +358,87 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(shareSheetAppeared, "The share sheet should be displayed")
     }
 
+    func test_EnableNotificationsToggle_IsOnByDefault() {
+        // GIVEN I open the settings modal
+        showSettingsButton.tap()
+
+        // WHEN the toggle is loaded
+        let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
+        XCTAssertTrue(
+            waitForExistence(notificationsToggle, timeout: 2.0),
+            "The enable notifications toggle should be visible"
+        )
+
+        // THEN it should be on by default
+        XCTAssertEqual(
+            stringValue(for: notificationsToggle, message: "Enable notifications toggle value should be a String."),
+            "1",
+            "Enable notifications toggle should be on by default"
+        )
+    }
+
+    func test_EnableNotificationsToggle_PersistsAfterReopeningSettings() {
+        // GIVEN I open the settings modal
+        showSettingsButton.tap()
+
+        let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
+        XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 2.0))
+
+        // WHEN I turn off the notifications toggle
+        tapToggle(notificationsToggle)
+
+        // AND I dismiss and reopen settings
+        dismissSettingsButton.tap()
+        showSettingsButton.tap()
+
+        // THEN the toggle should persist as off
+        let notificationsToggleUpdated = application.switches[Accessibility.Identifiers.tgEnableNotifications]
+        XCTAssertTrue(waitForExistence(notificationsToggleUpdated, timeout: 2.0))
+        XCTAssertEqual(
+            stringValue(
+                for: notificationsToggleUpdated,
+                message: "Enable notifications toggle value should be a String."
+            ),
+            "0",
+            "Enable notifications toggle should be off after being turned off"
+        )
+    }
+
+    func test_EnableNotificationsToggle_ResetToDefault() {
+        // GIVEN I open the settings modal
+        showSettingsButton.tap()
+
+        let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
+        XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 2.0))
+
+        // WHEN I turn off the notifications toggle
+        tapToggle(notificationsToggle)
+
+        // AND I reset to defaults (only the reset confirmation alert appears since keepScreenOn was not changed)
+        application.swipeUp()
+        application.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
+
+        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 2.0))
+        application.alerts.firstMatch.buttons["OK"].tap()
+
+        // Dismiss any follow-up alert (e.g. keepScreenOn disclaimer) if present
+        if waitForExistence(application.alerts.firstMatch, timeout: 1.5) {
+            application.alerts.firstMatch.buttons["OK"].tap()
+        }
+
+        application.swipeDown()
+
+        // THEN the toggle should be restored to on
+        let notificationsToggleReset = application.switches[Accessibility.Identifiers.tgEnableNotifications]
+        XCTAssertTrue(waitForExistence(notificationsToggleReset, timeout: 2.0))
+        XCTAssertEqual(
+            stringValue(
+                for: notificationsToggleReset,
+                message: "Enable notifications toggle value should be a String."
+            ),
+            "1",
+            "Enable notifications toggle should be on after reset to defaults"
+        )
+    }
+
 }
