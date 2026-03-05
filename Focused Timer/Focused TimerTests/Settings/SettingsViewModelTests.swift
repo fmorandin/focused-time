@@ -7,6 +7,7 @@
 
 import Foundation
 import Testing
+import UIKit
 import UserNotifications
 @testable import Focused_Timer
 
@@ -24,6 +25,16 @@ struct SettingsViewModelTests {
             completionHandler(authorizationStatus)
         }
         func add(_: UNNotificationRequest) {}
+    }
+
+    @MainActor
+    private final class URLOpenerSpy: URLOpening {
+        var openedURLs: [URL] = []
+
+        func open(_ targetURL: URL) async -> Bool {
+            openedURLs.append(targetURL)
+            return true
+        }
     }
 
     private final class SettingsModelSpy: SettingsModelProtocol {
@@ -376,5 +387,33 @@ struct SettingsViewModelTests {
         await settingsViewModel.checkNotificationAuthorizationStatus()
 
         #expect(settingsViewModel.isNotificationsDeniedBySystem == false)
+    }
+
+    @Test("openNotificationSettings opens the notification settings URL")
+    func openNotificationSettingsOpensCorrectURL() async {
+        let urlOpenerSpy = URLOpenerSpy()
+        let settingsViewModel = SettingsViewModel(
+            settingsModel: SettingsModelMock(),
+            urlOpener: urlOpenerSpy
+        )
+
+        await settingsViewModel.openNotificationSettings()
+
+        #expect(urlOpenerSpy.openedURLs.count == 1)
+        #expect(urlOpenerSpy.openedURLs.first?.absoluteString == UIApplication.openNotificationSettingsURLString)
+    }
+
+    @Test("openNotificationSettings opens the URL exactly once per call")
+    func openNotificationSettingsOpensURLExactlyOnce() async {
+        let urlOpenerSpy = URLOpenerSpy()
+        let settingsViewModel = SettingsViewModel(
+            settingsModel: SettingsModelMock(),
+            urlOpener: urlOpenerSpy
+        )
+
+        await settingsViewModel.openNotificationSettings()
+        await settingsViewModel.openNotificationSettings()
+
+        #expect(urlOpenerSpy.openedURLs.count == 2)
     }
 }
