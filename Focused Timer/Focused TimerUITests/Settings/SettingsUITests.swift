@@ -361,11 +361,13 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
     func test_EnableNotificationsToggle_IsOnByDefault() {
         // GIVEN I open the settings modal
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
 
-        // WHEN the toggle is loaded
+        // WHEN I scroll to the notifications toggle
+        scrollToNotificationsToggleIfNeeded()
         let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
         XCTAssertTrue(
-            waitForExistence(notificationsToggle, timeout: 2.0),
+            waitForExistence(notificationsToggle, timeout: 5.0),
             "The enable notifications toggle should be visible"
         )
 
@@ -380,9 +382,11 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
     func test_EnableNotificationsToggle_PersistsAfterReopeningSettings() {
         // GIVEN I open the settings modal
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
 
+        scrollToNotificationsToggleIfNeeded()
         let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
-        XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 5.0))
 
         // WHEN I turn off the notifications toggle
         tapToggle(notificationsToggle)
@@ -390,10 +394,12 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         // AND I dismiss and reopen settings
         dismissSettingsButton.tap()
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should reopen")
 
         // THEN the toggle should persist as off
+        scrollToNotificationsToggleIfNeeded()
         let notificationsToggleUpdated = application.switches[Accessibility.Identifiers.tgEnableNotifications]
-        XCTAssertTrue(waitForExistence(notificationsToggleUpdated, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(notificationsToggleUpdated, timeout: 5.0))
         XCTAssertEqual(
             stringValue(
                 for: notificationsToggleUpdated,

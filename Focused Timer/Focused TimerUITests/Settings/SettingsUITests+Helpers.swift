@@ -233,6 +233,24 @@ extension SettingsUITests {
         }
     }
 
+    /// Waits for the settings modal to be fully presented by waiting for a reliable
+    /// top-of-form anchor (the focused-time text field) before interacting with it.
+    @discardableResult
+    func waitForSettingsModalToOpen(timeout: TimeInterval = 5.0) -> Bool {
+        let anchor = application.textFields[Accessibility.Identifiers.txtFocusedTime]
+        return waitForExistence(anchor, timeout: timeout)
+    }
+
+    func scrollToNotificationsToggleIfNeeded(maxSwipes: Int = 3) {
+        let toggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
+        guard !(toggle.exists && toggle.isHittable) else { return }
+
+        for _ in 0..<maxSwipes {
+            application.swipeUp()
+            if toggle.exists && toggle.isHittable { return }
+        }
+    }
+
     func resolvedKeepScreenOnToggle(file: StaticString = #filePath, line: UInt = #line) -> XCUIElement {
         scrollToKeepScreenOnToggleIfNeeded()
 
