@@ -5,7 +5,10 @@
       "Bash(swiftlint lint:*)",
       "Bash(grep:*)",
       "Bash(xcrun simctl:*)",
-      "Bash(claude mcp:*)"
+      "Bash(claude mcp:*)",
+      "Bash(git checkout -b fix/open-notification-settings)",
+      "Bash(git push)",
+      "Bash(gh pr:*)"
     ]
   },
   "hooks": {
