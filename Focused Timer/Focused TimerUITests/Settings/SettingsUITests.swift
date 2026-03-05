@@ -379,7 +379,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         )
     }
 
-    func test_EnableNotificationsToggle_PersistsAfterReopeningSettings() {
+    func test_EnableNotificationsToggle_PersistsAfterReopeningSettings() throws {
         // GIVEN I open the settings modal
         showSettingsButton.tap()
         XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
@@ -387,6 +387,13 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         scrollToNotificationsToggleIfNeeded()
         let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
         XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 5.0))
+
+        // Skip when the system has denied notifications — the toggle is disabled
+        // and cannot be interacted with.
+        try XCTSkipUnless(
+            notificationsToggle.isEnabled,
+            "Notifications denied at system level — toggle is disabled"
+        )
 
         // WHEN I turn off the notifications toggle
         tapToggle(notificationsToggle)
@@ -410,7 +417,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         )
     }
 
-    func test_EnableNotificationsToggle_ResetToDefault() {
+    func test_EnableNotificationsToggle_ResetToDefault() throws {
         // GIVEN I open the settings modal
         showSettingsButton.tap()
         XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
@@ -418,6 +425,13 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         scrollToNotificationsToggleIfNeeded()
         let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
         XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 5.0))
+
+        // Skip when the system has denied notifications — the toggle is disabled
+        // and cannot be interacted with.
+        try XCTSkipUnless(
+            notificationsToggle.isEnabled,
+            "Notifications denied at system level — toggle is disabled"
+        )
 
         // WHEN I turn off the notifications toggle
         tapToggle(notificationsToggle)
