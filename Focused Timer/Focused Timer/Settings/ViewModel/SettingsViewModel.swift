@@ -10,6 +10,23 @@ import UIKit
 import UserNotifications
 import os
 
+// MARK: - URLOpening protocol
+
+/// Abstracts UIApplication.open(_:) so SettingsViewModel is testable without a live UIApplication.
+@MainActor
+protocol URLOpening {
+    @discardableResult
+    func open(_ targetURL: URL) async -> Bool
+}
+
+extension UIApplication: URLOpening {
+    func open(_ targetURL: URL) async -> Bool {
+        await open(targetURL, options: [:])
+    }
+}
+
+// MARK: - SettingsViewModel
+
 @MainActor
 @Observable
 final class SettingsViewModel {
@@ -24,6 +41,7 @@ final class SettingsViewModel {
     private let settingsModel: SettingsModelProtocol
     private let shareService: ShareService
     private let notificationCenter: UserNotificationCenterProtocol
+    private let urlOpener: URLOpening
 
     // Maximum number of characters for the fields
     let timerLimits = 3
@@ -58,13 +76,15 @@ final class SettingsViewModel {
     init(
         settingsModel: SettingsModelProtocol,
         shareService: ShareService = UIKitShareService(),
-        notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current()
+        notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
+        urlOpener: URLOpening = UIApplication.shared
     ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
 
         self.settingsModel = settingsModel
         self.shareService = shareService
         self.notificationCenter = notificationCenter
+        self.urlOpener = urlOpener
 
         populateAllFieldsSavedValues()
     }
@@ -181,13 +201,13 @@ final class SettingsViewModel {
     }
 
     /// Opens the iOS Settings app at the Notifications page for this app.
-    func openNotificationSettings() {
+    func openNotificationSettings() async {
 
         guard let settingsURL = URL(string: UIApplication.openNotificationSettingsURLString) else {
             Self.logger.error("Failed to create the notification settings URL.")
             return
         }
-        UIApplication.shared.open(settingsURL)
+        await urlOpener.open(settingsURL)
     }
 
     /// Triggers the system share sheet for the app

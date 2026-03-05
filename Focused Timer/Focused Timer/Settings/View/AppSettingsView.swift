@@ -97,7 +97,9 @@ struct AppSettingsView: View {
                         .accessibilityIdentifier(Accessibility.Identifiers.lblNotificationsDeniedMessage)
 
                     Button("settingsNotificationsOpenSettings") {
-                        settingsViewModel.openNotificationSettings()
+                        Task {
+                            await settingsViewModel.openNotificationSettings()
+                        }
                     }
                     .font(.caption)
                     .accessibilityIdentifier(Accessibility.Identifiers.btnOpenNotificationsSettings)
