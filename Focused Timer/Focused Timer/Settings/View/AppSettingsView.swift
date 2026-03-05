@@ -102,6 +102,7 @@ struct AppSettingsView: View {
                         }
                     }
                     .font(.caption)
+                    .buttonStyle(.borderless)
                     .accessibilityIdentifier(Accessibility.Identifiers.btnOpenNotificationsSettings)
                 }
                 .padding(.vertical, 4)
