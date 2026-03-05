@@ -146,6 +146,7 @@ extension SettingsUITests {
     }
 
     func assertFinalDefaultSettingsValues() {
+        scrollToSettingsTopIfNeeded()
         let durationTextFieldFinal = application.textFields[Accessibility.Identifiers.txtFocusedTime]
         XCTAssertEqual(String(describing: durationTextFieldFinal.value!), "25")
 
