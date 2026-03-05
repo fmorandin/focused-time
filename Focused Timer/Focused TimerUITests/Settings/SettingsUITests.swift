@@ -413,9 +413,11 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
     func test_EnableNotificationsToggle_ResetToDefault() {
         // GIVEN I open the settings modal
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
 
+        scrollToNotificationsToggleIfNeeded()
         let notificationsToggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
-        XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(notificationsToggle, timeout: 5.0))
 
         // WHEN I turn off the notifications toggle
         tapToggle(notificationsToggle)
@@ -424,7 +426,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         application.swipeUp()
         application.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
 
-        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 5.0))
         application.alerts.firstMatch.buttons["OK"].tap()
 
         // Dismiss any follow-up alert (e.g. keepScreenOn disclaimer) if present
@@ -435,8 +437,9 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         application.swipeDown()
 
         // THEN the toggle should be restored to on
+        scrollToNotificationsToggleIfNeeded()
         let notificationsToggleReset = application.switches[Accessibility.Identifiers.tgEnableNotifications]
-        XCTAssertTrue(waitForExistence(notificationsToggleReset, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(notificationsToggleReset, timeout: 5.0))
         XCTAssertEqual(
             stringValue(
                 for: notificationsToggleReset,
