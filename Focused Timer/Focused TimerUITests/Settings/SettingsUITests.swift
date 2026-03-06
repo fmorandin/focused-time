@@ -11,6 +11,7 @@ import XCTest
 // swiftlint:disable:next type_body_length
 final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
+    // swiftlint:disable:next function_body_length
     func test_OpenModalNoChanges() throws {
         // GIVEN I open the modal
         let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
@@ -48,6 +49,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
 
+        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
@@ -80,6 +82,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         let autoStartToggleUpdated = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggleUpdated.isSelected)
 
+        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggleUpdated.isSelected)
 
@@ -250,6 +253,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
 
+        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 

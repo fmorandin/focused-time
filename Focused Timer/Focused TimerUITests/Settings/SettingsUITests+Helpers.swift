@@ -52,6 +52,7 @@ extension SettingsUITests {
             "0"
         )
 
+        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertEqual(
             stringValue(for: playSoundsToggle, message: "Play sounds toggle value should be a String."),
@@ -87,9 +88,10 @@ extension SettingsUITests {
         application.tap()
 
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
-        let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
-
         tapToggle(autoStartToggle)
+
+        scrollToPlaySoundsToggleIfNeeded()
+        let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         tapToggle(playSoundsToggle)
 
         let keepScreenOnToggle = resolvedKeepScreenOnToggle()
@@ -119,6 +121,7 @@ extension SettingsUITests {
             "1"
         )
 
+        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertEqual(
             stringValue(for: playSoundsToggleUpdated, message: "Play sounds toggle value should be a String."),
@@ -165,6 +168,7 @@ extension SettingsUITests {
             "0"
         )
 
+        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggleFinal = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertEqual(
             stringValue(for: playSoundsToggleFinal, message: "Play sounds toggle value should be a String."),
@@ -200,6 +204,16 @@ extension SettingsUITests {
         }
 
         element.tap()
+    }
+
+    func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 2) {
+        let toggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
+        guard !(toggle.exists && toggle.isHittable) else { return }
+
+        for _ in 0..<maxSwipes {
+            application.swipeUp()
+            if toggle.exists && toggle.isHittable { return }
+        }
     }
 
     func scrollToKeepScreenOnToggleIfNeeded(maxSwipes: Int = 2) {
