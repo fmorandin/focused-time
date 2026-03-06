@@ -49,6 +49,10 @@ struct TimerViewLifecycleTests {
                 return false
             }
         }
+
+        func getStartingTimerType() -> TimerType {
+            .focused
+        }
     }
 
     @Test("shouldKeepScreenOn reflects persisted toggle")

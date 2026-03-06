@@ -13,6 +13,7 @@ import UserNotifications
 
 @MainActor
 @Suite("SettingsViewModel Tests", .serialized)
+// swiftlint:disable:next type_body_length
 struct SettingsViewModelTests {
 
     private final class NotificationCenterStub: @unchecked Sendable, UserNotificationCenterProtocol {
@@ -41,6 +42,8 @@ struct SettingsViewModelTests {
         var savedTimes: [(Int, String)] = []
         var savedCycles: [(Int, String)] = []
         var savedToggles: [(Bool, String)] = []
+        var savedStartingTimerType: TimerType?
+        var stubbedStartingTimerType: TimerType = .focused
 
         func saveTime(time: Int, for keyName: String) {
             savedTimes.append((time, keyName))
@@ -65,6 +68,14 @@ struct SettingsViewModelTests {
         func getToggle(for _: String) -> Bool {
             false
         }
+
+        func getStartingTimerType() -> TimerType {
+            stubbedStartingTimerType
+        }
+
+        func saveStartingTimerType(_ type: TimerType) {
+            savedStartingTimerType = type
+        }
     }
 
     private func clearPersistedValues() {
@@ -77,7 +88,8 @@ struct SettingsViewModelTests {
             UserDefaultKeys.autoStartToggle,
             UserDefaultKeys.playTimerSounds,
             UserDefaultKeys.keepScreenOn,
-            UserDefaultKeys.enableNotifications
+            UserDefaultKeys.enableNotifications,
+            UserDefaultKeys.startingTimerType
         ].forEach { defaults.removeObject(forKey: $0) }
     }
 
@@ -415,5 +427,50 @@ struct SettingsViewModelTests {
         await settingsViewModel.openNotificationSettings()
 
         #expect(urlOpenerSpy.openedURLs.count == 2)
+    }
+
+    // MARK: - Starting Timer Type
+
+    @Test("startingTimerType is populated from the model on init")
+    func startingTimerTypePopulatedOnInit() {
+        let settingsModel = SettingsModelSpy()
+        settingsModel.stubbedStartingTimerType = .shortBreak
+        let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
+
+        #expect(settingsViewModel.startingTimerType == .shortBreak)
+    }
+
+    @Test("saveStartingTimerType persists the value and sets shouldUpdateTimerView")
+    func saveStartingTimerTypePersistsValue() {
+        let settingsModel = SettingsModelSpy()
+        let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
+
+        settingsViewModel.saveStartingTimerType(.longBreak)
+
+        #expect(settingsModel.savedStartingTimerType == .longBreak)
+        #expect(settingsViewModel.startingTimerType == .longBreak)
+        #expect(settingsViewModel.shouldUpdateTimerView == true)
+    }
+
+    @Test("resetToDefault resets startingTimerType to focused")
+    func resetToDefaultResetsStartingTimerType() {
+        let settingsViewModel = makePersistedSUT()
+
+        settingsViewModel.saveStartingTimerType(.shortBreak)
+        #expect(settingsViewModel.startingTimerType == .shortBreak)
+
+        settingsViewModel.resetToDefault()
+
+        #expect(settingsViewModel.startingTimerType == .focused)
+    }
+
+    @Test("resetToDefault repopulates startingTimerType from persisted focused default")
+    func resetToDefaultRepopulatesStartingTimerType() {
+        let settingsViewModel = makePersistedSUT()
+
+        settingsViewModel.saveStartingTimerType(.longBreak)
+        settingsViewModel.resetToDefault()
+
+        #expect(settingsViewModel.startingTimerType == .focused)
     }
 }

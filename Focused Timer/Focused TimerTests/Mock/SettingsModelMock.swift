@@ -9,6 +9,12 @@ import Foundation
 @testable import Focused_Timer
 
 struct SettingsModelMock: SettingsModelProtocol {
+    func getStartingTimerType() -> TimerType {
+        .focused
+    }
+
+    func saveStartingTimerType(_ type: TimerType) {}
+
     func saveToggle(value: Bool, for keyName: String) {
         debugPrint("🎛 toggle saved")
     }
