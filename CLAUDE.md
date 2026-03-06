@@ -6,13 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### General Guidelines
 
-- Unless a specific instruction is given, always create a new branch from `main` for your work, and name it descriptively (e.g. `feat/timer-pause-functionality`).
+- Unless a specific instruction is given, always create a new branch from `main` for your work, and name it descriptively (e.g. `timer-pause-functionality`).
 - Always follow the existing code style and architecture patterns.
-- When new features or significant changes are made, update or add unit/UI tests to cover the new behavior.
+- When new features or changes are made, update or add unit/UI tests to cover the new behavior.
 - When making changes, ensure you run all tests and linting locally before committing.
 - Write clear, concise commit messages in the format: `feat: add new timer feature`.
 - When the changes are done, all tests are passing and no linting errors were found, open a pull request.
 - When creating pull requests, provide a descriptive title and summary of changes.
+- Always fix both errors and warnings in the code.
+- Avoid as much as possible disabling SwiftLint rules or test assertions. If you must disable a rule, add a comment explaining why and when it can be re-enabled.
+- Never commit code with warnings.
 
 ### Version Control
 
