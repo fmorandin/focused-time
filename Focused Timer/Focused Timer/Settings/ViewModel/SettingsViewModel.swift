@@ -58,6 +58,7 @@ final class SettingsViewModel {
     var keepScreenOn: Bool = false
     var isNotificationsEnabled: Bool = true
     var isNotificationsDeniedBySystem: Bool = false
+    var startingTimerType: TimerType = .focused
 
     // If the timer is running and the user changes something the timer should be updated
     var shouldUpdateTimerView = false
@@ -114,6 +115,7 @@ final class SettingsViewModel {
         isPlaySoundEnabled = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
         keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
         isNotificationsEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableNotifications)
+        startingTimerType = settingsModel.getStartingTimerType()
     }
 
     // MARK: - Public Functions
@@ -189,6 +191,7 @@ final class SettingsViewModel {
         saveToggles(for: UserDefaultKeys.keepScreenOn, value: false)
         saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
+        saveStartingTimerType(.focused)
 
         populateAllFieldsSavedValues()
     }
@@ -208,6 +211,14 @@ final class SettingsViewModel {
             return
         }
         await urlOpener.open(settingsURL)
+    }
+
+    /// Saves the user's chosen starting timer type and signals that the timer view should update
+    func saveStartingTimerType(_ type: TimerType) {
+
+        settingsModel.saveStartingTimerType(type)
+        startingTimerType = type
+        shouldUpdateTimerView = true
     }
 
     /// Triggers the system share sheet for the app
