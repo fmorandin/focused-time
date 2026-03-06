@@ -273,14 +273,16 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
         // AND I open the modal again
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should reopen")
 
         let autoStartToggleUpdated = application.switches[Accessibility.Identifiers.tgAutoStart]
-        let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
-
         XCTAssertEqual(
             stringValue(for: autoStartToggleUpdated, message: "Auto start toggle value should be a String."),
             "1"
         )
+
+        scrollToPlaySoundsToggleIfNeeded()
+        let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertEqual(
             stringValue(for: playSoundsToggleUpdated, message: "Play sounds toggle value should be a String."),
             "1"
