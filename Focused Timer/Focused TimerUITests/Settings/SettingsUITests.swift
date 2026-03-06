@@ -259,6 +259,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
         // WHEN I update the toggles
         tapToggle(autoStartToggle)
+        scrollToPlaySoundsToggleIfNeeded()
         tapToggle(playSoundsToggle)
 
         let keepScreenOnToggle = resolvedKeepScreenOnToggle()

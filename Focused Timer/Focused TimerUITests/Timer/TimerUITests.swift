@@ -154,6 +154,7 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         showSettingsButton.tap()
 
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
+        XCTAssertTrue(waitForExistence(autoStartToggle, timeout: 5.0), "Auto start toggle should be accessible")
         guard let autoStartValue = autoStartToggle.value as? String else {
             XCTFail("Auto start toggle value should be a String.")
             return
