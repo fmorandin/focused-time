@@ -40,6 +40,12 @@ protocol SettingsModelProtocol {
     /// Function to get the value for a toggle that is saved
     /// - Parameter keyName: the key for the saved value
     func getToggle(for keyName: String) -> Bool
+
+    /// Returns the timer type the user has chosen as the session starting point
+    func getStartingTimerType() -> TimerType
+
+    /// Persists the timer type chosen as the session starting point
+    func saveStartingTimerType(_ type: TimerType)
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -103,5 +109,16 @@ struct SettingsModel: SettingsModelProtocol {
     func getToggle(for keyName: String) -> Bool {
 
         repository.bool(for: keyName)
+    }
+
+    func getStartingTimerType() -> TimerType {
+
+        let rawValue: String = repository.string(for: UserDefaultKeys.startingTimerType)
+        return TimerType(rawValue: rawValue) ?? .focused
+    }
+
+    func saveStartingTimerType(_ type: TimerType) {
+
+        repository.save(type.rawValue, for: UserDefaultKeys.startingTimerType)
     }
 }

@@ -81,9 +81,11 @@ final class TimerUseCase {
         self.soundPlayer = soundPlayer
         self.notificationFlagStore = notificationFlagStore
 
-        let savedFocusedTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
-        self.totalTime = savedFocusedTime
-        self.counter = savedFocusedTime
+        let startingType = timerModel.getStartingTimerType()
+        self.timerType = startingType
+        let startingTime = timerModel.getTime(for: startingType.userDefaultKey)
+        self.totalTime = startingTime
+        self.counter = startingTime
         self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
     }
 
@@ -125,12 +127,13 @@ final class TimerUseCase {
         Self.logger.notice("🔄 Resetting timer.")
         timer?.invalidate()
         timerState = .initial
-        timerType = .focused
         timerTo = 1.0
         numberOfCompletedCycles = 0
-        let focusedTime = timerModel.getTime(for: UserDefaultKeys.focusedTime)
-        counter = focusedTime
-        totalTime = focusedTime
+        let startingType = timerModel.getStartingTimerType()
+        timerType = startingType
+        let startingTime = timerModel.getTime(for: startingType.userDefaultKey)
+        counter = startingTime
+        totalTime = startingTime
         totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
         onStateChange?()
     }
