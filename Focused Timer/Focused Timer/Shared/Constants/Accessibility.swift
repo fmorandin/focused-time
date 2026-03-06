@@ -50,6 +50,8 @@ enum Accessibility {
         // MARK: - Timer Screen
 
         // Buttons
+        static let pkStartingTimerType = "pkStartingTimerType"
+
         static let btnShowSettings = "btnShowSettings"
         static let btnShowHelp = "btnShowHelp"
         static let btnStartPauseIdentifier = "btnStartPauseIdentifier"

@@ -633,6 +633,23 @@
         }
       }
     },
+    "settingsStartingTimerType" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starting timer"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer inicial"
+          }
+        }
+      }
+    },
     "settingsAutoStart" : {
       "extractionState" : "manual",
       "localizations" : {
