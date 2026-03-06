@@ -363,6 +363,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
     func test_StartingTimerTypePicker_IsVisibleAndDefaultsToFocus() {
         // GIVEN the timer screen is visible with no custom starting type set
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
+        XCTAssertTrue(waitForExistence(lblTimerType, timeout: 5.0), "Timer type label should be visible")
 
         // THEN the default starting timer type should be Focus
         XCTAssertEqual(lblTimerType.label, "Focus", "Timer should start as Focus by default")
@@ -397,9 +398,12 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         // WHEN I close settings (timer resets to the new starting type)
         dismissSettingsButton.tap()
 
-        // THEN the timer immediately shows Short Break
+        // THEN the timer shows Short Break (wait for async reset to propagate)
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Short Break", "Timer should show Short Break after settings update")
+        XCTAssertTrue(
+            waitForLabel(lblTimerType, equals: "Short Break", timeout: 5.0),
+            "Timer should show Short Break after settings update"
+        )
 
         // WHEN I tap the reset button (uses the stored starting type from UserDefaults)
         let resetButton = application.buttons[Accessibility.Identifiers.btnResetIdentifier]
@@ -407,9 +411,8 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         resetButton.tap()
 
         // THEN the timer still shows Short Break — proving UserDefaults persistence
-        XCTAssertEqual(
-            lblTimerType.label,
-            "Short Break",
+        XCTAssertTrue(
+            waitForLabel(lblTimerType, equals: "Short Break", timeout: 5.0),
             "Timer should remain Short Break after reset, proving UserDefaults persistence"
         )
     }
@@ -428,21 +431,23 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(waitForExistence(longBreakOption, timeout: 3.0), "Long Break option should appear")
         longBreakOption.tap()
 
-        // AND close settings (timer resets to Long Break)
+        // AND close settings (timer resets to Long Break, wait for async propagation)
         dismissSettingsButton.tap()
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Long Break", "Timer should show Long Break after settings update")
+        XCTAssertTrue(
+            waitForLabel(lblTimerType, equals: "Long Break", timeout: 5.0),
+            "Timer should show Long Break after settings update"
+        )
 
         // WHEN I reopen settings and reset to defaults
         showSettingsButton.tap()
         XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should reopen")
         resetSettingsToDefaultsGracefully()
 
-        // THEN the timer shows Focus again after settings are closed
+        // THEN the timer shows Focus again after settings are closed (wait for async reset)
         dismissSettingsButton.tap()
-        XCTAssertEqual(
-            lblTimerType.label,
-            "Focus",
+        XCTAssertTrue(
+            waitForLabel(lblTimerType, equals: "Focus", timeout: 5.0),
             "Timer should show Focus after resetting settings to defaults"
         )
     }
