@@ -24,4 +24,15 @@ enum TimerType: String {
             return LocalizedStringResource("longBreakName", table: "Localizable")
         }
     }
+
+    var userDefaultKey: String {
+        switch self {
+        case .focused:
+            return UserDefaultKeys.focusedTime
+        case .shortBreak:
+            return UserDefaultKeys.shortBreakTime
+        case .longBreak:
+            return UserDefaultKeys.longBreakTime
+        }
+    }
 }
