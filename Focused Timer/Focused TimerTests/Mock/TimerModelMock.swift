@@ -9,6 +9,12 @@ import Foundation
 @testable import Focused_Timer
 
 struct TimerModelMock: TimerModelProtocol {
+    var startingTimerType: TimerType = .focused
+
+    func getStartingTimerType() -> TimerType {
+        startingTimerType
+    }
+
     func getToggle(for keyName: String) -> Bool {
         switch keyName {
         case "keepScreenOn":

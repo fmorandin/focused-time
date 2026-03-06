@@ -54,6 +54,35 @@ struct TimerTypeTests {
         #expect(resource == expected)
     }
 
+    // MARK: - userDefaultKey
+
+    @Test("focused userDefaultKey maps to focusedTime")
+    func focusedUserDefaultKey() {
+        #expect(TimerType.focused.userDefaultKey == UserDefaultKeys.focusedTime)
+    }
+
+    @Test("shortBreak userDefaultKey maps to shortBreakTime")
+    func shortBreakUserDefaultKey() {
+        #expect(TimerType.shortBreak.userDefaultKey == UserDefaultKeys.shortBreakTime)
+    }
+
+    @Test("longBreak userDefaultKey maps to longBreakTime")
+    func longBreakUserDefaultKey() {
+        #expect(TimerType.longBreak.userDefaultKey == UserDefaultKeys.longBreakTime)
+    }
+
+    @Test("each case maps to a distinct UserDefaults key")
+    func allUserDefaultKeysAreDistinct() {
+        let keys = [
+            TimerType.focused.userDefaultKey,
+            TimerType.shortBreak.userDefaultKey,
+            TimerType.longBreak.userDefaultKey
+        ]
+        #expect(keys[0] != keys[1])
+        #expect(keys[0] != keys[2])
+        #expect(keys[1] != keys[2])
+    }
+
     // MARK: - Distinct keys
 
     @Test("each case returns a distinct LocalizedStringResource key")

@@ -104,6 +104,7 @@ private final class TimerModelSpy: TimerModelProtocol {
     ]
     var numberOfCycles = "2"
     var savedTimes: (Int?, Date?) = (0, Date())
+    var startingTimerType: TimerType = .focused
     private(set) var savedRemainingTimesFromBackground: [Int] = []
 
     func getTime(for keyName: String) -> Int { times[keyName] ?? 0 }
@@ -111,6 +112,7 @@ private final class TimerModelSpy: TimerModelProtocol {
     func getSavedTimes() -> (Int?, Date?) { savedTimes }
     func getNumberOfCycles(for _: String) -> String { numberOfCycles }
     func getToggle(for keyName: String) -> Bool { toggles[keyName] ?? false }
+    func getStartingTimerType() -> TimerType { startingTimerType }
 }
 
 // MARK: - SUT Factory
@@ -747,5 +749,95 @@ struct TimerUseCaseTests {
         #expect(useCase.timerState == .initial)  // set by changeTimerMode before auto-restart fires
         #expect(useCase.counter == 5)            // focusedTime from model
         #expect(useCase.numberOfCompletedCycles == 1) // only focused→shortBreak increments count
+    }
+
+    // MARK: - Starting Timer Type
+
+    @Test("init with startingTimerType shortBreak seeds counter and type from short break duration")
+    func initWithShortBreakStartingType() {
+        let model = TimerModelSpy()
+        model.startingTimerType = .shortBreak
+        let (useCase, _) = makeSUT(timerModel: model)
+
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.counter == 2)     // shortBreakTime from model
+        #expect(useCase.totalTime == 2)
+        #expect(useCase.timerState == .initial)
+    }
+
+    @Test("init with startingTimerType longBreak seeds counter and type from long break duration")
+    func initWithLongBreakStartingType() {
+        let model = TimerModelSpy()
+        model.startingTimerType = .longBreak
+        let (useCase, _) = makeSUT(timerModel: model)
+
+        #expect(useCase.timerType == .longBreak)
+        #expect(useCase.counter == 3)     // longBreakTime from model
+        #expect(useCase.totalTime == 3)
+    }
+
+    @Test("resetUpdateTimer resets to configured starting type, not always focused")
+    func resetUsesConfiguredStartingType() {
+        let model = TimerModelSpy()
+        model.startingTimerType = .shortBreak
+        let (useCase, timerFactory) = makeSUT(timerModel: model)
+
+        useCase.startTimer()
+        timerFactory.advance(by: 2)
+
+        useCase.resetUpdateTimer()
+
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.counter == 2)
+        #expect(useCase.totalTime == 2)
+        #expect(useCase.timerState == .initial)
+        #expect(useCase.numberOfCompletedCycles == 0)
+    }
+
+    @Test("starting from short break: phase transition goes short break then focused")
+    func startingFromShortBreakTransitionsToFocused() {
+        let model = TimerModelSpy()
+        model.startingTimerType = .shortBreak
+        let (useCase, timerFactory) = makeSUT(timerModel: model)
+
+        // 2 decrements + 1 mode-change tick
+        useCase.startTimer()
+        timerFactory.advance(by: 3)
+
+        #expect(useCase.timerType == .focused)
+        #expect(useCase.counter == 5)    // focusedTime from model
+        #expect(useCase.numberOfCompletedCycles == 0) // only focused→break increments cycles
+    }
+
+    @Test("starting from long break: phase transition goes long break then focused")
+    func startingFromLongBreakTransitionsToFocused() {
+        let model = TimerModelSpy()
+        model.startingTimerType = .longBreak
+        let (useCase, timerFactory) = makeSUT(timerModel: model)
+
+        // 3 decrements + 1 mode-change tick
+        useCase.startTimer()
+        timerFactory.advance(by: 4)
+
+        #expect(useCase.timerType == .focused)
+        #expect(useCase.counter == 5)    // focusedTime from model
+        #expect(useCase.numberOfCompletedCycles == 0)
+    }
+
+    @Test("starting from short break: full cycle completes correctly")
+    func startingFromShortBreakFullCycle() {
+        let model = TimerModelSpy()
+        model.startingTimerType = .shortBreak
+        let (useCase, timerFactory) = makeSUT(timerModel: model)
+
+        // SB(3) → F(6) → SB(3) → F(6) → LB (cycles == 2 == totalCycles)
+        useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → short break (cycle 1)
+        useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → long break (cycle 2)
+
+        #expect(useCase.timerType == .longBreak)
+        #expect(useCase.counter == 3)   // longBreakTime from model
+        #expect(useCase.numberOfCompletedCycles == 2)
     }
 }

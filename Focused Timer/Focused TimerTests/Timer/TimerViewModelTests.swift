@@ -121,6 +121,10 @@ private final class TimerModelSpy: TimerModelProtocol {
     func getToggle(for keyName: String) -> Bool {
         toggles[keyName] ?? false
     }
+
+    func getStartingTimerType() -> TimerType {
+        .focused
+    }
 }
 
 private func makeSUT(
@@ -303,6 +307,10 @@ struct TimerViewModelTests {
 
             func getToggle(for keyName: String) -> Bool {
                 TimerModelMock().getToggle(for: keyName)
+            }
+
+            func getStartingTimerType() -> TimerType {
+                .focused
             }
         }
 
