@@ -252,6 +252,40 @@ extension SettingsUITests {
         }
     }
 
+    func scrollToStartingTimerPickerIfNeeded(maxSwipes: Int = 3) {
+        let picker = startingTimerPickerElement()
+        guard !(picker.exists && picker.isHittable) else { return }
+
+        for _ in 0..<maxSwipes {
+            application.swipeUp()
+            if picker.exists && picker.isHittable { return }
+        }
+    }
+
+    /// Locates the starting timer picker cell regardless of how SwiftUI renders it.
+    func startingTimerPickerElement() -> XCUIElement {
+        let predicate = NSPredicate(
+            format: "identifier == %@",
+            Accessibility.Identifiers.pkStartingTimerType
+        )
+        return application.descendants(matching: .any).matching(predicate).firstMatch
+    }
+
+    /// Resets settings to defaults, dismissing only the alerts that appear (keepScreenOn alert is optional).
+    func resetSettingsToDefaultsGracefully() {
+        application.swipeUp()
+        application.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
+
+        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 5.0))
+        application.alerts.firstMatch.buttons["OK"].tap()
+
+        if waitForExistence(application.alerts.firstMatch, timeout: 1.5) {
+            application.alerts.firstMatch.buttons["OK"].tap()
+        }
+
+        application.swipeDown()
+    }
+
     func resolvedKeepScreenOnToggle(file: StaticString = #filePath, line: UInt = #line) -> XCUIElement {
         scrollToKeepScreenOnToggleIfNeeded()
 

@@ -5,8 +5,10 @@
 //  Created by Felipe Morandin on 31/01/21.
 //
 
+// swiftlint:disable file_length
 import XCTest
 
+// swiftlint:disable:next type_body_length
 final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_OpenModalNoChanges() throws {
@@ -356,6 +358,93 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
             application.navigationBars.firstMatch.waitForExistence(timeout: 3.0)
 
         XCTAssertTrue(shareSheetAppeared, "The share sheet should be displayed")
+    }
+
+    func test_StartingTimerTypePicker_IsVisibleAndDefaultsToFocus() {
+        // GIVEN the timer screen is visible with no custom starting type set
+        let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
+
+        // THEN the default starting timer type should be Focus
+        XCTAssertEqual(lblTimerType.label, "Focus", "Timer should start as Focus by default")
+
+        // WHEN I open settings
+        showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
+
+        // THEN the starting timer picker is visible
+        scrollToStartingTimerPickerIfNeeded()
+        let picker = startingTimerPickerElement()
+        XCTAssertTrue(
+            waitForExistence(picker, timeout: 5.0),
+            "The starting timer type picker should be visible in settings"
+        )
+    }
+
+    func test_StartingTimerTypePicker_PersistsThroughTimerReset() {
+        // GIVEN I open settings and set Short Break as the starting timer
+        showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
+
+        scrollToStartingTimerPickerIfNeeded()
+        let picker = startingTimerPickerElement()
+        XCTAssertTrue(waitForExistence(picker, timeout: 5.0))
+        picker.tap()
+
+        let shortBreakOption = application.buttons["Short Break"]
+        XCTAssertTrue(waitForExistence(shortBreakOption, timeout: 3.0), "Short Break option should appear")
+        shortBreakOption.tap()
+
+        // WHEN I close settings (timer resets to the new starting type)
+        dismissSettingsButton.tap()
+
+        // THEN the timer immediately shows Short Break
+        let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Short Break", "Timer should show Short Break after settings update")
+
+        // WHEN I tap the reset button (uses the stored starting type from UserDefaults)
+        let resetButton = application.buttons[Accessibility.Identifiers.btnResetIdentifier]
+        XCTAssertTrue(waitForExistence(resetButton, timeout: 3.0))
+        resetButton.tap()
+
+        // THEN the timer still shows Short Break — proving UserDefaults persistence
+        XCTAssertEqual(
+            lblTimerType.label,
+            "Short Break",
+            "Timer should remain Short Break after reset, proving UserDefaults persistence"
+        )
+    }
+
+    func test_StartingTimerTypePicker_ResetsToFocusOnResetToDefault() {
+        // GIVEN I open settings and set Long Break as the starting timer
+        showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
+
+        scrollToStartingTimerPickerIfNeeded()
+        let picker = startingTimerPickerElement()
+        XCTAssertTrue(waitForExistence(picker, timeout: 5.0))
+        picker.tap()
+
+        let longBreakOption = application.buttons["Long Break"]
+        XCTAssertTrue(waitForExistence(longBreakOption, timeout: 3.0), "Long Break option should appear")
+        longBreakOption.tap()
+
+        // AND close settings (timer resets to Long Break)
+        dismissSettingsButton.tap()
+        let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
+        XCTAssertEqual(lblTimerType.label, "Long Break", "Timer should show Long Break after settings update")
+
+        // WHEN I reopen settings and reset to defaults
+        showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should reopen")
+        resetSettingsToDefaultsGracefully()
+
+        // THEN the timer shows Focus again after settings are closed
+        dismissSettingsButton.tap()
+        XCTAssertEqual(
+            lblTimerType.label,
+            "Focus",
+            "Timer should show Focus after resetting settings to defaults"
+        )
     }
 
     func test_EnableNotificationsToggle_IsOnByDefault() {
