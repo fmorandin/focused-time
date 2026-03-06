@@ -29,6 +29,9 @@ protocol TimerModelProtocol {
     /// Function that gets the saved value for a toggle
     /// - Parameter keyName: the key to be searched
     func getToggle(for keyName: String) -> Bool
+
+    /// Returns the timer type the user has chosen as the starting point
+    func getStartingTimerType() -> TimerType
 }
 
 struct TimerModel: TimerModelProtocol {
@@ -116,5 +119,12 @@ struct TimerModel: TimerModelProtocol {
     func getToggle(for keyName: String) -> Bool {
 
         repository.bool(for: keyName)
+    }
+
+    /// Returns the timer type the user has chosen as the starting point, defaulting to focused
+    func getStartingTimerType() -> TimerType {
+
+        let rawValue: String = repository.string(for: UserDefaultKeys.startingTimerType)
+        return TimerType(rawValue: rawValue) ?? .focused
     }
 }
