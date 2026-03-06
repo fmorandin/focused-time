@@ -33,6 +33,19 @@ struct AppSettingsView: View {
 
     var body: some View {
         Section(header: Text("settingsSectionAppName")) {
+            // Starting timer type
+            Picker("settingsStartingTimerType", selection: $settingsViewModel.startingTimerType) {
+                ForEach([TimerType.focused, .shortBreak, .longBreak], id: \.self) { timerType in
+                    Text(timerType.getCorrectTranslation()).tag(timerType)
+                }
+            }
+            .pickerStyle(.menu)
+            .onChange(of: settingsViewModel.startingTimerType) { _, newValue in
+                settingsViewModel.saveStartingTimerType(newValue)
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.pkStartingTimerType)
+            .padding(.vertical, 10)
+
             // Auto Start
             Toggle("settingsAutoStart", isOn: $settingsViewModel.isAutoStartEnabled)
                 .onChange(of: settingsViewModel.isAutoStartEnabled) { _, newValue in
