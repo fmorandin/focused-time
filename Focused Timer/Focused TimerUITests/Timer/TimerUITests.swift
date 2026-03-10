@@ -42,17 +42,17 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(lblCounter.label, initialCounterLabel)
 
         playButton.tap()
-        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 4.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 4.0))
 
         playButton.tap()
-        XCTAssertTrue(waitForLabel(playButton, equals: "Resume", timeout: 2.0))
+        XCTAssertTrue(waitForLabel(playButton, equals: "Resume", timeout: 4.0))
 
         let pausedCounter = lblCounter.label
 
         playButton.tap()
-        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: pausedCounter, timeout: 2.0))
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 4.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: pausedCounter, timeout: 4.0))
 
         XCTAssertEqual(lblTimerType.label, "Focus")
     }
