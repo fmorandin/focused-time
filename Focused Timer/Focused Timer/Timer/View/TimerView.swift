@@ -43,31 +43,23 @@ struct TimerView: View {
     // MARK: - View
 
     var body: some View {
-        ZStack {
-            VStack {
+        VStack {
+            Spacer()
 
-                Spacer()
+            // Main circle with progress ring
+            CircleView(viewModel: timerViewModel)
 
-                // Top section with the config button
-                TopMenuView(viewModel: timerViewModel)
+            Spacer()
 
-                Spacer()
+            // Buttons that control the timer
+            ButtonsView(viewModel: timerViewModel)
 
-                // Main circles
-                CircleView(viewModel: timerViewModel)
+            Divider()
 
-                Spacer()
+            // Flows counter
+            FlowCounterView(viewModel: timerViewModel)
 
-                // Buttons that controls the timer
-                ButtonsView(viewModel: timerViewModel)
-
-                Divider()
-
-                // Flows counter
-                FlowCounterView(viewModel: timerViewModel)
-
-                Spacer()
-            }
+            Spacer()
         }
         .onReceive(notificationCenter.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
             Self.logger.notice("‼️ App will be moved to background.")
@@ -86,6 +78,11 @@ struct TimerView: View {
                 Self.logger.notice("🔄 Settings changed — resetting timer.")
                 timerViewModel.resetUpdateTimer()
                 router.settingsDidChange = false
+            }
+        }
+        .onChange(of: router.selectedTab) { _, newTab in
+            if newTab == .settings {
+                router.settingsDisplaysWarning = timerViewModel.shouldDisplaySettingsAlert()
             }
         }
         .onAppear {

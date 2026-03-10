@@ -18,95 +18,71 @@ struct HelpView: View {
     )
 
     // MARK: - View
+
     var body: some View {
-        ScrollView {
-            VStack {
-                // Top Section with a close button
-                CloseButton()
-
-                // Body
-                VStack {
-                    VStack(spacing: 5) {
-                        HStack {
-                            Text("techniqueExplanationTitle")
-                                .helpSectionTitle()
-                                .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanationTitle)
-                            Spacer()
-                        }
-
-                        Text("techniqueExplanation")
-                            .helpSectionText()
-                            .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanation)
-                    }
-
-                    VStack(spacing: 5) {
-                        HStack {
-                            Text("focusExplanationTitle")
-                                .helpSectionTitle()
-                                .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanationTitle)
-
-                            Spacer()
-                        }
-
-                        Text("focusExplanation")
-                            .helpSectionText()
-                            .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanation)
-                    }
-
-                    VStack(spacing: 5) {
-                        HStack {
-                            Text("shortBreakExplanationTitle")
-                                .helpSectionTitle()
-                                .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanationTitle)
-
-                            Spacer()
-                        }
-
-                        Text("shortBreakExplanation")
-                            .helpSectionText()
-                            .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanation)
-                    }
-
-                    VStack(spacing: 5) {
-                        HStack {
-
-                            Text("longBreakExplanationTitle")
-                                .helpSectionTitle()
-                                .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanationTitle)
-
-                            Spacer()
-                        }
-
-                        Text("longBreakExplanation")
-                            .helpSectionText()
-                            .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanation)
-                    }
-
-                    VStack(spacing: 5) {
-                        HStack {
-
-                            Text("numberOfCyclesExplanationTitle")
-                                .helpSectionTitle()
-                                .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle)
-
-                            Spacer()
-                        }
-
-                        Text("numberOfCyclesExplanation")
-                            .helpSectionText()
-                            .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanation)
-                    }
-                }
+        List {
+            Section {
+                Text("techniqueExplanation")
+                    .helpSectionText()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanation)
+            } header: {
+                Text("techniqueExplanationTitle")
+                    .helpSectionTitle()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanationTitle)
             }
-            .onAppear {
-                Self.logger.notice("🆘 Help View opened.")
+
+            Section {
+                Text("focusExplanation")
+                    .helpSectionText()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanation)
+            } header: {
+                Text("focusExplanationTitle")
+                    .helpSectionTitle()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanationTitle)
             }
+
+            Section {
+                Text("shortBreakExplanation")
+                    .helpSectionText()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanation)
+            } header: {
+                Text("shortBreakExplanationTitle")
+                    .helpSectionTitle()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanationTitle)
+            }
+
+            Section {
+                Text("longBreakExplanation")
+                    .helpSectionText()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanation)
+            } header: {
+                Text("longBreakExplanationTitle")
+                    .helpSectionTitle()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanationTitle)
+            }
+
+            Section {
+                Text("numberOfCyclesExplanation")
+                    .helpSectionText()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanation)
+            } header: {
+                Text("numberOfCyclesExplanationTitle")
+                    .helpSectionTitle()
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle)
+            }
+        }
+        .listStyle(.insetGrouped)
+        .navigationTitle("helpNavigationTitle")
+        .onAppear {
+            Self.logger.notice("🆘 Help View opened.")
         }
     }
 }
 
 struct HelpView_Previews: PreviewProvider {
     static var previews: some View {
-        HelpView()
+        NavigationStack {
+            HelpView()
+        }
     }
 }

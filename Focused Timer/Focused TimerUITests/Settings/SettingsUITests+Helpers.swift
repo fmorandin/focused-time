@@ -10,11 +10,11 @@ import XCTest
 extension SettingsUITests {
 
     var showSettingsButton: XCUIElement {
-        application.buttons[Accessibility.Identifiers.btnShowSettings]
+        application.tabBars.firstMatch.buttons["Settings"]
     }
 
     var dismissSettingsButton: XCUIElement {
-        application.buttons[Accessibility.Identifiers.btnCloseModal]
+        application.tabBars.firstMatch.buttons["Timer"]
     }
 
     var keepScreenOnToggleAccessibilityLabel: String {
@@ -103,6 +103,7 @@ extension SettingsUITests {
     }
 
     func assertUpdatedSettingsValues() {
+        scrollToSettingsTopIfNeeded()
         let durationTextFieldUpdated = application.textFields[Accessibility.Identifiers.txtFocusedTime]
         XCTAssertEqual(String(describing: durationTextFieldUpdated.value!), "123")
 
@@ -248,10 +249,12 @@ extension SettingsUITests {
         }
     }
 
-    /// Waits for the settings modal to be fully presented by waiting for a reliable
-    /// top-of-form anchor (the focused-time text field) before interacting with it.
+    /// Waits for the settings tab to be fully loaded and scrolls to the top of the form.
+    /// Tab navigation preserves scroll position, so an explicit scroll-to-top is needed
+    /// before asserting top-of-form elements after a tab switch.
     @discardableResult
     func waitForSettingsModalToOpen(timeout: TimeInterval = 5.0) -> Bool {
+        scrollToSettingsTopIfNeeded()
         let anchor = application.textFields[Accessibility.Identifiers.txtFocusedTime]
         return waitForExistence(anchor, timeout: timeout)
     }

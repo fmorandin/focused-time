@@ -14,31 +14,34 @@ import Observation
 @Observable
 final class Router {
 
-    // MARK: - Sheet Presentation
+    // MARK: - Tab Navigation
 
-    var isShowingSettings = false
-    var isShowingHelp = false
+    enum AppTab {
+        case timer, settings, help
+    }
+
+    var selectedTab: AppTab = .timer
 
     // MARK: - Cross-Feature Signaling
 
-    /// Set to `true` by the settings sheet when the user changes settings.
+    /// Set to `true` by the settings tab when the user changes settings.
     /// `TimerView` observes this and resets the timer when it becomes `true`,
     /// then resets it back to `false`. Replaces the old `NotificationCenter` approach.
     var settingsDidChange = false
 
-    /// Whether to show the "timer is running" warning in the settings sheet.
-    /// Populated by the caller before setting `isShowingSettings = true`.
+    /// Whether to show the "timer is running" warning in the settings tab.
+    /// Populated before setting `selectedTab = .settings`.
     var settingsDisplaysWarning = false
 
     // MARK: - Actions
 
-    func openSettings(isTimerActive: Bool) {
+    func selectSettings(isTimerActive: Bool) {
         settingsDisplaysWarning = isTimerActive
-        isShowingSettings = true
+        selectedTab = .settings
     }
 
-    func openHelp() {
-        isShowingHelp = true
+    func selectHelp() {
+        selectedTab = .help
     }
 
     func signalSettingsChanged() {

@@ -14,7 +14,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
     // swiftlint:disable:next function_body_length
     func test_OpenModalNoChanges() throws {
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
@@ -57,11 +57,12 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertFalse(keepScreenOnToggle.isSelected)
 
         // WHEN I close the modal
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         // AND open it again
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings should reopen at the top")
 
         // THE duration value should keep the same
         let durationTextFieldUpdated = String(
@@ -92,7 +93,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_UpdateFocusedTimerValue() {
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
@@ -130,7 +131,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         durationTextField.typeText("100")
 
         // AND I exit the modal
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -145,7 +146,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_UpdateShortBreakTimerValue() {
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
@@ -182,7 +183,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         // AND I add the new value
         shortBreakTextField.typeText("50")
 
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -197,7 +198,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_UpdateNumberOfCyclesValues() {
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         // WHEN the fields are loaded
@@ -231,7 +232,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         // AND I add the new value
         numberOfCyclesTextField.typeText("20")
 
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -246,7 +247,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_UpdateToggles() {
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         // AND the toggles are in their default values
@@ -268,7 +269,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
             application.alerts.firstMatch.buttons["OK"].tap()
         }
 
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         // AND I open the modal again
@@ -297,7 +298,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
     func test_WarnMessageWhenTimerIsRunning() {
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         // THEN the warn should not be displayed
@@ -305,7 +306,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertFalse(lblWarnMessageVisible, "The warn reload message shouldn't be displayed")
 
         // WHEN I dismiss the modal
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         // AND I start the timer
@@ -342,7 +343,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
     func test_AppVersionAndShare() {
 
         // GIVEN I open the modal
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         application.swipeUp()

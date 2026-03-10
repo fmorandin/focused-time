@@ -15,60 +15,59 @@ struct RouterTests {
 
     // MARK: - Initial State
 
-    @Test("Router starts with all sheets hidden and no pending signal")
+    @Test("Router starts on the timer tab with no pending signal")
     func initialState() {
         let router = Router()
 
-        #expect(router.isShowingSettings == false)
-        #expect(router.isShowingHelp == false)
+        #expect(router.selectedTab == .timer)
         #expect(router.settingsDidChange == false)
         #expect(router.settingsDisplaysWarning == false)
     }
 
-    // MARK: - openSettings
+    // MARK: - selectSettings
 
-    @Test("openSettings sets isShowingSettings to true")
-    func openSettingsSetsFlag() {
+    @Test("selectSettings navigates to the settings tab")
+    func selectSettingsSetsTab() {
         let router = Router()
-        router.openSettings(isTimerActive: false)
-        #expect(router.isShowingSettings == true)
+        router.selectSettings(isTimerActive: false)
+        #expect(router.selectedTab == .settings)
     }
 
-    @Test("openSettings stores warning flag matching isTimerActive true")
-    func openSettingsWarningWhenTimerActive() {
+    @Test("selectSettings stores warning flag matching isTimerActive true")
+    func selectSettingsWarningWhenTimerActive() {
         let router = Router()
-        router.openSettings(isTimerActive: true)
+        router.selectSettings(isTimerActive: true)
         #expect(router.settingsDisplaysWarning == true)
     }
 
-    @Test("openSettings stores warning flag matching isTimerActive false")
-    func openSettingsNoWarningWhenTimerInactive() {
+    @Test("selectSettings stores warning flag matching isTimerActive false")
+    func selectSettingsNoWarningWhenTimerInactive() {
         let router = Router()
-        router.openSettings(isTimerActive: false)
+        router.selectSettings(isTimerActive: false)
         #expect(router.settingsDisplaysWarning == false)
     }
 
-    @Test("openSettings does not affect isShowingHelp")
-    func openSettingsDoesNotAffectHelp() {
+    @Test("selectSettings does not navigate to help tab")
+    func selectSettingsDoesNotSelectHelp() {
         let router = Router()
-        router.openSettings(isTimerActive: false)
-        #expect(router.isShowingHelp == false)
+        router.selectSettings(isTimerActive: false)
+        #expect(router.selectedTab != .help)
     }
 
-    // MARK: - openHelp
+    // MARK: - selectHelp
 
-    @Test("openHelp sets isShowingHelp to true")
-    func openHelpSetsFlag() {
+    @Test("selectHelp navigates to the help tab")
+    func selectHelpSetsTab() {
         let router = Router()
-        router.openHelp()
-        #expect(router.isShowingHelp == true)
+        router.selectHelp()
+        #expect(router.selectedTab == .help)
     }
 
-    @Test("openHelp does not affect isShowingSettings")
-    func openHelpDoesNotAffectSettings() {
+    @Test("selectHelp does not navigate to settings tab")
+    func selectHelpDoesNotSelectSettings() {
         let router = Router()
-        router.openHelp()
-        #expect(router.isShowingSettings == false)
+        router.selectHelp()
+        #expect(router.selectedTab != .settings)
     }
 
     // MARK: - signalSettingsChanged
@@ -80,12 +79,11 @@ struct RouterTests {
         #expect(router.settingsDidChange == true)
     }
 
-    @Test("signalSettingsChanged does not affect sheet presentation flags")
-    func signalSettingsChangedDoesNotOpenSheets() {
+    @Test("signalSettingsChanged does not change the selected tab")
+    func signalSettingsChangedDoesNotChangeTab() {
         let router = Router()
         router.signalSettingsChanged()
-        #expect(router.isShowingSettings == false)
-        #expect(router.isShowingHelp == false)
+        #expect(router.selectedTab == .timer)
     }
 
     // MARK: - Combined scenarios
@@ -93,10 +91,10 @@ struct RouterTests {
     @Test("settingsDisplaysWarning updates correctly on repeated calls")
     func settingsDisplaysWarningUpdates() {
         let router = Router()
-        router.openSettings(isTimerActive: true)
+        router.selectSettings(isTimerActive: true)
         #expect(router.settingsDisplaysWarning == true)
 
-        router.openSettings(isTimerActive: false)
+        router.selectSettings(isTimerActive: false)
         #expect(router.settingsDisplaysWarning == false)
     }
 }

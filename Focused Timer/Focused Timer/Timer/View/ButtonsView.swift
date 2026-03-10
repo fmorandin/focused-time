@@ -31,7 +31,7 @@ struct ButtonsView: View {
     // MARK: - View
 
     var body: some View {
-        HStack(spacing: 70) {
+        VStack(spacing: 16) {
             Button(action: {
                 if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
                     Self.logger.notice("▶️ Play timer button pressed.")
@@ -42,12 +42,12 @@ struct ButtonsView: View {
                 }
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
-                MainButtonLabel(
-                    accentColor: timerViewModel.accentCircleColor,
-                    imageName: timerViewModel.primaryButtonImageName,
-                    text: timerViewModel.primaryButtonText
-                )
+                Label(timerViewModel.primaryButtonText, systemImage: timerViewModel.primaryButtonImageName)
+                    .frame(maxWidth: .infinity, minHeight: 60)
             })
+            .buttonStyle(.borderedProminent)
+            .tint(timerViewModel.accentCircleColor)
+            .controlSize(.large)
             .accessibilityIdentifier(Accessibility.Identifiers.btnStartPauseIdentifier)
 
             Button(action: {
@@ -55,17 +55,16 @@ struct ButtonsView: View {
                 timerViewModel.resetUpdateTimer()
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
-                MainButtonLabel(
-                    accentColor: timerViewModel.accentCircleColor,
-                    imageName: ImageNames.reset,
-                    text: LocalizedStringResource("resetTimer", table: "Localizable")
-                )
-
+                Label(LocalizedStringResource("resetTimer", table: "Localizable"), systemImage: ImageNames.reset)
+                    .frame(maxWidth: .infinity, minHeight: 50)
             })
+            .buttonStyle(.bordered)
+            .tint(timerViewModel.accentCircleColor)
+            .controlSize(.large)
             .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }
-        .padding(.bottom, 20)
         .padding(.horizontal, 24)
+        .padding(.bottom, 24)
     }
 }
 

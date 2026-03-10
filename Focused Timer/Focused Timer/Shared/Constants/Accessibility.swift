@@ -21,7 +21,6 @@ enum Accessibility {
         // MARK: - Settings Screen
 
         // Buttons
-        static let btnCloseModal = "btnDismissSettings"
         static let btnResetSettingsDefault = "btnResetSettingsDefault"
 
         // TextFields
@@ -47,13 +46,17 @@ enum Accessibility {
 
         static let lblWarnReloadMessage = "lblWarnReloadMessage"
 
+        // MARK: - Tab Bar
+
+        static let tabTimer    = "tabTimer"
+        static let tabSettings = "tabSettings"
+        static let tabHelp     = "tabHelp"
+
         // MARK: - Timer Screen
 
         // Buttons
         static let pkStartingTimerType = "pkStartingTimerType"
 
-        static let btnShowSettings = "btnShowSettings"
-        static let btnShowHelp = "btnShowHelp"
         static let btnStartPauseIdentifier = "btnStartPauseIdentifier"
         static let btnResetIdentifier = "btnResetIdentifier"
 

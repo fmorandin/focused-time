@@ -9,16 +9,6 @@ import SwiftUI
 
 extension View {
 
-    // Close icon in the modals and help view/settings icons in the timer
-    func iconNoText() -> some View {
-        self
-            .labelStyle(.iconOnly)
-            .font(.system(size: 25))
-            .padding(.trailing)
-            .foregroundColor(.iconButtonColor)
-            .opacity(0.5)
-    }
-
     func helpSectionTitle() -> some View {
         self
             .font(.system(.title3, design: .rounded).bold())

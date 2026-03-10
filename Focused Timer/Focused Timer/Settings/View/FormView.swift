@@ -20,7 +20,6 @@ struct FormView: View {
     // MARK: - Environment
 
     @Environment(Router.self) private var router
-    @Environment(\.dismiss) private var dismiss
 
     let settingsViewModel: SettingsViewModel
 
@@ -87,13 +86,7 @@ struct FormView: View {
                     Spacer()
 
                     Button(action: {
-                        dismiss()
-                        // UIKitShareService grabs the key window lazily after the
-                        // sheet finishes its dismissal animation.
-                        Task { @MainActor in
-                            try? await Task.sleep(for: .milliseconds(300))
-                            settingsViewModel.shareSheet()
-                        }
+                        settingsViewModel.shareSheet()
                     }, label: {
                         HStack {
                             Text("shareAppTitle")
@@ -109,11 +102,11 @@ struct FormView: View {
                 .foregroundColor(.secondary)
             }
         }
-        .onDisappear(perform: {
-            if settingsViewModel.shouldUpdateTimerView {
+        .onChange(of: router.selectedTab) { _, newTab in
+            if newTab != .settings && self.settingsViewModel.shouldUpdateTimerView {
                 router.signalSettingsChanged()
             }
-        })
+        }
     }
 }
 

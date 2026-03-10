@@ -40,10 +40,7 @@ struct SettingsView: View {
 
     var body: some View {
         VStack {
-            // Top Section with a close button
-            CloseButton()
-
-            if (shouldDisplayDisclaimer) {
+            if shouldDisplayDisclaimer {
                 Text("settingsWarnReloadMessage")
                     .warningBox()
                     .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
@@ -51,12 +48,12 @@ struct SettingsView: View {
 
             // The list that contains all the available settings to be defined in the app
             FormView(viewModel: settingsViewModel)
-
         }
         .onTapGesture {
             self.hideKeyboard()
         }
-        .navigationBarHidden(true)
+        .navigationTitle("settingsNavigationTitle")
+        .navigationBarTitleDisplayMode(.large)
         .onAppear {
             Self.logger.notice("⚙️ Settings View opened.")
         }
@@ -76,7 +73,9 @@ extension View {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(displayWarning: true)
-            .environment(Router())
+        NavigationStack {
+            SettingsView(displayWarning: true)
+        }
+        .environment(Router())
     }
 }

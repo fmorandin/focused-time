@@ -8,8 +8,33 @@
 import SwiftUI
 
 struct ContentView: View {
+
+    // MARK: - Environment
+
+    @Environment(Router.self) private var router
+
+    // MARK: - View
+
     var body: some View {
-        TimerView()
+        @Bindable var router = router
+        TabView(selection: $router.selectedTab) {
+            Tab("tabLabelTimer", systemImage: "timer", value: Router.AppTab.timer) {
+                TimerView()
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.tabTimer)
+
+            Tab("tabLabelSettings", systemImage: "gear", value: Router.AppTab.settings) {
+                NavigationStack {
+                    SettingsView(displayWarning: router.settingsDisplaysWarning)
+                }
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.tabSettings)
+
+            Tab("tabLabelHelp", systemImage: "questionmark.circle", value: Router.AppTab.help) {
+                HelpView()
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.tabHelp)
+        }
     }
 }
 
