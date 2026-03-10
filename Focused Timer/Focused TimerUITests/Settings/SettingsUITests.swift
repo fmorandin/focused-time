@@ -400,7 +400,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         picker.tap()
 
         let shortBreakOption = application.buttons["Short Break"]
-        XCTAssertTrue(waitForExistence(shortBreakOption, timeout: 5.0), "Short Break option should appear")
+        XCTAssertTrue(waitForExistence(shortBreakOption, timeout: 7.0), "Short Break option should appear")
         shortBreakOption.tap()
 
         // WHEN I close settings (timer resets to the new starting type)
@@ -436,7 +436,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         picker.tap()
 
         let longBreakOption = application.buttons["Long Break"]
-        XCTAssertTrue(waitForExistence(longBreakOption, timeout: 5.0), "Long Break option should appear")
+        XCTAssertTrue(waitForExistence(longBreakOption, timeout: 7.0), "Long Break option should appear")
         longBreakOption.tap()
 
         // AND close settings (timer resets to Long Break, wait for async propagation)

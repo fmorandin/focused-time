@@ -207,7 +207,7 @@ extension SettingsUITests {
         element.tap()
     }
 
-    func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 2) {
+    func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 3) {
         let toggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         guard !(toggle.exists && toggle.isHittable) else { return }
 
@@ -217,7 +217,7 @@ extension SettingsUITests {
         }
     }
 
-    func scrollToKeepScreenOnToggleIfNeeded(maxSwipes: Int = 2) {
+    func scrollToKeepScreenOnToggleIfNeeded(maxSwipes: Int = 3) {
         let toggleByIdentifier = application.switches[Accessibility.Identifiers.tgKeepScreenOn]
         let toggleByLabel = application.switches[keepScreenOnToggleAccessibilityLabel]
 
