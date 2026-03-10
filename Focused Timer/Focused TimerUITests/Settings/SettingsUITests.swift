@@ -188,6 +188,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
         // AND I open the modal again
         showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings should reload after reopening")
 
         // THEN the value should be the one that was updated
         let shortBreakTextFieldUpdated = String(
