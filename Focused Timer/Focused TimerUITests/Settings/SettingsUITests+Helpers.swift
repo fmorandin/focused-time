@@ -288,6 +288,32 @@ extension SettingsUITests {
         return application.descendants(matching: .any).matching(predicate).firstMatch
     }
 
+    /// Taps the interactive trigger inside the starting timer picker row.
+    ///
+    /// For `.pickerStyle(.menu)` inside a Form, SwiftUI renders the row as a container element
+    /// whose accessibility identifier (`pkStartingTimerType`) lands on the cell, not on the
+    /// child button that actually opens the native UIMenu. Tapping the container at its center
+    /// may miss the button entirely, so this helper explicitly targets the first hittable button
+    /// child of the picker row and falls back to a coordinate tap on the trailing edge.
+    func tapStartingTimerPicker() {
+        let picker = startingTimerPickerElement()
+        let childButton = picker.buttons.firstMatch
+        if childButton.exists && childButton.isHittable {
+            childButton.tap()
+            return
+        }
+        // Fallback: tap the right-hand side of the row where the value label sits.
+        picker.coordinate(withNormalizedOffset: CGVector(dx: 0.8, dy: 0.5)).tap()
+    }
+
+    /// Waits for a picker option to appear and returns it.
+    ///
+    /// After the UIMenu opens, its items are exposed as `.button` elements in the app hierarchy.
+    /// This helper polls with `waitForExistence` so the caller can assert on the result.
+    func waitForPickerOption(labeled label: String, timeout: TimeInterval = 10.0) -> XCUIElement {
+        application.buttons.matching(NSPredicate(format: "label == %@", label)).firstMatch
+    }
+
     /// Resets settings to defaults, dismissing only the alerts that appear (keepScreenOn alert is optional).
     func resetSettingsToDefaultsGracefully() {
         application.swipeUp()

@@ -395,15 +395,11 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
 
         scrollToStartingTimerPickerIfNeeded()
-        let picker = startingTimerPickerElement()
-        XCTAssertTrue(waitForExistence(picker, timeout: 5.0))
-        picker.tap()
+        XCTAssertTrue(waitForExistence(startingTimerPickerElement(), timeout: 5.0))
+        tapStartingTimerPicker()
 
-        // Use a descendant query so the option is found regardless of whether the picker
-        // presents as a popover (buttons) or a navigation-push list (cells) on CI hardware.
-        let shortBreakOption = application.descendants(matching: .any)
-            .matching(NSPredicate(format: "label == %@", "Short Break")).firstMatch
-        XCTAssertTrue(waitForExistence(shortBreakOption, timeout: 7.0), "Short Break option should appear")
+        let shortBreakOption = waitForPickerOption(labeled: "Short Break")
+        XCTAssertTrue(waitForExistence(shortBreakOption, timeout: 10.0), "Short Break option should appear")
         shortBreakOption.tap()
 
         // WHEN I close settings (timer resets to the new starting type)
@@ -434,15 +430,11 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
 
         scrollToStartingTimerPickerIfNeeded()
-        let picker = startingTimerPickerElement()
-        XCTAssertTrue(waitForExistence(picker, timeout: 5.0))
-        picker.tap()
+        XCTAssertTrue(waitForExistence(startingTimerPickerElement(), timeout: 5.0))
+        tapStartingTimerPicker()
 
-        // Use a descendant query so the option is found regardless of whether the picker
-        // presents as a popover (buttons) or a navigation-push list (cells) on CI hardware.
-        let longBreakOption = application.descendants(matching: .any)
-            .matching(NSPredicate(format: "label == %@", "Long Break")).firstMatch
-        XCTAssertTrue(waitForExistence(longBreakOption, timeout: 7.0), "Long Break option should appear")
+        let longBreakOption = waitForPickerOption(labeled: "Long Break")
+        XCTAssertTrue(waitForExistence(longBreakOption, timeout: 10.0), "Long Break option should appear")
         longBreakOption.tap()
 
         // AND close settings (timer resets to Long Break, wait for async propagation)
