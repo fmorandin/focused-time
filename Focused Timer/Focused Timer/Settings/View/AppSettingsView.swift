@@ -39,7 +39,7 @@ struct AppSettingsView: View {
                     Text(timerType.getCorrectTranslation()).tag(timerType)
                 }
             }
-            .pickerStyle(.menu)
+            .pickerStyle(.segmented)
             .onChange(of: settingsViewModel.startingTimerType) { _, newValue in
                 settingsViewModel.saveStartingTimerType(newValue)
             }
