@@ -399,7 +399,10 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(waitForExistence(picker, timeout: 5.0))
         picker.tap()
 
-        let shortBreakOption = application.buttons["Short Break"]
+        // Use a descendant query so the option is found regardless of whether the picker
+        // presents as a popover (buttons) or a navigation-push list (cells) on CI hardware.
+        let shortBreakOption = application.descendants(matching: .any)
+            .matching(NSPredicate(format: "label == %@ AND isHittable == true", "Short Break")).firstMatch
         XCTAssertTrue(waitForExistence(shortBreakOption, timeout: 7.0), "Short Break option should appear")
         shortBreakOption.tap()
 
@@ -435,7 +438,10 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertTrue(waitForExistence(picker, timeout: 5.0))
         picker.tap()
 
-        let longBreakOption = application.buttons["Long Break"]
+        // Use a descendant query so the option is found regardless of whether the picker
+        // presents as a popover (buttons) or a navigation-push list (cells) on CI hardware.
+        let longBreakOption = application.descendants(matching: .any)
+            .matching(NSPredicate(format: "label == %@ AND isHittable == true", "Long Break")).firstMatch
         XCTAssertTrue(waitForExistence(longBreakOption, timeout: 7.0), "Long Break option should appear")
         longBreakOption.tap()
 
