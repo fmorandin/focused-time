@@ -10,9 +10,8 @@ import XCTest
 final class HelpViewUITests: BaseFeature, @unchecked Sendable {
 
     func test_HelpScreenLoadedCorrectly() {
-        // WHEN I open the help page
-        let showHelpButton = application.buttons[Accessibility.Identifiers.btnShowHelp]
-        showHelpButton.tap()
+        // WHEN I open the help tab
+        application.tabBars.firstMatch.buttons["Help"].tap()
 
         // THEN All the elements should load correctly
         let techniqueExplanationTitle = application.staticTexts[Accessibility.Identifiers.lblTechniqueExplanationTitle]
@@ -35,6 +34,8 @@ final class HelpViewUITests: BaseFeature, @unchecked Sendable {
         let shortBreakExplanation = application.staticTexts[Accessibility.Identifiers.lblShortBreakExplanation]
         XCTAssert(shortBreakExplanation.exists, "The shortBreak explanation should be present")
 
+        application.swipeUp()
+
         let longBreakExplanationTitle = application.staticTexts[Accessibility.Identifiers.lblLongBreakExplanationTitle]
         XCTAssert(longBreakExplanationTitle.exists, "The long break explanation title should be present")
 
@@ -50,19 +51,22 @@ final class HelpViewUITests: BaseFeature, @unchecked Sendable {
         XCTAssert(numberOfCyclesExplanation.exists, "The number of cycles explanation should be present")
     }
 
-    func test_HelpScreenCanBeDismissed() {
-        // GIVEN the help screen is open
-        application.buttons[Accessibility.Identifiers.btnShowHelp].tap()
+    func test_HelpTabCanBeSwitchedAway() {
+        // GIVEN the help tab is open
+        application.tabBars.firstMatch.buttons["Help"].tap()
 
         let techniqueExplanationTitle = application.staticTexts[Accessibility.Identifiers.lblTechniqueExplanationTitle]
         XCTAssertTrue(techniqueExplanationTitle.exists, "Help screen should be displayed after opening")
 
-        // WHEN I tap the close button
-        application.buttons[Accessibility.Identifiers.btnCloseModal].tap()
+        // WHEN I switch back to the timer tab
+        application.tabBars.firstMatch.buttons["Timer"].tap()
 
         // THEN the main timer screen should be accessible again and help content gone
         let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
-        XCTAssertTrue(waitForExistence(playButton), "Timer start button should be visible after dismissing help")
+        XCTAssertTrue(
+            waitForExistence(playButton),
+            "Timer start button should be visible after switching away from help"
+        )
         XCTAssertFalse(techniqueExplanationTitle.exists, "Help content should no longer be visible")
     }
 }

@@ -29,22 +29,23 @@ struct FlowCounterView: View {
     }
 
     // MARK: - View
+
     var body: some View {
-        HStack {
-            Spacer()
+        VStack(spacing: 4) {
+            HStack(spacing: 8) {
+                Image(systemName: "circle.dotted")
+                    .font(.system(.caption, design: .rounded))
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesCompleted)
 
-            Text("cycleCounter")
-                .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesCompleted)
-
-            Spacer()
-
-            Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
-                .accessibilityIdentifier(Accessibility.Identifiers.lblCycleCounter)
-                .accessibilityValue(Text("accLabelCompletedCycleCounter"))
-
-            Spacer()
+                Text("\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
+                    .font(.system(.callout, design: .rounded).weight(.medium))
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblCycleCounter)
+                    .accessibilityValue(Text("accLabelCompletedCycleCounter"))
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .glassEffect(in: Capsule())
         }
-        .font(.system(.title3, design: .rounded).weight(.light))
         .padding(.top, 20)
     }
 }

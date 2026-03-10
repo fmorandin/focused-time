@@ -13,14 +13,8 @@ enum ImageNames {
 
     static let share = "square.and.arrow.up"
 
-    // MARK: - Settings Screen
-
-    static let closeModal = "xmark"
-
     // MARK: - Timer Screen
 
-    static let showSettings = "gear"
-    static let showHelp = "questionmark.circle"
     static let play = "play"
     static let pause = "pause"
     static let reset = "arrow.clockwise"

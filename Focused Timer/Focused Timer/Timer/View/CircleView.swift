@@ -35,18 +35,18 @@ struct CircleView: View {
             Circle()
                 .trim(from: 0, to: 1)
                 .stroke(
-                    Color.timerStrokeColor.opacity(0.09),
-                    style: StrokeStyle(lineWidth: 15, lineCap: .round)
+                    Color.timerStrokeColor.opacity(0.08),
+                    style: StrokeStyle(lineWidth: 30, lineCap: .round)
                 )
-                .frame(width: 300, height: 300)
+                .frame(width: 320, height: 320)
 
             Circle()
                 .trim(from: 0, to: timerViewModel.timerTo)
                 .stroke(
                     timerViewModel.accentCircleColor,
-                    style: StrokeStyle(lineWidth: 25, lineCap: .round)
+                    style: StrokeStyle(lineWidth: 30, lineCap: .round)
                 )
-                .frame(width: 300, height: 300)
+                .frame(width: 320, height: 320)
                 .rotationEffect(.init(degrees: -90))
                 .shadow(radius: 4)
                 .accessibility(identifier:
@@ -61,6 +61,9 @@ struct CircleView: View {
                     .fontWeight(.light)
                     .accessibilityIdentifier(Accessibility.Identifiers.lblTimerType)
                     .accessibility(value: Text("accLabelTimerTypeName"))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 6)
+                    .glassEffect(in: Capsule())
 
                 Text(timerViewModel.countTime)
                     .font(.system(size: 60, design: .rounded))
@@ -69,6 +72,9 @@ struct CircleView: View {
                     .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
                     .accessibility(value: Text("accLabelCounterTypeName"))
             }
+            .padding(.horizontal, 32)
+            .padding(.vertical, 20)
+            .glassEffect()
         }
     }
 }

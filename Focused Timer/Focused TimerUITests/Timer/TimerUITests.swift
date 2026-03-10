@@ -150,7 +150,7 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
     }
 
     func test_TestAutoStart() {
-        let showSettingsButton = application.buttons[Accessibility.Identifiers.btnShowSettings]
+        let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
 
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
@@ -167,7 +167,7 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         }
         XCTAssertEqual(updatedAutoStartValue, "1")
 
-        let dismissSettingsButton = application.buttons[Accessibility.Identifiers.btnCloseModal]
+        let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
 
         let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
