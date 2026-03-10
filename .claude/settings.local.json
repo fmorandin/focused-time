@@ -8,7 +8,8 @@
       "Bash(claude mcp:*)",
       "Bash(git checkout -b fix/open-notification-settings)",
       "Bash(git push)",
-      "Bash(gh pr:*)"
+      "Bash(gh pr:*)",
+      "Bash(git checkout:*)"
     ]
   },
   "hooks": {
