@@ -35,9 +35,11 @@ struct CircleView: View {
             Circle()
                 .trim(from: 0, to: 1)
                 .stroke(
-                    Color.timerStrokeColor.opacity(0.08),
-                    style: StrokeStyle(lineWidth: 30, lineCap: .round)
+                    Color.timerStrokeColor.opacity(0.10),
+                    style: StrokeStyle(lineWidth: 16, lineCap: .round)
                 )
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                .shadow(color: .white.opacity(0.12), radius: 4, x: 0, y: -2)
                 .frame(width: 320, height: 320)
 
             Circle()
@@ -49,6 +51,8 @@ struct CircleView: View {
                 .frame(width: 320, height: 320)
                 .rotationEffect(.init(degrees: -90))
                 .shadow(radius: 4)
+                .animation(.linear(duration: 1), value: timerViewModel.timerTo)
+                .animation(.easeInOut(duration: 0.5), value: timerViewModel.accentCircleColor)
                 .accessibility(identifier:
                                 timerViewModel.timerType == .focused ?
                                Accessibility.Identifiers.circleFocused :
@@ -61,6 +65,8 @@ struct CircleView: View {
                     .fontWeight(.light)
                     .accessibilityIdentifier(Accessibility.Identifiers.lblTimerType)
                     .accessibility(value: Text("accLabelTimerTypeName"))
+                    .contentTransition(.opacity)
+                    .animation(.easeInOut(duration: 0.35), value: timerViewModel.timerType)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 6)
                     .glassEffect(in: Capsule())
@@ -71,6 +77,8 @@ struct CircleView: View {
                     .multilineTextAlignment(.center)
                     .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
                     .accessibility(value: Text("accLabelCounterTypeName"))
+                    .contentTransition(.numericText(countsDown: true))
+                    .animation(.easeInOut(duration: 0.25), value: timerViewModel.countTime)
             }
             .padding(.horizontal, 32)
             .padding(.vertical, 20)
