@@ -177,10 +177,12 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(shortBreakTextFieldInvalidValue.count, 3)
         XCTAssertEqual(shortBreakTextFieldInvalidValue, "123")
 
-        // WHEN I tap to edit the field again
+        // WHEN I tap to edit the field again (explicit tap required — typeText does not auto-focus)
+        shortBreakTextField.tap()
         shortBreakTextField.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 5))
 
         // AND I add the new value
+        shortBreakTextField.tap()
         shortBreakTextField.typeText("50")
 
         let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
