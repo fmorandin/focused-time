@@ -224,10 +224,10 @@ final class TimerLongBreakUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(lblTimerType.label, "Focus")
         XCTAssertEqual(lblCycleCounter.label, "0/2")
 
-        // 1st focused session → short break
+        // 1st focused session → short break (cycle not yet complete)
         playButton.tap()
         XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 12.0))
-        XCTAssertEqual(lblCycleCounter.label, "1/2")
+        XCTAssertEqual(lblCycleCounter.label, "0/2")
 
         // Short break → 2nd focused session
         XCTAssertTrue(waitForLabel(playButton, equals: "Play", timeout: 3.0))

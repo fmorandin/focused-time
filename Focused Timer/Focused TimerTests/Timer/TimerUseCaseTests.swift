@@ -213,7 +213,8 @@ struct TimerUseCaseTests {
         #expect(useCase.counter == 2)    // shortBreakTime from model
         #expect(useCase.totalTime == 2)
         #expect(useCase.timerTo == 1.0)
-        #expect(useCase.numberOfCompletedCycles == 1)
+        // Cycle not yet complete — the short break still needs to finish.
+        #expect(useCase.numberOfCompletedCycles == 0)
     }
 
     @Test("Short break ends and transitions back to focused")
@@ -235,11 +236,11 @@ struct TimerUseCaseTests {
     func completingAllCyclesTriggersLongBreak() {
         let (useCase, timerFactory) = makeSUT()
 
-        // 1st focused → short break
+        // 1st focused → short break (cycle not yet complete)
         useCase.startTimer()
         timerFactory.advance(by: 6)
         #expect(useCase.timerType == .shortBreak)
-        #expect(useCase.numberOfCompletedCycles == 1)
+        #expect(useCase.numberOfCompletedCycles == 0)
 
         // short break → focused
         useCase.startTimer()
@@ -681,7 +682,8 @@ struct TimerUseCaseTests {
         timerFactory.advance()              // counter == 0 → changeTimerMode → short break
 
         #expect(useCase.timerType == .shortBreak)
-        #expect(useCase.numberOfCompletedCycles == 1)
+        // Cycle not yet complete — the short break still needs to finish.
+        #expect(useCase.numberOfCompletedCycles == 0)
         #expect(useCase.counter == 2)       // shortBreakTime from model
     }
 
@@ -748,7 +750,8 @@ struct TimerUseCaseTests {
         #expect(useCase.timerType == .focused)
         #expect(useCase.timerState == .running)  // auto-start immediately transitions to running
         #expect(useCase.counter == 5)            // focusedTime from model, not yet ticked
-        #expect(useCase.numberOfCompletedCycles == 1) // only focused→shortBreak increments count
+        // Cycle completes when short break finishes, not when focus ends.
+        #expect(useCase.numberOfCompletedCycles == 1)
     }
 
     // MARK: - Starting Timer Type
@@ -806,7 +809,8 @@ struct TimerUseCaseTests {
 
         #expect(useCase.timerType == .focused)
         #expect(useCase.counter == 5)    // focusedTime from model
-        #expect(useCase.numberOfCompletedCycles == 0) // only focused→break increments cycles
+        // No cycle complete yet — cycles increment when short break finishes.
+        #expect(useCase.numberOfCompletedCycles == 0)
     }
 
     @Test("starting from long break: phase transition goes long break then focused")
@@ -832,9 +836,9 @@ struct TimerUseCaseTests {
 
         // SB(3) → F(6) → SB(3) → F(6) → LB (cycles == 2 == totalCycles)
         useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused
-        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → short break (cycle 1)
-        useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused
-        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → long break (cycle 2)
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → short break
+        useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused (cycle 1 done)
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → long break (cycle 2 done)
 
         #expect(useCase.timerType == .longBreak)
         #expect(useCase.counter == 3)   // longBreakTime from model

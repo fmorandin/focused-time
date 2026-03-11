@@ -22,6 +22,7 @@ final class TimerUseCase {
     private(set) var timerTo: CGFloat = 1.0
     private(set) var numberOfCompletedCycles: Int = 0
     private(set) var totalNumberOfCycles: Int
+    private var previousPhaseWasFocus = false
 
     // MARK: - State Change Callback
 
@@ -130,6 +131,7 @@ final class TimerUseCase {
         timerState = .initial
         timerTo = 1.0
         numberOfCompletedCycles = 0
+        previousPhaseWasFocus = false
         let startingType = timerModel.getStartingTimerType()
         timerType = startingType
         let startingTime = timerModel.getTime(for: startingType.userDefaultKey)
@@ -190,27 +192,37 @@ final class TimerUseCase {
         timerTo = 1.0
         timerState = .initial
 
-        handleCompletedCycle()
-
-        if numberOfCompletedCycles == totalNumberOfCycles {
+        switch timerType {
+        case .focused where numberOfCompletedCycles + 1 == totalNumberOfCycles:
+            // Last focus session — skip short break and go straight to long break,
+            // completing the final cycle.
             Self.logger.notice("🥳 Completed all cycles — transitioning to long break.")
-            applyTimerType(.longBreak)
-        } else if timerType == .focused {
-            Self.logger.notice("🤓 Focus done — transitioning to short break.")
-            applyTimerType(.focused)
-        } else {
-            Self.logger.notice("😮‍💨 Break done — transitioning back to focus.")
-            applyTimerType(.shortBreak)
-        }
-    }
-
-    private func handleCompletedCycle() {
-        if timerType == .focused {
-            Self.logger.notice("👏🏻 Cycle completed.")
             numberOfCompletedCycles += 1
-        } else if timerType == .longBreak {
+            previousPhaseWasFocus = false
+            applyTimerType(.longBreak)
+
+        case .focused:
+            Self.logger.notice("🤓 Focus done — transitioning to short break.")
+            previousPhaseWasFocus = true
+            applyTimerType(.focused)
+
+        case .shortBreak:
+            // Only count the cycle if this short break followed a focus session.
+            // An initial short break (starting timer type) has no preceding focus.
+            if previousPhaseWasFocus {
+                Self.logger.notice("👏🏻 Cycle completed — transitioning back to focus.")
+                numberOfCompletedCycles += 1
+            } else {
+                Self.logger.notice("😮‍💨 Initial break done — transitioning to focus.")
+            }
+            previousPhaseWasFocus = false
+            applyTimerType(.shortBreak)
+
+        case .longBreak:
             Self.logger.notice("💪🏻 Long break done — resetting cycles.")
             numberOfCompletedCycles = 0
+            previousPhaseWasFocus = false
+            applyTimerType(.shortBreak)
         }
     }
 
