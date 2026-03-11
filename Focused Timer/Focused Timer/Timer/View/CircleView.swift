@@ -59,30 +59,14 @@ struct CircleView: View {
                                 Accessibility.Identifiers.circleBreak
                 )
 
-            VStack {
-                Text(TimerType.getCorrectTranslation(timerViewModel.timerType)())
-                    .font(.system(.title, design: .rounded))
-                    .fontWeight(.light)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblTimerType)
-                    .accessibility(value: Text("accLabelTimerTypeName"))
-                    .contentTransition(.opacity)
-                    .animation(.easeInOut(duration: 0.35), value: timerViewModel.timerType)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 6)
-                    .glassEffect(in: Capsule())
-
-                Text(timerViewModel.countTime)
-                    .font(.system(size: 60, design: .rounded))
-                    .fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
-                    .accessibility(value: Text("accLabelCounterTypeName"))
-                    .contentTransition(.numericText(countsDown: true))
-                    .animation(.easeInOut(duration: 0.25), value: timerViewModel.countTime)
-            }
-            .padding(.horizontal, 32)
-            .padding(.vertical, 20)
-            .glassEffect()
+            Text(timerViewModel.countTime)
+                .font(.system(size: 60, design: .rounded))
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
+                .accessibility(value: Text("accLabelCounterTypeName"))
+                .contentTransition(.numericText(countsDown: true))
+                .animation(.easeInOut(duration: 0.25), value: timerViewModel.countTime)
         }
     }
 }

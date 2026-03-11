@@ -44,9 +44,13 @@ struct TimerView: View {
 
     var body: some View {
         VStack {
+            // Timer type pill — anchored at the top
+            TimerTypePillView(viewModel: timerViewModel)
+                .padding(.top, 32)
+
             Spacer()
 
-            // Main circle with progress ring
+            // Circle with countdown inside
             CircleView(viewModel: timerViewModel)
 
             Spacer()
@@ -58,8 +62,7 @@ struct TimerView: View {
 
             // Flows counter
             FlowCounterView(viewModel: timerViewModel)
-
-            Spacer()
+                .padding(.bottom, 16)
         }
         .onReceive(notificationCenter.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
             Self.logger.notice("‼️ App will be moved to background.")
