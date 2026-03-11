@@ -190,11 +190,14 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         showSettingsButton.tap()
         XCTAssertTrue(waitForSettingsModalToOpen(), "Settings should reload after reopening")
 
-        // THEN the value should be the one that was updated
-        let shortBreakTextFieldUpdated = String(
-            describing: application.textFields[Accessibility.Identifiers.txtShortBreakTime].value!
+        // THEN the value should be the one that was updated.
+        // Wait for the binding to settle before reading — on slow CI the field can
+        // briefly show a stale value right after the tab transition completes.
+        let shortBreakTextFieldUpdated = application.textFields[Accessibility.Identifiers.txtShortBreakTime]
+        XCTAssertTrue(
+            waitForValue(shortBreakTextFieldUpdated, equals: "50", timeout: 3.0),
+            "Short break field should display '50' after settings are reopened"
         )
-        XCTAssertEqual(shortBreakTextFieldUpdated, "50")
     }
 
     func test_UpdateNumberOfCyclesValues() {

@@ -144,7 +144,12 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
             )
         } else {
             XCTAssertEqual(playButton.label, "Play")
-            XCTAssertEqual(lblTimerType.label, "Short Break")
+            // The focus timer elapsed in the background; wait for the UI transition
+            // to Short Break to render before asserting — on slow CI this can lag.
+            XCTAssertTrue(
+                waitForLabel(lblTimerType, equals: "Short Break", timeout: 3.0),
+                "Timer type should show Short Break after focus session completes in background"
+            )
             XCTAssertEqual(lblCounter.label, initialCounterLabel)
         }
     }
