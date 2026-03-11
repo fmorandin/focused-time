@@ -36,7 +36,7 @@ struct ButtonsView: View {
     // MARK: - View
 
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: 24) {
             Button(action: {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.72)) {
                     if timerViewModel.timerState == .initial || timerViewModel.timerState == .paused {
@@ -49,12 +49,14 @@ struct ButtonsView: View {
                 }
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
-                Label(timerViewModel.primaryButtonText, systemImage: timerViewModel.primaryButtonImageName)
+                Image(systemName: timerViewModel.primaryButtonImageName)
                     .contentTransition(.symbolEffect(.replace.magic(fallback: .replace)))
                     .foregroundStyle(timerViewModel.accentCircleColor)
-                    .padding(.horizontal, 16)
+                    .imageScale(.large)
+                    .fontWeight(.semibold)
                     .padding(.vertical, 16)
             })
+            .accessibilityLabel(Text(timerViewModel.primaryButtonText))
             .frame(maxWidth: .infinity)
             .buttonStyle(.plain)
             .background(timerViewModel.accentCircleColor.opacity(0.3), in: Capsule())
@@ -76,11 +78,13 @@ struct ButtonsView: View {
                 }
                 HapticsConstants().impactHeavy.impactOccurred()
             }, label: {
-                Label(LocalizedStringResource("resetTimer", table: "Localizable"), systemImage: ImageNames.reset)
+                Image(systemName: ImageNames.reset)
                     .foregroundStyle(timerViewModel.accentCircleColor)
-                    .padding(.horizontal, 16)
+                    .imageScale(.large)
+                    .fontWeight(.semibold)
                     .padding(.vertical, 16)
             })
+            .accessibilityLabel(Text("resetTimer", tableName: "Localizable"))
             .frame(maxWidth: .infinity)
             .buttonStyle(.plain)
             .background(.ultraThinMaterial, in: Capsule())
@@ -94,8 +98,7 @@ struct ButtonsView: View {
             )
             .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }
-        .font(.title3)
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 48)
         .padding(.bottom, 24)
     }
 }
