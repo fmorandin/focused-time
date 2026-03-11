@@ -172,7 +172,8 @@ struct TimerViewModelTests {
         #expect(timerViewModel.timerState == .initial)
         #expect(timerViewModel.counter == 2)
         #expect(timerViewModel.timerTo == 1.0)
-        #expect(timerViewModel.numberOfCompletedCycles == 1)
+        // Cycle not yet complete — short break still needs to finish.
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
     }
 
     @Test("Pause timer invalidates the active timer")
@@ -228,7 +229,8 @@ struct TimerViewModelTests {
         #expect(timerViewModel.timerState == .initial)
         #expect(timerViewModel.counter == 2)
         #expect(timerViewModel.timerType == .shortBreak)
-        #expect(timerViewModel.numberOfCompletedCycles == 1)
+        // Cycle not yet complete — short break still needs to finish.
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
 
         // Short break end -> focused.
         timerViewModel.startTimer()
@@ -256,7 +258,8 @@ struct TimerViewModelTests {
         timerFactory.advance(by: 6)
         #expect(timerViewModel.timerType == .shortBreak)
         #expect(timerViewModel.counter == 2)
-        #expect(timerViewModel.numberOfCompletedCycles == 1)
+        // Cycle not yet complete — short break still needs to finish.
+        #expect(timerViewModel.numberOfCompletedCycles == 0)
 
         // 1st short break -> focused.
         timerViewModel.startTimer()
