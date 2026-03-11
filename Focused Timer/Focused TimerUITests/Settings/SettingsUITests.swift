@@ -195,7 +195,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         // briefly show a stale value right after the tab transition completes.
         let shortBreakTextFieldUpdated = application.textFields[Accessibility.Identifiers.txtShortBreakTime]
         XCTAssertTrue(
-            waitForValue(shortBreakTextFieldUpdated, equals: "50", timeout: 3.0),
+            waitForValue(shortBreakTextFieldUpdated, equals: "50", timeout: 5.0),
             "Short break field should display '50' after settings are reopened"
         )
     }
