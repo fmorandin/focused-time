@@ -746,8 +746,8 @@ struct TimerUseCaseTests {
         timerFactory.advance(by: 9)
 
         #expect(useCase.timerType == .focused)
-        #expect(useCase.timerState == .initial)  // set by changeTimerMode before auto-restart fires
-        #expect(useCase.counter == 5)            // focusedTime from model
+        #expect(useCase.timerState == .running)  // auto-start immediately transitions to running
+        #expect(useCase.counter == 5)            // focusedTime from model, not yet ticked
         #expect(useCase.numberOfCompletedCycles == 1) // only focused→shortBreak increments count
     }
 

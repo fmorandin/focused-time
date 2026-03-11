@@ -94,6 +94,7 @@ final class TimerUseCase {
     /// Starts a 1-second repeating tick. Transitions to the next phase when counter reaches zero.
     func startTimer() {
         Self.logger.notice("▶️ Starting timer.")
+        timerState = .running
         timer?.invalidate()
         timer = timerFactory.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] scheduledTimer in
             guard let self else { return }
