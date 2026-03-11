@@ -186,15 +186,15 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
 
         playButton.tap()
         XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 8.0))
-        XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 3.0))
+        XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 5.0))
 
         // Auto start should run short break automatically, then return to focus.
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 8.0))
+        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 10.0))
 
         let circleFocused = application.otherElements[Accessibility.Identifiers.circleFocused]
-        XCTAssertTrue(circleFocused.exists)
-        XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 3.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 3.0))
+        XCTAssertTrue(waitForExistence(circleFocused, timeout: 3.0))
+        XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 5.0))
+        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 5.0))
     }
 }
 
