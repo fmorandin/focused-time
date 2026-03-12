@@ -58,33 +58,27 @@ struct FormView: View {
             AppSettingsView(viewModel: settingsViewModel)
 
             Section {
-                HStack {
-                    Spacer()
-
-                    Button(action: {
-                        resetDefaultValuesAlert.toggle()
-                    }, label: {
-                        Text("resetSettingsDefaultValue")
-                            .font(.system(.body, design: .rounded))
-                    })
-                    .buttonStyle(.plain)
-                    .foregroundColor(.red)
-                    .accessibility(identifier: Accessibility.Identifiers.btnResetSettingsDefault)
-                    .alert(isPresented: $resetDefaultValuesAlert, content: {
-                        Alert(
-                            title: Text("resetSettingsAlertTitle"),
-                            message: Text("resetSettingsAlertMessage"),
-                            primaryButton: .default(Text("OK"),
-                                                    action: {
-                                                        settingsViewModel.shouldUpdateTimerView = true
-                                                        settingsViewModel.resetToDefault()
-                                                        HapticsConstants().impactHeavy.impactOccurred()
-                                                    }),
-                            secondaryButton: .cancel())
-                    })
-
-                    Spacer()
-                }
+                Button(action: {
+                    resetDefaultValuesAlert.toggle()
+                }, label: {
+                    Text("resetSettingsDefaultValue")
+                        .font(.system(.body, design: .rounded))
+                })
+                .buttonStyle(.plain)
+                .foregroundColor(.red)
+                .accessibility(identifier: Accessibility.Identifiers.btnResetSettingsDefault)
+                .alert(isPresented: $resetDefaultValuesAlert, content: {
+                    Alert(
+                        title: Text("resetSettingsAlertTitle"),
+                        message: Text("resetSettingsAlertMessage"),
+                        primaryButton: .default(Text("OK"),
+                                                action: {
+                                                    settingsViewModel.shouldUpdateTimerView = true
+                                                    settingsViewModel.resetToDefault()
+                                                    HapticsConstants().impactHeavy.impactOccurred()
+                                                }),
+                        secondaryButton: .cancel())
+                })
                 .padding(.vertical, 10)
             }
 
@@ -117,6 +111,7 @@ struct FormView: View {
                 .foregroundColor(.secondary)
             }
         }
+        .contentMargins(.top, 16, for: .scrollContent)
         .onChange(of: router.selectedTab) { _, newTab in
             if newTab != .settings && self.settingsViewModel.shouldUpdateTimerView {
                 router.signalSettingsChanged()

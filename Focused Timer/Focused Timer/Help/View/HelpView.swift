@@ -25,50 +25,30 @@ struct HelpView: View {
                 Text("techniqueExplanation")
                     .helpSectionText()
                     .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanation)
-            } header: {
-                Text("techniqueExplanationTitle")
-                    .helpSectionTitle()
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblTechniqueExplanationTitle)
             }
 
             Section {
                 Text("focusExplanation")
                     .helpSectionText()
                     .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanation)
-            } header: {
-                Text("focusExplanationTitle")
-                    .helpSectionTitle()
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusExplanationTitle)
             }
 
             Section {
                 Text("shortBreakExplanation")
                     .helpSectionText()
                     .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanation)
-            } header: {
-                Text("shortBreakExplanationTitle")
-                    .helpSectionTitle()
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakExplanationTitle)
             }
 
             Section {
                 Text("longBreakExplanation")
                     .helpSectionText()
                     .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanation)
-            } header: {
-                Text("longBreakExplanationTitle")
-                    .helpSectionTitle()
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakExplanationTitle)
             }
 
             Section {
                 Text("numberOfCyclesExplanation")
                     .helpSectionText()
                     .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanation)
-            } header: {
-                Text("numberOfCyclesExplanationTitle")
-                    .helpSectionTitle()
-                    .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCyclesExplanationTitle)
             }
         }
         .listStyle(.insetGrouped)
