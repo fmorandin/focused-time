@@ -39,24 +39,15 @@ struct SettingsView: View {
     // MARK: - Body
 
     var body: some View {
-        VStack {
-            if shouldDisplayDisclaimer {
-                Text("settingsWarnReloadMessage")
-                    .warningBox()
-                    .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
+        FormView(viewModel: settingsViewModel, displayWarning: shouldDisplayDisclaimer)
+            .onTapGesture {
+                self.hideKeyboard()
             }
-
-            // The list that contains all the available settings to be defined in the app
-            FormView(viewModel: settingsViewModel)
-        }
-        .onTapGesture {
-            self.hideKeyboard()
-        }
-        .navigationTitle("settingsNavigationTitle")
-        .navigationBarTitleDisplayMode(.large)
-        .onAppear {
-            Self.logger.notice("⚙️ Settings View opened.")
-        }
+            .navigationTitle("settingsNavigationTitle")
+            .navigationBarTitleDisplayMode(.large)
+            .onAppear {
+                Self.logger.notice("⚙️ Settings View opened.")
+            }
     }
 }
 
