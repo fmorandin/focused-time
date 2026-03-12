@@ -31,7 +31,9 @@ struct ContentView: View {
             .accessibilityIdentifier(Accessibility.Identifiers.tabSettings)
 
             Tab("tabLabelHelp", systemImage: "questionmark.circle", value: Router.AppTab.help) {
-                HelpView()
+                NavigationStack {
+                    HelpView()
+                }
             }
             .accessibilityIdentifier(Accessibility.Identifiers.tabHelp)
         }
