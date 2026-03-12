@@ -19,7 +19,8 @@ extension View {
         self
             .frame(maxWidth: .infinity, alignment: .leading)
             .font(.system(.callout, design: .rounded))
-            .padding([.horizontal, .bottom])
+            .padding()
+            .listRowInsets(EdgeInsets())
     }
 
     // Warning box displayed in settings when a timer is active
