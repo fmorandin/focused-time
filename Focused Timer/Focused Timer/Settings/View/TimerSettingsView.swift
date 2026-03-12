@@ -36,7 +36,7 @@ struct TimerSettingsView: View {
     // MARK: - View Body
 
     var body: some View {
-        Section(header: Text("settingsSectionTimersName")) {
+        Section(header: Text("settingsSectionTimersName").padding(.leading, -12)) {
             // Focused time
             HStack {
                 withAnimation {

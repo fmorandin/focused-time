@@ -22,13 +22,21 @@ extension View {
             .padding([.horizontal, .bottom])
     }
 
-    // Warning box that currently is being used only in settings view if a timer is running
+    // Warning box displayed in settings when a timer is active
     func warningBox() -> some View {
-        self
-            .foregroundColor(.white)
-            .font(.system(.caption, design: .rounded).bold())
-            .padding(.all, 10)
-            .background(.red)
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(.callout, design: .rounded))
+            self
+                .font(.system(.footnote, design: .rounded))
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .foregroundStyle(.white)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(Color.red.opacity(0.85), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .padding(.horizontal, 16)
+        .padding(.top, 8)
     }
 
     func settingsTextField() -> some View {

@@ -32,7 +32,7 @@ struct AppSettingsView: View {
     // MARK: - View Body
 
     var body: some View {
-        Section(header: Text("settingsSectionAppName")) {
+        Section(header: Text("settingsSectionAppName").padding(.leading, -12)) {
             // Starting timer type
             Picker("settingsStartingTimerType", selection: $settingsViewModel.startingTimerType) {
                 ForEach([TimerType.focused, .shortBreak, .longBreak], id: \.self) { timerType in
