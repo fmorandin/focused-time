@@ -12,7 +12,7 @@ extension View {
     func helpSectionTitle() -> some View {
         self
             .font(.system(.title3, design: .rounded).bold())
-            .padding(.leading)
+            .padding(.top, 8)
     }
 
     func helpSectionText() -> some View {
