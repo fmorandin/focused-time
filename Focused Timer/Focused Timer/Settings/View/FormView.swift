@@ -22,20 +22,35 @@ struct FormView: View {
     @Environment(Router.self) private var router
 
     let settingsViewModel: SettingsViewModel
+    let displayWarning: Bool
 
     @State private var resetDefaultValuesAlert = false
 
     // MARK: - Initializer
 
-    init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
+    init(
+        viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel()),
+        displayWarning: Bool = false
+    ) {
         Self.logger.notice("🛠 Initializing Form View.")
         self.settingsViewModel = viewModel
+        self.displayWarning = displayWarning
     }
 
     // MARK: - Body
 
     var body: some View {
         Form {
+            if displayWarning {
+                Section {
+                    Text("settingsWarnReloadMessage")
+                        .warningBox()
+                        .accessibility(identifier: Accessibility.Identifiers.lblWarnReloadMessage)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                }
+            }
+
             // Input settings
             TimerSettingsView(viewModel: settingsViewModel)
 
