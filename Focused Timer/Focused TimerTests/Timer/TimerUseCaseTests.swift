@@ -388,20 +388,23 @@ struct TimerUseCaseTests {
         #expect(useCase.counter == counterBeforeForeground)
     }
 
-    @Test("moveAppToForeground clamps counter to zero when background duration exceeds remaining")
-    func foregroundClampsCounterToZeroOnOverrun() {
+    @Test("moveAppToForeground transitions immediately when timer expired in background")
+    func foregroundTransitionsImmediatelyWhenTimerExpired() {
         let model = TimerModelSpy()
         model.savedTimes = (2, Date(timeIntervalSince1970: 10))
         let (useCase, timerFactory) = makeSUT(
             timerModel: model,
-            nowProvider: { Date(timeIntervalSince1970: 20) }
+            nowProvider: { Date(timeIntervalSince1970: 20) } // 10 s elapsed > 2 s remaining
         )
 
         useCase.startTimer()
         timerFactory.advance()
         useCase.moveAppToForeground()
 
-        #expect(useCase.counter == 0)
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.counter == 2)   // shortBreakTime from TimerModelSpy
+        #expect(useCase.timerState == .initial)
+        #expect(useCase.timerTo == 1.0)
     }
 
     @Test("moveAppToForeground when not running does not recalculate counter")
@@ -663,28 +666,46 @@ struct TimerUseCaseTests {
         #expect(notificationManager.scheduledRemainingTimes == [2.0])
     }
 
-    @Test("timer expired in background: counter clamps to zero, next tick advances phase")
-    func foregroundClampsCounterToZeroAndNextTickAdvancesPhase() {
+    @Test("timer expired in background: phase advances on foreground without requiring a tick")
+    func foregroundAdvancesPhaseWithoutExtraTickWhenTimerExpired() {
         let model = TimerModelSpy()
         model.savedTimes = (2, Date(timeIntervalSince1970: 10))
         let (useCase, timerFactory) = makeSUT(
             timerModel: model,
-            nowProvider: { Date(timeIntervalSince1970: 20) } // 10 s elapsed > 2 s remaining → clamps to 0
+            nowProvider: { Date(timeIntervalSince1970: 20) } // 10 s elapsed > 2 s remaining
         )
 
         useCase.startTimer()
-        timerFactory.advance()              // state → .running, counter → 4
-        useCase.moveAppToForeground()       // counter clamped to 0 (timer still active)
+        timerFactory.advance()          // state → .running, counter → 4
+        useCase.moveAppToForeground()   // expired → immediate phase change, no tick needed
 
-        #expect(useCase.counter == 0)
-        #expect(useCase.timerState == .running)
+        // State is fully advanced without requiring an extra timer tick.
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.counter == 2)   // shortBreakTime from model
+        #expect(useCase.timerState == .initial)
+        #expect(useCase.numberOfCompletedCycles == 0)
+    }
 
-        timerFactory.advance()              // counter == 0 → changeTimerMode → short break
+    @Test("timer expired in background: auto-start restarts timer immediately on new phase")
+    func foregroundWithAutoStartRestartTimerWhenExpiredInBackground() {
+        let model = TimerModelSpy()
+        model.savedTimes = (2, Date(timeIntervalSince1970: 10))
+        model.toggles[UserDefaultKeys.autoStartToggle] = true
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 20) }
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()          // state → .running, counter → 4
+        useCase.moveAppToForeground()   // expired → immediate phase change + auto-start
 
         #expect(useCase.timerType == .shortBreak)
-        // Cycle not yet complete — the short break still needs to finish.
-        #expect(useCase.numberOfCompletedCycles == 0)
-        #expect(useCase.counter == 2)       // shortBreakTime from model
+        #expect(useCase.timerState == .running)
+        #expect(useCase.counter == 2)   // shortBreakTime from model, not yet ticked
+
+        timerFactory.advance()          // only the new auto-start timer fires
+        #expect(useCase.counter == 1)   // old (invalidated) timer does not double-count
     }
 
     // MARK: Notification Gating

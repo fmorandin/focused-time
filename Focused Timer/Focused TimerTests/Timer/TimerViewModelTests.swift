@@ -403,8 +403,8 @@ struct TimerViewModelTests {
         #expect(viewModel.counter == counterBeforeForeground)
     }
 
-    @Test("moveAppToForeground clamps counter to zero when background time exceeds remaining")
-    func moveAppToForegroundWhenBackgroundTimeExceedsRemainingClampsCounterToZero() {
+    @Test("moveAppToForeground transitions immediately when background time exceeds remaining")
+    func moveAppToForegroundWhenBackgroundTimeExceedsRemainingTransitionsImmediately() {
         let nowDate = Date(timeIntervalSince1970: 20)
         let timerModel = TimerModelSpy()
         timerModel.savedTimes = (2, Date(timeIntervalSince1970: 10))
@@ -417,7 +417,9 @@ struct TimerViewModelTests {
         timerFactory.advance()
         viewModel.moveAppToForeground()
 
-        #expect(viewModel.counter == 0)
+        #expect(viewModel.timerType == .shortBreak)
+        #expect(viewModel.counter == 2)   // shortBreakTime from TimerModelSpy
+        #expect(viewModel.timerState == .initial)
     }
 
     @Test("moveAppToForeground does not apply saved times when timer is not running")

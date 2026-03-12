@@ -21,11 +21,6 @@ struct ButtonsView: View {
 
     let timerViewModel: TimerViewModel
 
-    // MARK: - State
-
-    @State private var primaryButtonPressed = false
-    @State private var resetButtonPressed = false
-
     // MARK: - Initializer
 
     init(viewModel: TimerViewModel = .init(timerModel: TimerModel())) {
@@ -58,17 +53,10 @@ struct ButtonsView: View {
             })
             .accessibilityLabel(Text(timerViewModel.primaryButtonText))
             .frame(maxWidth: .infinity)
-            .buttonStyle(.plain)
+            .buttonStyle(ScaleButtonStyle())
             .background(timerViewModel.accentCircleColor.opacity(0.3), in: Capsule())
             .background(.ultraThinMaterial, in: Capsule())
             .animation(.easeInOut(duration: 0.35), value: timerViewModel.accentCircleColor)
-            .scaleEffect(primaryButtonPressed ? 0.93 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: primaryButtonPressed)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in primaryButtonPressed = true }
-                    .onEnded { _ in primaryButtonPressed = false }
-            )
             .accessibilityIdentifier(Accessibility.Identifiers.btnStartPauseIdentifier)
 
             Button(action: {
@@ -86,20 +74,21 @@ struct ButtonsView: View {
             })
             .accessibilityLabel(Text("resetTimer", tableName: "Localizable"))
             .frame(maxWidth: .infinity)
-            .buttonStyle(.plain)
+            .buttonStyle(ScaleButtonStyle())
             .background(.ultraThinMaterial, in: Capsule())
             .animation(.easeInOut(duration: 0.35), value: timerViewModel.accentCircleColor)
-            .scaleEffect(resetButtonPressed ? 0.93 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: resetButtonPressed)
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in resetButtonPressed = true }
-                    .onEnded { _ in resetButtonPressed = false }
-            )
             .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }
         .padding(.horizontal, 48)
         .padding(.bottom, 24)
+    }
+}
+
+private struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.93 : 1.0)
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 

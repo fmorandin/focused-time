@@ -153,6 +153,8 @@ final class TimerUseCase {
     }
 
     /// Cancels pending notifications and recalculates the remaining time when the app returns to foreground.
+    /// If the timer expired while in background, transitions to the next phase immediately instead
+    /// of waiting for the next Foundation timer tick, preventing a momentary stale-state flash in the UI.
     func moveAppToForeground() {
         Self.logger.notice("👋🏻 Moving app to the foreground.")
         localNotificationManager.clearScheduledNotifications()
@@ -166,7 +168,18 @@ final class TimerUseCase {
 
             let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
             let totalRemainingTime = remainingTime - timeInBackground
-            counter = totalRemainingTime <= 0 ? 0 : totalRemainingTime
+
+            if totalRemainingTime <= 0 {
+                Self.logger.notice("⏰ Timer expired in background — advancing phase immediately.")
+                timer?.invalidate()
+                timer = nil
+                changeTimerMode()
+                if isAutoStartEnabled {
+                    startTimer()
+                }
+            } else {
+                counter = totalRemainingTime
+            }
             onStateChange?()
         }
     }
