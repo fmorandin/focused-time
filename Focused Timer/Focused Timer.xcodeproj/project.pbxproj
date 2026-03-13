@@ -345,7 +345,6 @@
 			children = (
 				229EA23AA7B25BFB13C875AA /* Router.swift */,
 			);
-			name = App;
 			path = App;
 			sourceTree = "<group>";
 		};
@@ -355,7 +354,6 @@
 				9107CF66261C1198F9DA1A42 /* StorageRepository.swift */,
 				D21C79F597FFDAEFCA7D840E /* UserDefaultsRepository.swift */,
 			);
-			name = Storage;
 			path = Storage;
 			sourceTree = "<group>";
 		};
@@ -364,7 +362,6 @@
 			children = (
 				2A7ACE62F530C46535D8CC0E /* ShareService.swift */,
 			);
-			name = Domain;
 			path = Domain;
 			sourceTree = "<group>";
 		};
@@ -485,7 +482,6 @@
 			children = (
 				110EB58D704A706D8E2A8DB7 /* TimerUseCase.swift */,
 			);
-			name = Domain;
 			path = Domain;
 			sourceTree = "<group>";
 		};
@@ -627,10 +623,10 @@
 				"pt-BR",
 			);
 			mainGroup = A378FC262522BB7D0046FC4C;
-			productRefGroup = A378FC302522BB7D0046FC4C /* Products */;
 			packageReferences = (
 				FF0000001111222233334444 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
+			productRefGroup = A378FC302522BB7D0046FC4C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
