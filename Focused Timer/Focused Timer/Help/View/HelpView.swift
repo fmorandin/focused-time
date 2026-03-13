@@ -52,6 +52,8 @@ struct HelpView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .listSectionSpacing(12)
+        .contentMargins(.top, 24, for: .scrollContent)
         .navigationTitle("helpNavigationTitle")
         .onAppear {
             Self.logger.notice("🆘 Help View opened.")

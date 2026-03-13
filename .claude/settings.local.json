@@ -12,7 +12,11 @@
       "Bash(git checkout:*)",
       "WebSearch",
       "Bash(git add:*)",
-      "Bash(xcrun xcresulttool:*)"
+      "Bash(xcrun xcresulttool:*)",
+      "Bash(while read:*)",
+      "Bash(do echo:*)",
+      "Read(//Users/felipemorandin/Developer/focused-time/**)",
+      "Bash(done)"
     ]
   },
   "hooks": {
