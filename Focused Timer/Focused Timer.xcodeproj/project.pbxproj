@@ -68,6 +68,10 @@
 		F00100022C00000100000001 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100122C00000100000001 /* AppDelegateTests.swift */; };
 		F00100032C00000100000001 /* TimerViewLifecycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00100132C00000100000001 /* TimerViewLifecycleTests.swift */; };
 		FE8681A04BE7D7FE625E4F8D /* TimerThemeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB83EC0047C082AE8896958 /* TimerThemeTests.swift */; };
+		FF0000001111222233334466 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = FF0000001111222233334455 /* SnapshotTesting */; };
+		FF0000001111222233334488 /* TimerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0000001111222233334477 /* TimerSnapshotTests.swift */; };
+		FF00000011112222333344AA /* SettingsSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0000001111222233334499 /* SettingsSnapshotTests.swift */; };
+		FF00000011112222333344CC /* HelpSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF00000011112222333344BB /* HelpSnapshotTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +155,9 @@
 		F00100122C00000100000001 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		F00100132C00000100000001 /* TimerViewLifecycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewLifecycleTests.swift; sourceTree = "<group>"; };
 		F414FD1631A539D802DB4616 /* TimerTypePillViewTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerTypePillViewTests.swift; sourceTree = "<group>"; };
+		FF0000001111222233334477 /* TimerSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerSnapshotTests.swift; sourceTree = "<group>"; };
+		FF0000001111222233334499 /* SettingsSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsSnapshotTests.swift; sourceTree = "<group>"; };
+		FF00000011112222333344BB /* HelpSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HelpSnapshotTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +172,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF0000001111222233334466 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +431,7 @@
 				C0726831746148D9B4CCAFD0 /* Localization */,
 				A378FC462522BB7E0046FC4C /* Info.plist */,
 				FBD51FFEAC4122BCDC9FABF5 /* Shared */,
+				FF00000011112222333344DD /* Snapshots */,
 			);
 			path = "Focused TimerTests";
 			sourceTree = "<group>";
@@ -515,6 +524,16 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		FF00000011112222333344DD /* Snapshots */ = {
+			isa = PBXGroup;
+			children = (
+				FF0000001111222233334477 /* TimerSnapshotTests.swift */,
+				FF0000001111222233334499 /* SettingsSnapshotTests.swift */,
+				FF00000011112222333344BB /* HelpSnapshotTests.swift */,
+			);
+			path = Snapshots;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -550,6 +569,9 @@
 				A378FC422522BB7E0046FC4C /* PBXTargetDependency */,
 			);
 			name = "Focused TimerTests";
+			packageProductDependencies = (
+				FF0000001111222233334455 /* SnapshotTesting */,
+			);
 			productName = "Focused TimerTests";
 			productReference = A378FC402522BB7E0046FC4C /* Focused TimerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -606,6 +628,9 @@
 			);
 			mainGroup = A378FC262522BB7D0046FC4C;
 			productRefGroup = A378FC302522BB7D0046FC4C /* Products */;
+			packageReferences = (
+				FF0000001111222233334444 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -710,6 +735,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF0000001111222233334488 /* TimerSnapshotTests.swift in Sources */,
+				FF00000011112222333344AA /* SettingsSnapshotTests.swift in Sources */,
+				FF00000011112222333344CC /* HelpSnapshotTests.swift in Sources */,
 				C412EEAF4B004F41AE887BAC /* LocalizationTests.swift in Sources */,
 				A378FC452522BB7E0046FC4C /* TimerViewModelTests.swift in Sources */,
 				F00100012C00000100000001 /* LocalNotificationManagerTests.swift in Sources */,
@@ -1065,6 +1093,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FF0000001111222233334444 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FF0000001111222233334455 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FF0000001111222233334444 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A378FC272522BB7D0046FC4C /* Project object */;
 }
