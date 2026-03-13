@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### General Guidelines
 
-- Unless a specific instruction is given, always create a new branch from `main` for your work, and name it descriptively (e.g. `timer-pause-functionality`).
+- If the current branch is `main` and unless a specific instruction is given, always create a new branch from `main` for your work, and name it descriptively (e.g. `timer-pause-functionality`).
 - Always follow the existing code style and architecture patterns.
 - When new features or changes are made, update or add unit/UI tests to cover the new behavior.
 - When making changes, ensure you run all tests and linting locally before committing.
@@ -30,20 +30,20 @@ All commands run from the repo root. The Xcode project is at `Focused Timer/Focu
 xcodebuild test \
   -project "Focused Timer/Focused Timer.xcodeproj" \
   -scheme "Focused Timer" \
-  -destination "platform=iOS Simulator,name=iPhone 16"
+  -destination "platform=iOS Simulator,name=iPhone 17 Pro"
 
 # Run only unit tests
 xcodebuild test \
   -project "Focused Timer/Focused Timer.xcodeproj" \
   -scheme "Focused Timer" \
-  -destination "platform=iOS Simulator,name=iPhone 16" \
+  -destination "platform=iOS Simulator,name=iPhone 17 Pro" \
   -only-testing "Focused TimerTests"
 
 # Run a single test class
 xcodebuild test \
   -project "Focused Timer/Focused Timer.xcodeproj" \
   -scheme "Focused Timer" \
-  -destination "platform=iOS Simulator,name=iPhone 16" \
+  -destination "platform=iOS Simulator,name=iPhone 17 Pro" \
   -only-testing "Focused TimerTests/TimerViewModelTests"
 ```
 
