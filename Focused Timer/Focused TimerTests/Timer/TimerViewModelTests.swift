@@ -132,7 +132,8 @@ private func makeSUT(
     nowProvider: @escaping () -> Date = Date.init,
     localNotificationManager: LocalNotificationManaging = NotificationManagerSpy(),
     soundPlayer: SystemSoundPlaying = SoundPlayerMock(),
-    notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreMock()
+    notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreMock(),
+    isReviewEnabled: Bool = false
 ) -> (viewModel: TimerViewModel, timerFactory: TestRepeatingTimerFactory) {
     let timerFactory = TestRepeatingTimerFactory()
     let viewModel = TimerViewModel(
@@ -141,7 +142,8 @@ private func makeSUT(
         nowProvider: nowProvider,
         localNotificationManager: localNotificationManager,
         soundPlayer: soundPlayer,
-        notificationFlagStore: notificationFlagStore
+        notificationFlagStore: notificationFlagStore,
+        isReviewEnabled: isReviewEnabled
     )
 
     return (viewModel, timerFactory)
@@ -607,5 +609,45 @@ struct TimerViewModelTests {
 
         #expect(viewModel.timerType == .focused)
         #expect(viewModel.accentCircleColor == TimerTheme.color(for: .focused))
+    }
+
+    // MARK: - Review Request
+
+    @Test("shouldRequestReview becomes true after full Pomodoro set when review is enabled")
+    func shouldRequestReviewBecomesTrueAfterFullSet() {
+        let (viewModel, timerFactory) = makeSUT(isReviewEnabled: true)
+
+        #expect(!viewModel.shouldRequestReview)
+
+        // Drive through full set: focused(6) → short break(3) → focused(6) → long break(4)
+        viewModel.startTimer(); timerFactory.advance(by: 6)  // focused → short break
+        viewModel.startTimer(); timerFactory.advance(by: 3)  // short break → focused (cycle 1)
+        viewModel.startTimer(); timerFactory.advance(by: 6)  // focused → long break (cycle 2)
+        viewModel.startTimer(); timerFactory.advance(by: 4)  // long break expires → full set done
+
+        #expect(viewModel.shouldRequestReview)
+    }
+
+    @Test("shouldRequestReview stays false when review is disabled")
+    func shouldRequestReviewStaysFalseWhenDisabled() {
+        let (viewModel, timerFactory) = makeSUT(isReviewEnabled: false)
+
+        viewModel.startTimer(); timerFactory.advance(by: 6)
+        viewModel.startTimer(); timerFactory.advance(by: 3)
+        viewModel.startTimer(); timerFactory.advance(by: 6)
+        viewModel.startTimer(); timerFactory.advance(by: 4)
+
+        #expect(!viewModel.shouldRequestReview)
+    }
+
+    @Test("shouldRequestReview does not become true during intermediate transitions")
+    func shouldRequestReviewDoesNotTriggerOnIntermediateTransitions() {
+        let (viewModel, timerFactory) = makeSUT(isReviewEnabled: true)
+
+        // Only complete focus → short break → focus (no long break yet)
+        viewModel.startTimer(); timerFactory.advance(by: 6)
+        viewModel.startTimer(); timerFactory.advance(by: 3)
+
+        #expect(!viewModel.shouldRequestReview)
     }
 }

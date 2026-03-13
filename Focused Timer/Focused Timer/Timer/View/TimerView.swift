@@ -3,6 +3,7 @@
 //  Focused Timer
 //
 
+import StoreKit
 import SwiftUI
 import os
 
@@ -18,6 +19,7 @@ struct TimerView: View {
     // MARK: - Environment
 
     @Environment(Router.self) private var router
+    @Environment(\.requestReview) private var requestReview
 
     // MARK: - State
 
@@ -86,6 +88,12 @@ struct TimerView: View {
         .onChange(of: router.selectedTab) { _, newTab in
             if newTab == .settings {
                 router.settingsDisplaysWarning = timerViewModel.shouldDisplaySettingsAlert()
+            }
+        }
+        .onChange(of: timerViewModel.shouldRequestReview) { _, shouldRequest in
+            if shouldRequest {
+                requestReview()
+                timerViewModel.shouldRequestReview = false
             }
         }
         .onAppear {

@@ -29,6 +29,10 @@ final class TimerUseCase {
     /// Called after every state mutation so the ViewModel (or any observer) can sync.
     var onStateChange: (() -> Void)?
 
+    /// Called when a full Pomodoro set completes (long break timer expires).
+    /// Observers can use this to trigger a review request or analytics event.
+    var onCycleSetComplete: (() -> Void)?
+
     // MARK: - Computed Settings
 
     /// Whether the "keep screen on" preference is currently enabled.
@@ -235,6 +239,7 @@ final class TimerUseCase {
             Self.logger.notice("💪🏻 Long break done — resetting cycles.")
             numberOfCompletedCycles = 0
             previousPhaseWasFocus = false
+            onCycleSetComplete?()
             applyTimerType(.shortBreak)
         }
     }

@@ -865,4 +865,34 @@ struct TimerUseCaseTests {
         #expect(useCase.counter == 3)   // longBreakTime from model
         #expect(useCase.numberOfCompletedCycles == 2)
     }
+
+    // MARK: - Cycle Set Complete Callback
+
+    @Test("onCycleSetComplete fires exactly once when long break expires")
+    func cycleSetCompleteCallbackFiresOnLongBreakExpiry() {
+        let (useCase, timerFactory) = makeSUT()
+        var callCount = 0
+        useCase.onCycleSetComplete = { callCount += 1 }
+
+        // Drive to long break expiry: focused(6) → short break(3) → focused(6) → long break(4)
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → short break
+        useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused (cycle 1 done)
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → long break (cycle 2 done)
+        useCase.startTimer(); timerFactory.advance(by: 4)  // long break expires → full set complete
+
+        #expect(callCount == 1)
+    }
+
+    @Test("onCycleSetComplete does not fire during intermediate phase transitions")
+    func cycleSetCompleteCallbackDoesNotFireOnIntermediateTransitions() {
+        let (useCase, timerFactory) = makeSUT()
+        var callCount = 0
+        useCase.onCycleSetComplete = { callCount += 1 }
+
+        // Only complete focus → short break → focus (no long break yet)
+        useCase.startTimer(); timerFactory.advance(by: 6)  // focused → short break
+        useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused
+
+        #expect(callCount == 0)
+    }
 }
