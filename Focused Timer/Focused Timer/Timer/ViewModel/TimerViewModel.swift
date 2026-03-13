@@ -154,7 +154,7 @@ final class TimerViewModel {
             #if DEBUG
             return false
             #else
-            return !AppDelegate.isUITestingEnabled
+            return !ProcessInfo.processInfo.arguments.contains("UI-Testing")
             #endif
         }()
     ) {
