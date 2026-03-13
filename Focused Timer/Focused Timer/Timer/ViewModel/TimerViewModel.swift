@@ -106,6 +106,7 @@ final class TimerViewModel {
     var totalNumberOfCycles: Int
     var numberOfCompletedCycles: Int
     var accentCircleColor: Color
+    var shouldRequestReview: Bool = false
 
     // MARK: - Computed Display Properties
 
@@ -138,6 +139,7 @@ final class TimerViewModel {
 
     private let useCase: TimerUseCase
     private let dateFormatter = DateComponentsFormatter()
+    private let reviewEnabled: Bool
 
     // MARK: - Initializer
 
@@ -147,9 +149,18 @@ final class TimerViewModel {
         nowProvider: @escaping () -> Date = Date.init,
         localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
-        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard
+        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
+        isReviewEnabled: Bool = {
+            #if DEBUG
+            return false
+            #else
+            return !AppDelegate.isUITestingEnabled
+            #endif
+        }()
     ) {
         Self.logger.notice("🛠 Initializing Timer View Model.")
+
+        self.reviewEnabled = isReviewEnabled
 
         dateFormatter.allowedUnits = [.minute, .second]
         dateFormatter.zeroFormattingBehavior = .pad
@@ -173,6 +184,11 @@ final class TimerViewModel {
 
         useCase.onStateChange = { [weak self] in
             self?.syncFromUseCase()
+        }
+
+        useCase.onCycleSetComplete = { [weak self] in
+            guard let self, self.reviewEnabled else { return }
+            self.shouldRequestReview = true
         }
     }
 
