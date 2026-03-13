@@ -11,7 +11,8 @@
       "Bash(gh pr:*)",
       "Bash(git checkout:*)",
       "WebSearch",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(xcrun xcresulttool:*)"
     ]
   },
   "hooks": {

@@ -73,19 +73,10 @@ enum Accessibility {
         // MARK: - Help Screen
 
         // Labels
-        static let lblTechniqueExplanationTitle = "lblTechniqueExplanationTitle"
         static let lblTechniqueExplanation = "lblTechniqueExplanation"
-
-        static let lblFocusExplanationTitle = "lblFocusExplanationTitle"
         static let lblFocusExplanation = "lblFocusExplanation"
-
-        static let lblShortBreakExplanationTitle = "lblShortBreakExplanationTitle"
         static let lblShortBreakExplanation = "lblShortBreakExplanation"
-
-        static let lblLongBreakExplanationTitle = "lblLongBreakExplanationTitle"
         static let lblLongBreakExplanation = "lblLongBreakExplanation"
-
-        static let lblNumberOfCyclesExplanationTitle = "lblNumberOfCyclesExplanationTitle"
         static let lblNumberOfCyclesExplanation = "lblNumberOfCyclesExplanation"
     }
 }
