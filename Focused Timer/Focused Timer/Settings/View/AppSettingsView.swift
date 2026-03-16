@@ -39,12 +39,11 @@ struct AppSettingsView: View {
                     Text(mode.localizedName).tag(mode)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
             .onChange(of: settingsViewModel.appearanceMode) { _, newValue in
                 settingsViewModel.saveAppearanceMode(newValue)
             }
             .accessibilityIdentifier(Accessibility.Identifiers.pkAppearanceMode)
-            .padding(.vertical, 10)
 
             // Starting timer type
             Picker("settingsStartingTimerType", selection: $settingsViewModel.startingTimerType) {
@@ -52,12 +51,11 @@ struct AppSettingsView: View {
                     Text(timerType.getCorrectTranslation()).tag(timerType)
                 }
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
             .onChange(of: settingsViewModel.startingTimerType) { _, newValue in
                 settingsViewModel.saveStartingTimerType(newValue)
             }
             .accessibilityIdentifier(Accessibility.Identifiers.pkStartingTimerType)
-            .padding(.vertical, 10)
 
             // Auto Start
             Toggle("settingsAutoStart", isOn: $settingsViewModel.isAutoStartEnabled)
