@@ -19,7 +19,6 @@ struct TimerView: View {
     // MARK: - Environment
 
     @Environment(Router.self) private var router
-    @Environment(\.requestReview) private var requestReview
 
     // MARK: - State
 
@@ -92,13 +91,35 @@ struct TimerView: View {
         }
         .onChange(of: timerViewModel.shouldRequestReview) { _, shouldRequest in
             if shouldRequest {
-                requestReview()
+                Self.logger.notice("⭐️ onChange fired — requesting review.")
+                presentReviewRequest()
+                timerViewModel.shouldRequestReview = false
+            }
+        }
+        .onReceive(notificationCenter.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            // The timer may have completed while the app was in the background,
+            // setting shouldRequestReview during willEnterForeground (when the scene
+            // is still inactive). Re-check here, when the scene is guaranteed active.
+            if timerViewModel.shouldRequestReview {
+                Self.logger.notice("⭐️ didBecomeActive fired — requesting review.")
+                presentReviewRequest()
                 timerViewModel.shouldRequestReview = false
             }
         }
         .onAppear {
             Self.logger.notice("⏱ Timer View opened.")
         }
+    }
+
+    // MARK: - Private
+
+    private func presentReviewRequest() {
+        guard let scene = UIApplication.shared.connectedScenes
+            .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene else {
+            Self.logger.notice("⭐️ Review skipped — no active window scene found.")
+            return
+        }
+        SKStoreReviewController.requestReview(in: scene)
     }
 }
 

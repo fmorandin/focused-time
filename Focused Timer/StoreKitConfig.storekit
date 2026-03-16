@@ -1,0 +1,30 @@
+{
+  "identifier" : "FF11000000000000000001AA",
+  "nonConsumableIAPProducts" : [],
+  "nonRenewingSubscriptionProducts" : [],
+  "products" : [],
+  "settings" : {
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      }
+    ]
+  },
+  "subscriptionGroups" : [],
+  "version" : {
+    "major" : 2,
+    "minor" : 0
+  }
+}
