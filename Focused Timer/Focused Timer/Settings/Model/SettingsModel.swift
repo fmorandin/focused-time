@@ -46,6 +46,12 @@ protocol SettingsModelProtocol {
 
     /// Persists the timer type chosen as the session starting point
     func saveStartingTimerType(_ type: TimerType)
+
+    /// Returns the appearance mode the user has chosen
+    func getAppearanceMode() -> AppearanceMode
+
+    /// Persists the appearance mode chosen by the user
+    func saveAppearanceMode(_ mode: AppearanceMode)
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -120,5 +126,16 @@ struct SettingsModel: SettingsModelProtocol {
     func saveStartingTimerType(_ type: TimerType) {
 
         repository.save(type.rawValue, for: UserDefaultKeys.startingTimerType)
+    }
+
+    func getAppearanceMode() -> AppearanceMode {
+
+        let rawValue: String = repository.string(for: UserDefaultKeys.appearanceMode)
+        return AppearanceMode(rawValue: rawValue) ?? .system
+    }
+
+    func saveAppearanceMode(_ mode: AppearanceMode) {
+
+        repository.save(mode.rawValue, for: UserDefaultKeys.appearanceMode)
     }
 }

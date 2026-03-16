@@ -59,6 +59,7 @@ final class SettingsViewModel {
     var isNotificationsEnabled: Bool = true
     var isNotificationsDeniedBySystem: Bool = false
     var startingTimerType: TimerType = .focused
+    var appearanceMode: AppearanceMode = .system
 
     // If the timer is running and the user changes something the timer should be updated
     var shouldUpdateTimerView = false
@@ -116,6 +117,7 @@ final class SettingsViewModel {
         keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
         isNotificationsEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableNotifications)
         startingTimerType = settingsModel.getStartingTimerType()
+        appearanceMode = settingsModel.getAppearanceMode()
     }
 
     // MARK: - Public Functions
@@ -192,6 +194,7 @@ final class SettingsViewModel {
         saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
         saveStartingTimerType(.focused)
+        saveAppearanceMode(.system)
 
         populateAllFieldsSavedValues()
     }
@@ -219,6 +222,13 @@ final class SettingsViewModel {
         settingsModel.saveStartingTimerType(type)
         startingTimerType = type
         shouldUpdateTimerView = true
+    }
+
+    /// Saves the user's chosen appearance mode
+    func saveAppearanceMode(_ mode: AppearanceMode) {
+
+        settingsModel.saveAppearanceMode(mode)
+        appearanceMode = mode
     }
 
     /// Triggers the system share sheet for the app

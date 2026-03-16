@@ -16,10 +16,13 @@ struct FocusedTimerApp: App {
     /// Shared navigation state injected into the entire view hierarchy.
     @State private var router = Router()
 
+    @AppStorage(UserDefaultKeys.appearanceMode) private var appearanceMode: String = AppearanceMode.system.rawValue
+
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(router)
+                .preferredColorScheme(AppearanceMode(rawValue: appearanceMode)?.colorScheme)
         }
     }
 }

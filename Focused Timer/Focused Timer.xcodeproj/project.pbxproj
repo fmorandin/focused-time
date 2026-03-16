@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		0A7D2A44068809CC7D59D2E4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229EA23AA7B25BFB13C875AA /* Router.swift */; };
 		180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E842725F6E56600ACF34C /* LocalNotificationManager.swift */; };
+		A1234567890ABCDEF1234502 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234501 /* AppearanceMode.swift */; };
 		180EDCE325CC888700452D96 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Accessibility.swift */; };
 		180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
 		180EDCF825CCC1B300452D96 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Accessibility.swift */; };
 		180EDD0025CCC27900452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
 		181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A1425C701A9006CBDF4 /* BaseFeature.swift */; };
 		181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */; };
+		CC00112233445566778899CC /* SettingsViewModelAppearanceModeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC00112233445566778899DD /* SettingsViewModelAppearanceModeTests.swift */; };
 		181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */; };
 		181E4A3A25C743B4006CBDF4 /* SettingsModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */; };
 		181E4A4525C74A74006CBDF4 /* SettingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */; };
@@ -94,10 +96,12 @@
 /* Begin PBXFileReference section */
 		110EB58D704A706D8E2A8DB7 /* TimerUseCase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerUseCase.swift; sourceTree = "<group>"; };
 		180E842725F6E56600ACF34C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		A1234567890ABCDEF1234501 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		180EDCE225CC888700452D96 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		180EDCE725CC9BF000452D96 /* ImageNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
 		181E4A1425C701A9006CBDF4 /* BaseFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseFeature.swift; sourceTree = "<group>"; };
 		181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
+		CC00112233445566778899DD /* SettingsViewModelAppearanceModeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelAppearanceModeTests.swift; sourceTree = "<group>"; };
 		181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModelMock.swift; sourceTree = "<group>"; };
 		181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModelMock.swift; sourceTree = "<group>"; };
 		181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITests.swift; sourceTree = "<group>"; };
@@ -237,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				181E4A2525C72E23006CBDF4 /* SettingsViewModelTests.swift */,
+				CC00112233445566778899DD /* SettingsViewModelAppearanceModeTests.swift */,
 				38C9E457F0415839BB1D5AC8 /* SettingsModelTests.swift */,
 			);
 			path = Settings;
@@ -295,6 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				AA1111110000000000001111 /* Localizable.xcstrings */,
+				A1234567890ABCDEF1234501 /* AppearanceMode.swift */,
 				180EDCE225CC888700452D96 /* Accessibility.swift */,
 				180EDCE725CC9BF000452D96 /* ImageNames.swift */,
 				18DF2DEF260A9BBE00F1BB69 /* Constants.swift */,
@@ -715,6 +721,7 @@
 				A378FC352522BB7D0046FC4C /* ContentView.swift in Sources */,
 				181F5022260A81E90051D092 /* CircleView.swift in Sources */,
 				B63EFF0326558FF7007534C4 /* UserDefaultKeys.swift in Sources */,
+				A1234567890ABCDEF1234502 /* AppearanceMode.swift in Sources */,
 				A378FC332522BB7D0046FC4C /* FocusedTimerApp.swift in Sources */,
 				18D7443825D35DBF00D5FF96 /* TimerType.swift in Sources */,
 				1876325C26001F76001ADD23 /* HelpView.swift in Sources */,
@@ -744,6 +751,7 @@
 				181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */,
 				181E4A3A25C743B4006CBDF4 /* SettingsModelMock.swift in Sources */,
 				181E4A2625C72E23006CBDF4 /* SettingsViewModelTests.swift in Sources */,
+				CC00112233445566778899CC /* SettingsViewModelAppearanceModeTests.swift in Sources */,
 				54D2196F885C37909155B318 /* TimerUseCaseTests.swift in Sources */,
 				338C9DE2E77E5AB04F83120D /* RouterTests.swift in Sources */,
 				9F0D471110BD79520BC3A953 /* UserDefaultsRepositoryTests.swift in Sources */,

@@ -15,6 +15,12 @@ struct SettingsModelMock: SettingsModelProtocol {
 
     func saveStartingTimerType(_ type: TimerType) {}
 
+    func getAppearanceMode() -> AppearanceMode {
+        .system
+    }
+
+    func saveAppearanceMode(_ mode: AppearanceMode) {}
+
     func saveToggle(value: Bool, for keyName: String) {
         debugPrint("🎛 toggle saved")
     }

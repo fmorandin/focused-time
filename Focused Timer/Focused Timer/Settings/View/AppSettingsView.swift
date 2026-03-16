@@ -33,6 +33,19 @@ struct AppSettingsView: View {
 
     var body: some View {
         Section {
+            // Appearance
+            Picker("settingsAppearanceMode", selection: $settingsViewModel.appearanceMode) {
+                ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                    Text(mode.localizedName).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            .onChange(of: settingsViewModel.appearanceMode) { _, newValue in
+                settingsViewModel.saveAppearanceMode(newValue)
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.pkAppearanceMode)
+            .padding(.vertical, 10)
+
             // Starting timer type
             Picker("settingsStartingTimerType", selection: $settingsViewModel.startingTimerType) {
                 ForEach([TimerType.focused, .shortBreak, .longBreak], id: \.self) { timerType in

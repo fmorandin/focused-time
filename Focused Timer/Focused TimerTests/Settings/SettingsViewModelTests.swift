@@ -76,6 +76,10 @@ struct SettingsViewModelTests {
         func saveStartingTimerType(_ type: TimerType) {
             savedStartingTimerType = type
         }
+
+        func getAppearanceMode() -> AppearanceMode { .system }
+
+        func saveAppearanceMode(_ mode: AppearanceMode) {}
     }
 
     private func clearPersistedValues() {
@@ -89,7 +93,8 @@ struct SettingsViewModelTests {
             UserDefaultKeys.playTimerSounds,
             UserDefaultKeys.keepScreenOn,
             UserDefaultKeys.enableNotifications,
-            UserDefaultKeys.startingTimerType
+            UserDefaultKeys.startingTimerType,
+            UserDefaultKeys.appearanceMode
         ].forEach { defaults.removeObject(forKey: $0) }
     }
 
