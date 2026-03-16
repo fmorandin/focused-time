@@ -119,7 +119,7 @@ struct TimerView: View {
             Self.logger.notice("⭐️ Review skipped — no active window scene found.")
             return
         }
-        SKStoreReviewController.requestReview(in: scene)
+        AppStore.requestReview(in: scene)
     }
 }
 
