@@ -21,4 +21,5 @@ enum UserDefaultKeys {
     static let keepScreenOn = "keepScreenOn"
     static let enableNotifications = "enableNotifications"
     static let startingTimerType = "startingTimerType"
+    static let appearanceMode = "appearanceMode"
 }

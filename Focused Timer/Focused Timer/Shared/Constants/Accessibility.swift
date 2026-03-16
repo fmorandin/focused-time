@@ -29,6 +29,9 @@ enum Accessibility {
         static let txtNumberOfCycles = "txtNumberOfCycles"
         static let txtLongBreakTime = "txtLongBreakTime"
 
+        // Pickers
+        static let pkAppearanceMode = "pkAppearanceMode"
+
         // Toggles
         static let tgAutoStart = "tgAutoStart"
         static let tgPlaySounds = "tgPlaySounds"
