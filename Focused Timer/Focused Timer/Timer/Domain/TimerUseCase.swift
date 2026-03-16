@@ -211,8 +211,7 @@ final class TimerUseCase {
 
         switch timerType {
         case .focused where numberOfCompletedCycles + 1 == totalNumberOfCycles:
-            // Last focus session — skip short break and go straight to long break,
-            // completing the final cycle.
+            // Last focus session — skip short break and go straight to long break.
             Self.logger.notice("🥳 Completed all cycles — transitioning to long break.")
             numberOfCompletedCycles += 1
             previousPhaseWasFocus = false

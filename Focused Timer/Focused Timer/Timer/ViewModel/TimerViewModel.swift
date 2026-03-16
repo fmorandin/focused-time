@@ -150,13 +150,7 @@ final class TimerViewModel {
         localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
         notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
-        isReviewEnabled: Bool = {
-            #if DEBUG
-            return false
-            #else
-            return !ProcessInfo.processInfo.arguments.contains("UI-Testing")
-            #endif
-        }()
+        isReviewEnabled: Bool = !ProcessInfo.processInfo.arguments.contains("UI-Testing")
     ) {
         Self.logger.notice("🛠 Initializing Timer View Model.")
 
@@ -187,7 +181,11 @@ final class TimerViewModel {
         }
 
         useCase.onCycleSetComplete = { [weak self] in
-            guard let self, self.reviewEnabled else { return }
+            guard let self, self.reviewEnabled else {
+                Self.logger.notice("⭐️ Review skipped — reviewEnabled: \(self?.reviewEnabled ?? false).")
+                return
+            }
+            Self.logger.notice("⭐️ Requesting review — setting shouldRequestReview = true.")
             self.shouldRequestReview = true
         }
     }
