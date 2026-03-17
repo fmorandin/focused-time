@@ -22,4 +22,5 @@ enum UserDefaultKeys {
     static let enableNotifications = "enableNotifications"
     static let startingTimerType = "startingTimerType"
     static let appearanceMode = "appearanceMode"
+    static let enableAlarm = "enableAlarm"
 }

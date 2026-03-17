@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A7D2A44068809CC7D59D2E4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229EA23AA7B25BFB13C875AA /* Router.swift */; };
 		180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E842725F6E56600ACF34C /* LocalNotificationManager.swift */; };
+		AA00000001110000000000AA /* AlarmScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000001110000000000BB /* AlarmScheduler.swift */; };
 		A1234567890ABCDEF1234502 /* AppearanceMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890ABCDEF1234501 /* AppearanceMode.swift */; };
 		180EDCE325CC888700452D96 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Accessibility.swift */; };
 		180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE725CC9BF000452D96 /* ImageNames.swift */; };
@@ -96,6 +97,7 @@
 /* Begin PBXFileReference section */
 		110EB58D704A706D8E2A8DB7 /* TimerUseCase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerUseCase.swift; sourceTree = "<group>"; };
 		180E842725F6E56600ACF34C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
+		AA00000001110000000000BB /* AlarmScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmScheduler.swift; sourceTree = "<group>"; };
 		A1234567890ABCDEF1234501 /* AppearanceMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceMode.swift; sourceTree = "<group>"; };
 		180EDCE225CC888700452D96 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		180EDCE725CC9BF000452D96 /* ImageNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 		B63EFF0526559055007534C4 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				AA00000001110000000000BB /* AlarmScheduler.swift */,
 				180E842725F6E56600ACF34C /* LocalNotificationManager.swift */,
 			);
 			path = Helpers;
@@ -702,6 +705,7 @@
 			files = (
 				18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */,
 				180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */,
+				AA00000001110000000000AA /* AlarmScheduler.swift in Sources */,
 				181F502C260A83040051D092 /* FlowCounterView.swift in Sources */,
 				18C5C30A25BB696900A4893F /* SettingsModel.swift in Sources */,
 				180EDCE825CC9BF000452D96 /* ImageNames.swift in Sources */,

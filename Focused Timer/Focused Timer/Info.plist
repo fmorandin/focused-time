@@ -46,5 +46,7 @@
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSAlarmKitUsageDescription</key>
+	<string>Focused Timer will sound an alarm when your timer finishes, even in silent mode.</string>
 </dict>
 </plist>
