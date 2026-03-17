@@ -242,16 +242,26 @@ final class SettingsViewModel {
     }
 
     /// Checks the system-level notification authorization status and updates `isNotificationsDeniedBySystem`.
+    /// When denied, forces the notifications toggle off so the UI reflects the system state.
     func checkNotificationAuthorizationStatus() async {
 
         let status = await notificationCenter.getAuthorizationStatus()
         isNotificationsDeniedBySystem = status == .denied
+        if isNotificationsDeniedBySystem {
+            isNotificationsEnabled = false
+            saveToggles(for: UserDefaultKeys.enableNotifications, value: false)
+        }
     }
 
     /// Checks whether AlarmKit permission has been denied by the system and updates `isAlarmDeniedBySystem`.
+    /// When denied, forces the alarm toggle off so the UI reflects the system state.
     func checkAlarmAuthorizationStatus() {
 
         isAlarmDeniedBySystem = alarmAuthorizationChecker.isDeniedBySystem
+        if isAlarmDeniedBySystem {
+            isAlarmEnabled = false
+            saveToggles(for: UserDefaultKeys.enableAlarm, value: false)
+        }
     }
 
     /// Opens the iOS Settings app so the user can restore alarm permission.

@@ -24,10 +24,12 @@ struct SettingsViewModelAlarmAuthTests {
             settingsModel: SettingsModelMock(),
             alarmAuthorizationChecker: checker
         )
+        settingsViewModel.isAlarmEnabled = true
 
         settingsViewModel.checkAlarmAuthorizationStatus()
 
         #expect(settingsViewModel.isAlarmDeniedBySystem == true)
+        #expect(settingsViewModel.isAlarmEnabled == false)
     }
 
     @Test("checkAlarmAuthorizationStatus clears denied flag when alarm is authorized")
