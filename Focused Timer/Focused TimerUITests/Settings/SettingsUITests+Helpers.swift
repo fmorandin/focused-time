@@ -288,12 +288,20 @@ extension SettingsUITests {
         return application.descendants(matching: .any).matching(predicate).firstMatch
     }
 
-    /// Returns the segment button for a given timer type label within the segmented picker.
+    /// Selects an option from the starting timer type menu picker.
     ///
-    /// The picker uses `.pickerStyle(.segmented)`, so each option is always visible as a
-    /// child button of the picker element — no menu interaction needed.
-    func pickerSegment(labeled label: String) -> XCUIElement {
-        startingTimerPickerElement().buttons[label]
+    /// The picker uses `.pickerStyle(.menu)`, so tapping the picker opens a popup menu
+    /// from which the desired option must be selected.
+    func selectStartingTimerType(labeled label: String) {
+        let picker = startingTimerPickerElement()
+        picker.tap()
+
+        let menuItem = application.buttons[label]
+        XCTAssertTrue(
+            waitForExistence(menuItem, timeout: 5.0),
+            "Menu item '\(label)' should appear after tapping the picker"
+        )
+        menuItem.tap()
     }
 
     /// Resets settings to defaults, dismissing only the alerts that appear (keepScreenOn alert is optional).
