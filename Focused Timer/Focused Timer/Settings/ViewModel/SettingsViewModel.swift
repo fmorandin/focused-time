@@ -167,7 +167,7 @@ final class SettingsViewModel {
         settingsModel.saveToggle(value: value, for: keyName)
     }
 
-    /// Saves the alarm-enabled toggle. Enabling the alarm disables notifications since the alarm replaces them.
+    /// Saves the alarm-enabled toggle. Enabling the alarm disables notifications (mutually exclusive).
     func saveAlarmEnabled(_ value: Bool) {
 
         isAlarmEnabled = value
@@ -178,7 +178,18 @@ final class SettingsViewModel {
         }
     }
 
-    /// Saves the auto-start toggle. Enabling auto-start disables the alarm to prevent infinite alarms.
+    /// Saves the notifications-enabled toggle. Enabling notifications disables the alarm (mutually exclusive).
+    func saveNotificationsEnabled(_ value: Bool) {
+
+        isNotificationsEnabled = value
+        saveToggles(for: UserDefaultKeys.enableNotifications, value: value)
+        if value {
+            isAlarmEnabled = false
+            saveToggles(for: UserDefaultKeys.enableAlarm, value: false)
+        }
+    }
+
+    /// Saves the auto-start toggle. Enabling auto-start disables the alarm and restores notifications.
     func saveAutoStartEnabled(_ value: Bool) {
 
         isAutoStartEnabled = value
@@ -186,6 +197,8 @@ final class SettingsViewModel {
         if value {
             isAlarmEnabled = false
             saveToggles(for: UserDefaultKeys.enableAlarm, value: false)
+            isNotificationsEnabled = true
+            saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
         }
     }
 
@@ -216,7 +229,7 @@ final class SettingsViewModel {
         saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
         saveToggles(for: UserDefaultKeys.keepScreenOn, value: false)
         saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
-        saveToggles(for: UserDefaultKeys.enableAlarm, value: true)
+        saveToggles(for: UserDefaultKeys.enableAlarm, value: false)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
         saveStartingTimerType(.focused)
         saveAppearanceMode(.system)

@@ -110,10 +110,7 @@ struct AppSettingsView: View {
             // Enable notifications
             Toggle("settingsEnableNotifications", isOn: $settingsViewModel.isNotificationsEnabled)
                 .onChange(of: settingsViewModel.isNotificationsEnabled) { _, newValue in
-                    settingsViewModel.saveToggles(
-                        for: UserDefaultKeys.enableNotifications,
-                        value: newValue
-                    )
+                    settingsViewModel.saveNotificationsEnabled(newValue)
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgEnableNotifications)
                 .accessibilityLabel(Text("accLabelSettingsEnableNotificationsToggle"))
