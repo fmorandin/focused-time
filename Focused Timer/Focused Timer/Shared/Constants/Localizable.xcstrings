@@ -753,6 +753,40 @@
         }
       }
     },
+    "settingsAlarmDeniedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alarm permission is disabled in iOS Settings. Enable it to sound an alarm when your timer ends."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A permissão de alarme está desativada nas configurações do iOS. Ative-a para soar um alarme quando o timer terminar."
+          }
+        }
+      }
+    },
+    "settingsAlarmOpenSettings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Configurações"
+          }
+        }
+      }
+    },
     "settingsAutoStart" : {
       "extractionState" : "manual",
       "localizations" : {

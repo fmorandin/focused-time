@@ -41,6 +41,7 @@ final class SettingsViewModel {
     private let settingsModel: SettingsModelProtocol
     private let shareService: ShareService
     private let notificationCenter: UserNotificationCenterProtocol
+    private let alarmAuthorizationChecker: AlarmAuthorizationChecking
     private let urlOpener: URLOpening
 
     // Maximum number of characters for the fields
@@ -59,6 +60,7 @@ final class SettingsViewModel {
     var isNotificationsEnabled: Bool = true
     var isNotificationsDeniedBySystem: Bool = false
     var isAlarmEnabled: Bool = true
+    var isAlarmDeniedBySystem: Bool = false
     var startingTimerType: TimerType = .focused
     var appearanceMode: AppearanceMode = .system
 
@@ -80,6 +82,7 @@ final class SettingsViewModel {
         settingsModel: SettingsModelProtocol,
         shareService: ShareService = UIKitShareService(),
         notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
+        alarmAuthorizationChecker: AlarmAuthorizationChecking = AlarmKitAuthorizationChecker(),
         urlOpener: URLOpening = UIApplication.shared
     ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
@@ -87,6 +90,7 @@ final class SettingsViewModel {
         self.settingsModel = settingsModel
         self.shareService = shareService
         self.notificationCenter = notificationCenter
+        self.alarmAuthorizationChecker = alarmAuthorizationChecker
         self.urlOpener = urlOpener
 
         populateAllFieldsSavedValues()
@@ -242,6 +246,22 @@ final class SettingsViewModel {
 
         let status = await notificationCenter.getAuthorizationStatus()
         isNotificationsDeniedBySystem = status == .denied
+    }
+
+    /// Checks whether AlarmKit permission has been denied by the system and updates `isAlarmDeniedBySystem`.
+    func checkAlarmAuthorizationStatus() {
+
+        isAlarmDeniedBySystem = alarmAuthorizationChecker.isDeniedBySystem
+    }
+
+    /// Opens the iOS Settings app so the user can restore alarm permission.
+    func openAlarmSettings() async {
+
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+            Self.logger.error("Failed to create the app settings URL.")
+            return
+        }
+        await urlOpener.open(settingsURL)
     }
 
     /// Opens the iOS Settings app at the Notifications page for this app.

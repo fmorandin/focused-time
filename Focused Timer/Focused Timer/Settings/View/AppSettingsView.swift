@@ -104,8 +104,27 @@ struct AppSettingsView: View {
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgEnableAlarm)
                 .accessibilityLabel(Text("accLabelSettingsEnableAlarmToggle"))
-                .disabled(settingsViewModel.isAutoStartEnabled)
+                .disabled(settingsViewModel.isAlarmDeniedBySystem || settingsViewModel.isAutoStartEnabled)
                 .padding(.vertical, 10)
+
+            if settingsViewModel.isAlarmDeniedBySystem {
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("settingsAlarmDeniedMessage", systemImage: "bell.slash.fill")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmDeniedMessage)
+
+                    Button("settingsAlarmOpenSettings") {
+                        Task {
+                            await settingsViewModel.openAlarmSettings()
+                        }
+                    }
+                    .font(.caption)
+                    .buttonStyle(.borderless)
+                    .accessibilityIdentifier(Accessibility.Identifiers.btnOpenAlarmSettings)
+                }
+                .padding(.vertical, 4)
+            }
 
             // Enable notifications
             Toggle("settingsEnableNotifications", isOn: $settingsViewModel.isNotificationsEnabled)
@@ -138,11 +157,13 @@ struct AppSettingsView: View {
         }
         .font(.system(.body, design: .rounded))
         .task {
+            settingsViewModel.checkAlarmAuthorizationStatus()
             await settingsViewModel.checkNotificationAuthorizationStatus()
         }
         .onReceive(
             NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
         ) { _ in
+            settingsViewModel.checkAlarmAuthorizationStatus()
             Task {
                 await settingsViewModel.checkNotificationAuthorizationStatus()
             }
