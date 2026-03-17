@@ -54,11 +54,15 @@ final class TimerUseCase {
     private let localNotificationManager: LocalNotificationManaging
     private let soundPlayer: SystemSoundPlaying
     private let notificationFlagStore: NotificationFlagStoring
+    private let alarmScheduler: AlarmScheduling?
 
     private let systemSoundID: SystemSoundID = 1009
 
     private var isAutoStartEnabled: Bool {
         timerModel.getToggle(for: UserDefaultKeys.autoStartToggle)
+    }
+    private var isAlarmEnabled: Bool {
+        timerModel.getToggle(for: UserDefaultKeys.enableAlarm)
     }
     private var isPlaySoundEnabled: Bool {
         timerModel.getToggle(for: UserDefaultKeys.playTimerSounds)
@@ -75,7 +79,8 @@ final class TimerUseCase {
         nowProvider: @escaping () -> Date = Date.init,
         localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
-        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard
+        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
+        alarmScheduler: AlarmScheduling? = nil
     ) {
         Self.logger.notice("🛠 Initializing TimerUseCase.")
 
@@ -85,6 +90,7 @@ final class TimerUseCase {
         self.localNotificationManager = localNotificationManager
         self.soundPlayer = soundPlayer
         self.notificationFlagStore = notificationFlagStore
+        self.alarmScheduler = alarmScheduler
 
         let startingType = timerModel.getStartingTimerType()
         self.timerType = startingType
@@ -100,6 +106,10 @@ final class TimerUseCase {
     func startTimer() {
         Self.logger.notice("▶️ Starting timer.")
         timerState = .running
+        alarmScheduler?.cancelAlarm()
+        if isAlarmEnabled {
+            alarmScheduler?.scheduleAlarm(remainingTime: TimeInterval(counter))
+        }
         timer?.invalidate()
         timer = timerFactory.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] scheduledTimer in
             guard let self else { return }
@@ -125,6 +135,7 @@ final class TimerUseCase {
         Self.logger.notice("⏸ Pausing timer.")
         timerState = .paused
         timer?.invalidate()
+        alarmScheduler?.cancelAlarm()
         onStateChange?()
     }
 
@@ -132,6 +143,7 @@ final class TimerUseCase {
     func resetUpdateTimer() {
         Self.logger.notice("🔄 Resetting timer.")
         timer?.invalidate()
+        alarmScheduler?.cancelAlarm()
         timerState = .initial
         timerTo = 1.0
         numberOfCompletedCycles = 0
@@ -199,6 +211,7 @@ final class TimerUseCase {
 
     private func changeTimerMode() {
         Self.logger.notice("🆕 Changing timer mode.")
+        alarmScheduler?.cancelAlarm()
 
         if notificationFlagStore.bool(forKey: UserDefaultKeys.isNotification) {
             notificationFlagStore.set(false, forKey: UserDefaultKeys.isNotification)

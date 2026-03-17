@@ -38,6 +38,23 @@
         }
       }
     },
+    "accLabelSettingsEnableAlarmToggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle to enable or disable the alarm when the timer finishes"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botão para ativar ou desativar o alarme quando o temporizador terminar"
+          }
+        }
+      }
+    },
     "accLabelSettingsAppearanceModePicker" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -480,6 +497,40 @@
         }
       }
     },
+    "alarmStopButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar"
+          }
+        }
+      }
+    },
+    "alarmTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador concluído!"
+          }
+        }
+      }
+    },
     "notificationBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -715,6 +766,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Iniciar timer automaticamente"
+          }
+        }
+      }
+    },
+    "settingsEnableAlarm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable alarm (bypasses silent mode)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar alarme (ignora modo silencioso)"
           }
         }
       }

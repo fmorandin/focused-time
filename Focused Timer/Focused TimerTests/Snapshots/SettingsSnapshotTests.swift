@@ -67,6 +67,7 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
         viewModel.isAutoStartEnabled = true
         viewModel.isPlaySoundEnabled = true
         viewModel.keepScreenOn = true
+        viewModel.isAlarmEnabled = true
         viewModel.isNotificationsEnabled = true
         viewModel.isNotificationsDeniedBySystem = false
         let view = Form { AppSettingsView(viewModel: viewModel) }

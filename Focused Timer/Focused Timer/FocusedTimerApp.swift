@@ -5,6 +5,7 @@
 //  Created by Felipe Morandin on 28/09/20.
 //
 
+import AlarmKit
 import SwiftUI
 import os
 
@@ -59,11 +60,15 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
                      didFinishLaunchingWithOptions launchOptions:
                      [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
 
-        UserDefaults.standard.register(defaults: [UserDefaultKeys.enableNotifications: true])
+        UserDefaults.standard.register(defaults: [
+            UserDefaultKeys.enableNotifications: true,
+            UserDefaultKeys.enableAlarm: true
+        ])
 
         setStateForUITesting()
 
         requestLocalNotificationPermission()
+        requestAlarmKitPermission()
 
         UNUserNotificationCenter.current().delegate = self
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
@@ -99,6 +104,18 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
             }
     }
 
+    func requestAlarmKitPermission() {
+
+        Task {
+            do {
+                let state = try await AlarmManager.shared.requestAuthorization()
+                Self.logger.notice("🔔 AlarmKit authorization state: \(String(describing: state)).")
+            } catch {
+                Self.logger.error("🚨 AlarmKit authorization request failed: \(error.localizedDescription)")
+            }
+        }
+    }
+
     // MARK: - Private Methods
 
     private func setStateForUITesting() {
@@ -122,6 +139,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
             UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
             UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
+            UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
 
             UIView.setAnimationsEnabled(false)
         }

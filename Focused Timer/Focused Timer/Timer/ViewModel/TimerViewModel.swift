@@ -150,6 +150,7 @@ final class TimerViewModel {
         localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
         notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
+        alarmScheduler: AlarmScheduling = AlarmKitScheduler(),
         isReviewEnabled: Bool = !ProcessInfo.processInfo.arguments.contains("UI-Testing")
     ) {
         Self.logger.notice("🛠 Initializing Timer View Model.")
@@ -166,7 +167,8 @@ final class TimerViewModel {
             nowProvider: nowProvider,
             localNotificationManager: localNotificationManager,
             soundPlayer: soundPlayer,
-            notificationFlagStore: notificationFlagStore
+            notificationFlagStore: notificationFlagStore,
+            alarmScheduler: alarmScheduler
         )
 
         totalTime = useCase.totalTime

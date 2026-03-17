@@ -58,6 +58,7 @@ final class SettingsViewModel {
     var keepScreenOn: Bool = false
     var isNotificationsEnabled: Bool = true
     var isNotificationsDeniedBySystem: Bool = false
+    var isAlarmEnabled: Bool = true
     var startingTimerType: TimerType = .focused
     var appearanceMode: AppearanceMode = .system
 
@@ -116,6 +117,7 @@ final class SettingsViewModel {
         isPlaySoundEnabled = settingsModel.getToggle(for: UserDefaultKeys.playTimerSounds)
         keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
         isNotificationsEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableNotifications)
+        isAlarmEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableAlarm)
         startingTimerType = settingsModel.getStartingTimerType()
         appearanceMode = settingsModel.getAppearanceMode()
     }
@@ -192,6 +194,7 @@ final class SettingsViewModel {
         saveToggles(for: UserDefaultKeys.playTimerSounds, value: false)
         saveToggles(for: UserDefaultKeys.keepScreenOn, value: false)
         saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
+        saveToggles(for: UserDefaultKeys.enableAlarm, value: true)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
         saveStartingTimerType(.focused)
         saveAppearanceMode(.system)

@@ -76,6 +76,21 @@ private final class SoundPlayerSpy: SystemSoundPlaying {
     }
 }
 
+private final class AlarmSchedulerSpy: AlarmScheduling {
+    private(set) var scheduleCallCount = 0
+    private(set) var scheduledRemainingTimes: [TimeInterval] = []
+    private(set) var cancelCallCount = 0
+
+    func scheduleAlarm(remainingTime: TimeInterval) {
+        scheduleCallCount += 1
+        scheduledRemainingTimes.append(remainingTime)
+    }
+
+    func cancelAlarm() {
+        cancelCallCount += 1
+    }
+}
+
 private final class NotificationFlagStoreSpy: NotificationFlagStoring {
     var value = false
     private(set) var setCalls: [(Bool, String)] = []
@@ -122,7 +137,8 @@ private func makeSUT(
     nowProvider: @escaping () -> Date = Date.init,
     notificationManager: LocalNotificationManaging = NotificationManagerSpy(),
     soundPlayer: SystemSoundPlaying = SoundPlayerSpy(),
-    notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreSpy()
+    notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreSpy(),
+    alarmScheduler: AlarmScheduling? = nil
 ) -> (useCase: TimerUseCase, timerFactory: TestRepeatingTimerFactory) {
     let timerFactory = TestRepeatingTimerFactory()
     let useCase = TimerUseCase(
@@ -131,7 +147,8 @@ private func makeSUT(
         nowProvider: nowProvider,
         localNotificationManager: notificationManager,
         soundPlayer: soundPlayer,
-        notificationFlagStore: notificationFlagStore
+        notificationFlagStore: notificationFlagStore,
+        alarmScheduler: alarmScheduler
     )
     return (useCase, timerFactory)
 }
@@ -894,5 +911,111 @@ struct TimerUseCaseTests {
         useCase.startTimer(); timerFactory.advance(by: 3)  // short break → focused
 
         #expect(callCount == 0)
+    }
+
+    // MARK: - Alarm Scheduling
+
+    @Test("startTimer schedules alarm when alarm is enabled")
+    func startTimerSchedulesAlarmWhenEnabled() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, _) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+
+        #expect(alarmSpy.scheduleCallCount == 1)
+        #expect(alarmSpy.scheduledRemainingTimes.first == TimeInterval(useCase.totalTime))
+    }
+
+    @Test("startTimer does not schedule alarm when alarm is disabled")
+    func startTimerDoesNotScheduleAlarmWhenDisabled() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = false
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, _) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+
+        #expect(alarmSpy.scheduleCallCount == 0)
+    }
+
+    @Test("startTimer always cancels before scheduling to avoid duplicate alarms")
+    func startTimerCancelsPreviousAlarmBeforeScheduling() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, _) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+
+        // cancelAlarm is called once before scheduling
+        #expect(alarmSpy.cancelCallCount == 1)
+        #expect(alarmSpy.scheduleCallCount == 1)
+    }
+
+    @Test("pauseTimer cancels the alarm")
+    func pauseTimerCancelsAlarm() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+        timerFactory.advance()
+        let cancelCallsBeforePause = alarmSpy.cancelCallCount
+
+        useCase.pauseTimer()
+
+        #expect(alarmSpy.cancelCallCount == cancelCallsBeforePause + 1)
+    }
+
+    @Test("resetUpdateTimer cancels the alarm")
+    func resetTimerCancelsAlarm() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+        timerFactory.advance()
+        let cancelCallsBeforeReset = alarmSpy.cancelCallCount
+
+        useCase.resetUpdateTimer()
+
+        #expect(alarmSpy.cancelCallCount == cancelCallsBeforeReset + 1)
+    }
+
+    @Test("changeTimerMode cancels alarm when timer expires")
+    func timerExpiryStopsAlarm() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        // 5 ticks + 1 mode-change tick = 6 total
+        useCase.startTimer()
+        timerFactory.advance(by: 6)
+
+        // Phase changed → alarm cancelled (once during mode change, once at next startTimer cancel)
+        #expect(alarmSpy.cancelCallCount >= 2)
+        #expect(useCase.timerType == .shortBreak)
+    }
+
+    @Test("alarm scheduled with correct remaining time after partial progress")
+    func alarmScheduledWithCorrectRemainingTime() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+        timerFactory.advance(by: 3) // counter goes from 5 → 2
+        useCase.pauseTimer()
+
+        // Resume — alarm should be rescheduled for the remaining 2 seconds
+        useCase.startTimer()
+
+        #expect(alarmSpy.scheduledRemainingTimes.last == TimeInterval(useCase.counter))
     }
 }
