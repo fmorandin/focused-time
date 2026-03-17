@@ -26,6 +26,8 @@ struct SettingsViewModelToggleInteractionTests {
         func saveAppearanceMode(_: AppearanceMode) {}
     }
 
+    // MARK: - Alarm / Notifications mutual exclusivity
+
     @Test("saveAlarmEnabled(true) disables notifications")
     func saveAlarmEnabledTrueDisablesNotifications() {
         let settingsModel = SettingsModelSpy()
@@ -54,30 +56,66 @@ struct SettingsViewModelToggleInteractionTests {
         #expect(savedNotification == nil)
     }
 
-    @Test("saveAutoStartEnabled(true) disables alarm")
-    func saveAutoStartEnabledTrueDisablesAlarm() {
+    @Test("saveNotificationsEnabled(true) disables alarm")
+    func saveNotificationsEnabledTrueDisablesAlarm() {
         let settingsModel = SettingsModelSpy()
         let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
         settingsViewModel.isAlarmEnabled = true
 
-        settingsViewModel.saveAutoStartEnabled(true)
+        settingsViewModel.saveNotificationsEnabled(true)
 
-        #expect(settingsViewModel.isAutoStartEnabled == true)
+        #expect(settingsViewModel.isNotificationsEnabled == true)
         #expect(settingsViewModel.isAlarmEnabled == false)
         let savedAlarm = settingsModel.savedToggles.last { $0.1 == UserDefaultKeys.enableAlarm }
         #expect(savedAlarm?.0 == false)
     }
 
-    @Test("saveAutoStartEnabled(false) leaves alarm unchanged")
-    func saveAutoStartEnabledFalseDoesNotTouchAlarm() {
+    @Test("saveNotificationsEnabled(false) leaves alarm unchanged")
+    func saveNotificationsEnabledFalseDoesNotTouchAlarm() {
         let settingsModel = SettingsModelSpy()
         let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
         settingsViewModel.isAlarmEnabled = true
+
+        settingsViewModel.saveNotificationsEnabled(false)
+
+        #expect(settingsViewModel.isNotificationsEnabled == false)
+        #expect(settingsViewModel.isAlarmEnabled == true)
+        let savedAlarm = settingsModel.savedToggles.first { $0.1 == UserDefaultKeys.enableAlarm }
+        #expect(savedAlarm == nil)
+    }
+
+    // MARK: - Auto-start interaction
+
+    @Test("saveAutoStartEnabled(true) disables alarm and restores notifications")
+    func saveAutoStartEnabledTrueDisablesAlarmAndRestoresNotifications() {
+        let settingsModel = SettingsModelSpy()
+        let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
+        settingsViewModel.isAlarmEnabled = true
+        settingsViewModel.isNotificationsEnabled = false
+
+        settingsViewModel.saveAutoStartEnabled(true)
+
+        #expect(settingsViewModel.isAutoStartEnabled == true)
+        #expect(settingsViewModel.isAlarmEnabled == false)
+        #expect(settingsViewModel.isNotificationsEnabled == true)
+        let savedAlarm = settingsModel.savedToggles.last { $0.1 == UserDefaultKeys.enableAlarm }
+        #expect(savedAlarm?.0 == false)
+        let savedNotification = settingsModel.savedToggles.last { $0.1 == UserDefaultKeys.enableNotifications }
+        #expect(savedNotification?.0 == true)
+    }
+
+    @Test("saveAutoStartEnabled(false) leaves alarm and notifications unchanged")
+    func saveAutoStartEnabledFalseDoesNotTouchAlarmOrNotifications() {
+        let settingsModel = SettingsModelSpy()
+        let settingsViewModel = SettingsViewModel(settingsModel: settingsModel)
+        settingsViewModel.isAlarmEnabled = true
+        settingsViewModel.isNotificationsEnabled = false
 
         settingsViewModel.saveAutoStartEnabled(false)
 
         #expect(settingsViewModel.isAutoStartEnabled == false)
         #expect(settingsViewModel.isAlarmEnabled == true)
+        #expect(settingsViewModel.isNotificationsEnabled == false)
         let savedAlarm = settingsModel.savedToggles.first { $0.1 == UserDefaultKeys.enableAlarm }
         #expect(savedAlarm == nil)
     }

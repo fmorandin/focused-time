@@ -62,7 +62,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
 
         UserDefaults.standard.register(defaults: [
             UserDefaultKeys.enableNotifications: true,
-            UserDefaultKeys.enableAlarm: true
+            UserDefaultKeys.enableAlarm: false
         ])
 
         setStateForUITesting()
