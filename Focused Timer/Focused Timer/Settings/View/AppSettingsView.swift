@@ -60,10 +60,7 @@ struct AppSettingsView: View {
             // Auto Start
             Toggle("settingsAutoStart", isOn: $settingsViewModel.isAutoStartEnabled)
                 .onChange(of: settingsViewModel.isAutoStartEnabled) { _, newValue in
-                    settingsViewModel.saveToggles(
-                        for: UserDefaultKeys.autoStartToggle,
-                        value: newValue
-                    )
+                    settingsViewModel.saveAutoStartEnabled(newValue)
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
                 .accessibilityLabel(Text("accLabelSettingsAutoStartToggle"))
@@ -103,13 +100,11 @@ struct AppSettingsView: View {
             // Enable alarm
             Toggle("settingsEnableAlarm", isOn: $settingsViewModel.isAlarmEnabled)
                 .onChange(of: settingsViewModel.isAlarmEnabled) { _, newValue in
-                    settingsViewModel.saveToggles(
-                        for: UserDefaultKeys.enableAlarm,
-                        value: newValue
-                    )
+                    settingsViewModel.saveAlarmEnabled(newValue)
                 }
                 .accessibilityIdentifier(Accessibility.Identifiers.tgEnableAlarm)
                 .accessibilityLabel(Text("accLabelSettingsEnableAlarmToggle"))
+                .disabled(settingsViewModel.isAutoStartEnabled)
                 .padding(.vertical, 10)
 
             // Enable notifications

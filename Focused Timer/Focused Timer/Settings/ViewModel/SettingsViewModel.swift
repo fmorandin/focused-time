@@ -167,6 +167,28 @@ final class SettingsViewModel {
         settingsModel.saveToggle(value: value, for: keyName)
     }
 
+    /// Saves the alarm-enabled toggle. Enabling the alarm disables notifications since the alarm replaces them.
+    func saveAlarmEnabled(_ value: Bool) {
+
+        isAlarmEnabled = value
+        saveToggles(for: UserDefaultKeys.enableAlarm, value: value)
+        if value {
+            isNotificationsEnabled = false
+            saveToggles(for: UserDefaultKeys.enableNotifications, value: false)
+        }
+    }
+
+    /// Saves the auto-start toggle. Enabling auto-start disables the alarm to prevent infinite alarms.
+    func saveAutoStartEnabled(_ value: Bool) {
+
+        isAutoStartEnabled = value
+        saveToggles(for: UserDefaultKeys.autoStartToggle, value: value)
+        if value {
+            isAlarmEnabled = false
+            saveToggles(for: UserDefaultKeys.enableAlarm, value: false)
+        }
+    }
+
     /// Returns the saved value for a toggle key
     func getSavedToggles(for keyName: String) -> Bool {
 
