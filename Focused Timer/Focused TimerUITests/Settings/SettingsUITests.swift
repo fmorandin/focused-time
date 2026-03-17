@@ -403,9 +403,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         scrollToStartingTimerPickerIfNeeded()
         XCTAssertTrue(waitForExistence(startingTimerPickerElement(), timeout: 5.0))
 
-        let shortBreakSegment = pickerSegment(labeled: "Short Break")
-        XCTAssertTrue(waitForExistence(shortBreakSegment, timeout: 5.0), "Short Break segment should be visible")
-        shortBreakSegment.tap()
+        selectStartingTimerType(labeled: "Short Break")
 
         // WHEN I close settings (timer resets to the new starting type)
         dismissSettingsButton.tap()
@@ -437,9 +435,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         scrollToStartingTimerPickerIfNeeded()
         XCTAssertTrue(waitForExistence(startingTimerPickerElement(), timeout: 5.0))
 
-        let longBreakSegment = pickerSegment(labeled: "Long Break")
-        XCTAssertTrue(waitForExistence(longBreakSegment, timeout: 5.0), "Long Break segment should be visible")
-        longBreakSegment.tap()
+        selectStartingTimerType(labeled: "Long Break")
 
         // AND close settings (timer resets to Long Break, wait for async propagation)
         dismissSettingsButton.tap()
