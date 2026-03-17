@@ -67,8 +67,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
 
         setStateForUITesting()
 
-        requestLocalNotificationPermission()
-        requestAlarmKitPermission()
+        if !AppDelegate.isUITestingEnabled {
+            requestLocalNotificationPermission()
+            requestAlarmKitPermission()
+        }
 
         UNUserNotificationCenter.current().delegate = self
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.isNotification)
