@@ -368,10 +368,12 @@ struct SettingsViewModelTests {
             settingsModel: SettingsModelMock(),
             notificationCenter: center
         )
+        settingsViewModel.isNotificationsEnabled = true
 
         await settingsViewModel.checkNotificationAuthorizationStatus()
 
         #expect(settingsViewModel.isNotificationsDeniedBySystem == true)
+        #expect(settingsViewModel.isNotificationsEnabled == false)
     }
 
     @Test("checkNotificationAuthorizationStatus clears denied flag when status is authorized")

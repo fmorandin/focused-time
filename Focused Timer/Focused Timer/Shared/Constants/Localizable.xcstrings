@@ -759,13 +759,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Alarm permission is disabled in iOS Settings. Enable it to sound an alarm when your timer ends."
+            "value" : "Alarm permission is disabled in Settings. Enable it to sound an alarm when your timer ends."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A permissão de alarme está desativada nas configurações do iOS. Ative-a para soar um alarme quando o timer terminar."
+            "value" : "A permissão de alarme está desativada nas Configurações. Ative-a para soar um alarme quando o timer terminar."
           }
         }
       }
@@ -929,13 +929,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notifications are disabled in iOS Settings. Enable them to receive alerts when your timer ends."
+            "value" : "Notifications are disabled in Settings. Enable them to receive alerts when your timer ends."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "As notificações estão desativadas nas configurações do iOS. Ative-as para receber alertas quando o timer terminar."
+            "value" : "As notificações estão desativadas nas Configurações. Ative-as para receber alertas quando o timer terminar."
           }
         }
       }
