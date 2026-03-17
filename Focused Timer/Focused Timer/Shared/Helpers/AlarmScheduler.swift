@@ -11,11 +11,23 @@ import Foundation
 import os
 import SwiftUI
 
-// MARK: - Protocol
+// MARK: - Protocols
 
 protocol AlarmScheduling {
     func scheduleAlarm(remainingTime: TimeInterval)
     func cancelAlarm()
+}
+
+protocol AlarmAuthorizationChecking {
+    var isDeniedBySystem: Bool { get }
+}
+
+// MARK: - Authorization Checker
+
+struct AlarmKitAuthorizationChecker: AlarmAuthorizationChecking {
+    var isDeniedBySystem: Bool {
+        AlarmManager.shared.authorizationState == .denied
+    }
 }
 
 // MARK: - Metadata
