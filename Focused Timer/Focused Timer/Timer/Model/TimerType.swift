@@ -25,6 +25,17 @@ enum TimerType: String {
         }
     }
 
+    var alarmTitle: LocalizedStringResource {
+        switch self {
+        case .focused:
+            return LocalizedStringResource("alarmTitleFocus", table: "Localizable")
+        case .shortBreak:
+            return LocalizedStringResource("alarmTitleShortBreak", table: "Localizable")
+        case .longBreak:
+            return LocalizedStringResource("alarmTitleLongBreak", table: "Localizable")
+        }
+    }
+
     var userDefaultKey: String {
         switch self {
         case .focused:

@@ -58,13 +58,15 @@ private final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
 private final class NotificationManagerSpy: LocalNotificationManaging {
     private(set) var clearCalls = 0
     private(set) var scheduledRemainingTimes: [Double] = []
+    private(set) var scheduledTimerTypes: [TimerType] = []
 
     func clearScheduledNotifications() {
         clearCalls += 1
     }
 
-    func scheduleLocalNotification(remainingTime: Double) {
+    func scheduleLocalNotification(remainingTime: Double, timerType: TimerType) {
         scheduledRemainingTimes.append(remainingTime)
+        scheduledTimerTypes.append(timerType)
     }
 }
 
@@ -79,11 +81,13 @@ private final class SoundPlayerSpy: SystemSoundPlaying {
 private final class AlarmSchedulerSpy: AlarmScheduling {
     private(set) var scheduleCallCount = 0
     private(set) var scheduledRemainingTimes: [TimeInterval] = []
+    private(set) var scheduledTimerTypes: [TimerType] = []
     private(set) var cancelCallCount = 0
 
-    func scheduleAlarm(remainingTime: TimeInterval) {
+    func scheduleAlarm(remainingTime: TimeInterval, timerType: TimerType) {
         scheduleCallCount += 1
         scheduledRemainingTimes.append(remainingTime)
+        scheduledTimerTypes.append(timerType)
     }
 
     func cancelAlarm() {
@@ -1017,5 +1021,71 @@ struct TimerUseCaseTests {
         useCase.startTimer()
 
         #expect(alarmSpy.scheduledRemainingTimes.last == TimeInterval(useCase.counter))
+    }
+
+    @Test("alarm scheduled with correct timer type for focused phase")
+    func alarmScheduledWithFocusedTimerType() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, _) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        useCase.startTimer()
+
+        #expect(alarmSpy.scheduledTimerTypes.first == .focused)
+    }
+
+    @Test("alarm scheduled with correct timer type for short break phase")
+    func alarmScheduledWithShortBreakTimerType() {
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(timerModel: model, alarmScheduler: alarmSpy)
+
+        // Advance to short break
+        useCase.startTimer()
+        timerFactory.advance(by: 6) // focused → short break
+
+        useCase.startTimer()
+
+        #expect(alarmSpy.scheduledTimerTypes.last == .shortBreak)
+    }
+
+    // MARK: - Notification Timer Type
+
+    @Test("moveAppToBackground passes current timer type to notification manager")
+    func backgroundPassesTimerTypeToNotification() {
+        let model = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            notificationManager: notificationManager
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToBackground()
+
+        #expect(notificationManager.scheduledTimerTypes == [.focused])
+    }
+
+    @Test("moveAppToBackground in short break passes shortBreak type to notification manager")
+    func backgroundInShortBreakPassesTimerTypeToNotification() {
+        let model = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            notificationManager: notificationManager
+        )
+
+        // Advance to short break
+        useCase.startTimer()
+        timerFactory.advance(by: 6) // focused → short break
+
+        useCase.startTimer()
+        timerFactory.advance() // counter 2 → 1, state = .running
+        useCase.moveAppToBackground()
+
+        #expect(notificationManager.scheduledTimerTypes.last == .shortBreak)
     }
 }

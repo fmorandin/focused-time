@@ -49,7 +49,7 @@ extension UNUserNotificationCenter: UserNotificationCenterProtocol {
 
 protocol LocalNotificationManaging {
     func clearScheduledNotifications()
-    func scheduleLocalNotification(remainingTime: Double)
+    func scheduleLocalNotification(remainingTime: Double, timerType: TimerType)
 }
 
 struct LocalNotificationManager {
@@ -90,13 +90,16 @@ struct LocalNotificationManager {
 
     /// Function that will receive the request to schedule a notification and
     /// checks if the permission is given
-    /// - Parameter remainingTime: the time that is remaining for the timer to finishes
-    func scheduleLocalNotification(remainingTime: Double) {
+    /// - Parameters:
+    ///   - remainingTime: the time that is remaining for the timer to finish
+    ///   - timerType: the type of timer that is currently running
+    func scheduleLocalNotification(remainingTime: Double, timerType: TimerType) {
 
         Self.logger.notice("🕵🏻 Checking the status of the permission to send local notifications.")
 
         let requestPermission = self.requestPermission
         let notificationCenter = self.notificationCenter
+        let timerTypeName = String(localized: timerType.getCorrectTranslation())
         notificationCenter.getAuthorizationStatus { authorizationStatus in
             switch authorizationStatus {
             case .notDetermined:
@@ -104,7 +107,11 @@ struct LocalNotificationManager {
                 requestPermission()
             case .authorized, .provisional:
                 Self.logger.notice("👌🏻 Permission for local notification either authorized or provisional.")
-                Self.schedule(remainingTime: remainingTime, notificationCenter: notificationCenter)
+                Self.schedule(
+                    remainingTime: remainingTime,
+                    timerTypeName: timerTypeName,
+                    notificationCenter: notificationCenter
+                )
             default:
                 Self.logger.error("✋🏻 Default option for local notification permissions.")
             }
@@ -116,11 +123,16 @@ struct LocalNotificationManager {
     /// Function that will schedule a notification based on the remaining time for the given timer to finish
     /// - Parameters:
     ///   - remainingTime: The remaining time for the timer to finish
-    private static func schedule(remainingTime: Double, notificationCenter: UserNotificationCenterProtocol) {
+    ///   - timerTypeName: The localized name of the timer type that is running
+    private static func schedule(
+        remainingTime: Double,
+        timerTypeName: String,
+        notificationCenter: UserNotificationCenterProtocol
+    ) {
         let notificationTitle = NSString.localizedUserNotificationString(
-            forKey: "notificationTitle", arguments: nil)
+            forKey: "notificationTitleWithType", arguments: [timerTypeName])
         let notificationBody = NSString.localizedUserNotificationString(
-            forKey: "notificationBody", arguments: nil)
+            forKey: "notificationBodyWithType", arguments: [timerTypeName])
 
         let content = UNMutableNotificationContent()
         content.title = notificationTitle

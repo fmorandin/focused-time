@@ -64,7 +64,7 @@ struct LocalNotificationManagerTests {
             requestPermission: { requestPermissionCalls.value += 1 }
         )
 
-        manager.scheduleLocalNotification(remainingTime: 12)
+        manager.scheduleLocalNotification(remainingTime: 12, timerType: .focused)
 
         #expect(requestPermissionCalls.value == 1)
         #expect(center.addedRequests.isEmpty)
@@ -76,7 +76,7 @@ struct LocalNotificationManagerTests {
         center.authorizationStatus = .authorized
         let manager = LocalNotificationManager(notificationCenter: center)
 
-        manager.scheduleLocalNotification(remainingTime: 9)
+        manager.scheduleLocalNotification(remainingTime: 9, timerType: .focused)
 
         #expect(center.addedRequests.count == 1)
         let request = try #require(center.addedRequests.first)
@@ -95,7 +95,7 @@ struct LocalNotificationManagerTests {
             requestPermission: { requestPermissionCalls.value += 1 }
         )
 
-        manager.scheduleLocalNotification(remainingTime: 15)
+        manager.scheduleLocalNotification(remainingTime: 15, timerType: .focused)
 
         #expect(requestPermissionCalls.value == 0)
         #expect(center.addedRequests.isEmpty)
