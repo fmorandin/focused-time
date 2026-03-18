@@ -115,6 +115,7 @@ struct AppSettingsView: View {
                         Label("settingsAlarmDeniedMessage", systemImage: "bell.slash.fill")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                             .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmDeniedMessage)
 
                         Button("settingsAlarmOpenSettings") {
@@ -133,8 +134,9 @@ struct AppSettingsView: View {
                         .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmAutoStartConflictMessage)
                 }
             }
-            .padding(.top, 10)
+            .padding(.top, 4)
             .padding(.bottom, 6)
+            .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
 
             // Enable notifications
             VStack(alignment: .leading, spacing: 10) {
