@@ -96,64 +96,81 @@ struct AppSettingsView: View {
                         dismissButton: .default(Text("OK")))
                 })
                 .padding(.vertical, 10)
+        }
+        .font(.system(.body, design: .rounded))
 
+        Section {
             // Enable alarm
-            Toggle("settingsEnableAlarm", isOn: $settingsViewModel.isAlarmEnabled)
-                .onChange(of: settingsViewModel.isAlarmEnabled) { _, newValue in
-                    settingsViewModel.saveAlarmEnabled(newValue)
-                }
-                .accessibilityIdentifier(Accessibility.Identifiers.tgEnableAlarm)
-                .accessibilityLabel(Text("accLabelSettingsEnableAlarmToggle"))
-                .disabled(settingsViewModel.isAlarmDeniedBySystem || settingsViewModel.isAutoStartEnabled)
-                .padding(.vertical, 10)
+            VStack(alignment: .leading, spacing: 10) {
+                Toggle("settingsEnableAlarm", isOn: $settingsViewModel.isAlarmEnabled)
+                    .onChange(of: settingsViewModel.isAlarmEnabled) { _, newValue in
+                        settingsViewModel.saveAlarmEnabled(newValue)
+                    }
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgEnableAlarm)
+                    .accessibilityLabel(Text("accLabelSettingsEnableAlarmToggle"))
+                    .disabled(settingsViewModel.isAlarmDeniedBySystem || settingsViewModel.isAutoStartEnabled)
 
-            if settingsViewModel.isAlarmDeniedBySystem {
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("settingsAlarmDeniedMessage", systemImage: "bell.slash.fill")
+                if settingsViewModel.isAlarmDeniedBySystem {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("settingsAlarmDeniedMessage", systemImage: "bell.slash.fill")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmDeniedMessage)
+
+                        Button("settingsAlarmOpenSettings") {
+                            Task {
+                                await settingsViewModel.openAlarmSettings()
+                            }
+                        }
+                        .font(.caption)
+                        .buttonStyle(.borderless)
+                        .accessibilityIdentifier(Accessibility.Identifiers.btnOpenAlarmSettings)
+                    }
+                } else if settingsViewModel.isAutoStartEnabled {
+                    Label("settingsAlarmAutoStartMessage", systemImage: "exclamationmark.circle")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                        .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmDeniedMessage)
-
-                    Button("settingsAlarmOpenSettings") {
-                        Task {
-                            await settingsViewModel.openAlarmSettings()
-                        }
-                    }
-                    .font(.caption)
-                    .buttonStyle(.borderless)
-                    .accessibilityIdentifier(Accessibility.Identifiers.btnOpenAlarmSettings)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmAutoStartConflictMessage)
                 }
-                .padding(.vertical, 4)
             }
+            .padding(.top, 10)
+            .padding(.bottom, 6)
 
             // Enable notifications
-            Toggle("settingsEnableNotifications", isOn: $settingsViewModel.isNotificationsEnabled)
-                .onChange(of: settingsViewModel.isNotificationsEnabled) { _, newValue in
-                    settingsViewModel.saveNotificationsEnabled(newValue)
-                }
-                .accessibilityIdentifier(Accessibility.Identifiers.tgEnableNotifications)
-                .accessibilityLabel(Text("accLabelSettingsEnableNotificationsToggle"))
-                .disabled(settingsViewModel.isNotificationsDeniedBySystem)
-                .padding(.vertical, 10)
-
-            if settingsViewModel.isNotificationsDeniedBySystem {
-                VStack(alignment: .leading, spacing: 8) {
-                    Label("settingsNotificationsDeniedMessage", systemImage: "bell.slash.fill")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .accessibilityIdentifier(Accessibility.Identifiers.lblNotificationsDeniedMessage)
-
-                    Button("settingsNotificationsOpenSettings") {
-                        Task {
-                            await settingsViewModel.openNotificationSettings()
-                        }
+            VStack(alignment: .leading, spacing: 10) {
+                Toggle("settingsEnableNotifications", isOn: $settingsViewModel.isNotificationsEnabled)
+                    .onChange(of: settingsViewModel.isNotificationsEnabled) { _, newValue in
+                        settingsViewModel.saveNotificationsEnabled(newValue)
                     }
-                    .font(.caption)
-                    .buttonStyle(.borderless)
-                    .accessibilityIdentifier(Accessibility.Identifiers.btnOpenNotificationsSettings)
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgEnableNotifications)
+                    .accessibilityLabel(Text("accLabelSettingsEnableNotificationsToggle"))
+                    .disabled(settingsViewModel.isNotificationsDeniedBySystem)
+
+                if settingsViewModel.isNotificationsDeniedBySystem {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("settingsNotificationsDeniedMessage", systemImage: "bell.slash.fill")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblNotificationsDeniedMessage)
+
+                        Button("settingsNotificationsOpenSettings") {
+                            Task {
+                                await settingsViewModel.openNotificationSettings()
+                            }
+                        }
+                        .font(.caption)
+                        .buttonStyle(.borderless)
+                        .accessibilityIdentifier(Accessibility.Identifiers.btnOpenNotificationsSettings)
+                    }
                 }
-                .padding(.vertical, 4)
             }
+            .padding(.top, 10)
+            .padding(.bottom, 6)
+        } header: {
+            Text("settingsEndOfSessionAlertSectionHeader")
+        } footer: {
+            Text("settingsEndOfSessionAlertSectionFooter")
+                .font(.system(.footnote, design: .rounded))
         }
         .font(.system(.body, design: .rounded))
         .task {

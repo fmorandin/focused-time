@@ -259,6 +259,16 @@ extension SettingsUITests {
         return waitForExistence(anchor, timeout: timeout)
     }
 
+    func scrollToAlarmToggleIfNeeded(maxSwipes: Int = 3) {
+        let toggle = application.switches[Accessibility.Identifiers.tgEnableAlarm]
+        guard !(toggle.exists && toggle.isHittable) else { return }
+
+        for _ in 0..<maxSwipes {
+            application.swipeUp()
+            if toggle.exists && toggle.isHittable { return }
+        }
+    }
+
     func scrollToNotificationsToggleIfNeeded(maxSwipes: Int = 3) {
         let toggle = application.switches[Accessibility.Identifiers.tgEnableNotifications]
         guard !(toggle.exists && toggle.isHittable) else { return }

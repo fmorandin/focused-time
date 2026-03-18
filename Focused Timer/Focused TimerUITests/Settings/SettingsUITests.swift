@@ -458,6 +458,41 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         )
     }
 
+    func test_AlarmAutoStartConflictCaption_VisibleWhenAutoStartIsOn() {
+        // GIVEN I open the settings modal
+        showSettingsButton.tap()
+        XCTAssertTrue(waitForSettingsModalToOpen(), "Settings modal should open")
+
+        // AND the conflict caption is not visible by default (Auto Start is off)
+        scrollToAlarmToggleIfNeeded()
+        let conflictCaption = application.staticTexts[
+            Accessibility.Identifiers.lblAlarmAutoStartConflictMessage
+        ]
+        XCTAssertFalse(conflictCaption.exists, "Conflict caption should not appear when Auto Start is off")
+
+        // WHEN I enable Auto Start
+        scrollToSettingsTopIfNeeded()
+        let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
+        XCTAssertTrue(waitForExistence(autoStartToggle, timeout: 5.0))
+        tapToggle(autoStartToggle)
+
+        // THEN the conflict caption should appear below the alarm toggle
+        scrollToAlarmToggleIfNeeded()
+        XCTAssertTrue(
+            waitForExistence(conflictCaption, timeout: 3.0),
+            "Conflict caption should appear when Auto Start is on"
+        )
+
+        // WHEN I disable Auto Start
+        scrollToSettingsTopIfNeeded()
+        let autoStartToggleOff = application.switches[Accessibility.Identifiers.tgAutoStart]
+        tapToggle(autoStartToggleOff)
+
+        // THEN the conflict caption should disappear
+        scrollToAlarmToggleIfNeeded()
+        XCTAssertFalse(conflictCaption.exists, "Conflict caption should disappear when Auto Start is off")
+    }
+
     func test_EnableNotificationsToggle_IsOnByDefault() {
         // GIVEN I open the settings modal
         showSettingsButton.tap()
