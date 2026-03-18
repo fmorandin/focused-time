@@ -753,6 +753,23 @@
         }
       }
     },
+    "settingsAlarmAutoStartMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disable Auto Start to use Alarm."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desative o início automático para usar o alarme."
+          }
+        }
+      }
+    },
     "settingsAlarmDeniedMessage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -834,6 +851,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ativar notificações"
+          }
+        }
+      }
+    },
+    "settingsEndOfSessionAlertSectionFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only one alert method can be active at a time."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apenas um método de alerta pode estar ativo por vez."
+          }
+        }
+      }
+    },
+    "settingsEndOfSessionAlertSectionHeader" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End of Session Alert"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alerta de Fim de Sessão"
           }
         }
       }

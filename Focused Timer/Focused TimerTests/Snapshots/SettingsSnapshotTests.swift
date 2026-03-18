@@ -89,6 +89,16 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
         assertSnapshot(of: controller, as: .image(on: .iPhoneX))
     }
 
+    func test_appSettingsView_alarmAutoStartConflict() {
+        let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+        viewModel.isAutoStartEnabled = true
+        viewModel.isAlarmDeniedBySystem = false
+        let view = Form { AppSettingsView(viewModel: viewModel) }
+        let controller = UIHostingController(rootView: view)
+        controller.overrideUserInterfaceStyle = .light
+        assertSnapshot(of: controller, as: .image(on: .iPhoneX))
+    }
+
     // MARK: - AppSettingsView: Starting Timer Type
 
     func test_appSettingsView_startingTimerType_focused() {
