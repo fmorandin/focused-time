@@ -108,7 +108,7 @@ final class TimerUseCase {
         timerState = .running
         alarmScheduler?.cancelAlarm()
         if isAlarmEnabled {
-            alarmScheduler?.scheduleAlarm(remainingTime: TimeInterval(counter))
+            alarmScheduler?.scheduleAlarm(remainingTime: TimeInterval(counter), timerType: timerType)
         }
         timer?.invalidate()
         timer = timerFactory.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] scheduledTimer in
@@ -163,7 +163,10 @@ final class TimerUseCase {
         if timerState == .running {
             timerModel.saveMoveToBackgroundTime(remainingTime: counter)
             if isNotificationsEnabled {
-                localNotificationManager.scheduleLocalNotification(remainingTime: Double(counter))
+                localNotificationManager.scheduleLocalNotification(
+                    remainingTime: Double(counter),
+                    timerType: timerType
+                )
             }
         }
     }

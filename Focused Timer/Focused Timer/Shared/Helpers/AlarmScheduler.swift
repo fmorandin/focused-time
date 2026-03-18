@@ -14,7 +14,7 @@ import SwiftUI
 // MARK: - Protocols
 
 protocol AlarmScheduling {
-    func scheduleAlarm(remainingTime: TimeInterval)
+    func scheduleAlarm(remainingTime: TimeInterval, timerType: TimerType)
     func cancelAlarm()
 }
 
@@ -47,7 +47,7 @@ final class AlarmKitScheduler: AlarmScheduling {
 
     // MARK: - Public Methods
 
-    func scheduleAlarm(remainingTime: TimeInterval) {
+    func scheduleAlarm(remainingTime: TimeInterval, timerType: TimerType) {
         guard AlarmManager.shared.authorizationState == .authorized else {
             Self.logger.notice("🔔 AlarmKit not authorized — skipping alarm scheduling.")
             return
@@ -57,11 +57,11 @@ final class AlarmKitScheduler: AlarmScheduling {
 
         let alarmID = UUID()
         let fireDate = Date.now.addingTimeInterval(remainingTime)
+        let alarmTitle = timerType.alarmTitle
 
-        Task { @MainActor [alarmID, fireDate] in
+        Task { @MainActor [alarmID, fireDate, alarmTitle] in
             do {
-                let title = LocalizedStringResource("alarmTitle", table: "Localizable")
-                let alertContent = Self.makeAlertContent(title: title)
+                let alertContent = Self.makeAlertContent(title: alarmTitle)
                 let presentation = AlarmPresentation(alert: alertContent)
                 let attributes = AlarmAttributes(
                     presentation: presentation,

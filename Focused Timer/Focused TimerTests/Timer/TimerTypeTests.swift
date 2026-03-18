@@ -96,4 +96,39 @@ struct TimerTypeTests {
         #expect(resources[0] != resources[2])
         #expect(resources[1] != resources[2])
     }
+
+    // MARK: - alarmTitle
+
+    @Test("focused alarmTitle returns the alarmTitleFocus key")
+    func focusedAlarmTitleKey() {
+        let resource = TimerType.focused.alarmTitle
+        let expected = LocalizedStringResource("alarmTitleFocus", table: "Localizable")
+        #expect(resource == expected)
+    }
+
+    @Test("shortBreak alarmTitle returns the alarmTitleShortBreak key")
+    func shortBreakAlarmTitleKey() {
+        let resource = TimerType.shortBreak.alarmTitle
+        let expected = LocalizedStringResource("alarmTitleShortBreak", table: "Localizable")
+        #expect(resource == expected)
+    }
+
+    @Test("longBreak alarmTitle returns the alarmTitleLongBreak key")
+    func longBreakAlarmTitleKey() {
+        let resource = TimerType.longBreak.alarmTitle
+        let expected = LocalizedStringResource("alarmTitleLongBreak", table: "Localizable")
+        #expect(resource == expected)
+    }
+
+    @Test("each case returns a distinct alarmTitle key")
+    func allAlarmTitleKeysAreDistinct() {
+        let resources = [
+            TimerType.focused.alarmTitle,
+            TimerType.shortBreak.alarmTitle,
+            TimerType.longBreak.alarmTitle
+        ]
+        #expect(resources[0] != resources[1])
+        #expect(resources[0] != resources[2])
+        #expect(resources[1] != resources[2])
+    }
 }

@@ -59,7 +59,7 @@ private final class NotificationManagerSpy: LocalNotificationManaging {
         clearCalls += 1
     }
 
-    func scheduleLocalNotification(remainingTime: Double) {
+    func scheduleLocalNotification(remainingTime: Double, timerType: TimerType) {
         scheduledRemainingTimes.append(remainingTime)
     }
 }

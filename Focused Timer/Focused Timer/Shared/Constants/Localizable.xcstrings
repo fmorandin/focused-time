@@ -531,6 +531,57 @@
         }
       }
     },
+    "alarmTitleFocus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foco concluído!"
+          }
+        }
+      }
+    },
+    "alarmTitleLongBreak" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long Break finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausa longa concluída!"
+          }
+        }
+      }
+    },
+    "alarmTitleShortBreak" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short Break finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausa curta concluída!"
+          }
+        }
+      }
+    },
     "notificationBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -548,6 +599,23 @@
         }
       }
     },
+    "notificationBodyWithType" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your %@ timer has ended!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O timer de %@ acabou!"
+          }
+        }
+      }
+    },
     "notificationTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -561,6 +629,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Timer concluído"
+          }
+        }
+      }
+    },
+    "notificationTitleWithType" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ended"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ concluído"
           }
         }
       }
