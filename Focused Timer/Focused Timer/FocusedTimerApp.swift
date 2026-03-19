@@ -19,6 +19,12 @@ struct FocusedTimerApp: App {
 
     @AppStorage(UserDefaultKeys.appearanceMode) private var appearanceMode: String = AppearanceMode.system.rawValue
 
+    init() {
+        // Eagerly initialize the shared TimerService so the singleton is ready
+        // before any App Intent or view accesses it.
+        _ = TimerService.shared
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()

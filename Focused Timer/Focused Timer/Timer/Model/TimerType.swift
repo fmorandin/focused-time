@@ -5,6 +5,7 @@
 //  Created by Felipe Morandin on 09/02/21.
 //
 
+import AppIntents
 import Foundation
 
 enum TimerType: String {
@@ -45,5 +46,22 @@ enum TimerType: String {
         case .longBreak:
             return UserDefaultKeys.longBreakTime
         }
+    }
+}
+
+// MARK: - AppEnum
+
+extension TimerType: AppEnum {
+
+    static var typeDisplayRepresentation: TypeDisplayRepresentation {
+        TypeDisplayRepresentation(name: "Timer Type")
+    }
+
+    static var caseDisplayRepresentations: [TimerType: DisplayRepresentation] {
+        [
+            .focused: "Focus",
+            .shortBreak: "Short Break",
+            .longBreak: "Long Break"
+        ]
     }
 }
