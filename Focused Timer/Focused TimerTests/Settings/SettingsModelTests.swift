@@ -11,33 +11,6 @@ import Foundation
 import Testing
 @testable import Focused_Timer
 
-// MARK: - Test Double
-
-private final class InMemoryStorageRepository: StorageRepository, @unchecked Sendable {
-
-    private var storage: [String: Any] = [:]
-
-    func save<Value: Sendable>(_ value: Value, for storageKey: String) {
-        storage[storageKey] = value
-    }
-
-    func integer(for storageKey: String) -> Int {
-        storage[storageKey] as? Int ?? 0
-    }
-
-    func string(for storageKey: String) -> String {
-        storage[storageKey] as? String ?? ""
-    }
-
-    func bool(for storageKey: String) -> Bool {
-        storage[storageKey] as? Bool ?? false
-    }
-
-    func date(for storageKey: String) -> Date? {
-        storage[storageKey] as? Date
-    }
-}
-
 // MARK: - Tests
 
 @Suite("SettingsModel Tests", .serialized)

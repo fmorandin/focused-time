@@ -29,7 +29,7 @@ struct TimerView: View {
     // MARK: Initializer
 
     init(
-        viewModel: TimerViewModel = .init(timerModel: TimerModel()),
+        viewModel: TimerViewModel = TimerService.shared.timerViewModel,
         notificationCenter: NotificationCenter = .default,
         setIdleTimerDisabled: @escaping (Bool) -> Void = { isDisabled in
             UIApplication.shared.isIdleTimerDisabled = isDisabled

@@ -77,6 +77,32 @@
 		FF0000001111222233334488 /* TimerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0000001111222233334477 /* TimerSnapshotTests.swift */; };
 		FF00000011112222333344AA /* SettingsSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0000001111222233334499 /* SettingsSnapshotTests.swift */; };
 		FF00000011112222333344CC /* HelpSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF00000011112222333344BB /* HelpSnapshotTests.swift */; };
+		F1A100000000000000000101 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000001 /* TimerService.swift */; };
+		F1A100000000000000000102 /* StartTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000002 /* StartTimerIntent.swift */; };
+		F1A100000000000000000103 /* PauseTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000003 /* PauseTimerIntent.swift */; };
+		F1A100000000000000000104 /* ResumeTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000004 /* ResumeTimerIntent.swift */; };
+		F1A100000000000000000105 /* ResetTimerIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000005 /* ResetTimerIntent.swift */; };
+		F1A100000000000000000106 /* GetTimerStatusIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000006 /* GetTimerStatusIntent.swift */; };
+		F1A100000000000000000107 /* SetTimerDurationIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000007 /* SetTimerDurationIntent.swift */; };
+		F1A100000000000000000108 /* SetNumberOfCyclesIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000008 /* SetNumberOfCyclesIntent.swift */; };
+		F1A100000000000000000109 /* ToggleAutoStartIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000009 /* ToggleAutoStartIntent.swift */; };
+		F1A10000000000000000010A /* ToggleSoundIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000A /* ToggleSoundIntent.swift */; };
+		F1A10000000000000000010B /* ResetSettingsIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000B /* ResetSettingsIntent.swift */; };
+		F1A10000000000000000010C /* FocusedTimerShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000C /* FocusedTimerShortcuts.swift */; };
+		F1A10000000000000000010D /* MockTimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000D /* MockTimerService.swift */; };
+		F1A10000000000000000010E /* StartTimerIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000E /* StartTimerIntentTests.swift */; };
+		F1A10000000000000000010F /* PauseTimerIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000000F /* PauseTimerIntentTests.swift */; };
+		F1A100000000000000000110 /* ResumeTimerIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000010 /* ResumeTimerIntentTests.swift */; };
+		F1A100000000000000000111 /* ResetTimerIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000011 /* ResetTimerIntentTests.swift */; };
+		F1A100000000000000000112 /* GetTimerStatusIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000012 /* GetTimerStatusIntentTests.swift */; };
+		F1A100000000000000000113 /* SetTimerDurationIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000013 /* SetTimerDurationIntentTests.swift */; };
+		F1A100000000000000000114 /* SetNumberOfCyclesIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000014 /* SetNumberOfCyclesIntentTests.swift */; };
+		F1A100000000000000000115 /* ToggleAutoStartIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000015 /* ToggleAutoStartIntentTests.swift */; };
+		F1A100000000000000000116 /* ToggleSoundIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000016 /* ToggleSoundIntentTests.swift */; };
+		F1A100000000000000000117 /* ResetSettingsIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000017 /* ResetSettingsIntentTests.swift */; };
+		F1A100000000000000000118 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000018 /* TimerServiceTests.swift */; };
+		F1A100000000000000000119 /* InMemoryStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000019 /* InMemoryStorageRepository.swift */; };
+		F1A10000000000000000011A /* StubRepeatingTimerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000001A /* StubRepeatingTimerFactory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -169,6 +195,32 @@
 		FF0000001111222233334499 /* SettingsSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsSnapshotTests.swift; sourceTree = "<group>"; };
 		FF00000011112222333344BB /* HelpSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HelpSnapshotTests.swift; sourceTree = "<group>"; };
 		FF11000000000000000001AA /* StoreKitConfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfig.storekit; sourceTree = "<group>"; };
+		F1A100000000000000000001 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
+		F1A100000000000000000002 /* StartTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimerIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000003 /* PauseTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseTimerIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000004 /* ResumeTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeTimerIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000005 /* ResetTimerIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetTimerIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000006 /* GetTimerStatusIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTimerStatusIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000007 /* SetTimerDurationIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimerDurationIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000008 /* SetNumberOfCyclesIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNumberOfCyclesIntent.swift; sourceTree = "<group>"; };
+		F1A100000000000000000009 /* ToggleAutoStartIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleAutoStartIntent.swift; sourceTree = "<group>"; };
+		F1A10000000000000000000A /* ToggleSoundIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSoundIntent.swift; sourceTree = "<group>"; };
+		F1A10000000000000000000B /* ResetSettingsIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetSettingsIntent.swift; sourceTree = "<group>"; };
+		F1A10000000000000000000C /* FocusedTimerShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedTimerShortcuts.swift; sourceTree = "<group>"; };
+		F1A10000000000000000000D /* MockTimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTimerService.swift; sourceTree = "<group>"; };
+		F1A10000000000000000000E /* StartTimerIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimerIntentTests.swift; sourceTree = "<group>"; };
+		F1A10000000000000000000F /* PauseTimerIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseTimerIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000010 /* ResumeTimerIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResumeTimerIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000011 /* ResetTimerIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetTimerIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000012 /* GetTimerStatusIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTimerStatusIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000013 /* SetTimerDurationIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimerDurationIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000014 /* SetNumberOfCyclesIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNumberOfCyclesIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000015 /* ToggleAutoStartIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleAutoStartIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000016 /* ToggleSoundIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSoundIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000017 /* ResetSettingsIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetSettingsIntentTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000018 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
+		F1A100000000000000000019 /* InMemoryStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageRepository.swift; sourceTree = "<group>"; };
+		F1A10000000000000000001A /* StubRepeatingTimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubRepeatingTimerFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +268,8 @@
 			children = (
 				181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */,
 				181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */,
+				F1A100000000000000000019 /* InMemoryStorageRepository.swift */,
+				F1A10000000000000000001A /* StubRepeatingTimerFactory.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -359,6 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				229EA23AA7B25BFB13C875AA /* Router.swift */,
+				F1A100000000000000000001 /* TimerService.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -418,6 +473,7 @@
 				1876324E26001F30001ADD23 /* Help */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
+				F1A100000000000000000201 /* Intents */,
 				A378FC322522BB7D0046FC4C /* FocusedTimerApp.swift */,
 				A378FC342522BB7D0046FC4C /* ContentView.swift */,
 				A378FC362522BB7D0046FC4C /* Assets.xcassets */,
@@ -445,6 +501,7 @@
 				A378FC462522BB7E0046FC4C /* Info.plist */,
 				FBD51FFEAC4122BCDC9FABF5 /* Shared */,
 				FF00000011112222333344DD /* Snapshots */,
+				F1A100000000000000000202 /* Intents */,
 			);
 			path = "Focused TimerTests";
 			sourceTree = "<group>";
@@ -545,6 +602,43 @@
 				FF00000011112222333344BB /* HelpSnapshotTests.swift */,
 			);
 			path = Snapshots;
+			sourceTree = "<group>";
+		};
+		F1A100000000000000000201 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				F1A100000000000000000002 /* StartTimerIntent.swift */,
+				F1A100000000000000000003 /* PauseTimerIntent.swift */,
+				F1A100000000000000000004 /* ResumeTimerIntent.swift */,
+				F1A100000000000000000005 /* ResetTimerIntent.swift */,
+				F1A100000000000000000006 /* GetTimerStatusIntent.swift */,
+				F1A100000000000000000007 /* SetTimerDurationIntent.swift */,
+				F1A100000000000000000008 /* SetNumberOfCyclesIntent.swift */,
+				F1A100000000000000000009 /* ToggleAutoStartIntent.swift */,
+				F1A10000000000000000000A /* ToggleSoundIntent.swift */,
+				F1A10000000000000000000B /* ResetSettingsIntent.swift */,
+				F1A10000000000000000000C /* FocusedTimerShortcuts.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
+		F1A100000000000000000202 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				F1A10000000000000000000D /* MockTimerService.swift */,
+				F1A10000000000000000000E /* StartTimerIntentTests.swift */,
+				F1A10000000000000000000F /* PauseTimerIntentTests.swift */,
+				F1A100000000000000000010 /* ResumeTimerIntentTests.swift */,
+				F1A100000000000000000011 /* ResetTimerIntentTests.swift */,
+				F1A100000000000000000012 /* GetTimerStatusIntentTests.swift */,
+				F1A100000000000000000013 /* SetTimerDurationIntentTests.swift */,
+				F1A100000000000000000014 /* SetNumberOfCyclesIntentTests.swift */,
+				F1A100000000000000000015 /* ToggleAutoStartIntentTests.swift */,
+				F1A100000000000000000016 /* ToggleSoundIntentTests.swift */,
+				F1A100000000000000000017 /* ResetSettingsIntentTests.swift */,
+				F1A100000000000000000018 /* TimerServiceTests.swift */,
+			);
+			path = Intents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -743,6 +837,18 @@
 				DA053B0BCF2BB6C374A03ED9 /* TimerTheme.swift in Sources */,
 				D18125B6EE3AEA90DB4A37D3 /* ShareService.swift in Sources */,
 				B58D7CB7ACFF3DA21F391DD5 /* TimerTypePillView.swift in Sources */,
+				F1A100000000000000000101 /* TimerService.swift in Sources */,
+				F1A100000000000000000102 /* StartTimerIntent.swift in Sources */,
+				F1A100000000000000000103 /* PauseTimerIntent.swift in Sources */,
+				F1A100000000000000000104 /* ResumeTimerIntent.swift in Sources */,
+				F1A100000000000000000105 /* ResetTimerIntent.swift in Sources */,
+				F1A100000000000000000106 /* GetTimerStatusIntent.swift in Sources */,
+				F1A100000000000000000107 /* SetTimerDurationIntent.swift in Sources */,
+				F1A100000000000000000108 /* SetNumberOfCyclesIntent.swift in Sources */,
+				F1A100000000000000000109 /* ToggleAutoStartIntent.swift in Sources */,
+				F1A10000000000000000010A /* ToggleSoundIntent.swift in Sources */,
+				F1A10000000000000000010B /* ResetSettingsIntent.swift in Sources */,
+				F1A10000000000000000010C /* FocusedTimerShortcuts.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -773,6 +879,20 @@
 				DAED13E8610B4D8BDA827FDC /* TimerTypeTests.swift in Sources */,
 				D5869D2703E28A91B98A4FC4 /* SettingsModelTests.swift in Sources */,
 				AC3F4662901A2A45EE9A3701 /* TimerTypePillViewTests.swift in Sources */,
+				F1A10000000000000000010D /* MockTimerService.swift in Sources */,
+				F1A10000000000000000010E /* StartTimerIntentTests.swift in Sources */,
+				F1A10000000000000000010F /* PauseTimerIntentTests.swift in Sources */,
+				F1A100000000000000000110 /* ResumeTimerIntentTests.swift in Sources */,
+				F1A100000000000000000111 /* ResetTimerIntentTests.swift in Sources */,
+				F1A100000000000000000112 /* GetTimerStatusIntentTests.swift in Sources */,
+				F1A100000000000000000113 /* SetTimerDurationIntentTests.swift in Sources */,
+				F1A100000000000000000114 /* SetNumberOfCyclesIntentTests.swift in Sources */,
+				F1A100000000000000000115 /* ToggleAutoStartIntentTests.swift in Sources */,
+				F1A100000000000000000116 /* ToggleSoundIntentTests.swift in Sources */,
+				F1A100000000000000000117 /* ResetSettingsIntentTests.swift in Sources */,
+				F1A100000000000000000118 /* TimerServiceTests.swift in Sources */,
+				F1A100000000000000000119 /* InMemoryStorageRepository.swift in Sources */,
+				F1A10000000000000000011A /* StubRepeatingTimerFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
