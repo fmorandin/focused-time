@@ -190,8 +190,8 @@ struct AppSettingsView: View {
     }
 }
 
-struct AppSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(displayWarning: true)
+#Preview {
+    Form {
+        AppSettingsView()
     }
 }

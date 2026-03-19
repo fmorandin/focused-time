@@ -195,8 +195,8 @@ struct TimerSettingsView: View {
     }
 }
 
-struct TimerSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(displayWarning: true)
+#Preview {
+    Form {
+        TimerSettingsView()
     }
 }
