@@ -181,6 +181,8 @@ struct TimerSettingsView: View {
             }
             .padding(.vertical, 10)
 
+        } header: {
+            Text("settingsSectionTimersName")
         }
         .onReceive(
             NotificationCenter.default.publisher(for: UITextField.textDidBeginEditingNotification)

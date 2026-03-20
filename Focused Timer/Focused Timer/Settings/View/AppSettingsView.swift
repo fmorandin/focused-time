@@ -96,6 +96,8 @@ struct AppSettingsView: View {
                         dismissButton: .default(Text("OK")))
                 })
                 .padding(.vertical, 10)
+        } header: {
+            Text("settingsSectionAppName")
         }
         .font(.system(.body, design: .rounded))
 
