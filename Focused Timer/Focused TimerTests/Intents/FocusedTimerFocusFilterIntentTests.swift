@@ -26,7 +26,7 @@ struct FocusedTimerFocusFilterIntentTests {
         let (viewModel, factory) = makeSetup()
         #expect(viewModel.timerState == .initial)
 
-        var intent = FocusedTimerFocusFilterIntent()
+        let intent = FocusedTimerFocusFilterIntent()
         intent.shouldAutoStart = true
         _ = try await intent.perform()
 
@@ -40,7 +40,7 @@ struct FocusedTimerFocusFilterIntentTests {
         let (viewModel, _) = makeSetup()
         #expect(viewModel.timerState == .initial)
 
-        var intent = FocusedTimerFocusFilterIntent()
+        let intent = FocusedTimerFocusFilterIntent()
         intent.shouldAutoStart = false
         _ = try await intent.perform()
 
@@ -55,7 +55,7 @@ struct FocusedTimerFocusFilterIntentTests {
         factory.advance()
         #expect(viewModel.timerState == .running)
 
-        var intent = FocusedTimerFocusFilterIntent()
+        let intent = FocusedTimerFocusFilterIntent()
         intent.shouldAutoStart = true
         _ = try await intent.perform()
 
@@ -72,7 +72,7 @@ struct FocusedTimerFocusFilterIntentTests {
         viewModel.pauseTimer()
         #expect(viewModel.timerState == .paused)
 
-        var intent = FocusedTimerFocusFilterIntent()
+        let intent = FocusedTimerFocusFilterIntent()
         intent.shouldAutoStart = true
         _ = try await intent.perform()
 
