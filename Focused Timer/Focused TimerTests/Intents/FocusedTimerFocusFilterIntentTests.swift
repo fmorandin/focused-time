@@ -6,7 +6,7 @@
 import Testing
 @testable import Focused_Timer
 
-@Suite("FocusedTimerFocusFilterIntent")
+@Suite("FocusedTimerFocusFilterIntent", .serialized)
 struct FocusedTimerFocusFilterIntentTests {
 
     private func makeSetup() -> (TimerViewModel, StubRepeatingTimerFactory) {

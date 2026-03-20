@@ -200,15 +200,6 @@ struct AppSettingsView: View {
                     .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                     .accessibilityIdentifier(Accessibility.Identifiers.lblFocusIntegrationDescription)
-
-                Button("settingsFocusOpenSettings") {
-                    Task {
-                        await settingsViewModel.openFocusSettings()
-                    }
-                }
-                .font(.caption)
-                .buttonStyle(.borderless)
-                .accessibilityIdentifier(Accessibility.Identifiers.btnOpenFocusSettings)
             }
             .padding(.top, 4)
             .padding(.bottom, 6)

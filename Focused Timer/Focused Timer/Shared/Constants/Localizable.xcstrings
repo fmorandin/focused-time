@@ -1025,23 +1025,6 @@
         }
       }
     },
-    "settingsFocusOpenSettings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open Settings"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abrir Configurações"
-          }
-        }
-      }
-    },
     "settingsFocusSectionHeader" : {
       "extractionState" : "manual",
       "localizations" : {
