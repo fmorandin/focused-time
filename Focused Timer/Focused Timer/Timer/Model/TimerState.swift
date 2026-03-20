@@ -14,3 +14,14 @@ enum TimerState {
     case paused
     case initial
 }
+
+extension TimerState {
+
+    var widgetStateString: String {
+        switch self {
+        case .running: return "running"
+        case .paused: return "paused"
+        case .initial: return "initial"
+        }
+    }
+}

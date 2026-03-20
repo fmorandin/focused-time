@@ -23,4 +23,6 @@ enum UserDefaultKeys {
     static let startingTimerType = "startingTimerType"
     static let appearanceMode = "appearanceMode"
     static let enableAlarm = "enableAlarm"
+    static let widgetTimerState = "widgetTimerState"
+    static let appGroupSuite = "group.br.com.felipemorandin.FocusedTimer"
 }
