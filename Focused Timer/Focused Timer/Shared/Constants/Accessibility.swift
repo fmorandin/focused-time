@@ -45,6 +45,11 @@ enum Accessibility {
         static let lblNotificationsDeniedMessage = "lblNotificationsDeniedMessage"
         static let btnOpenNotificationsSettings = "btnOpenNotificationsSettings"
 
+        // Focus
+        static let lblFocusIntegration = "lblFocusIntegration"
+        static let lblFocusIntegrationDescription = "lblFocusIntegrationDescription"
+        static let btnOpenFocusSettings = "btnOpenFocusSettings"
+
         // Labels
         static let lblFocusDuration = "lblFocusDuration"
         static let lblShortBreakDuration = "lblShortBreakDuration"

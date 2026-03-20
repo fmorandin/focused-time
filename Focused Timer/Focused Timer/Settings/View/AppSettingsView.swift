@@ -187,6 +187,33 @@ struct AppSettingsView: View {
                 await settingsViewModel.checkNotificationAuthorizationStatus()
             }
         }
+
+        Section {
+            VStack(alignment: .leading, spacing: 10) {
+                Label("settingsFocusIntegrationLabel", systemImage: "moon.fill")
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusIntegration)
+
+                Text("settingsFocusIntegrationDescription")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusIntegrationDescription)
+
+                Button("settingsFocusOpenSettings") {
+                    Task {
+                        await settingsViewModel.openFocusSettings()
+                    }
+                }
+                .font(.caption)
+                .buttonStyle(.borderless)
+                .accessibilityIdentifier(Accessibility.Identifiers.btnOpenFocusSettings)
+            }
+            .padding(.top, 4)
+            .padding(.bottom, 6)
+        } header: {
+            Text("settingsFocusSectionHeader")
+        }
+        .font(.system(.body, design: .rounded))
     }
 }
 
