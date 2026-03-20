@@ -20,6 +20,10 @@ struct FocusedTimerApp: App {
     @AppStorage(UserDefaultKeys.appearanceMode) private var appearanceMode: String = AppearanceMode.system.rawValue
 
     init() {
+        // Configure UI testing state before creating the TimerService singleton
+        // so that the TimerUseCase reads the correct values from UserDefaults.
+        AppDelegate.setStateForUITesting()
+
         // Eagerly initialize the shared TimerService so the singleton is ready
         // before any App Intent or view accesses it.
         _ = TimerService.shared
@@ -70,8 +74,6 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
             UserDefaultKeys.enableNotifications: true,
             UserDefaultKeys.enableAlarm: false
         ])
-
-        setStateForUITesting()
 
         if !AppDelegate.isUITestingEnabled {
             requestLocalNotificationPermission()
@@ -124,32 +126,34 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         }
     }
 
-    // MARK: - Private Methods
+    // MARK: - Static Methods
 
-    private func setStateForUITesting() {
+    /// Configures UserDefaults for UI testing based on launch environment variables.
+    /// Called early from `FocusedTimerApp.init()` so that `TimerService.shared`
+    /// reads the correct values when it is first created.
+    static func setStateForUITesting() {
 
-        if AppDelegate.isUITestingEnabled {
+        guard isUITestingEnabled else { return }
 
-            Self.logger.notice("📲 Starting UI Testing.")
+        logger.notice("📲 Starting UI Testing.")
 
-            let environment = ProcessInfo.processInfo.environment
-            let numberOfCycles = Int(environment[UITestEnvironmentKeys.numberOfCycles] ?? "") ?? 4
-            let focusedTime = Int(environment[UITestEnvironmentKeys.focusedTimeSeconds] ?? "") ?? 60
-            let shortBreakTime = Int(environment[UITestEnvironmentKeys.shortBreakTimeSeconds] ?? "") ?? 60
-            let longBreakTime = Int(environment[UITestEnvironmentKeys.longBreakTimeSeconds] ?? "") ?? 60
+        let environment = ProcessInfo.processInfo.environment
+        let numberOfCycles = Int(environment[UITestEnvironmentKeys.numberOfCycles] ?? "") ?? 4
+        let focusedTime = Int(environment[UITestEnvironmentKeys.focusedTimeSeconds] ?? "") ?? 60
+        let shortBreakTime = Int(environment[UITestEnvironmentKeys.shortBreakTimeSeconds] ?? "") ?? 60
+        let longBreakTime = Int(environment[UITestEnvironmentKeys.longBreakTimeSeconds] ?? "") ?? 60
 
-            UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-            UserDefaults.standard.set("\(numberOfCycles)", forKey: UserDefaultKeys.numberOfCycles)
-            UserDefaults.standard.set(focusedTime, forKey: UserDefaultKeys.focusedTime)
-            UserDefaults.standard.set(shortBreakTime, forKey: UserDefaultKeys.shortBreakTime)
-            UserDefaults.standard.set(longBreakTime, forKey: UserDefaultKeys.longBreakTime)
+        UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+        UserDefaults.standard.set("\(numberOfCycles)", forKey: UserDefaultKeys.numberOfCycles)
+        UserDefaults.standard.set(focusedTime, forKey: UserDefaultKeys.focusedTime)
+        UserDefaults.standard.set(shortBreakTime, forKey: UserDefaultKeys.shortBreakTime)
+        UserDefaults.standard.set(longBreakTime, forKey: UserDefaultKeys.longBreakTime)
 
-            UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
-            UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
-            UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
-            UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
+        UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
+        UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
+        UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
+        UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
 
-            UIView.setAnimationsEnabled(false)
-        }
+        UIView.setAnimationsEnabled(false)
     }
 }
