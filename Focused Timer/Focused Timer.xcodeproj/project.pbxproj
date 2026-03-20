@@ -103,6 +103,8 @@
 		F1A100000000000000000118 /* TimerServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000018 /* TimerServiceTests.swift */; };
 		F1A100000000000000000119 /* InMemoryStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A100000000000000000019 /* InMemoryStorageRepository.swift */; };
 		F1A10000000000000000011A /* StubRepeatingTimerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000001A /* StubRepeatingTimerFactory.swift */; };
+		F1A10000000000000000011B /* FocusedTimerFocusFilterIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000001B /* FocusedTimerFocusFilterIntent.swift */; };
+		F1A10000000000000000011C /* FocusedTimerFocusFilterIntentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A10000000000000000001C /* FocusedTimerFocusFilterIntentTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +223,8 @@
 		F1A100000000000000000018 /* TimerServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerServiceTests.swift; sourceTree = "<group>"; };
 		F1A100000000000000000019 /* InMemoryStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryStorageRepository.swift; sourceTree = "<group>"; };
 		F1A10000000000000000001A /* StubRepeatingTimerFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubRepeatingTimerFactory.swift; sourceTree = "<group>"; };
+		F1A10000000000000000001B /* FocusedTimerFocusFilterIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedTimerFocusFilterIntent.swift; sourceTree = "<group>"; };
+		F1A10000000000000000001C /* FocusedTimerFocusFilterIntentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedTimerFocusFilterIntentTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -618,6 +622,7 @@
 				F1A10000000000000000000A /* ToggleSoundIntent.swift */,
 				F1A10000000000000000000B /* ResetSettingsIntent.swift */,
 				F1A10000000000000000000C /* FocusedTimerShortcuts.swift */,
+				F1A10000000000000000001B /* FocusedTimerFocusFilterIntent.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -637,6 +642,7 @@
 				F1A100000000000000000016 /* ToggleSoundIntentTests.swift */,
 				F1A100000000000000000017 /* ResetSettingsIntentTests.swift */,
 				F1A100000000000000000018 /* TimerServiceTests.swift */,
+				F1A10000000000000000001C /* FocusedTimerFocusFilterIntentTests.swift */,
 			);
 			path = Intents;
 			sourceTree = "<group>";
@@ -849,6 +855,7 @@
 				F1A10000000000000000010A /* ToggleSoundIntent.swift in Sources */,
 				F1A10000000000000000010B /* ResetSettingsIntent.swift in Sources */,
 				F1A10000000000000000010C /* FocusedTimerShortcuts.swift in Sources */,
+				F1A10000000000000000011B /* FocusedTimerFocusFilterIntent.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +900,7 @@
 				F1A100000000000000000118 /* TimerServiceTests.swift in Sources */,
 				F1A100000000000000000119 /* InMemoryStorageRepository.swift in Sources */,
 				F1A10000000000000000011A /* StubRepeatingTimerFactory.swift in Sources */,
+				F1A10000000000000000011C /* FocusedTimerFocusFilterIntentTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -284,6 +284,16 @@ final class SettingsViewModel {
         await urlOpener.open(settingsURL)
     }
 
+    /// Opens the iOS Settings app so the user can navigate to Focus settings.
+    func openFocusSettings() async {
+
+        guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else {
+            Self.logger.error("Failed to create the app settings URL for Focus.")
+            return
+        }
+        await urlOpener.open(settingsURL)
+    }
+
     /// Saves the user's chosen starting timer type and signals that the timer view should update
     func saveStartingTimerType(_ type: TimerType) {
 

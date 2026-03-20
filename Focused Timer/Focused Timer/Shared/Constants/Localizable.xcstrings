@@ -991,6 +991,74 @@
         }
       }
     },
+    "settingsFocusIntegrationDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To use Focused Timer with a Focus mode, go to Settings → Focus → [Focus Name] → App Filters, and add Focused Timer."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para usar o Focused Timer com um modo de Foco, acesse Configurações → Foco → [Nome do Foco] → Filtros de App e adicione o Focused Timer."
+          }
+        }
+      }
+    },
+    "settingsFocusIntegrationLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus mode integration"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Integração com Foco"
+          }
+        }
+      }
+    },
+    "settingsFocusOpenSettings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Settings"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Configurações"
+          }
+        }
+      }
+    },
+    "settingsFocusSectionHeader" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foco"
+          }
+        }
+      }
+    },
     "settingsKeepScreenOn" : {
       "extractionState" : "manual",
       "localizations" : {
