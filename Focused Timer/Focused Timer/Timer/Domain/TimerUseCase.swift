@@ -11,6 +11,32 @@ import AudioToolbox
 import Foundation
 import os
 
+// MARK: - Widget State Reading Protocol
+
+protocol WidgetStateReading {
+    func readWidgetState() -> WidgetTimerState?
+}
+
+struct AppGroupWidgetStateReader: WidgetStateReading {
+
+    private let suiteName: String
+
+    init(suiteName: String = UserDefaultKeys.appGroupSuite) {
+        self.suiteName = suiteName
+    }
+
+    func readWidgetState() -> WidgetTimerState? {
+        guard
+            let defaults = UserDefaults(suiteName: suiteName),
+            let data = defaults.data(forKey: UserDefaultKeys.widgetTimerState),
+            let state = try? JSONDecoder().decode(WidgetTimerState.self, from: data)
+        else { return nil }
+        return state
+    }
+}
+
+// MARK: -
+
 final class TimerUseCase {
 
     // MARK: - State (source of truth for all timer state)
@@ -55,6 +81,7 @@ final class TimerUseCase {
     private let soundPlayer: SystemSoundPlaying
     private let notificationFlagStore: NotificationFlagStoring
     private let alarmScheduler: AlarmScheduling?
+    private let widgetStateReader: WidgetStateReading?
 
     private let systemSoundID: SystemSoundID = 1009
 
@@ -80,7 +107,8 @@ final class TimerUseCase {
         localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
         notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
-        alarmScheduler: AlarmScheduling? = nil
+        alarmScheduler: AlarmScheduling? = nil,
+        widgetStateReader: WidgetStateReading? = nil
     ) {
         Self.logger.notice("🛠 Initializing TimerUseCase.")
 
@@ -91,6 +119,7 @@ final class TimerUseCase {
         self.soundPlayer = soundPlayer
         self.notificationFlagStore = notificationFlagStore
         self.alarmScheduler = alarmScheduler
+        self.widgetStateReader = widgetStateReader
 
         let startingType = timerModel.getStartingTimerType()
         self.timerType = startingType
@@ -172,8 +201,9 @@ final class TimerUseCase {
     }
 
     /// Cancels pending notifications and recalculates the remaining time when the app returns to foreground.
-    /// If the timer expired while in background, transitions to the next phase immediately instead
-    /// of waiting for the next Foundation timer tick, preventing a momentary stale-state flash in the UI.
+    /// If a widget interaction occurred while the app was backgrounded, applies the widget state instead
+    /// of the standard elapsed-time arithmetic. If the timer expired while in background, transitions to
+    /// the next phase immediately, preventing a momentary stale-state flash in the UI.
     func moveAppToForeground() {
         Self.logger.notice("👋🏻 Moving app to the foreground.")
         localNotificationManager.clearScheduledNotifications()
@@ -184,6 +214,14 @@ final class TimerUseCase {
 
             guard let remainingTime = savedRemainingTime,
                   let timestampBackground = savedTimestampBackground else { return }
+
+            // Widget interaction takes precedence when it occurred after we went to background.
+            if let widgetState = widgetStateReader?.readWidgetState(),
+               widgetState.updatedAt > timestampBackground {
+                Self.logger.notice("📱 Widget state is newer — applying widget state.")
+                applyWidgetState(widgetState)
+                return
+            }
 
             let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
             let totalRemainingTime = remainingTime - timeInBackground
@@ -204,6 +242,29 @@ final class TimerUseCase {
     }
 
     // MARK: - Private Methods
+
+    private func applyWidgetState(_ widgetState: WidgetTimerState) {
+        Self.logger.notice("📱 Applying widget state: \(widgetState.state).")
+        timer?.invalidate()
+        timer = nil
+
+        switch widgetState.state {
+        case "running":
+            let newCounter = widgetState.endTime.map { max(1, Int($0.timeIntervalSinceNow)) }
+                ?? widgetState.remainingSeconds
+            counter = newCounter
+            startTimer()
+            onStateChange?()
+        case "paused":
+            counter = widgetState.remainingSeconds
+            timerState = .paused
+            onStateChange?()
+        default: // "initial"
+            counter = widgetState.remainingSeconds
+            timerState = .initial
+            onStateChange?()
+        }
+    }
 
     private func tick() {
         Self.logger.notice("⏲ Tick — decrementing counter.")

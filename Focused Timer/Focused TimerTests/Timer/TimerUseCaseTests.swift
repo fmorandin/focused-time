@@ -136,13 +136,19 @@ private final class TimerModelSpy: TimerModelProtocol {
 
 // MARK: - SUT Factory
 
+private struct StubWidgetStateReader: WidgetStateReading {
+    let state: WidgetTimerState?
+    func readWidgetState() -> WidgetTimerState? { state }
+}
+
 private func makeSUT(
     timerModel: TimerModelProtocol = TimerModelMock(),
     nowProvider: @escaping () -> Date = Date.init,
     notificationManager: LocalNotificationManaging = NotificationManagerSpy(),
     soundPlayer: SystemSoundPlaying = SoundPlayerSpy(),
     notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreSpy(),
-    alarmScheduler: AlarmScheduling? = nil
+    alarmScheduler: AlarmScheduling? = nil,
+    widgetStateReader: WidgetStateReading? = nil
 ) -> (useCase: TimerUseCase, timerFactory: TestRepeatingTimerFactory) {
     let timerFactory = TestRepeatingTimerFactory()
     let useCase = TimerUseCase(
@@ -152,7 +158,8 @@ private func makeSUT(
         localNotificationManager: notificationManager,
         soundPlayer: soundPlayer,
         notificationFlagStore: notificationFlagStore,
-        alarmScheduler: alarmScheduler
+        alarmScheduler: alarmScheduler,
+        widgetStateReader: widgetStateReader
     )
     return (useCase, timerFactory)
 }
@@ -1087,5 +1094,134 @@ struct TimerUseCaseTests {
         useCase.moveAppToBackground()
 
         #expect(notificationManager.scheduledTimerTypes.last == .shortBreak)
+    }
+
+    // MARK: - Widget State Foreground Sync
+
+    @Test("moveAppToForeground: newer widget paused state overrides elapsed-time arithmetic")
+    func foregroundAppliesNewerWidgetPausedState() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 120) // after backgroundTimestamp
+
+        let model = TimerModelSpy()
+        model.savedTimes = (30, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 25,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "paused",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 130) },
+            widgetStateReader: reader
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()     // state → .running
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .paused)
+        #expect(useCase.counter == 25)
+    }
+
+    @Test("moveAppToForeground: newer widget running state restarts timer")
+    func foregroundAppliesNewerWidgetRunningState() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 110)
+        let endTime = Date(timeIntervalSince1970: 250) // 140 seconds from now (at t=110)
+
+        let model = TimerModelSpy()
+        model.savedTimes = (30, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: endTime,
+            remainingSeconds: 140,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "running",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 120) },
+            widgetStateReader: reader
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToForeground()
+
+        // Widget set state to running with endTime 250 - now(120) = 130 seconds remaining.
+        #expect(useCase.timerState == .running)
+        #expect(useCase.counter >= 1)
+    }
+
+    @Test("moveAppToForeground: older widget state falls through to elapsed-time arithmetic")
+    func foregroundIgnoresOlderWidgetState() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 50) // before backgroundTimestamp
+
+        let model = TimerModelSpy()
+        model.savedTimes = (20, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 999,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "paused",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 105) }, // 5 s in background
+            widgetStateReader: reader
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToForeground()
+
+        // Widget state is older → elapsed-time arithmetic used: 20 - 4 (background time) = 16
+        // (counter was 4 after one tick, backgrounded; 5 s passed since timestamp=100)
+        #expect(useCase.timerState == .running)
+        #expect(useCase.counter == 15) // 20 saved - 5 s elapsed
+    }
+
+    @Test("moveAppToForeground: absent widget state falls through to elapsed-time arithmetic")
+    func foregroundWithNoWidgetStateUsesElapsedTime() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+
+        let model = TimerModelSpy()
+        model.savedTimes = (20, backgroundTimestamp)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 103) },
+            widgetStateReader: StubWidgetStateReader(state: nil)
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToForeground()
+
+        // No widget state → elapsed: 20 - 3 = 17
+        #expect(useCase.counter == 17)
     }
 }
