@@ -48,7 +48,6 @@ enum Accessibility {
         // Focus
         static let lblFocusIntegration = "lblFocusIntegration"
         static let lblFocusIntegrationDescription = "lblFocusIntegrationDescription"
-        static let btnOpenFocusSettings = "btnOpenFocusSettings"
 
         // Labels
         static let lblFocusDuration = "lblFocusDuration"
