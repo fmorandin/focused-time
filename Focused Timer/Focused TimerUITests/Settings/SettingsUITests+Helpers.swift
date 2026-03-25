@@ -261,11 +261,13 @@ extension SettingsUITests {
 
     func scrollToAlarmToggleIfNeeded(maxSwipes: Int = 3) {
         let toggle = application.switches[Accessibility.Identifiers.tgEnableAlarm]
-        guard !(toggle.exists && toggle.isHittable) else { return }
+        // Use `exists` rather than `isHittable` so the scroll stops when the toggle is
+        // visible even when it is disabled (e.g. while Auto Start is on).
+        guard !toggle.exists else { return }
 
         for _ in 0..<maxSwipes {
             application.swipeUp()
-            if toggle.exists && toggle.isHittable { return }
+            if toggle.exists { return }
         }
     }
 

@@ -26,7 +26,12 @@ protocol AlarmAuthorizationChecking {
 
 struct AlarmKitAuthorizationChecker: AlarmAuthorizationChecking {
     var isDeniedBySystem: Bool {
-        AlarmManager.shared.authorizationState == .denied
+        // In UI testing, `requestAlarmKitPermission()` is skipped and the simulator
+        // may have a stale `.denied` state from a previous run. Return `false` so
+        // UI tests can exercise the conflict-caption logic independently of the
+        // system's AlarmKit authorization.
+        guard !ProcessInfo.processInfo.arguments.contains("UI-Testing") else { return false }
+        return AlarmManager.shared.authorizationState == .denied
     }
 }
 
