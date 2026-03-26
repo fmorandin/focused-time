@@ -67,11 +67,9 @@ struct TimerView: View {
         }
         .onReceive(notificationCenter.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
             Self.logger.notice("‼️ App will be moved to background.")
-            timerViewModel.moveAppToBackground()
             setIdleTimerDisabled(false)
         }
         .onReceive(notificationCenter.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            timerViewModel.moveAppToForeground()
             Self.logger.notice("‼️ App will be moved to foreground.")
             if timerViewModel.shouldKeepScreenOn() {
                 setIdleTimerDisabled(true)

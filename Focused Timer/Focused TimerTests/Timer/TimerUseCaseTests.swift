@@ -124,7 +124,9 @@ private final class TimerModelSpy: TimerModelProtocol {
     var numberOfCycles = "2"
     var savedTimes: (Int?, Date?) = (0, Date())
     var startingTimerType: TimerType = .focused
+    var backgroundTimestamp: Date?
     private(set) var savedRemainingTimesFromBackground: [Int] = []
+    private(set) var savedBackgroundTimestampCount: Int = 0
 
     func getTime(for keyName: String) -> Int { times[keyName] ?? 0 }
     func saveMoveToBackgroundTime(remainingTime: Int) { savedRemainingTimesFromBackground.append(remainingTime) }
@@ -132,6 +134,8 @@ private final class TimerModelSpy: TimerModelProtocol {
     func getNumberOfCycles(for _: String) -> String { numberOfCycles }
     func getToggle(for keyName: String) -> Bool { toggles[keyName] ?? false }
     func getStartingTimerType() -> TimerType { startingTimerType }
+    func saveBackgroundTimestamp() { savedBackgroundTimestampCount += 1 }
+    func getBackgroundTimestamp() -> Date? { backgroundTimestamp }
 }
 
 // MARK: - SUT Factory
@@ -358,7 +362,7 @@ struct TimerUseCaseTests {
         #expect(notificationManager.scheduledRemainingTimes == [4.0])
     }
 
-    @Test("moveAppToBackground when not running does nothing")
+    @Test("moveAppToBackground when not running saves timestamp but skips remaining time and notification")
     func backgroundWhenNotRunningDoesNothing() {
         let model = TimerModelSpy()
         let notificationManager = NotificationManagerSpy()
@@ -366,6 +370,7 @@ struct TimerUseCaseTests {
 
         useCase.moveAppToBackground()
 
+        #expect(model.savedBackgroundTimestampCount == 1)
         #expect(model.savedRemainingTimesFromBackground.isEmpty)
         #expect(notificationManager.scheduledRemainingTimes.isEmpty)
     }
@@ -448,6 +453,25 @@ struct TimerUseCaseTests {
         useCase.moveAppToForeground()
 
         #expect(useCase.counter == initialCounter)
+    }
+
+    @Test("moveAppToForeground when not running restores from current background snapshot")
+    func foregroundWhenNotRunningRestoresFromCurrentBackgroundSnapshot() {
+        let savedTimestamp = Date(timeIntervalSince1970: 100)
+        let model = TimerModelSpy()
+        model.savedTimes = (20, savedTimestamp)
+        model.backgroundTimestamp = savedTimestamp
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 105) }
+        )
+
+        #expect(useCase.timerState == .initial)
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .running)
+        #expect(useCase.counter == 15)
     }
 
     // MARK: onStateChange Callback
@@ -1132,6 +1156,41 @@ struct TimerUseCaseTests {
         #expect(useCase.counter == 25)
     }
 
+    @Test("moveAppToForeground: running timer applies newer widget state even when saved times are missing")
+    func foregroundRunningAppliesNewerWidgetStateWithoutSavedTimes() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 120)
+
+        let model = TimerModelSpy()
+        model.savedTimes = (nil, nil)
+        model.backgroundTimestamp = backgroundTimestamp
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 25,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "paused",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 130) },
+            widgetStateReader: reader
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()     // state -> .running
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .paused)
+        #expect(useCase.counter == 25)
+    }
+
     @Test("moveAppToForeground: newer widget running state restarts timer")
     func foregroundAppliesNewerWidgetRunningState() {
         let backgroundTimestamp = Date(timeIntervalSince1970: 100)
@@ -1166,6 +1225,43 @@ struct TimerUseCaseTests {
         // Widget set state to running with endTime 250 - now(120) = 130 seconds remaining.
         #expect(useCase.timerState == .running)
         #expect(useCase.counter >= 1)
+    }
+
+    @Test("moveAppToForeground: running timer prefers widget endTime even when widget updatedAt is older")
+    func foregroundRunningPrefersWidgetEndTimeOverOldTimestamp() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 50) // older than background
+        let widgetEndTime = Date().addingTimeInterval(80)
+
+        let model = TimerModelSpy()
+        model.savedTimes = (20, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: widgetEndTime,
+            remainingSeconds: 80,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "running",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 105) },
+            widgetStateReader: reader
+        )
+
+        useCase.startTimer()
+        timerFactory.advance() // state -> .running
+        useCase.moveAppToForeground()
+
+        // Elapsed-time arithmetic would restore to 15 here (20 - 5).
+        // Using widget endTime should keep a substantially larger countdown.
+        #expect(useCase.timerState == .running)
+        #expect(useCase.counter > 50)
     }
 
     @Test("moveAppToForeground: older widget state falls through to elapsed-time arithmetic")
@@ -1223,5 +1319,107 @@ struct TimerUseCaseTests {
 
         // No widget state → elapsed: 20 - 3 = 17
         #expect(useCase.counter == 17)
+    }
+
+    @Test("moveAppToForeground: widget-started timer applied when app was at initial state")
+    func foregroundAppliesWidgetStateWhenAppWasInitial() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 110)
+        let endTime = Date(timeIntervalSince1970: 250)
+
+        let model = TimerModelSpy()
+        model.backgroundTimestamp = backgroundTimestamp
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: endTime,
+            remainingSeconds: 140,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "running",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 120) },
+            widgetStateReader: reader
+        )
+
+        #expect(useCase.timerState == .initial)
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .running)
+    }
+
+    @Test("moveAppToForeground: running widget state near background timestamp is applied when app was initial")
+    func foregroundAppliesRunningWidgetStateNearBackgroundTimestampWhenInitial() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 99) // written just before background callback
+        let endTime = Date(timeIntervalSince1970: 250)
+
+        let model = TimerModelSpy()
+        model.savedTimes = (20, Date(timeIntervalSince1970: 90))
+        model.backgroundTimestamp = backgroundTimestamp
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: endTime,
+            remainingSeconds: 140,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "running",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 120) },
+            widgetStateReader: reader
+        )
+
+        #expect(useCase.timerState == .initial)
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .running)
+    }
+
+    @Test("moveAppToForeground: widget state not applied without background timestamp")
+    func foregroundDoesNotApplyWidgetStateWithoutBackgroundTimestamp() {
+        let model = TimerModelSpy()
+        model.backgroundTimestamp = nil
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 140,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "running",
+            updatedAt: Date(timeIntervalSince1970: 110)
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+        let (useCase, _) = makeSUT(timerModel: model, widgetStateReader: reader)
+
+        let initialCounter = useCase.counter
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .initial)
+        #expect(useCase.counter == initialCounter)
+    }
+
+    @Test("moveAppToBackground always saves background timestamp")
+    func backgroundAlwaysSavesTimestamp() {
+        let model = TimerModelSpy()
+        let (useCase, _) = makeSUT(timerModel: model)
+
+        useCase.moveAppToBackground()
+
+        #expect(model.savedBackgroundTimestampCount == 1)
     }
 }

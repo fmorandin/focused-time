@@ -37,6 +37,8 @@ struct TimerModelMock: TimerModelProtocol {
     }
 
     func saveMoveToBackgroundTime(remainingTime: Int) {}
+    func saveBackgroundTimestamp() {}
+    func getBackgroundTimestamp() -> Date? { nil }
 
     func getTime(for keyName: String) -> Int {
         switch keyName {
