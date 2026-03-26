@@ -3,7 +3,7 @@
 //  FocusedTimerWidgets
 //
 //  SwiftUI views for each supported widget family.
-//  systemSmall   — phase label + live countdown (no interactive button, too small)
+//  systemSmall   — phase label + live countdown + cycle dots + Start/Pause button
 //  systemMedium  — phase label + live countdown + Start/Pause button + cycle dots
 //  accessoryCircular    — circular progress gauge + countdown (lock screen)
 //  accessoryRectangular — phase label + countdown + Start/Pause button (lock screen)
@@ -46,13 +46,18 @@ struct SmallTimerWidgetView: View {
     var body: some View {
         VStack(spacing: 4) {
             Text(entry.timerState.timerType)
-                .font(.caption)
+                .font(.headline)
                 .foregroundStyle(.secondary)
             countdownView
-                .font(.title2.monospacedDigit())
+                .font(.title.monospacedDigit())
                 .bold()
+                .foregroundStyle(timerColor(for: entry.timerState.timerType))
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity)
+            cycleDots
+            Spacer().frame(height: 6)
+            toggleButton
         }
-        .padding()
     }
 
     @ViewBuilder
@@ -62,6 +67,29 @@ struct SmallTimerWidgetView: View {
         } else {
             Text(formattedTime(entry.timerState.remainingSeconds))
         }
+    }
+
+    private var cycleDots: some View {
+        HStack(spacing: 4) {
+            ForEach(0..<max(1, entry.timerState.totalCycles), id: \.self) { index in
+                Circle()
+                    .frame(width: 6, height: 6)
+                    .foregroundStyle(
+                        index < entry.timerState.completedCycles
+                            ? timerColor(for: entry.timerState.timerType)
+                            : Color.secondary
+                    )
+            }
+        }
+    }
+
+    private var toggleButton: some View {
+        Button(intent: WidgetTimerToggleIntent()) {
+            Image(systemName: entry.timerState.state == "running" ? "pause.fill" : "play.fill")
+                .font(.title)
+                .frame(width: 44, height: 44)
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -80,6 +108,7 @@ struct MediumTimerWidgetView: View {
                 countdownView
                     .font(.title.monospacedDigit())
                     .bold()
+                    .foregroundStyle(timerColor(for: entry.timerState.timerType))
                 cycleDots
             }
             Spacer()
@@ -102,7 +131,11 @@ struct MediumTimerWidgetView: View {
             ForEach(0..<max(1, entry.timerState.totalCycles), id: \.self) { index in
                 Circle()
                     .frame(width: 6, height: 6)
-                    .foregroundStyle(index < entry.timerState.completedCycles ? Color.accentColor : Color.secondary)
+                    .foregroundStyle(
+                        index < entry.timerState.completedCycles
+                            ? timerColor(for: entry.timerState.timerType)
+                            : Color.secondary
+                    )
             }
         }
     }
@@ -186,6 +219,14 @@ struct RectangularTimerWidgetView: View {
 }
 
 // MARK: - Helpers
+
+private func timerColor(for timerType: String) -> Color {
+    switch timerType {
+    case "Short Break": return Color("ShortBreakColor")
+    case "Long Break": return Color("LongBreakColor")
+    default: return Color("AccentColor")
+    }
+}
 
 private func formattedTime(_ seconds: Int) -> String {
     let minutes = seconds / 60

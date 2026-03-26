@@ -12,6 +12,17 @@ struct ContentView: View {
     // MARK: - Environment
 
     @Environment(Router.self) private var router
+    @Environment(\.scenePhase) private var scenePhase
+
+    // MARK: - Dependencies
+
+    private let timerService: TimerServiceProtocol
+
+    // MARK: - Initializer
+
+    init(timerService: TimerServiceProtocol = TimerService.shared) {
+        self.timerService = timerService
+    }
 
     // MARK: - View
 
@@ -36,6 +47,24 @@ struct ContentView: View {
                 }
             }
             .accessibilityIdentifier(Accessibility.Identifiers.tabHelp)
+        }
+        .onChange(of: scenePhase, initial: true) { _, newPhase in
+            handleScenePhaseChange(newPhase)
+        }
+    }
+
+    // MARK: - Lifecycle
+
+    func handleScenePhaseChange(_ newPhase: ScenePhase) {
+        switch newPhase {
+        case .background:
+            timerService.timerViewModel.moveAppToBackground()
+        case .active:
+            timerService.timerViewModel.moveAppToForeground()
+        case .inactive:
+            break
+        @unknown default:
+            break
         }
     }
 }

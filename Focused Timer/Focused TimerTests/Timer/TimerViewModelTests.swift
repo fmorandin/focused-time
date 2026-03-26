@@ -100,6 +100,7 @@ private final class TimerModelSpy: TimerModelProtocol {
     ]
     var numberOfCycles = "2"
     var savedTimes: (Int?, Date?) = (0, Date())
+    var backgroundTimestamp: Date?
     private(set) var savedRemainingTimesFromBackground: [Int] = []
 
     func getTime(for keyName: String) -> Int {
@@ -125,6 +126,9 @@ private final class TimerModelSpy: TimerModelProtocol {
     func getStartingTimerType() -> TimerType {
         .focused
     }
+
+    func saveBackgroundTimestamp() {}
+    func getBackgroundTimestamp() -> Date? { backgroundTimestamp }
 }
 
 private func makeSUT(
@@ -301,6 +305,8 @@ struct TimerViewModelTests {
             }
 
             func saveMoveToBackgroundTime(remainingTime _: Int) {}
+            func saveBackgroundTimestamp() {}
+            func getBackgroundTimestamp() -> Date? { nil }
 
             func getSavedTimes() -> (Int?, Date?) {
                 (savedRemainingTime, savedTimestamp)

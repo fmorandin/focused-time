@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import SwiftUI
 import Testing
 @testable import Focused_Timer
 
@@ -15,6 +16,7 @@ struct TimerViewLifecycleTests {
         var shortBreakTime = 2
         var longBreakTime = 3
         var keepScreenOn = true
+        private(set) var savedBackgroundTimestampCount = 0
 
         func getTime(for keyName: String) -> Int {
             switch keyName {
@@ -30,6 +32,10 @@ struct TimerViewLifecycleTests {
         }
 
         func saveMoveToBackgroundTime(remainingTime _: Int) {}
+        func saveBackgroundTimestamp() {
+            savedBackgroundTimestampCount += 1
+        }
+        func getBackgroundTimestamp() -> Date? { nil }
 
         func getSavedTimes() -> (Int?, Date?) {
             (nil, nil)
@@ -52,6 +58,24 @@ struct TimerViewLifecycleTests {
 
         func getStartingTimerType() -> TimerType {
             .focused
+        }
+    }
+
+    private final class NotificationManagerLifecycleSpy: LocalNotificationManaging {
+        private(set) var clearCalls = 0
+
+        func clearScheduledNotifications() {
+            clearCalls += 1
+        }
+
+        func scheduleLocalNotification(remainingTime _: Double, timerType _: TimerType) {}
+    }
+
+    private final class TimerServiceSpy: TimerServiceProtocol, @unchecked Sendable {
+        let timerViewModel: TimerViewModel
+
+        init(timerViewModel: TimerViewModel) {
+            self.timerViewModel = timerViewModel
         }
     }
 
@@ -90,5 +114,46 @@ struct TimerViewLifecycleTests {
         #expect(viewModel.totalTime == 10)
         #expect(viewModel.timerState == .initial)
         #expect(viewModel.timerType == .focused)
+    }
+
+    @Test("ContentView scenePhase background triggers timer background sync")
+    func contentViewBackgroundPhaseTriggersBackgroundSync() {
+        let timerModel = TimerModelLifecycleMock()
+        let viewModel = TimerViewModel(timerModel: timerModel)
+        let contentView = ContentView(timerService: TimerServiceSpy(timerViewModel: viewModel))
+
+        contentView.handleScenePhaseChange(.background)
+
+        #expect(timerModel.savedBackgroundTimestampCount == 1)
+    }
+
+    @Test("ContentView scenePhase active triggers timer foreground sync")
+    func contentViewActivePhaseTriggersForegroundSync() {
+        let notificationManager = NotificationManagerLifecycleSpy()
+        let viewModel = TimerViewModel(
+            timerModel: TimerModelLifecycleMock(),
+            localNotificationManager: notificationManager
+        )
+        let contentView = ContentView(timerService: TimerServiceSpy(timerViewModel: viewModel))
+
+        contentView.handleScenePhaseChange(.active)
+
+        #expect(notificationManager.clearCalls == 1)
+    }
+
+    @Test("ContentView scenePhase inactive does not trigger background or foreground sync")
+    func contentViewInactivePhaseDoesNotTriggerSync() {
+        let timerModel = TimerModelLifecycleMock()
+        let notificationManager = NotificationManagerLifecycleSpy()
+        let viewModel = TimerViewModel(
+            timerModel: timerModel,
+            localNotificationManager: notificationManager
+        )
+        let contentView = ContentView(timerService: TimerServiceSpy(timerViewModel: viewModel))
+
+        contentView.handleScenePhaseChange(.inactive)
+
+        #expect(timerModel.savedBackgroundTimestampCount == 0)
+        #expect(notificationManager.clearCalls == 0)
     }
 }
