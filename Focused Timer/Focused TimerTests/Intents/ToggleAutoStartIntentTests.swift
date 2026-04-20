@@ -8,7 +8,7 @@ import Foundation
 import Testing
 @testable import Focused_Timer
 
-@Suite("ToggleAutoStartIntent")
+@Suite("ToggleAutoStartIntent", .serialized)
 struct ToggleAutoStartIntentTests {
 
     @Test("enabling auto-start disables alarm and enables notifications")
@@ -19,15 +19,15 @@ struct ToggleAutoStartIntentTests {
             UserDefaultKeys.enableAlarm,
             UserDefaultKeys.enableNotifications
         ]
-        let previousValues = Dictionary(uniqueKeysWithValues: keys.map { key in
-            (key, defaults.object(forKey: key))
+        let previousValues = Dictionary(uniqueKeysWithValues: keys.map { userDefaultKey in
+            (userDefaultKey, defaults.object(forKey: userDefaultKey))
         })
         defer {
-            for (key, value) in previousValues {
+            for (userDefaultKey, value) in previousValues {
                 if let value {
-                    defaults.set(value, forKey: key)
+                    defaults.set(value, forKey: userDefaultKey)
                 } else {
-                    defaults.removeObject(forKey: key)
+                    defaults.removeObject(forKey: userDefaultKey)
                 }
             }
         }
@@ -52,15 +52,15 @@ struct ToggleAutoStartIntentTests {
             UserDefaultKeys.enableAlarm,
             UserDefaultKeys.enableNotifications
         ]
-        let previousValues = Dictionary(uniqueKeysWithValues: keys.map { key in
-            (key, defaults.object(forKey: key))
+        let previousValues = Dictionary(uniqueKeysWithValues: keys.map { userDefaultKey in
+            (userDefaultKey, defaults.object(forKey: userDefaultKey))
         })
         defer {
-            for (key, value) in previousValues {
+            for (userDefaultKey, value) in previousValues {
                 if let value {
-                    defaults.set(value, forKey: key)
+                    defaults.set(value, forKey: userDefaultKey)
                 } else {
-                    defaults.removeObject(forKey: key)
+                    defaults.removeObject(forKey: userDefaultKey)
                 }
             }
         }
