@@ -31,7 +31,7 @@ struct FocusedTimerFocusFilterIntent: SetFocusFilterIntent {
         }
 
         if let requestedType = timerType, viewModel.timerType != requestedType {
-            viewModel.resetUpdateTimer()
+            viewModel.setInitialTimerType(requestedType)
         }
 
         if shouldAutoStart {

@@ -78,4 +78,19 @@ struct FocusedTimerFocusFilterIntentTests {
 
         #expect(viewModel.timerState == .paused)
     }
+
+    @Test("applies requested timer type when timer is initial")
+    @MainActor
+    func appliesRequestedTimerTypeWhenInitial() async throws {
+        let (viewModel, _) = makeSetup()
+        #expect(viewModel.timerType == .focused)
+
+        var intent = FocusedTimerFocusFilterIntent()
+        intent.timerType = .shortBreak
+        intent.shouldAutoStart = false
+        _ = try await intent.perform()
+
+        #expect(viewModel.timerState == .initial)
+        #expect(viewModel.timerType == .shortBreak)
+    }
 }

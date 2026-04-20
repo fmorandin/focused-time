@@ -56,7 +56,7 @@ struct TimerSettingsView: View {
                         )
 
                         let focusedTime = Int($settingsViewModel.focusedTime.wrappedValue)
-                        guard let focusedTime else {
+                        guard let focusedTime, focusedTime > 0 else {
                             focusedTimerHasValidationErrors = true
                             return
                         }
@@ -92,7 +92,7 @@ struct TimerSettingsView: View {
                         )
 
                         let shortBreakTime = Int($settingsViewModel.shortBreakTime.wrappedValue)
-                        guard let shortBreakTime else {
+                        guard let shortBreakTime, shortBreakTime > 0 else {
                             shortBreakHasValidationErrors = true
                             return
                         }
@@ -128,7 +128,7 @@ struct TimerSettingsView: View {
                         )
 
                         let longBreak = Int($settingsViewModel.longBreak.wrappedValue)
-                        guard let longBreak else {
+                        guard let longBreak, longBreak > 0 else {
                             longBreakHasValidationErrors = true
                             return
                         }
@@ -164,7 +164,7 @@ struct TimerSettingsView: View {
                         )
 
                         let numberOfCycles = Int($settingsViewModel.cycleTotal.wrappedValue)
-                        guard let numberOfCycles else {
+                        guard let numberOfCycles, numberOfCycles > 0 else {
                             numberOfCyclesHasValidationErrors = true
                             return
                         }

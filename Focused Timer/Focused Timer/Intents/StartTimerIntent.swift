@@ -27,7 +27,7 @@ struct StartTimerIntent: AppIntent {
             return .result(dialog: "Timer resumed.")
         case .initial:
             if let requestedType = timerType, viewModel.timerType != requestedType {
-                viewModel.resetUpdateTimer()
+                viewModel.setInitialTimerType(requestedType)
             }
             viewModel.startTimer()
             let typeName = viewModel.timerType.getCorrectTranslation()

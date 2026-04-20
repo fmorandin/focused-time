@@ -186,6 +186,24 @@ final class TimerUseCase {
         onStateChange?()
     }
 
+    /// Resets the timer to the initial state for a specific timer type.
+    /// Used by App Intents that accept a "Timer Type" parameter.
+    func setInitialTimerType(_ type: TimerType) {
+        Self.logger.notice("🎚 Setting initial timer type to \(type.rawValue).")
+        timer?.invalidate()
+        alarmScheduler?.cancelAlarm()
+        timerState = .initial
+        timerType = type
+        timerTo = 1.0
+        numberOfCompletedCycles = 0
+        previousPhaseWasFocus = false
+        let duration = timerModel.getTime(for: type.userDefaultKey)
+        counter = duration
+        totalTime = duration
+        totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
+        onStateChange?()
+    }
+
     /// Saves remaining time and schedules a local notification when the app enters background.
     func moveAppToBackground() {
         Self.logger.notice("👋🏻 Moving app to the background.")
@@ -256,21 +274,35 @@ final class TimerUseCase {
         Self.logger.notice("📱 Applying widget state: \(widgetState.state).")
         timer?.invalidate()
         timer = nil
+        alarmScheduler?.cancelAlarm()
+
+        if let syncedType = TimerType(rawValue: widgetState.timerType) {
+            timerType = syncedType
+        }
+        totalTime = max(1, widgetState.totalSeconds)
+        totalNumberOfCycles = max(0, widgetState.totalCycles)
+        numberOfCompletedCycles = min(
+            max(0, widgetState.completedCycles),
+            totalNumberOfCycles
+        )
 
         switch widgetState.state {
         case "running":
             let newCounter = widgetState.endTime.map { max(1, Int($0.timeIntervalSinceNow)) }
                 ?? widgetState.remainingSeconds
-            counter = newCounter
+            counter = max(1, min(newCounter, totalTime))
+            timerTo = CGFloat(counter) / CGFloat(totalTime)
             startTimer()
             onStateChange?()
         case "paused":
-            counter = widgetState.remainingSeconds
+            counter = max(1, min(widgetState.remainingSeconds, totalTime))
             timerState = .paused
+            timerTo = CGFloat(counter) / CGFloat(totalTime)
             onStateChange?()
         default: // "initial"
-            counter = widgetState.remainingSeconds
+            counter = max(1, min(widgetState.remainingSeconds, totalTime))
             timerState = .initial
+            timerTo = CGFloat(counter) / CGFloat(totalTime)
             onStateChange?()
         }
     }

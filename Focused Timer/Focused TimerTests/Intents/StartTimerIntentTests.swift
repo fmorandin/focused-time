@@ -68,4 +68,19 @@ struct StartTimerIntentTests {
         // Timer should still be running
         #expect(viewModel.timerState == .running)
     }
+
+    @Test("applies requested timer type before starting")
+    @MainActor
+    func appliesRequestedTimerType() async throws {
+        let (viewModel, factory) = makeSetup()
+        #expect(viewModel.timerType == .focused)
+
+        var intent = StartTimerIntent()
+        intent.timerType = .longBreak
+        _ = try await intent.perform()
+
+        factory.advance()
+        #expect(viewModel.timerState == .running)
+        #expect(viewModel.timerType == .longBreak)
+    }
 }

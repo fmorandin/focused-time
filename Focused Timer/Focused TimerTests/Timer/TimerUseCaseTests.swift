@@ -1227,6 +1227,45 @@ struct TimerUseCaseTests {
         #expect(useCase.counter >= 1)
     }
 
+    @Test("moveAppToForeground: applied widget state hydrates timer type, duration and cycle counters")
+    func foregroundHydratesAllWidgetFields() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 120)
+
+        let model = TimerModelSpy()
+        model.savedTimes = (nil, nil)
+        model.backgroundTimestamp = backgroundTimestamp
+
+        let widgetState = WidgetTimerState(
+            timerType: TimerType.longBreak.rawValue,
+            endTime: nil,
+            remainingSeconds: 900,
+            totalSeconds: 1800,
+            completedCycles: 3,
+            totalCycles: 4,
+            state: "paused",
+            updatedAt: widgetUpdateTime
+        )
+        let reader = StubWidgetStateReader(state: widgetState)
+
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 130) },
+            widgetStateReader: reader
+        )
+
+        useCase.startTimer()
+        timerFactory.advance() // state -> .running
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .paused)
+        #expect(useCase.timerType == .longBreak)
+        #expect(useCase.totalTime == 1800)
+        #expect(useCase.counter == 900)
+        #expect(useCase.numberOfCompletedCycles == 3)
+        #expect(useCase.totalNumberOfCycles == 4)
+    }
+
     @Test("moveAppToForeground: running timer prefers widget endTime even when widget updatedAt is older")
     func foregroundRunningPrefersWidgetEndTimeOverOldTimestamp() {
         let backgroundTimestamp = Date(timeIntervalSince1970: 100)

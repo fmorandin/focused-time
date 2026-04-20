@@ -215,6 +215,11 @@ final class TimerViewModel {
         useCase.resetUpdateTimer()
     }
 
+    func setInitialTimerType(_ type: TimerType) {
+        Self.logger.notice("🎚 Setting initial timer type to \(type.rawValue) (ViewModel delegate).")
+        useCase.setInitialTimerType(type)
+    }
+
     func moveAppToBackground() {
         useCase.moveAppToBackground()
     }

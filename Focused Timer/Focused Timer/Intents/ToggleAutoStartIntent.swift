@@ -18,6 +18,10 @@ struct ToggleAutoStartIntent: AppIntent {
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let settingsModel = SettingsModel()
         settingsModel.saveToggle(value: enabled, for: UserDefaultKeys.autoStartToggle)
+        if enabled {
+            settingsModel.saveToggle(value: false, for: UserDefaultKeys.enableAlarm)
+            settingsModel.saveToggle(value: true, for: UserDefaultKeys.enableNotifications)
+        }
         let state = enabled ? "enabled" : "disabled"
         return .result(dialog: "Auto-start \(state).")
     }

@@ -115,6 +115,7 @@ struct FormView: View {
         .onChange(of: router.selectedTab) { _, newTab in
             if newTab != .settings && self.settingsViewModel.shouldUpdateTimerView {
                 router.signalSettingsChanged()
+                self.settingsViewModel.shouldUpdateTimerView = false
             }
         }
     }
