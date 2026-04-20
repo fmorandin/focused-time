@@ -19,6 +19,6 @@ struct TimerWidget: Widget {
         }
         .configurationDisplayName("Focused Timer")
         .description("Track your focus sessions from your home screen.")
-        .supportedFamilies([.systemSmall, .accessoryCircular, .accessoryRectangular])
+        .supportedFamilies([.systemSmall])
     }
 }
