@@ -117,6 +117,7 @@ struct TimerViewLifecycleTests {
     }
 
     @Test("ContentView scenePhase background triggers timer background sync")
+    @MainActor
     func contentViewBackgroundPhaseTriggersBackgroundSync() {
         let timerModel = TimerModelLifecycleMock()
         let viewModel = TimerViewModel(timerModel: timerModel)
@@ -128,6 +129,7 @@ struct TimerViewLifecycleTests {
     }
 
     @Test("ContentView scenePhase active triggers timer foreground sync")
+    @MainActor
     func contentViewActivePhaseTriggersForegroundSync() {
         let notificationManager = NotificationManagerLifecycleSpy()
         let viewModel = TimerViewModel(
@@ -142,6 +144,7 @@ struct TimerViewLifecycleTests {
     }
 
     @Test("ContentView scenePhase inactive does not trigger background or foreground sync")
+    @MainActor
     func contentViewInactivePhaseDoesNotTriggerSync() {
         let timerModel = TimerModelLifecycleMock()
         let notificationManager = NotificationManagerLifecycleSpy()
