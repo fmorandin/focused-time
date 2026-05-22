@@ -34,6 +34,10 @@ struct WidgetTimerToggleIntent: AppIntent {
             defaults.set(encoded, forKey: WidgetTimerState.storageKey)
         }
 
+        // Signal the main app so it can re-sync without waiting for a foreground
+        // transition (relevant when the app is foregrounded but the user interacts
+        // with the widget from Control Center / Notification Center / Stack widgets).
+        WidgetStateBridge.postChange()
         WidgetCenter.shared.reloadAllTimelines()
         return .result()
     }

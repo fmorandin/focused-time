@@ -250,6 +250,29 @@ final class TimerUseCase {
         }
     }
 
+    /// Reads the current widget state from App Groups and applies it if it represents
+    /// a real change. Called when the widget extension posts the Darwin notification
+    /// after toggling state, so the app can re-sync without a foreground transition.
+    func syncFromWidget() {
+        guard let widgetState = widgetStateReader?.readWidgetState() else { return }
+        guard !isAlreadyInSync(with: widgetState) else { return }
+        Self.logger.notice("📥 syncFromWidget: applying out-of-process widget state.")
+        applyWidgetState(widgetState)
+    }
+
+    private func isAlreadyInSync(with widgetState: WidgetTimerState) -> Bool {
+        guard widgetState.state == timerState.widgetStateString else { return false }
+        switch widgetState.state {
+        case "running":
+            guard let endTime = widgetState.endTime else { return false }
+            let widgetRemaining = max(0, Int(endTime.timeIntervalSince(nowProvider())))
+            // Allow ±1s drift between widget endTime and app counter to avoid spurious resyncs.
+            return abs(widgetRemaining - counter) <= 1
+        default:
+            return widgetState.remainingSeconds == counter
+        }
+    }
+
     // MARK: - Private Methods
 
     private func applyWidgetState(_ widgetState: WidgetTimerState) {
@@ -262,14 +285,23 @@ final class TimerUseCase {
             let newCounter = widgetState.endTime.map { max(1, Int($0.timeIntervalSinceNow)) }
                 ?? widgetState.remainingSeconds
             counter = newCounter
+            timerTo = totalTime > 0 ? CGFloat(newCounter) / CGFloat(totalTime) : 1.0
+            // startTimer() cancels any prior alarm and re-schedules with the new remaining
+            // time, so no explicit cancelAlarm() is needed in this branch.
             startTimer()
             onStateChange?()
         case "paused":
+            // The widget paused the session, so any alarm scheduled when the app started
+            // the timer must be cancelled — otherwise it still rings at the old deadline.
+            alarmScheduler?.cancelAlarm()
             counter = widgetState.remainingSeconds
+            timerTo = totalTime > 0 ? CGFloat(counter) / CGFloat(totalTime) : 1.0
             timerState = .paused
             onStateChange?()
         default: // "initial"
+            alarmScheduler?.cancelAlarm()
             counter = widgetState.remainingSeconds
+            timerTo = 1.0
             timerState = .initial
             onStateChange?()
         }

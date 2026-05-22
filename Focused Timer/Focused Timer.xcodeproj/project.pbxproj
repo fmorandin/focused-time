@@ -40,6 +40,7 @@
 		18D0CC862F6D995E0087C220 /* FocusedTimerWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 18D0CC722F6D995D0087C220 /* FocusedTimerWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		18D0CC962F6D99E60087C220 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D0CC742F6D995D0087C220 /* WidgetKit.framework */; };
 		18D7443825D35DBF00D5FF96 /* TimerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7443725D35DBF00D5FF96 /* TimerType.swift */; };
+		18D7A8142FC0DECB00AE8000 /* WidgetStateBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18D7A8132FC0DECB00AE8000 /* WidgetStateBridge.swift */; };
 		18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DF2DEF260A9BBE00F1BB69 /* Constants.swift */; };
 		1FC1A1A2F95345E51E4643D1 /* TimerModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C05526F052860499DA8703 /* TimerModelTests.swift */; };
 		29F8954DA12503440924A3B7 /* UserDefaultsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D21C79F597FFDAEFCA7D840E /* UserDefaultsRepository.swift */; };
@@ -186,6 +187,7 @@
 		18D0CC942F6D998D0087C220 /* Focused Timer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Focused Timer.entitlements"; sourceTree = "<group>"; };
 		18D0CC952F6D99A50087C220 /* FocusedTimerWidgetsExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FocusedTimerWidgetsExtension.entitlements; sourceTree = "<group>"; };
 		18D7443725D35DBF00D5FF96 /* TimerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerType.swift; sourceTree = "<group>"; };
+		18D7A8132FC0DECB00AE8000 /* WidgetStateBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetStateBridge.swift; sourceTree = "<group>"; };
 		18DF2DEF260A9BBE00F1BB69 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		229EA23AA7B25BFB13C875AA /* Router.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		2A7ACE62F530C46535D8CC0E /* ShareService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ShareService.swift; sourceTree = "<group>"; };
@@ -665,6 +667,7 @@
 			isa = PBXGroup;
 			children = (
 				BB11000000000000000001AA /* WidgetTimerState.swift */,
+				18D7A8132FC0DECB00AE8000 /* WidgetStateBridge.swift */,
 			);
 			path = Widget;
 			sourceTree = "<group>";
@@ -953,6 +956,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18D7A8142FC0DECB00AE8000 /* WidgetStateBridge.swift in Sources */,
 				18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */,
 				180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */,
 				AA00000001110000000000AA /* AlarmScheduler.swift in Sources */,

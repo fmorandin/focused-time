@@ -1422,4 +1422,180 @@ struct TimerUseCaseTests {
 
         #expect(model.savedBackgroundTimestampCount == 1)
     }
+
+    // MARK: - applyWidgetState Side Effects
+
+    @Test("foreground with paused widget state cancels the previously scheduled alarm")
+    func foregroundPausedWidgetStateCancelsAlarm() {
+        // Reproduces: app starts the timer in foreground (schedules alarm), backgrounds
+        // while running, widget pauses the timer; without the cancel the alarm still rings.
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 120)
+
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        model.savedTimes = (30, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 25,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "paused",
+            updatedAt: widgetUpdateTime
+        )
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 130) },
+            alarmScheduler: alarmSpy,
+            widgetStateReader: StubWidgetStateReader(state: widgetState)
+        )
+
+        useCase.startTimer()         // schedules an alarm
+        timerFactory.advance()        // state → .running
+        let cancelCountBeforeForeground = alarmSpy.cancelCallCount
+
+        useCase.moveAppToForeground() // widget paused state should cancel the alarm
+
+        #expect(useCase.timerState == .paused)
+        #expect(alarmSpy.cancelCallCount > cancelCountBeforeForeground)
+    }
+
+    @Test("foreground with paused widget state updates timerTo from new counter")
+    func foregroundPausedWidgetStateUpdatesTimerTo() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 120)
+
+        let model = TimerModelSpy()
+        model.times[UserDefaultKeys.focusedTime] = 100
+        model.savedTimes = (50, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 25,
+            totalSeconds: 100,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "paused",
+            updatedAt: widgetUpdateTime
+        )
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 130) },
+            widgetStateReader: StubWidgetStateReader(state: widgetState)
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToForeground()
+
+        // counter is set to 25 (from widget), totalTime stays 100 (app side).
+        #expect(useCase.counter == 25)
+        #expect(useCase.timerTo == CGFloat(25) / CGFloat(100))
+    }
+
+    @Test("foreground with initial widget state resets timerTo to 1.0 and cancels alarm")
+    func foregroundInitialWidgetStateResetsTimerToAndCancelsAlarm() {
+        let backgroundTimestamp = Date(timeIntervalSince1970: 100)
+        let widgetUpdateTime = Date(timeIntervalSince1970: 120)
+
+        let model = TimerModelSpy()
+        model.toggles[UserDefaultKeys.enableAlarm] = true
+        model.savedTimes = (30, backgroundTimestamp)
+
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 1500,
+            totalSeconds: 1500,
+            completedCycles: 0,
+            totalCycles: 4,
+            state: "initial",
+            updatedAt: widgetUpdateTime
+        )
+        let alarmSpy = AlarmSchedulerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 130) },
+            alarmScheduler: alarmSpy,
+            widgetStateReader: StubWidgetStateReader(state: widgetState)
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        let cancelCountBeforeForeground = alarmSpy.cancelCallCount
+
+        useCase.moveAppToForeground()
+
+        #expect(useCase.timerState == .initial)
+        #expect(useCase.timerTo == 1.0)
+        #expect(alarmSpy.cancelCallCount > cancelCountBeforeForeground)
+    }
+
+    // MARK: - syncFromWidget
+
+    @Test("syncFromWidget no-ops when widget state matches the app state")
+    func syncFromWidgetNoOpsWhenInSync() {
+        let model = TimerModelSpy()
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 5,                     // same as app counter
+            totalSeconds: 5,
+            completedCycles: 0,
+            totalCycles: 2,
+            state: "initial",                        // same as app state
+            updatedAt: Date()
+        )
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            widgetStateReader: StubWidgetStateReader(state: widgetState)
+        )
+        var callCount = 0
+        useCase.onStateChange = { callCount += 1 }
+
+        useCase.syncFromWidget()
+
+        // applyWidgetState would have fired onStateChange — confirm it didn't.
+        #expect(callCount == 0)
+    }
+
+    @Test("syncFromWidget applies when widget state differs from app state")
+    func syncFromWidgetAppliesWhenDifferent() {
+        let model = TimerModelSpy()
+        let widgetState = WidgetTimerState(
+            timerType: "Focus",
+            endTime: nil,
+            remainingSeconds: 3,
+            totalSeconds: 5,
+            completedCycles: 0,
+            totalCycles: 2,
+            state: "paused",                         // differs from app's .initial
+            updatedAt: Date()
+        )
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            widgetStateReader: StubWidgetStateReader(state: widgetState)
+        )
+
+        useCase.syncFromWidget()
+
+        #expect(useCase.timerState == .paused)
+        #expect(useCase.counter == 3)
+    }
+
+    @Test("syncFromWidget with no widget state reader is a no-op")
+    func syncFromWidgetNoOpsWithoutReader() {
+        let (useCase, _) = makeSUT(widgetStateReader: nil)
+        var callCount = 0
+        useCase.onStateChange = { callCount += 1 }
+
+        useCase.syncFromWidget()
+
+        #expect(callCount == 0)
+    }
 }

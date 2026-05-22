@@ -142,6 +142,16 @@ final class TimerViewModel {
     private let dateFormatter = DateComponentsFormatter()
     private let reviewEnabled: Bool
 
+    /// Last widget state written to App Groups. Used to skip redundant writes during
+    /// per-second ticks: while running, the widget already renders a live countdown
+    /// from `endTime`, so reloading the timeline every second would exhaust iOS's
+    /// daily widget reload budget and leave the widget showing stale state.
+    private var lastWrittenWidgetState: WidgetTimerState?
+
+    /// Darwin-notification listener that fires when the widget process writes new state
+    /// (e.g., the user taps the widget's play/pause button while the app is foreground).
+    private var widgetStateObserver: WidgetStateObserver?
+
     // MARK: - Initializer
 
     init(
@@ -193,6 +203,10 @@ final class TimerViewModel {
             Self.logger.notice("⭐️ Requesting review — setting shouldRequestReview = true.")
             self.shouldRequestReview = true
         }
+
+        widgetStateObserver = WidgetStateObserver { [weak self] in
+            self?.useCase.syncFromWidget()
+        }
     }
 
     // MARK: - Public Methods (delegates to use case)
@@ -243,13 +257,46 @@ final class TimerViewModel {
         totalNumberOfCycles = useCase.totalNumberOfCycles
         countTime = dateFormatter.string(from: TimeInterval(useCase.counter)) ?? "-"
         accentCircleColor = TimerTheme.color(for: useCase.timerType)
-        WidgetStateWriter.write(makeWidgetState())
+
+        let newState = makeWidgetState()
+        if shouldWriteWidgetState(newState) {
+            WidgetStateWriter.write(newState)
+            lastWrittenWidgetState = newState
+        }
+    }
+
+    /// Returns true when `newState` represents a real state transition that the widget
+    /// must re-render for. While the timer is running, per-second counter decrements are
+    /// invisible to the widget — it derives the live countdown from `endTime` — so those
+    /// writes are dropped to stay within the iOS reload budget.
+    private func shouldWriteWidgetState(_ newState: WidgetTimerState) -> Bool {
+        guard let last = lastWrittenWidgetState else { return true }
+        if newState.state != last.state { return true }
+        if newState.timerType != last.timerType { return true }
+        if newState.completedCycles != last.completedCycles { return true }
+        if newState.totalCycles != last.totalCycles { return true }
+        if newState.totalSeconds != last.totalSeconds { return true }
+        // Running widgets countdown live from endTime — counter ticks don't need a write.
+        if newState.state == "running" { return false }
+        // Paused / initial: the widget renders the static remainingSeconds, so any change
+        // there does require a re-render.
+        return newState.remainingSeconds != last.remainingSeconds
     }
 
     private func makeWidgetState() -> WidgetTimerState {
-        let endTime: Date? = timerState == .running
-            ? Date().addingTimeInterval(TimeInterval(counter))
-            : nil
+        // While running, prefer the previously-written endTime so the widget's countdown
+        // stays stable across syncs. Recomputing `now + counter` every tick would let the
+        // deadline drift slightly each second due to Timer firing jitter.
+        let endTime: Date?
+        if timerState == .running {
+            if let previous = lastWrittenWidgetState?.endTime, lastWrittenWidgetState?.state == "running" {
+                endTime = previous
+            } else {
+                endTime = Date().addingTimeInterval(TimeInterval(counter))
+            }
+        } else {
+            endTime = nil
+        }
         return WidgetTimerState(
             timerType: timerType.rawValue,
             endTime: endTime,
