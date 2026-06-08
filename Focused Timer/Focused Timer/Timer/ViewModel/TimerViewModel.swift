@@ -10,7 +10,6 @@
 import AVFoundation
 import Observation
 import SwiftUI
-import WidgetKit
 import os
 
 // MARK: - Timer infrastructure protocols (kept here for proximity to their use)
@@ -152,7 +151,6 @@ final class TimerViewModel {
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
         notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
         alarmScheduler: AlarmScheduling = AlarmKitScheduler(),
-        widgetStateReader: WidgetStateReading? = nil,
         isReviewEnabled: Bool = !ProcessInfo.processInfo.arguments.contains("UI-Testing")
     ) {
         Self.logger.notice("🛠 Initializing Timer View Model.")
@@ -170,8 +168,7 @@ final class TimerViewModel {
             localNotificationManager: localNotificationManager,
             soundPlayer: soundPlayer,
             notificationFlagStore: notificationFlagStore,
-            alarmScheduler: alarmScheduler,
-            widgetStateReader: widgetStateReader
+            alarmScheduler: alarmScheduler
         )
 
         totalTime = useCase.totalTime
@@ -243,22 +240,5 @@ final class TimerViewModel {
         totalNumberOfCycles = useCase.totalNumberOfCycles
         countTime = dateFormatter.string(from: TimeInterval(useCase.counter)) ?? "-"
         accentCircleColor = TimerTheme.color(for: useCase.timerType)
-        WidgetStateWriter.write(makeWidgetState())
-    }
-
-    private func makeWidgetState() -> WidgetTimerState {
-        let endTime: Date? = timerState == .running
-            ? Date().addingTimeInterval(TimeInterval(counter))
-            : nil
-        return WidgetTimerState(
-            timerType: timerType.rawValue,
-            endTime: endTime,
-            remainingSeconds: counter,
-            totalSeconds: totalTime,
-            completedCycles: numberOfCompletedCycles,
-            totalCycles: totalNumberOfCycles,
-            state: timerState.widgetStateString,
-            updatedAt: Date()
-        )
     }
 }

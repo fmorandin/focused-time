@@ -21,10 +21,7 @@ final class TimerService: TimerServiceProtocol, @unchecked Sendable {
     let timerViewModel: TimerViewModel
 
     private init() {
-        self.timerViewModel = TimerViewModel(
-            timerModel: TimerModel(),
-            widgetStateReader: AppGroupWidgetStateReader()
-        )
+        self.timerViewModel = TimerViewModel(timerModel: TimerModel())
     }
 
     /// Replaces the shared instance — intended for unit tests only.
