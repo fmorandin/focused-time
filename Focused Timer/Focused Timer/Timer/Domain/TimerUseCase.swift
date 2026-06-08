@@ -11,32 +11,6 @@ import AudioToolbox
 import Foundation
 import os
 
-// MARK: - Widget State Reading Protocol
-
-protocol WidgetStateReading {
-    func readWidgetState() -> WidgetTimerState?
-}
-
-struct AppGroupWidgetStateReader: WidgetStateReading {
-
-    private let suiteName: String
-
-    init(suiteName: String = UserDefaultKeys.appGroupSuite) {
-        self.suiteName = suiteName
-    }
-
-    func readWidgetState() -> WidgetTimerState? {
-        guard
-            let defaults = UserDefaults(suiteName: suiteName),
-            let data = defaults.data(forKey: UserDefaultKeys.widgetTimerState),
-            let state = try? JSONDecoder().decode(WidgetTimerState.self, from: data)
-        else { return nil }
-        return state
-    }
-}
-
-// MARK: -
-
 final class TimerUseCase {
 
     // MARK: - State (source of truth for all timer state)
@@ -81,7 +55,6 @@ final class TimerUseCase {
     private let soundPlayer: SystemSoundPlaying
     private let notificationFlagStore: NotificationFlagStoring
     private let alarmScheduler: AlarmScheduling?
-    private let widgetStateReader: WidgetStateReading?
 
     private let systemSoundID: SystemSoundID = 1009
 
@@ -107,8 +80,7 @@ final class TimerUseCase {
         localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
         soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
         notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
-        alarmScheduler: AlarmScheduling? = nil,
-        widgetStateReader: WidgetStateReading? = nil
+        alarmScheduler: AlarmScheduling? = nil
     ) {
         Self.logger.notice("🛠 Initializing TimerUseCase.")
 
@@ -119,7 +91,6 @@ final class TimerUseCase {
         self.soundPlayer = soundPlayer
         self.notificationFlagStore = notificationFlagStore
         self.alarmScheduler = alarmScheduler
-        self.widgetStateReader = widgetStateReader
 
         let startingType = timerModel.getStartingTimerType()
         self.timerType = startingType
@@ -189,7 +160,6 @@ final class TimerUseCase {
     /// Saves remaining time and schedules a local notification when the app enters background.
     func moveAppToBackground() {
         Self.logger.notice("👋🏻 Moving app to the background.")
-        timerModel.saveBackgroundTimestamp()
         if timerState == .running {
             timerModel.saveMoveToBackgroundTime(remainingTime: counter)
             if isNotificationsEnabled {
@@ -202,78 +172,38 @@ final class TimerUseCase {
     }
 
     /// Cancels pending notifications and recalculates the remaining time when the app returns to foreground.
-    /// If a widget interaction occurred while the app was backgrounded, applies the widget state instead
-    /// of the standard elapsed-time arithmetic. If the timer expired while in background, transitions to
-    /// the next phase immediately, preventing a momentary stale-state flash in the UI.
+    /// If the timer expired while in background, transitions to the next phase immediately instead
+    /// of waiting for the next Foundation timer tick, preventing a momentary stale-state flash in the UI.
     func moveAppToForeground() {
         Self.logger.notice("👋🏻 Moving app to the foreground.")
         localNotificationManager.clearScheduledNotifications()
-        let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
-        let backgroundTimestamp = timerModel.getBackgroundTimestamp()
-        let hasCurrentRunningBackgroundSnapshot = isCurrentRunningBackgroundSnapshot(
-            savedTimestampBackground: savedTimestampBackground,
-            backgroundTimestamp: backgroundTimestamp
-        )
 
         if timerState == .running {
-            syncRunningTimerOnForeground(
-                savedRemainingTime: savedRemainingTime,
-                savedTimestampBackground: savedTimestampBackground,
-                backgroundTimestamp: backgroundTimestamp
-            )
-            return
-        }
+            Self.logger.notice("🏃🏻‍♂️ Timer is running.")
+            let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
 
-        if let widgetState = widgetStateReader?.readWidgetState(),
-           shouldApplyWidgetStateOnForeground(
-               widgetState,
-               savedRemainingTime: savedRemainingTime,
-               savedTimestampBackground: savedTimestampBackground,
-               backgroundTimestamp: backgroundTimestamp,
-               timerWasRunningInApp: false
-           ) {
-            Self.logger.notice("📱 Widget changed state while app was not running — applying widget state.")
-            applyWidgetState(widgetState)
-            return
-        }
+            guard let remainingTime = savedRemainingTime,
+                  let timestampBackground = savedTimestampBackground else { return }
 
-        if hasCurrentRunningBackgroundSnapshot,
-           let remainingTime = savedRemainingTime,
-           let timestampBackground = savedTimestampBackground {
-            applyElapsedBackgroundTime(
-                remainingTime: remainingTime,
-                timestampBackground: timestampBackground,
-                shouldInvalidateActiveTimer: false,
-                expiredLogMessage: "⏰ Restored background timer already expired — advancing phase.",
-                restoreLogMessage: "⏱ Restoring running timer from saved background snapshot."
-            )
+            let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
+            let totalRemainingTime = remainingTime - timeInBackground
+
+            if totalRemainingTime <= 0 {
+                Self.logger.notice("⏰ Timer expired in background — advancing phase immediately.")
+                timer?.invalidate()
+                timer = nil
+                changeTimerMode()
+                if isAutoStartEnabled {
+                    startTimer()
+                }
+            } else {
+                counter = totalRemainingTime
+            }
+            onStateChange?()
         }
     }
 
     // MARK: - Private Methods
-
-    private func applyWidgetState(_ widgetState: WidgetTimerState) {
-        Self.logger.notice("📱 Applying widget state: \(widgetState.state).")
-        timer?.invalidate()
-        timer = nil
-
-        switch widgetState.state {
-        case "running":
-            let newCounter = widgetState.endTime.map { max(1, Int($0.timeIntervalSinceNow)) }
-                ?? widgetState.remainingSeconds
-            counter = newCounter
-            startTimer()
-            onStateChange?()
-        case "paused":
-            counter = widgetState.remainingSeconds
-            timerState = .paused
-            onStateChange?()
-        default: // "initial"
-            counter = widgetState.remainingSeconds
-            timerState = .initial
-            onStateChange?()
-        }
-    }
 
     private func tick() {
         Self.logger.notice("⏲ Tick — decrementing counter.")
@@ -350,119 +280,5 @@ final class TimerUseCase {
             counter = duration
             totalTime = duration
         }
-    }
-}
-
-private extension TimerUseCase {
-    func isCurrentRunningBackgroundSnapshot(
-        savedTimestampBackground: Date?,
-        backgroundTimestamp: Date?
-    ) -> Bool {
-        guard let savedTimestampBackground, let backgroundTimestamp else { return false }
-        // `saveBackgroundTimestamp()` is called first, then `saveMoveToBackgroundTime()`.
-        // If saved timestamp is older than background timestamp, the saved timer data is stale.
-        return savedTimestampBackground >= backgroundTimestamp
-    }
-
-    func syncRunningTimerOnForeground(
-        savedRemainingTime: Int?,
-        savedTimestampBackground: Date?,
-        backgroundTimestamp: Date?
-    ) {
-        Self.logger.notice("🏃🏻‍♂️ Timer is running.")
-
-        if let widgetState = widgetStateReader?.readWidgetState() {
-            if widgetState.state == "running",
-               widgetState.endTime != nil {
-                Self.logger.notice("📱 Running widget countdown found — applying widget state.")
-                applyWidgetState(widgetState)
-                return
-            }
-
-            if shouldApplyWidgetStateOnForeground(
-                widgetState,
-                savedRemainingTime: savedRemainingTime,
-                savedTimestampBackground: savedTimestampBackground,
-                backgroundTimestamp: backgroundTimestamp,
-                timerWasRunningInApp: true
-            ) {
-                Self.logger.notice("📱 Widget state is newer — applying widget state.")
-                applyWidgetState(widgetState)
-                return
-            }
-        }
-
-        guard let remainingTime = savedRemainingTime,
-              let timestampBackground = savedTimestampBackground else { return }
-
-        applyElapsedBackgroundTime(
-            remainingTime: remainingTime,
-            timestampBackground: timestampBackground,
-            shouldInvalidateActiveTimer: true,
-            expiredLogMessage: "⏰ Timer expired in background — advancing phase immediately."
-        )
-    }
-
-    func shouldApplyWidgetStateOnForeground(
-        _ widgetState: WidgetTimerState,
-        savedRemainingTime: Int?,
-        savedTimestampBackground: Date?,
-        backgroundTimestamp: Date?,
-        timerWasRunningInApp: Bool
-    ) -> Bool {
-        if widgetState.state != "running" {
-            guard let recencyReference = backgroundTimestamp ?? savedTimestampBackground else { return false }
-            return widgetState.updatedAt > recencyReference
-        }
-
-        let widgetRemaining = widgetState.endTime.map { Int($0.timeIntervalSince(nowProvider())) }
-            ?? widgetState.remainingSeconds
-        guard widgetRemaining > 0 else { return false }
-
-        if let recencyReference = savedTimestampBackground ?? backgroundTimestamp,
-           widgetState.updatedAt > recencyReference {
-            return true
-        }
-
-        if savedRemainingTime == nil || savedTimestampBackground == nil {
-            return true
-        }
-
-        if !timerWasRunningInApp,
-           let backgroundTimestamp,
-           widgetState.updatedAt >= backgroundTimestamp.addingTimeInterval(-2) {
-            return true
-        }
-
-        return false
-    }
-
-    func applyElapsedBackgroundTime(
-        remainingTime: Int,
-        timestampBackground: Date,
-        shouldInvalidateActiveTimer: Bool,
-        expiredLogMessage: String,
-        restoreLogMessage: String? = nil
-    ) {
-        let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
-        let totalRemainingTime = remainingTime - timeInBackground
-
-        if totalRemainingTime <= 0 {
-            Self.logger.notice("\(expiredLogMessage)")
-            if shouldInvalidateActiveTimer {
-                timer?.invalidate()
-                timer = nil
-            }
-            changeTimerMode()
-            if isAutoStartEnabled {
-                startTimer()
-            }
-        } else {
-            if let restoreLogMessage {
-                Self.logger.notice("\(restoreLogMessage)")
-            }
-            counter = totalRemainingTime; startTimer()
-        }
-        onStateChange?()
     }
 }

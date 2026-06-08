@@ -32,12 +32,6 @@ protocol TimerModelProtocol {
 
     /// Returns the timer type the user has chosen as the starting point
     func getStartingTimerType() -> TimerType
-
-    /// Saves a timestamp for when the app last moved to the background, regardless of timer state.
-    func saveBackgroundTimestamp()
-
-    /// Returns the timestamp saved by the last `saveBackgroundTimestamp()` call, or nil if never called.
-    func getBackgroundTimestamp() -> Date?
 }
 
 struct TimerModel: TimerModelProtocol {
@@ -132,13 +126,5 @@ struct TimerModel: TimerModelProtocol {
 
         let rawValue: String = repository.string(for: UserDefaultKeys.startingTimerType)
         return TimerType(rawValue: rawValue) ?? .focused
-    }
-
-    func saveBackgroundTimestamp() {
-        repository.save(Date(), for: UserDefaultKeys.timestampLastBackground)
-    }
-
-    func getBackgroundTimestamp() -> Date? {
-        repository.date(for: UserDefaultKeys.timestampLastBackground)
     }
 }
