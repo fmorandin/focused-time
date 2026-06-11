@@ -98,6 +98,8 @@ final class TimerUseCase {
         self.totalTime = startingTime
         self.counter = startingTime
         self.totalNumberOfCycles = Int(timerModel.getNumberOfCycles(for: UserDefaultKeys.numberOfCycles)) ?? 0
+
+        reconcileStateAfterColdLaunch()
     }
 
     // MARK: - Public Methods
@@ -161,7 +163,12 @@ final class TimerUseCase {
     func moveAppToBackground() {
         Self.logger.notice("👋🏻 Moving app to the background.")
         if timerState == .running {
-            timerModel.saveMoveToBackgroundTime(remainingTime: counter)
+            timerModel.saveMoveToBackgroundTime(
+                remainingTime: counter,
+                timerType: timerType,
+                numberOfCompletedCycles: numberOfCompletedCycles,
+                previousPhaseWasFocus: previousPhaseWasFocus
+            )
             if isNotificationsEnabled {
                 localNotificationManager.scheduleLocalNotification(
                     remainingTime: Double(counter),
@@ -188,6 +195,8 @@ final class TimerUseCase {
             let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
             let totalRemainingTime = remainingTime - timeInBackground
 
+            timerModel.clearSavedBackgroundState()
+
             if totalRemainingTime <= 0 {
                 Self.logger.notice("⏰ Timer expired in background — advancing phase immediately.")
                 timer?.invalidate()
@@ -204,6 +213,35 @@ final class TimerUseCase {
     }
 
     // MARK: - Private Methods
+
+    /// Checks whether the app was killed while a timer was running and reconciles state.
+    /// Called once from init() so the UI reflects the correct phase on cold launch.
+    private func reconcileStateAfterColdLaunch() {
+        guard let backgroundState = timerModel.getSavedBackgroundTimerState() else { return }
+        let (savedRemainingTime, savedTimestampBackground) = timerModel.getSavedTimes()
+        guard let remainingTime = savedRemainingTime,
+              let timestampBackground = savedTimestampBackground else { return }
+
+        let timeElapsed = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
+        let totalRemainingTime = remainingTime - timeElapsed
+
+        timerModel.clearSavedBackgroundState()
+        timerType = backgroundState.timerType
+        numberOfCompletedCycles = backgroundState.numberOfCompletedCycles
+        previousPhaseWasFocus = backgroundState.previousPhaseWasFocus
+
+        if totalRemainingTime <= 0 {
+            Self.logger.notice("💀 App killed — timer expired. Advancing phase on cold launch.")
+            notificationFlagStore.set(true, forKey: UserDefaultKeys.isNotification)
+            changeTimerMode()
+        } else {
+            Self.logger.notice("💀 App killed — timer still running. Restoring as paused.")
+            totalTime = timerModel.getTime(for: backgroundState.timerType.userDefaultKey)
+            counter = totalRemainingTime
+            timerState = .paused
+            timerTo = CGFloat(totalRemainingTime) / CGFloat(totalTime)
+        }
+    }
 
     private func tick() {
         Self.logger.notice("⏲ Tick — decrementing counter.")

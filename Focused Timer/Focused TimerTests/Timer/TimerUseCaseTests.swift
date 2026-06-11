@@ -122,13 +122,24 @@ private final class TimerModelSpy: TimerModelProtocol {
         UserDefaultKeys.enableNotifications: true
     ]
     var numberOfCycles = "2"
-    var savedTimes: (Int?, Date?) = (0, Date())
+    var savedTimes: (Int?, Date?) = (nil, nil)
+    var savedBackgroundState: BackgroundTimerState?
     var startingTimerType: TimerType = .focused
     private(set) var savedRemainingTimesFromBackground: [Int] = []
+    private(set) var clearSavedBackgroundStateCalls = 0
 
     func getTime(for keyName: String) -> Int { times[keyName] ?? 0 }
-    func saveMoveToBackgroundTime(remainingTime: Int) { savedRemainingTimesFromBackground.append(remainingTime) }
+    func saveMoveToBackgroundTime(
+        remainingTime: Int,
+        timerType: TimerType,
+        numberOfCompletedCycles: Int,
+        previousPhaseWasFocus: Bool
+    ) {
+        savedRemainingTimesFromBackground.append(remainingTime)
+    }
     func getSavedTimes() -> (Int?, Date?) { savedTimes }
+    func getSavedBackgroundTimerState() -> BackgroundTimerState? { savedBackgroundState }
+    func clearSavedBackgroundState() { clearSavedBackgroundStateCalls += 1 }
     func getNumberOfCycles(for _: String) -> String { numberOfCycles }
     func getToggle(for keyName: String) -> Bool { toggles[keyName] ?? false }
     func getStartingTimerType() -> TimerType { startingTimerType }
@@ -1087,5 +1098,96 @@ struct TimerUseCaseTests {
         useCase.moveAppToBackground()
 
         #expect(notificationManager.scheduledTimerTypes.last == .shortBreak)
+    }
+
+    // MARK: - Cold Launch Reconciliation
+
+    @Test("cold launch after kill with expired timer advances phase")
+    func coldLaunchAfterKillWithExpiredTimerAdvancesPhase() {
+        let model = TimerModelSpy()
+        model.savedBackgroundState = BackgroundTimerState(
+            timerType: .focused, numberOfCompletedCycles: 0, previousPhaseWasFocus: false
+        )
+        model.savedTimes = (5, Date(timeIntervalSince1970: 0))
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 100) } // 100s elapsed > 5s remaining
+        )
+
+        // init() calls reconcileStateAfterColdLaunch() — timer expired → phase advances
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.counter == 2)   // shortBreakTime from model
+        #expect(useCase.timerState == .initial)
+        #expect(useCase.timerTo == 1.0)
+        #expect(model.clearSavedBackgroundStateCalls == 1)
+    }
+
+    @Test("cold launch after kill with expired timer on last focus cycle goes to long break")
+    func coldLaunchAfterKillWithLastCycleGoesToLongBreak() {
+        let model = TimerModelSpy()
+        // numberOfCompletedCycles + 1 == totalNumberOfCycles (2) → long break
+        model.savedBackgroundState = BackgroundTimerState(
+            timerType: .focused, numberOfCompletedCycles: 1, previousPhaseWasFocus: false
+        )
+        model.savedTimes = (5, Date(timeIntervalSince1970: 0))
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 100) }
+        )
+
+        #expect(useCase.timerType == .longBreak)
+        #expect(useCase.counter == 3)   // longBreakTime from model
+        #expect(useCase.timerState == .initial)
+    }
+
+    @Test("cold launch after kill with timer still running restores as paused")
+    func coldLaunchAfterKillWithRunningTimerRestoresAsPaused() {
+        let model = TimerModelSpy()
+        model.savedBackgroundState = BackgroundTimerState(
+            timerType: .focused, numberOfCompletedCycles: 0, previousPhaseWasFocus: false
+        )
+        model.savedTimes = (10, Date(timeIntervalSince1970: 0))
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 4) } // 4s elapsed, 6s remaining
+        )
+
+        #expect(useCase.timerType == .focused)
+        #expect(useCase.counter == 6)
+        #expect(useCase.timerState == .paused)
+        #expect(useCase.totalTime == 5)     // focusedTime from model
+        #expect(model.clearSavedBackgroundStateCalls == 1)
+    }
+
+    @Test("cold launch without background state does not alter initial timer")
+    func coldLaunchWithoutBackgroundStateIsNoOp() {
+        let model = TimerModelSpy()
+        // savedBackgroundState is nil by default
+
+        let (useCase, _) = makeSUT(timerModel: model)
+
+        #expect(useCase.timerType == .focused)
+        #expect(useCase.counter == 5)
+        #expect(useCase.timerState == .initial)
+        #expect(model.clearSavedBackgroundStateCalls == 0)
+    }
+
+    @Test("moveAppToForeground clears background state after consuming it")
+    func foregroundClearsBackgroundStateAfterConsuming() {
+        let model = TimerModelSpy()
+        model.savedTimes = (20, Date(timeIntervalSince1970: 0))
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 5) }
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToForeground()
+
+        #expect(model.clearSavedBackgroundStateCalls == 1)
     }
 }

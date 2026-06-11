@@ -33,10 +33,21 @@ struct TimerModelMock: TimerModelProtocol {
     }
 
     func getSavedTimes() -> (Int?, Date?) {
-        return (0, Date())
+        return (nil, nil)
     }
 
-    func saveMoveToBackgroundTime(remainingTime: Int) {}
+    func getSavedBackgroundTimerState() -> BackgroundTimerState? {
+        return nil
+    }
+
+    func clearSavedBackgroundState() {}
+
+    func saveMoveToBackgroundTime(
+        remainingTime: Int,
+        timerType: TimerType,
+        numberOfCompletedCycles: Int,
+        previousPhaseWasFocus: Bool
+    ) {}
 
     func getTime(for keyName: String) -> Int {
         switch keyName {

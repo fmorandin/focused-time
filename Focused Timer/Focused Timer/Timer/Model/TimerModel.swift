@@ -8,6 +8,12 @@
 import Foundation
 import os
 
+struct BackgroundTimerState {
+    let timerType: TimerType
+    let numberOfCompletedCycles: Int
+    let previousPhaseWasFocus: Bool
+}
+
 protocol TimerModelProtocol {
 
     /// Function that returns an Int that is saved on UserDefaults based on a key
@@ -15,12 +21,22 @@ protocol TimerModelProtocol {
     func getTime(for keyName: String) -> Int
 
     /// Function that handles what is necessary to do when the app is moved to background
-    /// - Parameter remainingTime: the remaining timer for the timer that was running
-    func saveMoveToBackgroundTime(remainingTime: Int)
+    func saveMoveToBackgroundTime(
+        remainingTime: Int,
+        timerType: TimerType,
+        numberOfCompletedCycles: Int,
+        previousPhaseWasFocus: Bool
+    )
 
     /// Function that will get the necessary times that were saved
     /// when the app was moved to background
     func getSavedTimes() -> (Int?, Date?)
+
+    /// Returns the timer phase state saved when the app went to background, or nil if none.
+    func getSavedBackgroundTimerState() -> BackgroundTimerState?
+
+    /// Clears all persisted background state so stale data cannot be reapplied on a future cold launch.
+    func clearSavedBackgroundState()
 
     /// Return the number of cycles that user is aiming to complete before the long break
     /// - Parameter keyName: the key to be searched
@@ -73,15 +89,33 @@ struct TimerModel: TimerModelProtocol {
         }
     }
 
-    /// Function that handles what needs to be saved on UserDefaults in order to provide the
-    /// necessary information to keep the timer updated
-    /// - Parameter remainingTime: how many seconds are remaining in order to the timer finishs
-    func saveMoveToBackgroundTime(remainingTime: Int) {
-
-        Self.logger.notice("💾 Saving the remaing time and the timestamp.")
-
+    func saveMoveToBackgroundTime(
+        remainingTime: Int,
+        timerType: TimerType,
+        numberOfCompletedCycles: Int,
+        previousPhaseWasFocus: Bool
+    ) {
+        Self.logger.notice("💾 Saving the remaining time, timestamp, and timer phase.")
         repository.save(remainingTime, for: UserDefaultKeys.remainingTime)
         repository.save(Date(), for: UserDefaultKeys.timestampAppMovedBackground)
+        repository.save(timerType.rawValue, for: UserDefaultKeys.timerTypeBackground)
+        repository.save(numberOfCompletedCycles, for: UserDefaultKeys.completedCyclesBackground)
+        repository.save(previousPhaseWasFocus, for: UserDefaultKeys.previousPhaseWasFocusBackground)
+    }
+
+    func getSavedBackgroundTimerState() -> BackgroundTimerState? {
+        let rawTimerType: String = repository.string(for: UserDefaultKeys.timerTypeBackground)
+        guard !rawTimerType.isEmpty, let timerType = TimerType(rawValue: rawTimerType) else { return nil }
+        return BackgroundTimerState(
+            timerType: timerType,
+            numberOfCompletedCycles: repository.integer(for: UserDefaultKeys.completedCyclesBackground),
+            previousPhaseWasFocus: repository.bool(for: UserDefaultKeys.previousPhaseWasFocusBackground)
+        )
+    }
+
+    func clearSavedBackgroundState() {
+        Self.logger.notice("🗑 Clearing saved background state.")
+        repository.save("", for: UserDefaultKeys.timerTypeBackground)
     }
 
     /// Function that will return the times that are necessary
