@@ -29,11 +29,20 @@ struct TimerViewLifecycleTests {
             }
         }
 
-        func saveMoveToBackgroundTime(remainingTime _: Int) {}
+        func saveMoveToBackgroundTime(
+            remainingTime _: Int,
+            timerType _: TimerType,
+            numberOfCompletedCycles _: Int,
+            previousPhaseWasFocus _: Bool
+        ) {}
 
         func getSavedTimes() -> (Int?, Date?) {
             (nil, nil)
         }
+
+        func getSavedBackgroundTimerState() -> BackgroundTimerState? { nil }
+
+        func clearSavedBackgroundState() {}
 
         func getNumberOfCycles(for _: String) -> String {
             "2"

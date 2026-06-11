@@ -62,8 +62,9 @@ struct TimerModelTests {
     func saveBackgroundPersistsRemainingTime() {
         let repo = InMemoryStorageRepository()
         let model = TimerModel(repository: repo)
-        model.saveMoveToBackgroundTime(remainingTime: 900)
-
+        model.saveMoveToBackgroundTime(
+            remainingTime: 900, timerType: .focused, numberOfCompletedCycles: 0, previousPhaseWasFocus: false
+        )
         #expect(repo.integer(for: UserDefaultKeys.remainingTime) == 900)
     }
 
@@ -71,9 +72,52 @@ struct TimerModelTests {
     func saveBackgroundPersistsTimestamp() {
         let repo = InMemoryStorageRepository()
         let model = TimerModel(repository: repo)
-        model.saveMoveToBackgroundTime(remainingTime: 300)
-
+        model.saveMoveToBackgroundTime(
+            remainingTime: 300, timerType: .focused, numberOfCompletedCycles: 0, previousPhaseWasFocus: false
+        )
         #expect(repo.date(for: UserDefaultKeys.timestampAppMovedBackground) != nil)
+    }
+
+    @Test("saveMoveToBackgroundTime persists timer phase state")
+    func saveBackgroundPersistsTimerPhaseState() {
+        let repo = InMemoryStorageRepository()
+        let model = TimerModel(repository: repo)
+        model.saveMoveToBackgroundTime(
+            remainingTime: 60, timerType: .shortBreak, numberOfCompletedCycles: 2, previousPhaseWasFocus: true
+        )
+        #expect(repo.string(for: UserDefaultKeys.timerTypeBackground) == TimerType.shortBreak.rawValue)
+        #expect(repo.integer(for: UserDefaultKeys.completedCyclesBackground) == 2)
+        #expect(repo.bool(for: UserDefaultKeys.previousPhaseWasFocusBackground) == true)
+    }
+
+    @Test("getSavedBackgroundTimerState returns nil when nothing was saved")
+    func getSavedBackgroundTimerStateReturnsNilWhenEmpty() {
+        let model = TimerModel(repository: InMemoryStorageRepository())
+        #expect(model.getSavedBackgroundTimerState() == nil)
+    }
+
+    @Test("getSavedBackgroundTimerState returns saved phase state")
+    func getSavedBackgroundTimerStateReturnsSavedState() {
+        let repo = InMemoryStorageRepository()
+        let model = TimerModel(repository: repo)
+        model.saveMoveToBackgroundTime(
+            remainingTime: 30, timerType: .longBreak, numberOfCompletedCycles: 3, previousPhaseWasFocus: false
+        )
+        let state = model.getSavedBackgroundTimerState()
+        #expect(state?.timerType == .longBreak)
+        #expect(state?.numberOfCompletedCycles == 3)
+        #expect(state?.previousPhaseWasFocus == false)
+    }
+
+    @Test("clearSavedBackgroundState causes getSavedBackgroundTimerState to return nil")
+    func clearSavedBackgroundStateMakesStateNil() {
+        let repo = InMemoryStorageRepository()
+        let model = TimerModel(repository: repo)
+        model.saveMoveToBackgroundTime(
+            remainingTime: 30, timerType: .focused, numberOfCompletedCycles: 0, previousPhaseWasFocus: false
+        )
+        model.clearSavedBackgroundState()
+        #expect(model.getSavedBackgroundTimerState() == nil)
     }
 
     // MARK: - getSavedTimes

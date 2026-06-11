@@ -176,6 +176,9 @@ final class TimerViewModel {
         countTime = dateFormatter.string(from: TimeInterval(useCase.counter)) ?? "-"
         totalNumberOfCycles = useCase.totalNumberOfCycles
         numberOfCompletedCycles = useCase.numberOfCompletedCycles
+        timerType = useCase.timerType
+        timerState = useCase.timerState
+        timerTo = useCase.timerTo
         accentCircleColor = TimerTheme.color(for: useCase.timerType)
 
         useCase.onStateChange = { [weak self] in

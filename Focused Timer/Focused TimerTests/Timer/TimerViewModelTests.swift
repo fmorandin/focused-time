@@ -99,20 +99,30 @@ private final class TimerModelSpy: TimerModelProtocol {
         UserDefaultKeys.enableNotifications: true
     ]
     var numberOfCycles = "2"
-    var savedTimes: (Int?, Date?) = (0, Date())
+    var savedTimes: (Int?, Date?) = (nil, nil)
+    var savedBackgroundState: BackgroundTimerState?
     private(set) var savedRemainingTimesFromBackground: [Int] = []
 
     func getTime(for keyName: String) -> Int {
         times[keyName] ?? 0
     }
 
-    func saveMoveToBackgroundTime(remainingTime: Int) {
+    func saveMoveToBackgroundTime(
+        remainingTime: Int,
+        timerType: TimerType,
+        numberOfCompletedCycles: Int,
+        previousPhaseWasFocus: Bool
+    ) {
         savedRemainingTimesFromBackground.append(remainingTime)
     }
 
     func getSavedTimes() -> (Int?, Date?) {
         savedTimes
     }
+
+    func getSavedBackgroundTimerState() -> BackgroundTimerState? { savedBackgroundState }
+
+    func clearSavedBackgroundState() {}
 
     func getNumberOfCycles(for _: String) -> String {
         numberOfCycles
@@ -300,11 +310,20 @@ struct TimerViewModelTests {
                 TimerModelMock().getTime(for: keyName)
             }
 
-            func saveMoveToBackgroundTime(remainingTime _: Int) {}
+            func saveMoveToBackgroundTime(
+                remainingTime _: Int,
+                timerType _: TimerType,
+                numberOfCompletedCycles _: Int,
+                previousPhaseWasFocus _: Bool
+            ) {}
 
             func getSavedTimes() -> (Int?, Date?) {
                 (savedRemainingTime, savedTimestamp)
             }
+
+            func getSavedBackgroundTimerState() -> BackgroundTimerState? { nil }
+
+            func clearSavedBackgroundState() {}
 
             func getNumberOfCycles(for keyName: String) -> String {
                 TimerModelMock().getNumberOfCycles(for: keyName)
