@@ -83,7 +83,7 @@ extension SettingsUITests {
 
         let numberOfCyclesTextField = application.textFields[Accessibility.Identifiers.txtNumberOfCycles]
         numberOfCyclesTextField.doubleTap()
-        numberOfCyclesTextField.typeText("99")
+        slowTypeText("99", into: numberOfCyclesTextField)
 
         application.tap()
 
