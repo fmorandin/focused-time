@@ -1,0 +1,217 @@
+//
+//  AppSettingsView.swift
+//  Focused Timer
+//
+//  Created by Felipe Morandin on 04/12/22.
+//
+
+import SwiftUI
+import UIKit
+import os
+
+struct AppSettingsView: View {
+
+    // MARK: - Private Variables
+
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier!,
+        category: String(describing: AppSettingsView.self)
+    )
+
+    @Bindable var settingsViewModel: SettingsViewModel
+
+    @State private var keepScreenOnDisclaimerAlert = false
+
+    // MARK: - Initializer
+
+    init(viewModel: SettingsViewModel = SettingsViewModel(settingsModel: SettingsModel())) {
+        Self.logger.notice("🛠 Initializing App Settings View.")
+        self.settingsViewModel = viewModel
+    }
+
+    // MARK: - View Body
+
+    var body: some View {
+        Section {
+            // Appearance
+            Picker("settingsAppearanceMode", selection: $settingsViewModel.appearanceMode) {
+                ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                    Text(mode.localizedName).tag(mode)
+                }
+            }
+            .pickerStyle(.menu)
+            .onChange(of: settingsViewModel.appearanceMode) { _, newValue in
+                settingsViewModel.saveAppearanceMode(newValue)
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.pkAppearanceMode)
+
+            // Starting timer type
+            Picker("settingsStartingTimerType", selection: $settingsViewModel.startingTimerType) {
+                ForEach([TimerType.focused, .shortBreak, .longBreak], id: \.self) { timerType in
+                    Text(timerType.getCorrectTranslation()).tag(timerType)
+                }
+            }
+            .pickerStyle(.menu)
+            .onChange(of: settingsViewModel.startingTimerType) { _, newValue in
+                settingsViewModel.saveStartingTimerType(newValue)
+            }
+            .accessibilityIdentifier(Accessibility.Identifiers.pkStartingTimerType)
+
+            // Auto Start
+            Toggle("settingsAutoStart", isOn: $settingsViewModel.isAutoStartEnabled)
+                .onChange(of: settingsViewModel.isAutoStartEnabled) { _, newValue in
+                    settingsViewModel.saveAutoStartEnabled(newValue)
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgAutoStart)
+                .accessibilityLabel(Text("accLabelSettingsAutoStartToggle"))
+                .padding(.vertical, 10)
+
+            // Play sounds
+            Toggle("settingsPlayTimerSounds", isOn: $settingsViewModel.isPlaySoundEnabled)
+                .onChange(of: settingsViewModel.isPlaySoundEnabled) { _, newValue in
+                    settingsViewModel.saveToggles(
+                        for: UserDefaultKeys.playTimerSounds
+                        , value: newValue
+                    )
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgPlaySounds)
+                .accessibilityLabel(Text("accLabelSettingsPlaySoundsToggle"))
+                .padding(.vertical, 10)
+
+            // Keep screen on
+            Toggle("settingsKeepScreenOn", isOn: $settingsViewModel.keepScreenOn)
+                .onChange(of: settingsViewModel.keepScreenOn) { _, newValue in
+                    settingsViewModel.saveToggles(
+                        for: UserDefaultKeys.keepScreenOn,
+                        value: newValue
+                    )
+                    keepScreenOnDisclaimerAlert = true
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgKeepScreenOn)
+                .accessibilityLabel(Text("accLabelSettingsKeepScreenOnToggle"))
+                .alert(isPresented: $keepScreenOnDisclaimerAlert, content: {
+                    Alert(
+                        title: Text("warningAlertTitle"),
+                        message: Text("settingsKeepScreenOnDisclaimer"),
+                        dismissButton: .default(Text("OK")))
+                })
+                .padding(.vertical, 10)
+        } header: {
+            Text("settingsSectionAppName")
+        }
+        .font(.system(.body, design: .rounded))
+
+        Section {
+            // Enable alarm
+            VStack(alignment: .leading, spacing: 10) {
+                Toggle("settingsEnableAlarm", isOn: $settingsViewModel.isAlarmEnabled)
+                    .onChange(of: settingsViewModel.isAlarmEnabled) { _, newValue in
+                        settingsViewModel.saveAlarmEnabled(newValue)
+                    }
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgEnableAlarm)
+                    .accessibilityLabel(Text("accLabelSettingsEnableAlarmToggle"))
+                    .disabled(settingsViewModel.isAlarmDeniedBySystem || settingsViewModel.isAutoStartEnabled)
+
+                if settingsViewModel.isAlarmDeniedBySystem {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("settingsAlarmDeniedMessage", systemImage: "bell.slash.fill")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmDeniedMessage)
+
+                        Button("settingsAlarmOpenSettings") {
+                            Task {
+                                await settingsViewModel.openAlarmSettings()
+                            }
+                        }
+                        .font(.caption)
+                        .buttonStyle(.borderless)
+                        .accessibilityIdentifier(Accessibility.Identifiers.btnOpenAlarmSettings)
+                    }
+                } else if settingsViewModel.isAutoStartEnabled {
+                    Label("settingsAlarmAutoStartMessage", systemImage: "exclamationmark.circle")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .accessibilityIdentifier(Accessibility.Identifiers.lblAlarmAutoStartConflictMessage)
+                }
+            }
+            .padding(.top, 4)
+            .padding(.bottom, 6)
+            .alignmentGuide(.listRowSeparatorLeading) { $0[.leading] }
+
+            // Enable notifications
+            VStack(alignment: .leading, spacing: 10) {
+                Toggle("settingsEnableNotifications", isOn: $settingsViewModel.isNotificationsEnabled)
+                    .onChange(of: settingsViewModel.isNotificationsEnabled) { _, newValue in
+                        settingsViewModel.saveNotificationsEnabled(newValue)
+                    }
+                    .accessibilityIdentifier(Accessibility.Identifiers.tgEnableNotifications)
+                    .accessibilityLabel(Text("accLabelSettingsEnableNotificationsToggle"))
+                    .disabled(settingsViewModel.isNotificationsDeniedBySystem)
+
+                if settingsViewModel.isNotificationsDeniedBySystem {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Label("settingsNotificationsDeniedMessage", systemImage: "bell.slash.fill")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .accessibilityIdentifier(Accessibility.Identifiers.lblNotificationsDeniedMessage)
+
+                        Button("settingsNotificationsOpenSettings") {
+                            Task {
+                                await settingsViewModel.openNotificationSettings()
+                            }
+                        }
+                        .font(.caption)
+                        .buttonStyle(.borderless)
+                        .accessibilityIdentifier(Accessibility.Identifiers.btnOpenNotificationsSettings)
+                    }
+                }
+            }
+            .padding(.top, 10)
+            .padding(.bottom, 6)
+        } header: {
+            Text("settingsEndOfSessionAlertSectionHeader")
+        } footer: {
+            Text("settingsEndOfSessionAlertSectionFooter")
+                .font(.system(.footnote, design: .rounded))
+        }
+        .font(.system(.body, design: .rounded))
+        .task {
+            settingsViewModel.checkAlarmAuthorizationStatus()
+            await settingsViewModel.checkNotificationAuthorizationStatus()
+        }
+        .onReceive(
+            NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
+        ) { _ in
+            settingsViewModel.checkAlarmAuthorizationStatus()
+            Task {
+                await settingsViewModel.checkNotificationAuthorizationStatus()
+            }
+        }
+
+        Section {
+            VStack(alignment: .leading, spacing: 10) {
+                Label("settingsFocusIntegrationLabel", systemImage: "moon.fill")
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusIntegration)
+
+                Text("settingsFocusIntegrationDescription")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblFocusIntegrationDescription)
+            }
+            .padding(.top, 4)
+            .padding(.bottom, 6)
+        } header: {
+            Text("settingsFocusSectionHeader")
+        }
+        .font(.system(.body, design: .rounded))
+    }
+}
+
+#Preview {
+    Form {
+        AppSettingsView()
+    }
+}
