@@ -165,7 +165,7 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
             return
         }
         XCTAssertEqual(autoStartValue, "0")
-        autoStartToggle.switches.firstMatch.tap()
+        tapToggle(autoStartToggle)
         guard let updatedAutoStartValue = autoStartToggle.value as? String else {
             XCTFail("Auto start toggle value should be a String.")
             return

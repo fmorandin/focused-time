@@ -197,16 +197,6 @@ extension SettingsUITests {
         return value
     }
 
-    func tapToggle(_ element: XCUIElement) {
-        let nestedSwitch = element.switches.firstMatch
-        if nestedSwitch.exists {
-            nestedSwitch.tap()
-            return
-        }
-
-        element.tap()
-    }
-
     func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 3) {
         let toggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         guard !(toggle.exists && toggle.isHittable) else { return }

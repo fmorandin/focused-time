@@ -353,6 +353,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         showSettingsButton.tap()
 
         application.swipeUp()
+        application.swipeUp()
 
         // THEN the about information should be visible
         let appVersionText = application.staticTexts[Accessibility.Identifiers.lblAppVersion]

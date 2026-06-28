@@ -66,4 +66,14 @@ class BaseFeature: XCTestCase, @unchecked Sendable {
             usleep(delay)
         }
     }
+
+    func tapToggle(_ element: XCUIElement) {
+        let nestedSwitch = element.switches.firstMatch
+        if nestedSwitch.exists {
+            nestedSwitch.tap()
+            return
+        }
+
+        element.tap()
+    }
 }
