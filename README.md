@@ -136,7 +136,7 @@ xcodebuild test \
 
 ## SwiftLint
 
-SwiftLint v0.57.1 runs as an Xcode build phase on every build.
+SwiftLint runs as an Xcode build phase on every build. No specific version is pinned — the lint rules are version-agnostic, so the latest SwiftLint works fine.
 
 - Install locally: `brew install swiftlint`
 - Run manually from the project root:
@@ -150,7 +150,7 @@ Key constraints:
 - 120-character line length limit
 - `explicit_self` analyzer rule enabled
 
-Xcode Cloud installs and validates the pinned version via `ci_scripts/ci_post_clone.sh` before each build.
+Xcode Cloud installs the latest SwiftLint via `ci_scripts/ci_post_clone.sh` before each build.
 
 ## Download
 
