@@ -18,9 +18,9 @@ import Testing
 
 private final class PillTestTimer: RepeatingTimerProtocol {
     private(set) var isInvalidated = false
-    private let block: (RepeatingTimerProtocol) -> Void
+    private let block: (any RepeatingTimerProtocol) -> Void
 
-    init(block: @escaping (RepeatingTimerProtocol) -> Void) {
+    init(block: @escaping (any RepeatingTimerProtocol) -> Void) {
         self.block = block
     }
 
@@ -40,8 +40,8 @@ private final class PillTestTimerFactory: RepeatingTimerFactoryProtocol {
     func scheduledTimer(
         withTimeInterval _: TimeInterval,
         repeats _: Bool,
-        block: @escaping (RepeatingTimerProtocol) -> Void
-    ) -> RepeatingTimerProtocol {
+        block: @escaping (any RepeatingTimerProtocol) -> Void
+    ) -> any RepeatingTimerProtocol {
         let timer = PillTestTimer(block: block)
         timers.append(timer)
         return timer

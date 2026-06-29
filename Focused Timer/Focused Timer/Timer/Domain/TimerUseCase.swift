@@ -47,14 +47,14 @@ final class TimerUseCase {
         category: String(describing: TimerUseCase.self)
     )
 
-    private var timer: RepeatingTimerProtocol?
-    private let timerModel: TimerModelProtocol
-    private let timerFactory: RepeatingTimerFactoryProtocol
+    private var timer: (any RepeatingTimerProtocol)?
+    private let timerModel: any TimerModelProtocol
+    private let timerFactory: any RepeatingTimerFactoryProtocol
     private let nowProvider: () -> Date
-    private let localNotificationManager: LocalNotificationManaging
-    private let soundPlayer: SystemSoundPlaying
-    private let notificationFlagStore: NotificationFlagStoring
-    private let alarmScheduler: AlarmScheduling?
+    private let localNotificationManager: any LocalNotificationManaging
+    private let soundPlayer: any SystemSoundPlaying
+    private let notificationFlagStore: any NotificationFlagStoring
+    private let alarmScheduler: (any AlarmScheduling)?
 
     private let systemSoundID: SystemSoundID = 1009
 
@@ -74,13 +74,13 @@ final class TimerUseCase {
     // MARK: - Initializer
 
     init(
-        timerModel: TimerModelProtocol,
-        timerFactory: RepeatingTimerFactoryProtocol = FoundationRepeatingTimerFactory(),
+        timerModel: any TimerModelProtocol,
+        timerFactory: any RepeatingTimerFactoryProtocol = FoundationRepeatingTimerFactory(),
         nowProvider: @escaping () -> Date = Date.init,
-        localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
-        soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
-        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
-        alarmScheduler: AlarmScheduling? = nil
+        localNotificationManager: any LocalNotificationManaging = LocalNotificationManager(),
+        soundPlayer: any SystemSoundPlaying = AudioSystemSoundPlayer(),
+        notificationFlagStore: any NotificationFlagStoring = UserDefaults.standard,
+        alarmScheduler: (any AlarmScheduling)? = nil
     ) {
         Self.logger.notice("🛠 Initializing TimerUseCase.")
 

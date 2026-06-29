@@ -16,7 +16,7 @@ protocol TimerServiceProtocol: AnyObject, Sendable {
 @Observable
 final class TimerService: TimerServiceProtocol, @unchecked Sendable {
 
-    nonisolated(unsafe) static var shared: TimerServiceProtocol = TimerService()
+    nonisolated(unsafe) static var shared: any TimerServiceProtocol = TimerService()
 
     let timerViewModel: TimerViewModel
 
@@ -25,7 +25,7 @@ final class TimerService: TimerServiceProtocol, @unchecked Sendable {
     }
 
     /// Replaces the shared instance — intended for unit tests only.
-    static func setSharedForTesting(_ service: TimerServiceProtocol) {
+    static func setSharedForTesting(_ service: any TimerServiceProtocol) {
         shared = service
     }
 }

@@ -17,9 +17,9 @@ import Testing
 
 private final class TestRepeatingTimer: RepeatingTimerProtocol {
     private(set) var isInvalidated = false
-    private let block: (RepeatingTimerProtocol) -> Void
+    private let block: (any RepeatingTimerProtocol) -> Void
 
-    init(block: @escaping (RepeatingTimerProtocol) -> Void) {
+    init(block: @escaping (any RepeatingTimerProtocol) -> Void) {
         self.block = block
     }
 
@@ -39,8 +39,8 @@ private final class TestRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
     func scheduledTimer(
         withTimeInterval _: TimeInterval,
         repeats _: Bool,
-        block: @escaping (RepeatingTimerProtocol) -> Void
-    ) -> RepeatingTimerProtocol {
+        block: @escaping (any RepeatingTimerProtocol) -> Void
+    ) -> any RepeatingTimerProtocol {
         let timer = TestRepeatingTimer(block: block)
         createdTimers.append(timer)
         return timer
@@ -148,12 +148,12 @@ private final class TimerModelSpy: TimerModelProtocol {
 // MARK: - SUT Factory
 
 private func makeSUT(
-    timerModel: TimerModelProtocol = TimerModelMock(),
+    timerModel: any TimerModelProtocol = TimerModelMock(),
     nowProvider: @escaping () -> Date = Date.init,
-    notificationManager: LocalNotificationManaging = NotificationManagerSpy(),
-    soundPlayer: SystemSoundPlaying = SoundPlayerSpy(),
-    notificationFlagStore: NotificationFlagStoring = NotificationFlagStoreSpy(),
-    alarmScheduler: AlarmScheduling? = nil
+    notificationManager: any LocalNotificationManaging = NotificationManagerSpy(),
+    soundPlayer: any SystemSoundPlaying = SoundPlayerSpy(),
+    notificationFlagStore: any NotificationFlagStoring = NotificationFlagStoreSpy(),
+    alarmScheduler: (any AlarmScheduling)? = nil
 ) -> (useCase: TimerUseCase, timerFactory: TestRepeatingTimerFactory) {
     let timerFactory = TestRepeatingTimerFactory()
     let useCase = TimerUseCase(
