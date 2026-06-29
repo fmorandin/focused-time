@@ -58,11 +58,11 @@ struct SettingsModel: SettingsModelProtocol {
 
     // MARK: - Private Variables
 
-    private let repository: StorageRepository
+    private let repository: any StorageRepository
 
     // MARK: - Initializer
 
-    init(repository: StorageRepository = UserDefaultsRepository()) {
+    init(repository: any StorageRepository = UserDefaultsRepository()) {
         self.repository = repository
     }
 

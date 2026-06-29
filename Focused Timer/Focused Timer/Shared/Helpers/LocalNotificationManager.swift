@@ -60,11 +60,11 @@ struct LocalNotificationManager {
         subsystem: Bundle.main.bundleIdentifier!,
         category: String(describing: LocalNotificationManager.self)
     )
-    private let notificationCenter: UserNotificationCenterProtocol
+    private let notificationCenter: any UserNotificationCenterProtocol
     private let requestPermission: @Sendable () -> Void
 
     init(
-        notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
+        notificationCenter: any UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
         requestPermission: @escaping @Sendable () -> Void = {
             UNUserNotificationCenter.current().requestAuthorization(
                 options: [.alert, .sound, .badge]
@@ -136,7 +136,7 @@ struct LocalNotificationManager {
     private static func schedule(
         remainingTime: Double,
         timerTypeName: String,
-        notificationCenter: UserNotificationCenterProtocol
+        notificationCenter: any UserNotificationCenterProtocol
     ) {
         let notificationTitle = NSString.localizedUserNotificationString(
             forKey: "notificationTitleWithType", arguments: [timerTypeName])

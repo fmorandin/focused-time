@@ -59,11 +59,11 @@ struct TimerModel: TimerModelProtocol {
         category: String(describing: TimerModel.self)
     )
 
-    private let repository: StorageRepository
+    private let repository: any StorageRepository
 
     // MARK: - Initializer
 
-    init(repository: StorageRepository = UserDefaultsRepository()) {
+    init(repository: any StorageRepository = UserDefaultsRepository()) {
         self.repository = repository
     }
 

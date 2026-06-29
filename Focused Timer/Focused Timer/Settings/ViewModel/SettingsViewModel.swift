@@ -38,11 +38,11 @@ final class SettingsViewModel {
         category: String(describing: SettingsViewModel.self)
     )
 
-    private let settingsModel: SettingsModelProtocol
-    private let shareService: ShareService
-    private let notificationCenter: UserNotificationCenterProtocol
-    private let alarmAuthorizationChecker: AlarmAuthorizationChecking
-    private let urlOpener: URLOpening
+    private let settingsModel: any SettingsModelProtocol
+    private let shareService: any ShareService
+    private let notificationCenter: any UserNotificationCenterProtocol
+    private let alarmAuthorizationChecker: any AlarmAuthorizationChecking
+    private let urlOpener: any URLOpening
 
     // Maximum number of characters for the fields
     let timerLimits = 3
@@ -79,11 +79,11 @@ final class SettingsViewModel {
     // MARK: - Initializer
 
     init(
-        settingsModel: SettingsModelProtocol,
-        shareService: ShareService = UIKitShareService(),
-        notificationCenter: UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
-        alarmAuthorizationChecker: AlarmAuthorizationChecking = AlarmKitAuthorizationChecker(),
-        urlOpener: URLOpening = UIApplication.shared
+        settingsModel: any SettingsModelProtocol,
+        shareService: any ShareService = UIKitShareService(),
+        notificationCenter: any UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
+        alarmAuthorizationChecker: any AlarmAuthorizationChecking = AlarmKitAuthorizationChecker(),
+        urlOpener: any URLOpening = UIApplication.shared
     ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
 

@@ -39,8 +39,8 @@ protocol RepeatingTimerFactoryProtocol {
     func scheduledTimer(
         withTimeInterval interval: TimeInterval,
         repeats: Bool,
-        block: @escaping (RepeatingTimerProtocol) -> Void
-    ) -> RepeatingTimerProtocol
+        block: @escaping (any RepeatingTimerProtocol) -> Void
+    ) -> any RepeatingTimerProtocol
 }
 
 private final class FoundationRepeatingTimer: RepeatingTimerProtocol {
@@ -58,9 +58,9 @@ private final class FoundationRepeatingTimer: RepeatingTimerProtocol {
 struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
     private final class FoundationTimerTarget: NSObject {
         var timer: FoundationRepeatingTimer?
-        let block: (RepeatingTimerProtocol) -> Void
+        let block: (any RepeatingTimerProtocol) -> Void
 
-        init(block: @escaping (RepeatingTimerProtocol) -> Void) {
+        init(block: @escaping (any RepeatingTimerProtocol) -> Void) {
             self.block = block
         }
 
@@ -73,8 +73,8 @@ struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
     func scheduledTimer(
         withTimeInterval interval: TimeInterval,
         repeats: Bool,
-        block: @escaping (RepeatingTimerProtocol) -> Void
-    ) -> RepeatingTimerProtocol {
+        block: @escaping (any RepeatingTimerProtocol) -> Void
+    ) -> any RepeatingTimerProtocol {
         let target = FoundationTimerTarget(block: block)
         let selectorTimer = Timer.scheduledTimer(
             timeInterval: interval,
@@ -144,13 +144,13 @@ final class TimerViewModel {
     // MARK: - Initializer
 
     init(
-        timerModel: TimerModelProtocol,
-        timerFactory: RepeatingTimerFactoryProtocol = FoundationRepeatingTimerFactory(),
+        timerModel: any TimerModelProtocol,
+        timerFactory: any RepeatingTimerFactoryProtocol = FoundationRepeatingTimerFactory(),
         nowProvider: @escaping () -> Date = Date.init,
-        localNotificationManager: LocalNotificationManaging = LocalNotificationManager(),
-        soundPlayer: SystemSoundPlaying = AudioSystemSoundPlayer(),
-        notificationFlagStore: NotificationFlagStoring = UserDefaults.standard,
-        alarmScheduler: AlarmScheduling = AlarmKitScheduler(),
+        localNotificationManager: any LocalNotificationManaging = LocalNotificationManager(),
+        soundPlayer: any SystemSoundPlaying = AudioSystemSoundPlayer(),
+        notificationFlagStore: any NotificationFlagStoring = UserDefaults.standard,
+        alarmScheduler: any AlarmScheduling = AlarmKitScheduler(),
         isReviewEnabled: Bool = !ProcessInfo.processInfo.arguments.contains("UI-Testing")
     ) {
         Self.logger.notice("🛠 Initializing Timer View Model.")
