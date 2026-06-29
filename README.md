@@ -2,6 +2,12 @@
 
 A Pomodoro timer app for iOS that helps you concentrate and finish tasks by making it simple to follow the Pomodoro technique.
 
+## Screenshots
+
+| Timer | Settings | Help |
+|---|---|---|
+| ![Timer screen](docs/screenshots/01-timer.png) | ![Settings screen](docs/screenshots/02-settings.png) | ![Help screen](docs/screenshots/03-help.png) |
+
 ## Motivation
 
 This app has always been a playground for me to learn new things. Version 1.0 was created when I wanted to learn how `SwiftUI` works and to get more familiar with the `MVVM` architecture. While thinking about a good candidate app, the need for a personal timer became apparent — so the two goals merged into one: build the app you'd actually use.
