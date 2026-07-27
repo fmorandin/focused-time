@@ -14,6 +14,8 @@ This app has always been a playground for me to learn new things. Version 1.0 wa
 
 Version 2.0 was a more radical experiment: learning what I can do using AI to code an entire set of features end to end — from the domain logic and App Intents to AlarmKit integration and the test suite.
 
+Version 2.1 continues that experiment, starting with a "What's New" screen so returning users can see what changed.
+
 ## Features
 
 ### Timer Types
@@ -61,6 +63,12 @@ When the app moves to the background, the current timestamp is saved. On return,
 
 An in-app help screen explains the Pomodoro technique and each timer type, fully localized.
 
+### What's New
+
+The first time the app is opened after an update that has release notes, a "What's New" sheet shows what changed in the latest version. It never appears on a fresh install, and it never appears twice for the same version.
+
+The full release history is always available from **Settings → What's New**, independent of whether the modal has been seen.
+
 ## Technologies
 
 - **SwiftUI** — Declarative UI framework
@@ -89,6 +97,8 @@ All major dependencies are abstracted behind protocols so unit tests run without
 | `NotificationFlagStoring` | Lightweight UserDefaults flag access |
 | `AlarmScheduling` | AlarmKit integration |
 | `StorageRepository` | Key-value persistence |
+| `ChangelogLoading` / `ChangelogDataProviding` | Loads and decodes the bundled changelog |
+| `WhatsNewModelProtocol` | Persists which release the user has already seen |
 
 `TimerViewModel` accepts all of these as constructor parameters, enabling full injection of test doubles.
 
@@ -103,6 +113,29 @@ All user-facing strings live in `Focused Timer/Focused Timer/Shared/Constants/Lo
 Supported languages:
 - English (`en`)
 - Portuguese — Brazil (`pt-BR`)
+
+Release notes are not part of the string catalog. Each supported language has its own changelog
+file under `Focused Timer/Focused Timer/WhatsNew/Resources/Changelog_<language>.json`, resolved
+at runtime by `BundleChangelogLoader` against `Bundle.main.preferredLocalizations`, falling back
+to English. Adding a language means adding both a `Changelog_<language>.json` file **and** an
+entry in `LocalizationTests.supportedLanguages` — the localization test suite checks the two stay
+in sync, and fails the build if a release is added to one language's changelog but not the
+other's.
+
+### What's New
+
+`WhatsNewUseCase` decides whether to show the modal by comparing the newest version *present in
+the changelog* against the highest version the user has already seen (persisted via
+`WhatsNewModelProtocol`) — not against the app's own `MARKETING_VERSION`. That means:
+
+- A fresh install seeds the "last seen" version silently; nothing is shown.
+- A patch release with no changelog entry shows nothing.
+- Skipping several versions shows only the newest release's notes.
+- A downgrade never shows anything and never moves the stored watermark backwards.
+
+The release is marked as seen at presentation time, not on dismiss, so a force-quit mid-read
+can't reopen the same notes on the next launch — the full changelog in Settings covers that case
+instead.
 
 ### Swift 6 Concurrency
 
@@ -120,10 +153,22 @@ Supported languages:
 - `AppDelegateTests`
 - `TimerViewLifecycleTests`
 - `LocalizationTests`
+- `AppVersionTests`
+- `ChangelogTests`
+- `ChangelogLoaderTests`
+- `ChangelogResourceTests` — integration tests against the real bundled changelog files
+- `WhatsNewUseCaseTests`
+- `WhatsNewViewModelTests`
+- `ChangelogEntryStyleTests`
 
 ### UI Tests
 
 All UI tests extend `BaseFeature`, an `@MainActor` base class. The app supports a `"UI-Testing"` launch argument that clears `UserDefaults`, disables animations, and accepts fast timer durations via environment variables (`UI_TEST_FOCUSED_SECONDS`, `UI_TEST_SHORT_BREAK_SECONDS`, `UI_TEST_LONG_BREAK_SECONDS`, `UI_TEST_NUMBER_OF_CYCLES`).
+
+`"UI-Testing"` also suppresses the "What's New" modal, since it wipes `UserDefaults` on every
+launch and would otherwise re-trigger the modal on every run. A subclass that needs to exercise
+the modal opts in by overriding `extraLaunchArguments` to include `"UI-Testing-WhatsNew"`, which
+forces it to appear for that run — see `WhatsNewForcedUITests`.
 
 ```bash
 # Run all tests
@@ -157,6 +202,13 @@ Key constraints:
 - `explicit_self` analyzer rule enabled
 
 Xcode Cloud installs the latest SwiftLint via `ci_scripts/ci_post_clone.sh` before each build.
+
+## Release Checklist
+
+1. Add the new release to **both** `Changelog_en.json` and `Changelog_pt-BR.json` under `Focused Timer/Focused Timer/WhatsNew/Resources/`, with the same `version` in each.
+2. Bump `MARKETING_VERSION` (and `CURRENT_PROJECT_VERSION`) in `project.pbxproj`.
+3. Run `ChangelogResourceTests` — it fails if a version is missing from either language, if any entry is untranslated, or if the changelog announces a version ahead of the build.
+4. Re-record the `SettingsSnapshotTests` `FormView` snapshots only if the Settings layout changed.
 
 ## Download
 

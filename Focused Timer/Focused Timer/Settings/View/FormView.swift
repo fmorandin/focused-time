@@ -83,6 +83,16 @@ struct FormView: View {
             }
 
             Section {
+                NavigationLink(value: Router.SettingsRoute.changelog) {
+                    Label("changelogSettingsRow", systemImage: ImageNames.whatsNew)
+                        .font(.system(.body, design: .rounded))
+                }
+                .accessibility(identifier: Accessibility.Identifiers.btnSettingsChangelog)
+                .accessibilityLabel(Text("accLabelChangelogSettingsRow"))
+                .padding(.vertical, 10)
+            }
+
+            Section {
                 HStack {
                     Text("\(Text("appVersionTitle")): \(settingsViewModel.appVersionNumber)")
                         .font(.system(.footnote, design: .rounded))
@@ -112,6 +122,12 @@ struct FormView: View {
             }
         }
         .contentMargins(.top, 16, for: .scrollContent)
+        .navigationDestination(for: Router.SettingsRoute.self) { route in
+            switch route {
+            case .changelog:
+                ChangelogView()
+            }
+        }
         .onChange(of: router.selectedTab) { _, newTab in
             if newTab != .settings && self.settingsViewModel.shouldUpdateTimerView {
                 router.signalSettingsChanged()

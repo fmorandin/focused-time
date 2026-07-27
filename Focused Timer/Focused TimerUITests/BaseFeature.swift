@@ -12,10 +12,14 @@ class BaseFeature: XCTestCase, @unchecked Sendable {
 
     let application = XCUIApplication()
 
+    /// Extra launch arguments a feature can opt into. Empty for most suites.
+    var extraLaunchArguments: [String] { [] }
+
     override func setUp() {
         super.setUp()
         MainActor.assumeIsolated {
             application.launchArguments += ["UI-Testing"]
+            application.launchArguments += extraLaunchArguments
 
             // Keep UI tests deterministic and fast by reducing cycle durations.
             application.launchEnvironment["UI_TEST_FOCUSED_SECONDS"] = "5"

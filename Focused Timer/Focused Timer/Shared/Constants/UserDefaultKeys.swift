@@ -26,4 +26,12 @@ enum UserDefaultKeys {
     static let timerTypeBackground = "timerTypeBackground"
     static let completedCyclesBackground = "completedCyclesBackground"
     static let previousPhaseWasFocusBackground = "previousPhaseWasFocusBackground"
+
+    // MARK: - What's New
+
+    /// Highest release already shown to the user, as a `major.minor.patch` string.
+    static let whatsNewLastSeenVersion = "whatsNewLastSeenVersion"
+
+    /// Set while UI testing so the modal never interrupts an automated run.
+    static let whatsNewSuppressed = "whatsNewSuppressed"
 }

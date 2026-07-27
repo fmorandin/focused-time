@@ -1,0 +1,57 @@
+{
+  "schemaVersion" : 1,
+  "language" : "en",
+  "releases" : [
+    {
+      "version" : "2.1.0",
+      "date" : "2026-07-27",
+      "title" : "Now you can see what changed after every update.",
+      "entries" : [
+        {
+          "type" : "added",
+          "text" : "A What's New screen, shown the first time you open the app after an update."
+        },
+        {
+          "type" : "added",
+          "text" : "The full release history now lives in Settings, under What's New."
+        },
+        {
+          "type" : "improved",
+          "text" : "Release notes are written in every language the app supports."
+        }
+      ]
+    },
+    {
+      "version" : "2.0.0",
+      "title" : "Hands-free control and alarms that always ring.",
+      "entries" : [
+        {
+          "type" : "added",
+          "text" : "Siri and Shortcuts support, so you can start, pause and reset the timer hands-free."
+        },
+        {
+          "type" : "added",
+          "text" : "An alarm that rings when a session ends, even while your device is in silent mode."
+        },
+        {
+          "type" : "improved",
+          "text" : "Rebuilt on Swift 6, with a full unit, UI and snapshot test suite behind it."
+        }
+      ]
+    },
+    {
+      "version" : "1.0.0",
+      "title" : "The first release.",
+      "entries" : [
+        {
+          "type" : "added",
+          "text" : "A Pomodoro timer built in SwiftUI, with focus sessions, short breaks and long breaks."
+        },
+        {
+          "type" : "added",
+          "text" : "Settings for every timer duration, saved between launches."
+        }
+      ]
+    }
+  ]
+}
