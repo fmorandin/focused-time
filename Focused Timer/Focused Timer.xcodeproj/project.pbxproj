@@ -104,6 +104,30 @@
 		FF0000001111222233334488 /* TimerSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0000001111222233334477 /* TimerSnapshotTests.swift */; };
 		FF00000011112222333344AA /* SettingsSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF0000001111222233334499 /* SettingsSnapshotTests.swift */; };
 		FF00000011112222333344CC /* HelpSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF00000011112222333344BB /* HelpSnapshotTests.swift */; };
+		E5A220000000000000000002 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000001 /* AppVersion.swift */; };
+		E5A220000000000000000004 /* Changelog.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000003 /* Changelog.swift */; };
+		E5A220000000000000000006 /* WhatsNewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000005 /* WhatsNewModel.swift */; };
+		E5A220000000000000000008 /* ChangelogLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000007 /* ChangelogLoader.swift */; };
+		E5A22000000000000000000A /* WhatsNewUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000009 /* WhatsNewUseCase.swift */; };
+		E5A22000000000000000000C /* WhatsNewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000000B /* WhatsNewViewModel.swift */; };
+		E5A22000000000000000000E /* ChangelogEntryStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000000D /* ChangelogEntryStyle.swift */; };
+		E5A220000000000000000010 /* ChangelogEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000000F /* ChangelogEntryRow.swift */; };
+		E5A220000000000000000012 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000011 /* WhatsNewView.swift */; };
+		E5A220000000000000000014 /* ChangelogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000013 /* ChangelogView.swift */; };
+		E5A220000000000000000016 /* StubChangelogLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000015 /* StubChangelogLoader.swift */; };
+		E5A220000000000000000018 /* ChangelogFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000017 /* ChangelogFixtures.swift */; };
+		E5A22000000000000000001A /* InMemoryChangelogDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000019 /* InMemoryChangelogDataProvider.swift */; };
+		E5A22000000000000000001C /* AppVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000001B /* AppVersionTests.swift */; };
+		E5A22000000000000000001E /* ChangelogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000001D /* ChangelogTests.swift */; };
+		E5A220000000000000000020 /* ChangelogLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000001F /* ChangelogLoaderTests.swift */; };
+		E5A220000000000000000022 /* ChangelogResourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000021 /* ChangelogResourceTests.swift */; };
+		E5A220000000000000000024 /* WhatsNewUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000023 /* WhatsNewUseCaseTests.swift */; };
+		E5A220000000000000000026 /* WhatsNewViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000025 /* WhatsNewViewModelTests.swift */; };
+		E5A220000000000000000028 /* ChangelogEntryStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000027 /* ChangelogEntryStyleTests.swift */; };
+		E5A22000000000000000002A /* WhatsNewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A210000000000000000029 /* WhatsNewUITests.swift */; };
+		E5A22000000000000000002C /* ChangelogUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000002B /* ChangelogUITests.swift */; };
+		E5A22000000000000000002E /* Changelog_en.json in Resources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000002D /* Changelog_en.json */; };
+		E5A220000000000000000030 /* Changelog_pt-BR.json in Resources */ = {isa = PBXBuildFile; fileRef = E5A21000000000000000002F /* Changelog_pt-BR.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +247,30 @@
 		FF0000001111222233334499 /* SettingsSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SettingsSnapshotTests.swift; sourceTree = "<group>"; };
 		FF00000011112222333344BB /* HelpSnapshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HelpSnapshotTests.swift; sourceTree = "<group>"; };
 		FF11000000000000000001AA /* StoreKitConfig.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = StoreKitConfig.storekit; sourceTree = "<group>"; };
+		E5A210000000000000000001 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
+		E5A210000000000000000003 /* Changelog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changelog.swift; sourceTree = "<group>"; };
+		E5A210000000000000000005 /* WhatsNewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewModel.swift; sourceTree = "<group>"; };
+		E5A210000000000000000007 /* ChangelogLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogLoader.swift; sourceTree = "<group>"; };
+		E5A210000000000000000009 /* WhatsNewUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewUseCase.swift; sourceTree = "<group>"; };
+		E5A21000000000000000000B /* WhatsNewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewViewModel.swift; sourceTree = "<group>"; };
+		E5A21000000000000000000D /* ChangelogEntryStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogEntryStyle.swift; sourceTree = "<group>"; };
+		E5A21000000000000000000F /* ChangelogEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogEntryRow.swift; sourceTree = "<group>"; };
+		E5A210000000000000000011 /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
+		E5A210000000000000000013 /* ChangelogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogView.swift; sourceTree = "<group>"; };
+		E5A210000000000000000015 /* StubChangelogLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubChangelogLoader.swift; sourceTree = "<group>"; };
+		E5A210000000000000000017 /* ChangelogFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogFixtures.swift; sourceTree = "<group>"; };
+		E5A210000000000000000019 /* InMemoryChangelogDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryChangelogDataProvider.swift; sourceTree = "<group>"; };
+		E5A21000000000000000001B /* AppVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersionTests.swift; sourceTree = "<group>"; };
+		E5A21000000000000000001D /* ChangelogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogTests.swift; sourceTree = "<group>"; };
+		E5A21000000000000000001F /* ChangelogLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogLoaderTests.swift; sourceTree = "<group>"; };
+		E5A210000000000000000021 /* ChangelogResourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogResourceTests.swift; sourceTree = "<group>"; };
+		E5A210000000000000000023 /* WhatsNewUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewUseCaseTests.swift; sourceTree = "<group>"; };
+		E5A210000000000000000025 /* WhatsNewViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewViewModelTests.swift; sourceTree = "<group>"; };
+		E5A210000000000000000027 /* ChangelogEntryStyleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogEntryStyleTests.swift; sourceTree = "<group>"; };
+		E5A210000000000000000029 /* WhatsNewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewUITests.swift; sourceTree = "<group>"; };
+		E5A21000000000000000002B /* ChangelogUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangelogUITests.swift; sourceTree = "<group>"; };
+		E5A21000000000000000002D /* Changelog_en.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Changelog_en.json"; sourceTree = "<group>"; };
+		E5A21000000000000000002F /* Changelog_pt-BR.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Changelog_pt-BR.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +319,9 @@
 				181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */,
 				F1A100000000000000000019 /* InMemoryStorageRepository.swift */,
 				F1A10000000000000000001A /* StubRepeatingTimerFactory.swift */,
+				E5A210000000000000000015 /* StubChangelogLoader.swift */,
+				E5A210000000000000000017 /* ChangelogFixtures.swift */,
+				E5A210000000000000000019 /* InMemoryChangelogDataProvider.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -323,6 +374,7 @@
 			children = (
 				181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */,
 				18388F002F476C840027DACC /* SettingsUITests+Helpers.swift */,
+				E5A21000000000000000002B /* ChangelogUITests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -466,6 +518,7 @@
 				1876324E26001F30001ADD23 /* Help */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
+				E5A230000000000000000031 /* WhatsNew */,
 				F1A100000000000000000201 /* Intents */,
 				A378FC322522BB7D0046FC4C /* FocusedTimerApp.swift */,
 				A378FC342522BB7D0046FC4C /* ContentView.swift */,
@@ -490,6 +543,7 @@
 				181E4A2A25C73F1D006CBDF4 /* Mock */,
 				18681F9325AB881A009447D9 /* Timer */,
 				18681F9425AB8821009447D9 /* Settings */,
+				E5A230000000000000000037 /* WhatsNew */,
 				C0726831746148D9B4CCAFD0 /* Localization */,
 				A378FC462522BB7E0046FC4C /* Info.plist */,
 				FBD51FFEAC4122BCDC9FABF5 /* Shared */,
@@ -506,6 +560,7 @@
 				1889095B260E87110062C450 /* Help */,
 				18681F9525AB882E009447D9 /* Timer */,
 				18681F9625AB8833009447D9 /* Settings */,
+				E5A230000000000000000038 /* WhatsNew */,
 				A378FC512522BB7E0046FC4C /* Info.plist */,
 			);
 			path = "Focused TimerUITests";
@@ -565,6 +620,7 @@
 			children = (
 				AA00000001110000000000BB /* AlarmScheduler.swift */,
 				180E842725F6E56600ACF34C /* LocalNotificationManager.swift */,
+				E5A210000000000000000001 /* AppVersion.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -622,6 +678,7 @@
 				8476E8BD039462868EA08239 /* RouterTests.swift */,
 				B42B2E47F567F997C2E4A539 /* UserDefaultsRepositoryTests.swift */,
 				33D5027221C78AF472A42C6A /* DefaultValuesConstantsTests.swift */,
+				E5A21000000000000000001B /* AppVersionTests.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -634,6 +691,85 @@
 				FF00000011112222333344BB /* HelpSnapshotTests.swift */,
 			);
 			path = Snapshots;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000032 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E5A210000000000000000003 /* Changelog.swift */,
+				E5A210000000000000000005 /* WhatsNewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000033 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				E5A210000000000000000007 /* ChangelogLoader.swift */,
+				E5A210000000000000000009 /* WhatsNewUseCase.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000034 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				E5A21000000000000000000B /* WhatsNewViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000035 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E5A21000000000000000000D /* ChangelogEntryStyle.swift */,
+				E5A21000000000000000000F /* ChangelogEntryRow.swift */,
+				E5A210000000000000000011 /* WhatsNewView.swift */,
+				E5A210000000000000000013 /* ChangelogView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000036 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E5A21000000000000000002D /* Changelog_en.json */,
+				E5A21000000000000000002F /* Changelog_pt-BR.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000031 /* WhatsNew */ = {
+			isa = PBXGroup;
+			children = (
+				E5A230000000000000000033 /* Domain */,
+				E5A230000000000000000032 /* Model */,
+				E5A230000000000000000036 /* Resources */,
+				E5A230000000000000000035 /* View */,
+				E5A230000000000000000034 /* ViewModel */,
+			);
+			path = WhatsNew;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000037 /* WhatsNew */ = {
+			isa = PBXGroup;
+			children = (
+				E5A21000000000000000001D /* ChangelogTests.swift */,
+				E5A21000000000000000001F /* ChangelogLoaderTests.swift */,
+				E5A210000000000000000021 /* ChangelogResourceTests.swift */,
+				E5A210000000000000000023 /* WhatsNewUseCaseTests.swift */,
+				E5A210000000000000000025 /* WhatsNewViewModelTests.swift */,
+				E5A210000000000000000027 /* ChangelogEntryStyleTests.swift */,
+			);
+			path = WhatsNew;
+			sourceTree = "<group>";
+		};
+		E5A230000000000000000038 /* WhatsNew */ = {
+			isa = PBXGroup;
+			children = (
+				E5A210000000000000000029 /* WhatsNewUITests.swift */,
+			);
+			path = WhatsNew;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -751,6 +887,8 @@
 				A378FC3A2522BB7D0046FC4C /* Preview Assets.xcassets in Resources */,
 				AA2222220000000000002222 /* Localizable.xcstrings in Resources */,
 				A378FC372522BB7D0046FC4C /* Assets.xcassets in Resources */,
+				E5A22000000000000000002E /* Changelog_en.json in Resources */,
+				E5A220000000000000000030 /* Changelog_pt-BR.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,6 +982,16 @@
 				F1A10000000000000000010B /* ResetSettingsIntent.swift in Sources */,
 				F1A10000000000000000010C /* FocusedTimerShortcuts.swift in Sources */,
 				F1A10000000000000000011B /* FocusedTimerFocusFilterIntent.swift in Sources */,
+				E5A220000000000000000002 /* AppVersion.swift in Sources */,
+				E5A220000000000000000004 /* Changelog.swift in Sources */,
+				E5A220000000000000000006 /* WhatsNewModel.swift in Sources */,
+				E5A220000000000000000008 /* ChangelogLoader.swift in Sources */,
+				E5A22000000000000000000A /* WhatsNewUseCase.swift in Sources */,
+				E5A22000000000000000000C /* WhatsNewViewModel.swift in Sources */,
+				E5A22000000000000000000E /* ChangelogEntryStyle.swift in Sources */,
+				E5A220000000000000000010 /* ChangelogEntryRow.swift in Sources */,
+				E5A220000000000000000012 /* WhatsNewView.swift in Sources */,
+				E5A220000000000000000014 /* ChangelogView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -889,6 +1037,16 @@
 				F1A100000000000000000119 /* InMemoryStorageRepository.swift in Sources */,
 				F1A10000000000000000011A /* StubRepeatingTimerFactory.swift in Sources */,
 				F1A10000000000000000011C /* FocusedTimerFocusFilterIntentTests.swift in Sources */,
+				E5A220000000000000000016 /* StubChangelogLoader.swift in Sources */,
+				E5A220000000000000000018 /* ChangelogFixtures.swift in Sources */,
+				E5A22000000000000000001A /* InMemoryChangelogDataProvider.swift in Sources */,
+				E5A22000000000000000001C /* AppVersionTests.swift in Sources */,
+				E5A22000000000000000001E /* ChangelogTests.swift in Sources */,
+				E5A220000000000000000020 /* ChangelogLoaderTests.swift in Sources */,
+				E5A220000000000000000022 /* ChangelogResourceTests.swift in Sources */,
+				E5A220000000000000000024 /* WhatsNewUseCaseTests.swift in Sources */,
+				E5A220000000000000000026 /* WhatsNewViewModelTests.swift in Sources */,
+				E5A220000000000000000028 /* ChangelogEntryStyleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -903,6 +1061,8 @@
 				180EDD0025CCC27900452D96 /* ImageNames.swift in Sources */,
 				180EDCF825CCC1B300452D96 /* Accessibility.swift in Sources */,
 				181E4A1525C701A9006CBDF4 /* BaseFeature.swift in Sources */,
+				E5A22000000000000000002A /* WhatsNewUITests.swift in Sources */,
+				E5A22000000000000000002C /* ChangelogUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1054,7 +1214,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
 				DEVELOPMENT_ASSET_PATHS = "\"Focused Timer/Preview Content\"";
 				ENABLE_DEBUG_DYLIB = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1066,7 +1226,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.felipemorandin.FocusedTimer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1085,7 +1245,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
 				DEVELOPMENT_ASSET_PATHS = "\"Focused Timer/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Focused Timer/Info.plist";
@@ -1096,7 +1256,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = br.com.felipemorandin.FocusedTimer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

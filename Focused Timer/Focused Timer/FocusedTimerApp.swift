@@ -50,6 +50,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         category: String(describing: AppDelegate.self)
     )
 
+    /// Launch argument that forces the "What's New" modal on, so UI tests can
+    /// exercise it deliberately. Without it the modal stays suppressed.
+    static let forceWhatsNewArgument = "UI-Testing-WhatsNew"
+
     private enum UITestEnvironmentKeys {
 
         static let numberOfCycles = "UI_TEST_NUMBER_OF_CYCLES"
@@ -153,6 +157,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
+
+        // `removePersistentDomain` above wipes the "already seen" flag, so the
+        // What's New modal has to be suppressed explicitly or it would appear on
+        // every UI test launch. Tests that want it opt in with a launch argument.
+        let shouldForceWhatsNew = ProcessInfo.processInfo.arguments.contains(Self.forceWhatsNewArgument)
+        UserDefaults.standard.set(!shouldForceWhatsNew, forKey: UserDefaultKeys.whatsNewSuppressed)
+
+        if shouldForceWhatsNew {
+            UserDefaults.standard.set("0.0.1", forKey: UserDefaultKeys.whatsNewLastSeenVersion)
+        }
 
         UIView.setAnimationsEnabled(false)
     }

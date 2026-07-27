@@ -13,6 +13,16 @@ struct ContentView: View {
 
     @Environment(Router.self) private var router
 
+    // MARK: - State
+
+    @State private var whatsNewViewModel: WhatsNewViewModel
+
+    // MARK: - Initializer
+
+    init(whatsNewViewModel: WhatsNewViewModel = WhatsNewViewModel()) {
+        _whatsNewViewModel = State(wrappedValue: whatsNewViewModel)
+    }
+
     // MARK: - View
 
     var body: some View {
@@ -24,7 +34,7 @@ struct ContentView: View {
             .accessibilityIdentifier(Accessibility.Identifiers.tabTimer)
 
             Tab("tabLabelSettings", systemImage: "gear", value: Router.AppTab.settings) {
-                NavigationStack {
+                NavigationStack(path: $router.settingsPath) {
                     SettingsView(displayWarning: router.settingsDisplaysWarning)
                 }
             }
@@ -36,6 +46,14 @@ struct ContentView: View {
                 }
             }
             .accessibilityIdentifier(Accessibility.Identifiers.tabHelp)
+        }
+        .sheet(isPresented: $router.isWhatsNewPresented) {
+            if let release = whatsNewViewModel.releaseToPresent {
+                WhatsNewView(viewModel: whatsNewViewModel, release: release)
+            }
+        }
+        .task {
+            whatsNewViewModel.presentIfNeeded(router: router)
         }
     }
 }

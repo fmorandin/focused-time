@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+@testable import Focused_Timer
 
 private final class LocalizationTestsAnchor {}
 
@@ -44,5 +45,41 @@ struct LocalizationTests {
                 "Key \"\(entryKey)\" has an empty value for language \"\(language)\""
             )
         }
+    }
+
+    // MARK: - What's New
+
+    private static let whatsNewKeys = [
+        "whatsNewModalTitle",
+        "whatsNewVersionLabel",
+        "whatsNewDismissButton",
+        "whatsNewSeeAllChanges",
+        "whatsNewEntryKindAdded",
+        "whatsNewEntryKindImproved",
+        "whatsNewEntryKindFixed",
+        "whatsNewEntryKindOther",
+        "changelogSettingsRow",
+        "changelogNavigationTitle",
+        "changelogEmptyMessage",
+        "accLabelWhatsNewDismissButton",
+        "accLabelWhatsNewSeeAllButton",
+        "accLabelChangelogSettingsRow"
+    ]
+
+    @Test("What's New keys exist and are translated", arguments: supportedLanguages)
+    func whatsNewKeysAreTranslated(language: String) throws {
+        let strings = try Self.loadStrings(for: language)
+        for key in Self.whatsNewKeys {
+            let value = try #require(strings[key], "Key \"\(key)\" is missing for language \"\(language)\"")
+            #expect(!value.isEmpty, "Key \"\(key)\" has an empty value for language \"\(language)\"")
+        }
+    }
+
+    /// `BundleChangelogLoader.supportedLanguages` must keep listing every language here,
+    /// and vice versa — adding a language means adding a `Changelog_<language>.json`
+    /// file *and* a case in this list.
+    @Test("Every supported language has a changelog resource")
+    func supportedLanguagesMatchChangelogLoader() {
+        #expect(Set(Self.supportedLanguages) == Set(BundleChangelogLoader.supportedLanguages))
     }
 }

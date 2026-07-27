@@ -1,0 +1,57 @@
+{
+  "schemaVersion" : 1,
+  "language" : "pt-BR",
+  "releases" : [
+    {
+      "version" : "2.1.0",
+      "date" : "2026-07-27",
+      "title" : "Agora você vê o que mudou a cada atualização.",
+      "entries" : [
+        {
+          "type" : "added",
+          "text" : "Uma tela de novidades, exibida na primeira vez que você abre o app após uma atualização."
+        },
+        {
+          "type" : "added",
+          "text" : "O histórico completo de versões agora fica nos ajustes, em Novidades."
+        },
+        {
+          "type" : "improved",
+          "text" : "As notas de versão são escritas em todos os idiomas que o app suporta."
+        }
+      ]
+    },
+    {
+      "version" : "2.0.0",
+      "title" : "Controle sem usar as mãos e alarmes que sempre tocam.",
+      "entries" : [
+        {
+          "type" : "added",
+          "text" : "Suporte a Siri e Atalhos para iniciar, pausar e reiniciar o temporizador sem usar as mãos."
+        },
+        {
+          "type" : "added",
+          "text" : "Um alarme que toca ao fim da sessão, mesmo com o dispositivo no modo silencioso."
+        },
+        {
+          "type" : "improved",
+          "text" : "Reconstruído em Swift 6, com uma suíte completa de testes unitários, de interface e de snapshot."
+        }
+      ]
+    },
+    {
+      "version" : "1.0.0",
+      "title" : "A primeira versão.",
+      "entries" : [
+        {
+          "type" : "added",
+          "text" : "Um temporizador Pomodoro feito em SwiftUI, com sessões de foco, pausas curtas e pausas longas."
+        },
+        {
+          "type" : "added",
+          "text" : "Ajustes para todas as durações do temporizador, salvos entre as aberturas do app."
+        }
+      ]
+    }
+  ]
+}

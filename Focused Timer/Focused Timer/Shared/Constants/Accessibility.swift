@@ -89,5 +89,18 @@ enum Accessibility {
         static let lblShortBreakExplanation = "lblShortBreakExplanation"
         static let lblLongBreakExplanation = "lblLongBreakExplanation"
         static let lblNumberOfCyclesExplanation = "lblNumberOfCyclesExplanation"
+
+        // MARK: - What's New Screen
+
+        // Buttons
+        static let btnWhatsNewDismiss = "btnWhatsNewDismiss"
+        static let btnWhatsNewSeeAll = "btnWhatsNewSeeAll"
+        static let btnSettingsChangelog = "btnSettingsChangelog"
+
+        // Labels
+        static let lblWhatsNewTitle = "lblWhatsNewTitle"
+        static let lblWhatsNewVersion = "lblWhatsNewVersion"
+        static let lblChangelogRelease = "lblChangelogRelease"
+        static let lblChangelogEmpty = "lblChangelogEmpty"
     }
 }

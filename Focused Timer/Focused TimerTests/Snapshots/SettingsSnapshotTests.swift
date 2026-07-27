@@ -142,7 +142,7 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
 
     func test_formView_withoutWarning() {
         let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
-        let view = FormView(viewModel: viewModel, displayWarning: false)
+        let view = NavigationStack { FormView(viewModel: viewModel, displayWarning: false) }
             .environment(Router())
         let controller = UIHostingController(rootView: view)
         controller.overrideUserInterfaceStyle = .light
@@ -151,7 +151,7 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
 
     func test_formView_withWarning() {
         let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
-        let view = FormView(viewModel: viewModel, displayWarning: true)
+        let view = NavigationStack { FormView(viewModel: viewModel, displayWarning: true) }
             .environment(Router())
         let controller = UIHostingController(rootView: view)
         controller.overrideUserInterfaceStyle = .light

@@ -22,6 +22,20 @@ final class Router {
 
     var selectedTab: AppTab = .timer
 
+    /// Destinations that can be pushed on top of the settings tab.
+    enum SettingsRoute: Hashable {
+        case changelog
+    }
+
+    /// Navigation stack backing the settings tab. Held here so other features
+    /// (such as the "What's New" modal) can deep-link into it.
+    var settingsPath: [SettingsRoute] = []
+
+    // MARK: - What's New
+
+    /// Whether the "What's New" modal is on screen.
+    var isWhatsNewPresented = false
+
     // MARK: - Cross-Feature Signaling
 
     /// Set to `true` by the settings tab when the user changes settings.
@@ -46,5 +60,22 @@ final class Router {
 
     func signalSettingsChanged() {
         settingsDidChange = true
+    }
+
+    func presentWhatsNew() {
+        isWhatsNewPresented = true
+    }
+
+    func dismissWhatsNew() {
+        isWhatsNewPresented = false
+    }
+
+    /// Closes the "What's New" modal and deep-links to the full changelog.
+    func showChangelog() {
+        isWhatsNewPresented = false
+        selectedTab = .settings
+        if settingsPath.last != .changelog {
+            settingsPath.append(.changelog)
+        }
     }
 }
