@@ -69,9 +69,9 @@ struct LocalizationTests {
     @Test("What's New keys exist and are translated", arguments: supportedLanguages)
     func whatsNewKeysAreTranslated(language: String) throws {
         let strings = try Self.loadStrings(for: language)
-        for key in Self.whatsNewKeys {
-            let value = try #require(strings[key], "Key \"\(key)\" is missing for language \"\(language)\"")
-            #expect(!value.isEmpty, "Key \"\(key)\" has an empty value for language \"\(language)\"")
+        for entryKey in Self.whatsNewKeys {
+            let value = try #require(strings[entryKey], "Key \"\(entryKey)\" is missing for language \"\(language)\"")
+            #expect(!value.isEmpty, "Key \"\(entryKey)\" has an empty value for language \"\(language)\"")
         }
     }
 

@@ -40,9 +40,7 @@ struct SettingsView: View {
 
     var body: some View {
         FormView(viewModel: settingsViewModel, displayWarning: shouldDisplayDisclaimer)
-            .onTapGesture {
-                self.hideKeyboard()
-            }
+            .scrollDismissesKeyboard(.immediately)
             .navigationTitle("settingsNavigationTitle")
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
@@ -50,17 +48,6 @@ struct SettingsView: View {
             }
     }
 }
-
-#if canImport(UIKit)
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
-                                        to: nil,
-                                        from: nil,
-                                        for: nil)
-    }
-}
-#endif
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {

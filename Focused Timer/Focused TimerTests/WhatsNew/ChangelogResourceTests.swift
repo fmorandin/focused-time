@@ -77,8 +77,10 @@ struct ChangelogResourceTests {
         for (language, versions) in versionsByLanguage {
             #expect(
                 versions == reference,
-                "\(language) is missing \(reference.subtracting(versions)) "
-                    + "and has extra \(versions.subtracting(reference))"
+                """
+                \(language) is missing \(reference.subtracting(versions)) \
+                and has extra \(versions.subtracting(reference))
+                """
             )
         }
     }
