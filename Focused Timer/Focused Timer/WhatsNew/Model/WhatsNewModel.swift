@@ -29,6 +29,8 @@ struct WhatsNewModel: WhatsNewModelProtocol {
 
     // MARK: - Private Variables
 
+    private static let lastVersionBeforeWhatsNew = "2.0.0"
+
     private let repository: any StorageRepository
 
     // MARK: - Initializer
@@ -49,5 +51,15 @@ struct WhatsNewModel: WhatsNewModelProtocol {
 
     func saveLastSeenVersion(_ version: String) {
         self.repository.save(version, for: UserDefaultKeys.whatsNewLastSeenVersion)
+    }
+
+    /// Gives installations used before What's New existed a starting watermark.
+    /// `isNotification` was persisted on every launch through 2.0, making its
+    /// presence a reliable legacy signal when checked before 2.1 writes it.
+    func migrateLegacyInstallationIfNeeded() {
+        guard !self.repository.contains(UserDefaultKeys.whatsNewLastSeenVersion) else { return }
+        guard self.repository.contains(UserDefaultKeys.isNotification) else { return }
+
+        self.saveLastSeenVersion(Self.lastVersionBeforeWhatsNew)
     }
 }

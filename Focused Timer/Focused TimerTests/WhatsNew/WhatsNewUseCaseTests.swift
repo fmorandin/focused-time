@@ -179,4 +179,45 @@ struct WhatsNewUseCaseTests {
         #expect(firstRelease?.version == "2.1.0")
         #expect(secondRelease == nil)
     }
+
+    // MARK: - Legacy migration
+
+    @Test("A used 2.0 installation migrates and presents the 2.1 release")
+    func legacyInstallationPresentsNewRelease() {
+        let repository = InMemoryStorageRepository()
+        repository.save(false, for: UserDefaultKeys.isNotification)
+        let model = WhatsNewModel(repository: repository)
+
+        model.migrateLegacyInstallationIfNeeded()
+
+        let changelog = ChangelogFixtures.changelog(versions: ["2.1.0", "2.0.0"])
+        let useCase = WhatsNewUseCase(model: model, changelog: changelog, currentVersionString: "2.1.0")
+        #expect(useCase.resolveReleaseToPresent()?.version == "2.1.0")
+    }
+
+    @Test("A fresh 2.1 installation remains eligible for silent seeding")
+    func freshInstallationDoesNotMigrate() {
+        let repository = InMemoryStorageRepository()
+        let model = WhatsNewModel(repository: repository)
+
+        model.migrateLegacyInstallationIfNeeded()
+
+        #expect(!repository.contains(UserDefaultKeys.whatsNewLastSeenVersion))
+        let changelog = ChangelogFixtures.changelog(versions: ["2.1.0"])
+        let useCase = WhatsNewUseCase(model: model, changelog: changelog, currentVersionString: "2.1.0")
+        #expect(useCase.resolveReleaseToPresent() == nil)
+        #expect(model.lastSeenVersion == "2.1.0")
+    }
+
+    @Test("Legacy migration preserves an existing What's New watermark")
+    func legacyMigrationPreservesExistingWatermark() {
+        let repository = InMemoryStorageRepository()
+        repository.save(false, for: UserDefaultKeys.isNotification)
+        repository.save("1.0.0", for: UserDefaultKeys.whatsNewLastSeenVersion)
+        let model = WhatsNewModel(repository: repository)
+
+        model.migrateLegacyInstallationIfNeeded()
+
+        #expect(model.lastSeenVersion == "1.0.0")
+    }
 }

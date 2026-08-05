@@ -16,6 +16,10 @@ final class InMemoryStorageRepository: StorageRepository, @unchecked Sendable {
         storage[storageKey] = value
     }
 
+    func contains(_ storageKey: String) -> Bool {
+        storage[storageKey] != nil
+    }
+
     func integer(for storageKey: String) -> Int {
         storage[storageKey] as? Int ?? 0
     }

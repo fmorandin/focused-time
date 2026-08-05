@@ -58,6 +58,18 @@ struct UserDefaultsRepositoryTests {
         #expect(repo.string(for: "missingStringKey") == "")
     }
 
+    // MARK: - Key existence
+
+    @Test("contains distinguishes stored false from a missing key")
+    func containsStoredFalse() {
+        let defaults = makeSuitedDefaults()
+        let repo = UserDefaultsRepository(defaults: defaults)
+        repo.save(false, for: "storedFalse")
+
+        #expect(repo.contains("storedFalse"))
+        #expect(!repo.contains("missingKey"))
+    }
+
     // MARK: - Bool round-trip
 
     @Test("save and bool round-trip preserves true")

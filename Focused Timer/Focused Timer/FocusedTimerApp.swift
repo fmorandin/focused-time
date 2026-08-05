@@ -20,6 +20,10 @@ struct FocusedTimerApp: App {
     @AppStorage(UserDefaultKeys.appearanceMode) private var appearanceMode: String = AppearanceMode.system.rawValue
 
     init() {
+        // Run before AppDelegate writes `isNotification` for this launch, so a
+        // persisted value still distinguishes a 2.0 upgrade from a fresh install.
+        WhatsNewModel().migrateLegacyInstallationIfNeeded()
+
         // Configure UI testing state before creating the TimerService singleton
         // so that the TimerUseCase reads the correct values from UserDefaults.
         AppDelegate.setStateForUITesting()
