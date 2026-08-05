@@ -32,6 +32,12 @@ struct UserDefaultsRepository: StorageRepository, @unchecked Sendable {
         defaults.set(value, forKey: storageKey)
     }
 
+    func contains(_ storageKey: String) -> Bool {
+        let containsValue = defaults.object(forKey: storageKey) != nil
+        Self.logger.notice("📤 Checking for key \(storageKey): \(containsValue).")
+        return containsValue
+    }
+
     func integer(for storageKey: String) -> Int {
         let value = defaults.integer(forKey: storageKey)
         Self.logger.notice("📤 Getting integer \(value) for key \(storageKey).")

@@ -13,6 +13,9 @@ protocol StorageRepository: Sendable {
     /// Persists a value for the given key.
     func save<T: Sendable>(_ value: T, for storageKey: String)
 
+    /// Returns whether a value has been persisted for the given key.
+    func contains(_ storageKey: String) -> Bool
+
     /// Returns the stored integer, or 0 if absent.
     func integer(for storageKey: String) -> Int
 
