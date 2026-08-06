@@ -118,22 +118,4 @@ struct WhatsNewViewModelTests {
 
         #expect(router.isWhatsNewPresented == false)
     }
-
-    // MARK: - showFullChangelog
-
-    @Test("showFullChangelog dismisses the modal and pushes the changelog route")
-    func showFullChangelogNavigatesToSettings() {
-        let router = Router()
-        router.presentWhatsNew()
-        let viewModel = WhatsNewViewModel(
-            loader: StubChangelogLoader(changelog: .empty),
-            model: WhatsNewModelStub()
-        )
-
-        viewModel.showFullChangelog(router: router)
-
-        #expect(router.isWhatsNewPresented == false)
-        #expect(router.selectedTab == .settings)
-        #expect(router.settingsPath == [.changelog])
-    }
 }

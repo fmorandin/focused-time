@@ -48,20 +48,4 @@ final class WhatsNewForcedUITests: BaseFeature, @unchecked Sendable {
         let playPauseButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertTrue(playPauseButton.waitForExistence(timeout: 5))
     }
-
-    func test_SeeAllChangesOpensTheFullChangelog() {
-        // GIVEN the modal is visible
-        let seeAllButton = application.buttons[Accessibility.Identifiers.btnWhatsNewSeeAll]
-        XCTAssertTrue(seeAllButton.waitForExistence(timeout: 5))
-
-        // WHEN I tap "See all changes"
-        seeAllButton.tap()
-
-        // THEN the modal closes and the full changelog is shown in Settings
-        let release = application.staticTexts[Accessibility.Identifiers.lblChangelogRelease].firstMatch
-        XCTAssertTrue(release.waitForExistence(timeout: 5))
-
-        let dismissButton = application.buttons[Accessibility.Identifiers.btnWhatsNewDismiss]
-        XCTAssertFalse(dismissButton.exists)
-    }
 }

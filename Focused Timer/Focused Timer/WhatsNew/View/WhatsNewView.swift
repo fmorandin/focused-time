@@ -37,27 +37,27 @@ struct WhatsNewView: View {
     // MARK: - View
 
     var body: some View {
-        VStack(spacing: 0) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 26) {
-                    header
+        ScrollView {
+            VStack(alignment: .leading, spacing: 26) {
+                header
 
-                    VStack(alignment: .leading, spacing: 20) {
-                        ForEach(release.entries) { entry in
-                            ChangelogEntryRow(entry: entry)
-                        }
+                VStack(alignment: .leading, spacing: 20) {
+                    ForEach(release.entries) { entry in
+                        ChangelogEntryRow(entry: entry)
                     }
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 28)
-                .padding(.bottom, 20)
-            }
 
-            footer
+                dismissButton
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 28)
+            .padding(.bottom, 24)
         }
+        .scrollBounceBehavior(.basedOnSize)
         .background(Color.backgroundColor)
-        .presentationDetents([.fraction(0.7), .large])
-        .presentationDragIndicator(.visible)
+        .presentationDetents([.fraction(0.7)])
+        .presentationDragIndicator(.hidden)
         .presentationCornerRadius(28)
         .onAppear {
             Self.logger.notice("✨ What's New View opened.")
@@ -95,36 +95,20 @@ struct WhatsNewView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-    private var footer: some View {
-        VStack(spacing: 12) {
-            Button(action: {
-                HapticsConstants().impactLight.impactOccurred()
-                viewModel.dismiss(router: router)
-            }, label: {
-                Text("whatsNewDismissButton")
-                    .font(.system(.body, design: .rounded).bold())
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-            })
-            .buttonStyle(.borderedProminent)
-            .buttonBorderShape(.capsule)
-            .accessibilityIdentifier(Accessibility.Identifiers.btnWhatsNewDismiss)
-            .accessibilityLabel(Text("accLabelWhatsNewDismissButton"))
-
-            Button(action: {
-                viewModel.showFullChangelog(router: router)
-            }, label: {
-                Text("whatsNewSeeAllChanges")
-                    .font(.system(.footnote, design: .rounded))
-            })
-            .buttonStyle(.borderless)
-            .accessibilityIdentifier(Accessibility.Identifiers.btnWhatsNewSeeAll)
-            .accessibilityLabel(Text("accLabelWhatsNewSeeAllButton"))
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 12)
-        .padding(.bottom, 24)
-        .background(.ultraThinMaterial)
+    private var dismissButton: some View {
+        Button(action: {
+            HapticsConstants().impactLight.impactOccurred()
+            viewModel.dismiss(router: router)
+        }, label: {
+            Text("whatsNewDismissButton")
+                .font(.system(.body, design: .rounded).bold())
+                .padding(.horizontal, 36)
+                .frame(minHeight: 44)
+        })
+        .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.capsule)
+        .accessibilityIdentifier(Accessibility.Identifiers.btnWhatsNewDismiss)
+        .accessibilityLabel(Text("accLabelWhatsNewDismissButton"))
     }
 }
 

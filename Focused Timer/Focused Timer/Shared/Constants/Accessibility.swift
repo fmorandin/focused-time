@@ -94,7 +94,6 @@ enum Accessibility {
 
         // Buttons
         static let btnWhatsNewDismiss = "btnWhatsNewDismiss"
-        static let btnWhatsNewSeeAll = "btnWhatsNewSeeAll"
         static let btnSettingsChangelog = "btnSettingsChangelog"
 
         // Labels
