@@ -35,23 +35,6 @@
         }
       }
     },
-    "accLabelWhatsNewSeeAllButton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Button that opens the full list of changes"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Botão que abre a lista completa de mudanças"
-          }
-        }
-      }
-    },
     "changelogEmptyMessage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -201,23 +184,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Novidades"
-          }
-        }
-      }
-    },
-    "whatsNewSeeAllChanges" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "See all changes"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ver todas as mudanças"
           }
         }
       }

@@ -43,28 +43,6 @@ struct RouterTests {
         #expect(router.isWhatsNewPresented == false)
     }
 
-    @Test("showChangelog dismisses the modal, selects settings, and pushes the changelog route")
-    func showChangelogNavigatesToSettings() {
-        let router = Router()
-        router.presentWhatsNew()
-
-        router.showChangelog()
-
-        #expect(router.isWhatsNewPresented == false)
-        #expect(router.selectedTab == .settings)
-        #expect(router.settingsPath == [.changelog])
-    }
-
-    @Test("showChangelog does not push a duplicate route when called twice")
-    func showChangelogDoesNotDuplicateRoute() {
-        let router = Router()
-
-        router.showChangelog()
-        router.showChangelog()
-
-        #expect(router.settingsPath == [.changelog])
-    }
-
     // MARK: - selectSettings
 
     @Test("selectSettings navigates to the settings tab")

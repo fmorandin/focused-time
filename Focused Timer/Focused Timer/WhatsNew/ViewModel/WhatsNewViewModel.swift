@@ -96,9 +96,4 @@ final class WhatsNewViewModel {
         Self.logger.notice("✨ What's New dismissed.")
         router.dismissWhatsNew()
     }
-
-    func showFullChangelog(router: Router) {
-        Self.logger.notice("✨ Opening the full changelog from What's New.")
-        router.showChangelog()
-    }
 }

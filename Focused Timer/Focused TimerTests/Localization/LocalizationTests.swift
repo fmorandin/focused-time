@@ -53,7 +53,6 @@ struct LocalizationTests {
         "whatsNewModalTitle",
         "whatsNewVersionLabel",
         "whatsNewDismissButton",
-        "whatsNewSeeAllChanges",
         "whatsNewEntryKindAdded",
         "whatsNewEntryKindImproved",
         "whatsNewEntryKindFixed",
@@ -62,7 +61,6 @@ struct LocalizationTests {
         "changelogNavigationTitle",
         "changelogEmptyMessage",
         "accLabelWhatsNewDismissButton",
-        "accLabelWhatsNewSeeAllButton",
         "accLabelChangelogSettingsRow"
     ]
 

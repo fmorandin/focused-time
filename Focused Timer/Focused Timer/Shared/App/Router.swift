@@ -27,8 +27,7 @@ final class Router {
         case changelog
     }
 
-    /// Navigation stack backing the settings tab. Held here so other features
-    /// (such as the "What's New" modal) can deep-link into it.
+    /// Navigation stack backing the settings tab.
     var settingsPath: [SettingsRoute] = []
 
     // MARK: - What's New
@@ -68,14 +67,5 @@ final class Router {
 
     func dismissWhatsNew() {
         isWhatsNewPresented = false
-    }
-
-    /// Closes the "What's New" modal and deep-links to the full changelog.
-    func showChangelog() {
-        isWhatsNewPresented = false
-        selectedTab = .settings
-        if settingsPath.last != .changelog {
-            settingsPath.append(.changelog)
-        }
     }
 }
