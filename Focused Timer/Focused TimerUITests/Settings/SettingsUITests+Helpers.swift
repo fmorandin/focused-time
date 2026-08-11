@@ -85,14 +85,17 @@ extension SettingsUITests {
         numberOfCyclesTextField.doubleTap()
         slowTypeText("99", into: numberOfCyclesTextField)
 
-        application.tap()
+        // A numeric keyboard has no return key. Scroll the form to dismiss it before
+        // tapping Auto Start; otherwise the first tap can be consumed by dismissal.
+        application.swipeDown()
+        scrollToSettingsTopIfNeeded()
 
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
-        tapToggle(autoStartToggle)
+        setToggle(autoStartToggle, enabled: true)
 
         scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
-        tapToggle(playSoundsToggle)
+        setToggle(playSoundsToggle, enabled: true)
 
         let keepScreenOnToggle = resolvedKeepScreenOnToggle()
         tapToggle(keepScreenOnToggle)
@@ -100,6 +103,10 @@ extension SettingsUITests {
         let keepScreenOnAlert = application.alerts.firstMatch
         XCTAssertTrue(waitForExistence(keepScreenOnAlert, timeout: 2.0))
         keepScreenOnAlert.buttons["OK"].tap()
+        XCTAssertTrue(
+            waitForValue(keepScreenOnToggle, equals: "1", timeout: 2.0),
+            "Keep screen on should be enabled before exercising Reset to Defaults."
+        )
     }
 
     func assertUpdatedSettingsValues() {
@@ -195,6 +202,24 @@ extension SettingsUITests {
         }
 
         return value
+    }
+
+    func setToggle(
+        _ element: XCUIElement,
+        enabled: Bool,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let expectedValue = enabled ? "1" : "0"
+        guard element.value as? String != expectedValue else { return }
+
+        tapToggle(element)
+        XCTAssertTrue(
+            waitForValue(element, equals: expectedValue, timeout: 3.0),
+            "Toggle should reach value \(expectedValue).",
+            file: file,
+            line: line
+        )
     }
 
     func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 3) {

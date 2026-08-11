@@ -36,6 +36,10 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
         func add(_: UNNotificationRequest) {}
     }
 
+    private struct AlarmAuthorizationAuthorizedStub: AlarmAuthorizationChecking {
+        let isDeniedBySystem = false
+    }
+
     // MARK: - AppSettingsView: Notification States
 
     func test_appSettingsView_notificationsEnabled() {
@@ -63,7 +67,10 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
     // MARK: - AppSettingsView: Toggle States
 
     func test_appSettingsView_allTogglesEnabled() {
-        let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+        let viewModel = SettingsViewModel(
+            settingsModel: SettingsModelMock(),
+            alarmAuthorizationChecker: AlarmAuthorizationAuthorizedStub()
+        )
         viewModel.isAutoStartEnabled = true
         viewModel.isPlaySoundEnabled = true
         viewModel.keepScreenOn = true
@@ -143,6 +150,7 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
     func test_formView_withoutWarning() {
         let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
         let view = NavigationStack { FormView(viewModel: viewModel, displayWarning: false) }
+            .toolbar(.hidden, for: .navigationBar)
             .environment(Router())
         let controller = UIHostingController(rootView: view)
         controller.overrideUserInterfaceStyle = .light
@@ -152,6 +160,7 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
     func test_formView_withWarning() {
         let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
         let view = NavigationStack { FormView(viewModel: viewModel, displayWarning: true) }
+            .toolbar(.hidden, for: .navigationBar)
             .environment(Router())
         let controller = UIHostingController(rootView: view)
         controller.overrideUserInterfaceStyle = .light
