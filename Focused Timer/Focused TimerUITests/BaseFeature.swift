@@ -57,6 +57,13 @@ class BaseFeature: XCTestCase, @unchecked Sendable {
     }
 
     @discardableResult
+    func waitForHittable(_ element: XCUIElement, timeout: TimeInterval = 5.0) -> Bool {
+        let predicate = NSPredicate(format: "exists == true AND hittable == true")
+        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: element)
+        return XCTWaiter.wait(for: [expectation], timeout: timeout) == .completed
+    }
+
+    @discardableResult
     func waitForValue(_ element: XCUIElement, equals value: String, timeout: TimeInterval = 5.0) -> Bool {
         let predicate = NSPredicate(format: "value == %@", value)
         let expectation = XCTNSPredicateExpectation(predicate: predicate, object: element)
@@ -79,5 +86,10 @@ class BaseFeature: XCTestCase, @unchecked Sendable {
         }
 
         element.tap()
+    }
+
+    func pressToggle(_ element: XCUIElement) {
+        let controlCoordinate = element.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
+        controlCoordinate.press(forDuration: 0.2)
     }
 }

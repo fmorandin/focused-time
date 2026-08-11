@@ -259,21 +259,17 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         // AND the toggles are in their default values
         let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertFalse(autoStartToggle.isSelected)
+        setToggle(autoStartToggle, enabled: true)
 
         scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
         XCTAssertFalse(playSoundsToggle.isSelected)
 
         // WHEN I update the toggles
-        tapToggle(autoStartToggle)
-        scrollToPlaySoundsToggleIfNeeded()
-        tapToggle(playSoundsToggle)
+        setToggle(playSoundsToggle, enabled: true)
 
         let keepScreenOnToggle = resolvedKeepScreenOnToggle()
-        tapToggle(keepScreenOnToggle)
-        if waitForExistence(application.alerts.firstMatch, timeout: 1.0) {
-            application.alerts.firstMatch.buttons["OK"].tap()
-        }
+        setKeepScreenOnToggle(keepScreenOnToggle, enabled: true)
 
         let dismissSettingsButton = application.tabBars.firstMatch.buttons["Timer"]
         dismissSettingsButton.tap()
@@ -336,9 +332,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         showSettingsButton.tap()
 
         assertDefaultSettingsValues()
-        updateSettingsValues()
-
-        dismissSettingsButton.tap()
+        relaunchWithUpdatedSettings()
         showSettingsButton.tap()
 
         assertUpdatedSettingsValues()

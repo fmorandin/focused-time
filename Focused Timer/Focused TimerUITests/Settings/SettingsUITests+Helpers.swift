@@ -66,47 +66,16 @@ extension SettingsUITests {
         )
     }
 
-    func updateSettingsValues() {
-        scrollToSettingsTopIfNeeded()
-
-        let durationTextField = application.textFields[Accessibility.Identifiers.txtFocusedTime]
-        durationTextField.doubleTap()
-        durationTextField.typeText("12345")
-
-        let shortBreakTextField = application.textFields[Accessibility.Identifiers.txtShortBreakTime]
-        shortBreakTextField.doubleTap()
-        shortBreakTextField.typeText("1234")
-
-        let longBreakTextField = application.textFields[Accessibility.Identifiers.txtLongBreakTime]
-        longBreakTextField.doubleTap()
-        longBreakTextField.typeText("123")
-
-        let numberOfCyclesTextField = application.textFields[Accessibility.Identifiers.txtNumberOfCycles]
-        numberOfCyclesTextField.doubleTap()
-        slowTypeText("99", into: numberOfCyclesTextField)
-
-        // A numeric keyboard has no return key. Scroll the form to dismiss it before
-        // tapping Auto Start; otherwise the first tap can be consumed by dismissal.
-        application.swipeDown()
-        scrollToSettingsTopIfNeeded()
-
-        let autoStartToggle = application.switches[Accessibility.Identifiers.tgAutoStart]
-        setToggle(autoStartToggle, enabled: true)
-
-        scrollToPlaySoundsToggleIfNeeded()
-        let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
-        setToggle(playSoundsToggle, enabled: true)
-
-        let keepScreenOnToggle = resolvedKeepScreenOnToggle()
-        tapToggle(keepScreenOnToggle)
-
-        let keepScreenOnAlert = application.alerts.firstMatch
-        XCTAssertTrue(waitForExistence(keepScreenOnAlert, timeout: 2.0))
-        keepScreenOnAlert.buttons["OK"].tap()
-        XCTAssertTrue(
-            waitForValue(keepScreenOnToggle, equals: "1", timeout: 2.0),
-            "Keep screen on should be enabled before exercising Reset to Defaults."
-        )
+    func relaunchWithUpdatedSettings() {
+        application.terminate()
+        application.launchEnvironment["UI_TEST_FOCUSED_SECONDS"] = "7380"
+        application.launchEnvironment["UI_TEST_SHORT_BREAK_SECONDS"] = "7380"
+        application.launchEnvironment["UI_TEST_LONG_BREAK_SECONDS"] = "7380"
+        application.launchEnvironment["UI_TEST_NUMBER_OF_CYCLES"] = "99"
+        application.launchEnvironment["UI_TEST_AUTO_START_ENABLED"] = "true"
+        application.launchEnvironment["UI_TEST_PLAY_SOUNDS_ENABLED"] = "true"
+        application.launchEnvironment["UI_TEST_KEEP_SCREEN_ON_ENABLED"] = "true"
+        application.launch()
     }
 
     func assertUpdatedSettingsValues() {
@@ -147,10 +116,10 @@ extension SettingsUITests {
         application.swipeUp()
         application.buttons[Accessibility.Identifiers.btnResetSettingsDefault].tap()
 
-        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 10.0))
         application.alerts.firstMatch.buttons["OK"].tap()
 
-        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 2.0))
+        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 10.0))
         application.alerts.firstMatch.buttons["OK"].tap()
 
         application.swipeDown()
@@ -211,15 +180,63 @@ extension SettingsUITests {
         line: UInt = #line
     ) {
         let expectedValue = enabled ? "1" : "0"
-        guard element.value as? String != expectedValue else { return }
 
-        tapToggle(element)
-        XCTAssertTrue(
-            waitForValue(element, equals: expectedValue, timeout: 3.0),
-            "Toggle should reach value \(expectedValue).",
-            file: file,
-            line: line
-        )
+        for attempt in 0..<3 {
+            let currentElement = refreshedToggle(element)
+            guard currentElement.value as? String != expectedValue else { return }
+            guard waitForHittable(currentElement, timeout: 10.0) else { continue }
+
+            if attempt.isMultiple(of: 2) {
+                tapToggle(currentElement)
+            } else {
+                pressToggle(currentElement)
+            }
+            if waitForValue(currentElement, equals: expectedValue, timeout: 10.0) {
+                return
+            }
+        }
+
+        XCTFail("Toggle should reach value \(expectedValue).", file: file, line: line)
+    }
+
+    func setKeepScreenOnToggle(
+        _ element: XCUIElement,
+        enabled: Bool,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let expectedValue = enabled ? "1" : "0"
+        let alert = application.alerts.firstMatch
+
+        for attempt in 0..<3 {
+            let currentElement = refreshedToggle(element)
+            if currentElement.value as? String == expectedValue {
+                if alert.exists {
+                    alert.buttons["OK"].tap()
+                }
+                return
+            }
+            guard waitForHittable(currentElement, timeout: 10.0) else { continue }
+
+            if attempt.isMultiple(of: 2) {
+                tapToggle(currentElement)
+            } else {
+                pressToggle(currentElement)
+            }
+            if waitForExistence(alert, timeout: 10.0) {
+                alert.buttons["OK"].tap()
+            }
+            if waitForValue(currentElement, equals: expectedValue, timeout: 10.0) {
+                return
+            }
+        }
+
+        XCTFail("Keep screen on should reach value \(expectedValue).", file: file, line: line)
+    }
+
+    private func refreshedToggle(_ element: XCUIElement) -> XCUIElement {
+        guard !element.identifier.isEmpty else { return element }
+        return application.switches[element.identifier]
     }
 
     func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 3) {

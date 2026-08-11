@@ -64,6 +64,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         static let focusedTimeSeconds = "UI_TEST_FOCUSED_SECONDS"
         static let shortBreakTimeSeconds = "UI_TEST_SHORT_BREAK_SECONDS"
         static let longBreakTimeSeconds = "UI_TEST_LONG_BREAK_SECONDS"
+        static let autoStartEnabled = "UI_TEST_AUTO_START_ENABLED"
+        static let playSoundsEnabled = "UI_TEST_PLAY_SOUNDS_ENABLED"
+        static let keepScreenOnEnabled = "UI_TEST_KEEP_SCREEN_ON_ENABLED"
     }
 
     // MARK: - Computed Variables
@@ -150,6 +153,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         let focusedTime = Int(environment[UITestEnvironmentKeys.focusedTimeSeconds] ?? "") ?? 60
         let shortBreakTime = Int(environment[UITestEnvironmentKeys.shortBreakTimeSeconds] ?? "") ?? 60
         let longBreakTime = Int(environment[UITestEnvironmentKeys.longBreakTimeSeconds] ?? "") ?? 60
+        let autoStartEnabled = environment[UITestEnvironmentKeys.autoStartEnabled] == "true"
+        let playSoundsEnabled = environment[UITestEnvironmentKeys.playSoundsEnabled] == "true"
+        let keepScreenOnEnabled = environment[UITestEnvironmentKeys.keepScreenOnEnabled] == "true"
 
         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         UserDefaults.standard.set("\(numberOfCycles)", forKey: UserDefaultKeys.numberOfCycles)
@@ -157,8 +163,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         UserDefaults.standard.set(shortBreakTime, forKey: UserDefaultKeys.shortBreakTime)
         UserDefaults.standard.set(longBreakTime, forKey: UserDefaultKeys.longBreakTime)
 
-        UserDefaults.standard.set(false, forKey: UserDefaultKeys.autoStartToggle)
-        UserDefaults.standard.set(false, forKey: UserDefaultKeys.playTimerSounds)
+        UserDefaults.standard.set(autoStartEnabled, forKey: UserDefaultKeys.autoStartToggle)
+        UserDefaults.standard.set(playSoundsEnabled, forKey: UserDefaultKeys.playTimerSounds)
+        UserDefaults.standard.set(keepScreenOnEnabled, forKey: UserDefaultKeys.keepScreenOn)
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
 
