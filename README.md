@@ -35,6 +35,12 @@ The app tracks how many focus sessions you've completed. After a configurable nu
 
 Both controls include haptic feedback.
 
+### Live Activities
+
+While a timer is running or paused, its phase, countdown, progress, and completed cycles appear in a Live Activity on the Lock Screen and Dynamic Island. The system can also surface the activity in StandBy and on compatible Apple Watch, Mac, and CarPlay experiences. Tapping it opens the Timer tab.
+
+The countdown is rendered locally from its start and end dates, so it remains smooth without waking the app every second. ActivityKit receives updates only for meaningful changes such as start, pause, resume, phase changes, reset, completion, and preference changes. Apple does not guarantee a numeric minimum or maximum local update cadence, so there is no frequency setting. iOS can keep a Live Activity active for up to eight hours and can retain the completed Lock Screen presentation for up to four more hours; Focused Timer reconciles or recreates the current activity when it next runs.
+
 ### Settings
 
 All timer values and app behaviors are fully configurable:
@@ -48,6 +54,7 @@ All timer values and app behaviors are fully configurable:
 | Auto-start next timer | Off |
 | Play sounds on completion | On |
 | Keep screen on | Off |
+| Live Activities | On |
 
 Settings are persisted across launches. A **Reset to Defaults** option is available with a confirmation dialog.
 
@@ -57,7 +64,7 @@ Local push notifications are scheduled when the timer finishes while the app is 
 
 ### Background Handling
 
-When the app moves to the background, the current timestamp is saved. On return, elapsed time is calculated and the timer is updated accordingly — even if the app was terminated and relaunched.
+When the app moves to the background, the current timestamp is saved. On return, elapsed time is calculated and the timer is updated accordingly — even if the app was terminated and relaunched. Live Activities use the same canonical timer state and a system-rendered date range, then reconcile on foreground return instead of relying on per-second background execution.
 
 ### Help Screen
 
@@ -72,6 +79,7 @@ The full release history is always available from **Settings → What's New**, i
 ## Technologies
 
 - **SwiftUI** — Declarative UI framework
+- **ActivityKit / WidgetKit** — Lock Screen and Dynamic Island timer presentation with local countdown rendering
 - **MVVM** — Architecture pattern with protocol-based dependency injection for full unit testability
 - **App Intents** — Siri & Shortcuts integration to start, pause, reset, and configure the timer hands-free
 - **AlarmKit** — Schedules an alarm that rings even when the device is in silent mode
@@ -96,6 +104,7 @@ All major dependencies are abstracted behind protocols so unit tests run without
 | `SystemSoundPlaying` | Audio feedback |
 | `NotificationFlagStoring` | Lightweight UserDefaults flag access |
 | `AlarmScheduling` | AlarmKit integration |
+| `LiveActivityManaging` / `LiveActivityClient` | Serialized ActivityKit lifecycle and testable system access |
 | `StorageRepository` | Key-value persistence |
 | `ChangelogLoading` / `ChangelogDataProviding` | Loads and decodes the bundled changelog |
 | `WhatsNewModelProtocol` | Persists which release the user has already seen |
@@ -149,6 +158,7 @@ instead.
 
 - `TimerViewModelTests`
 - `SettingsViewModelTests`
+- `LiveActivityTests`
 - `LocalNotificationManagerTests`
 - `AppDelegateTests`
 - `TimerViewLifecycleTests`
@@ -208,7 +218,7 @@ Xcode Cloud installs the latest SwiftLint via `ci_scripts/ci_post_clone.sh` befo
 1. Add the new release to **both** `Changelog_en.json` and `Changelog_pt-BR.json` under `Focused Timer/Focused Timer/WhatsNew/Resources/`, with the same `version` in each.
 2. Bump `MARKETING_VERSION` (and `CURRENT_PROJECT_VERSION`) in `project.pbxproj`.
 3. Run `ChangelogResourceTests` — it fails if a version is missing from either language, if any entry is untranslated, or if the changelog announces a version ahead of the build.
-4. Re-record the `SettingsSnapshotTests` `FormView` snapshots only if the Settings layout changed.
+4. Re-record the `SettingsSnapshotTests` `FormView` snapshots only if the Settings layout changed. Live Activity presentation snapshots cover Lock Screen and Dynamic Island variants.
 
 ## Download
 

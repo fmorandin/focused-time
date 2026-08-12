@@ -340,6 +340,42 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         assertFinalDefaultSettingsValues()
     }
 
+    func test_LiveActivities_DefaultToggleAndReset() {
+        showSettingsButton.tap()
+
+        let liveActivitiesToggle = application.switches[Accessibility.Identifiers.tgLiveActivities]
+        for _ in 0..<4 where !liveActivitiesToggle.isHittable {
+            application.swipeUp()
+        }
+
+        XCTAssertTrue(waitForExistence(liveActivitiesToggle))
+        XCTAssertEqual(
+            stringValue(for: liveActivitiesToggle, message: "Live Activities value should be a String."),
+            "1"
+        )
+
+        setToggle(liveActivitiesToggle, enabled: false)
+        XCTAssertEqual(
+            stringValue(for: liveActivitiesToggle, message: "Live Activities should be disabled."),
+            "0"
+        )
+
+        let resetButton = application.buttons[Accessibility.Identifiers.btnResetSettingsDefault]
+        for _ in 0..<6 where !resetButton.isHittable {
+            application.swipeUp()
+        }
+        resetButton.tap()
+        XCTAssertTrue(waitForExistence(application.alerts.firstMatch, timeout: 10.0))
+        application.alerts.firstMatch.buttons["OK"].tap()
+
+        let resetToggle = application.switches[Accessibility.Identifiers.tgLiveActivities]
+        for _ in 0..<6 where !resetToggle.exists {
+            application.swipeDown()
+        }
+        XCTAssertTrue(waitForExistence(resetToggle))
+        XCTAssertEqual(stringValue(for: resetToggle, message: "Live Activities should reset to enabled."), "1")
+    }
+
     func test_AppVersionAndShare() {
 
         // GIVEN I open the modal

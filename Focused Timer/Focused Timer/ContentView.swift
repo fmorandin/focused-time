@@ -55,6 +55,9 @@ struct ContentView: View {
         .task {
             whatsNewViewModel.presentIfNeeded(router: router)
         }
+        .onOpenURL { deepLinkURL in
+            router.handleDeepLink(deepLinkURL)
+        }
     }
 }
 

@@ -44,6 +44,7 @@ struct SettingsViewModelTests {
         var savedToggles: [(Bool, String)] = []
         var savedStartingTimerType: TimerType?
         var stubbedStartingTimerType: TimerType = .focused
+        var liveActivitiesEnabled = true
 
         func saveTime(time: Int, for keyName: String) {
             savedTimes.append((time, keyName))
@@ -80,6 +81,12 @@ struct SettingsViewModelTests {
         func getAppearanceMode() -> AppearanceMode { .system }
 
         func saveAppearanceMode(_ mode: AppearanceMode) {}
+
+        func getLiveActivitiesEnabled() -> Bool { liveActivitiesEnabled }
+
+        func saveLiveActivitiesEnabled(_ isEnabled: Bool) {
+            liveActivitiesEnabled = isEnabled
+        }
     }
 
     private func clearPersistedValues() {
@@ -94,7 +101,8 @@ struct SettingsViewModelTests {
             UserDefaultKeys.keepScreenOn,
             UserDefaultKeys.enableNotifications,
             UserDefaultKeys.startingTimerType,
-            UserDefaultKeys.appearanceMode
+            UserDefaultKeys.appearanceMode,
+            UserDefaultKeys.liveActivitiesEnabled
         ].forEach { defaults.removeObject(forKey: $0) }
     }
 

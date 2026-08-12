@@ -26,6 +26,7 @@ class BaseFeature: XCTestCase, @unchecked Sendable {
             application.launchEnvironment["UI_TEST_SHORT_BREAK_SECONDS"] = "5"
             application.launchEnvironment["UI_TEST_LONG_BREAK_SECONDS"] = "5"
             application.launchEnvironment["UI_TEST_NUMBER_OF_CYCLES"] = "4"
+            application.launchEnvironment["UI_TEST_LIVE_ACTIVITIES_ENABLED"] = "true"
 
             application.launch()
         }

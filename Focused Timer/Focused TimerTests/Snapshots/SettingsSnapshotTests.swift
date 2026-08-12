@@ -167,3 +167,95 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
         assertSnapshot(of: controller, as: .image(on: .iPhoneX))
     }
 }
+
+@MainActor
+final class LiveActivitySnapshotTests: XCTestCase, @unchecked Sendable {
+
+    private let referenceDate = Date(timeIntervalSince1970: 1_800_000_000)
+
+    func test_lockScreen_runningFocus_light() {
+        let view = lockScreen(state: state(phase: .focused, status: .running), style: .light)
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 390, height: 180)))
+    }
+
+    func test_lockScreen_pausedShortBreak_dark() {
+        let view = lockScreen(state: state(phase: .shortBreak, status: .paused), style: .dark)
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 390, height: 180)))
+    }
+
+    func test_lockScreen_completedLongBreak_light() {
+        let completedState = state(phase: .longBreak, status: .running).completed(at: referenceDate)
+        let view = lockScreen(state: completedState, style: .light)
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 390, height: 180)))
+    }
+
+    func test_dynamicIsland_compact() {
+        let currentState = state(phase: .focused, status: .running)
+        let view = HStack {
+            LiveActivityCompactLeadingView(phase: currentState.phase)
+            Spacer()
+            LiveActivityCompactTrailingView(state: currentState, referenceDate: referenceDate)
+        }
+        .padding(.horizontal, 14)
+        .foregroundStyle(.white)
+        .background(.black)
+        .clipShape(Capsule())
+        .padding()
+
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 180, height: 64)))
+    }
+
+    func test_dynamicIsland_minimal() {
+        let view = FocusedTimerLiveActivityMinimalView(
+            state: state(phase: .shortBreak, status: .paused),
+            referenceDate: referenceDate
+        )
+        .foregroundStyle(.white)
+        .frame(width: 52, height: 52)
+        .background(.black)
+        .clipShape(Circle())
+
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 60, height: 60)))
+    }
+
+    func test_dynamicIsland_expanded_dark() {
+        let view = LiveActivityExpandedBottomView(
+            state: state(phase: .longBreak, status: .running),
+            isStale: false,
+            referenceDate: referenceDate
+        )
+        .foregroundStyle(.white)
+        .background(.black)
+        .environment(\.colorScheme, .dark)
+
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 390, height: 180)))
+    }
+
+    private func lockScreen(
+        state: FocusedTimerActivityAttributes.ContentState,
+        style: UIUserInterfaceStyle
+    ) -> some View {
+        FocusedTimerLiveActivityLockScreenView(
+            state: state,
+            isStale: false,
+            referenceDate: referenceDate
+        )
+        .background(style == .dark ? Color.black : Color.white)
+        .environment(\.colorScheme, style == .dark ? .dark : .light)
+    }
+
+    private func state(
+        phase: TimerActivityPhase,
+        status: TimerActivityStatus
+    ) -> FocusedTimerActivityAttributes.ContentState {
+        TimerActivitySnapshot(
+            phase: phase,
+            status: status,
+            totalTime: 1_500,
+            remainingTime: 754,
+            completedCycles: 2,
+            totalCycles: 4,
+            capturedAt: referenceDate
+        ).contentState
+    }
+}

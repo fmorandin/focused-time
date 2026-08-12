@@ -18,6 +18,14 @@
         {
           "type" : "improved",
           "text" : "Release notes are written in every language the app supports."
+        },
+        {
+          "type" : "added",
+          "text" : "Live Activities now show the current timer on the Lock Screen and Dynamic Island."
+        },
+        {
+          "type" : "added",
+          "text" : "A new setting lets you turn Live Activities on or off at any time."
         }
       ]
     },

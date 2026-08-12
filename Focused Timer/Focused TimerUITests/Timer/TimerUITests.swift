@@ -82,6 +82,27 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(lblCounter.label, initialCounterLabel)
     }
 
+    func test_TimerControlsRemainFunctionalWithLiveActivitiesDisabled() {
+        application.terminate()
+        application.launchEnvironment["UI_TEST_LIVE_ACTIVITIES_ENABLED"] = "false"
+        application.launch()
+
+        let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
+        let resetButton = application.buttons[Accessibility.Identifiers.btnResetIdentifier]
+        let counterLabel = application.staticTexts[Accessibility.Identifiers.lblCounter]
+
+        playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
+        XCTAssertTrue(waitForLabel(counterLabel, notEquals: initialCounterLabel, timeout: 2.0))
+
+        playButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Resume", timeout: 2.0))
+
+        resetButton.tap()
+        XCTAssertTrue(waitForLabel(playButton, equals: "Play", timeout: 2.0))
+        XCTAssertEqual(counterLabel.label, initialCounterLabel)
+    }
+
     func test_ChangeModesAutomatically() {
         let playButton = application.buttons[Accessibility.Identifiers.btnStartPauseIdentifier]
         XCTAssertEqual(playButton.label, "Play")

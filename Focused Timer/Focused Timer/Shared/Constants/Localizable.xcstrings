@@ -18,6 +18,23 @@
         }
       }
     },
+    "accLabelSettingsLiveActivitiesToggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the current timer on the Lock Screen and Dynamic Island"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra o timer atual na Tela Bloqueada e na Ilha Dinâmica"
+          }
+        }
+      }
+    },
     "accLabelWhatsNewDismissButton" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -923,6 +940,57 @@
         }
       }
     },
+    "liveActivityCompleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completed"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concluído"
+          }
+        }
+      }
+    },
+    "liveActivityPaused" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausado"
+          }
+        }
+      }
+    },
+    "liveActivityRunning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em andamento"
+          }
+        }
+      }
+    },
     "playTimer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1378,6 +1446,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tocar sons ao terminar timer"
+          }
+        }
+      }
+    },
+    "settingsLiveActivities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atividades ao Vivo"
+          }
+        }
+      }
+    },
+    "settingsLiveActivitiesFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the current timer on the Lock Screen and Dynamic Island. Availability is also controlled in iOS Settings."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra o timer atual na Tela Bloqueada e na Ilha Dinâmica. A disponibilidade também é controlada nos Ajustes do iOS."
           }
         }
       }

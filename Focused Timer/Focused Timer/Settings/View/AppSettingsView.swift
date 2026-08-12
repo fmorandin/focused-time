@@ -96,8 +96,20 @@ struct AppSettingsView: View {
                         dismissButton: .default(Text("OK")))
                 })
                 .padding(.vertical, 10)
+
+            // Live Activities
+            Toggle("settingsLiveActivities", isOn: $settingsViewModel.areLiveActivitiesEnabled)
+                .onChange(of: settingsViewModel.areLiveActivitiesEnabled) { _, newValue in
+                    settingsViewModel.saveLiveActivitiesEnabled(newValue)
+                }
+                .accessibilityIdentifier(Accessibility.Identifiers.tgLiveActivities)
+                .accessibilityLabel(Text("accLabelSettingsLiveActivitiesToggle"))
+                .padding(.vertical, 10)
         } header: {
             Text("settingsSectionAppName")
+        } footer: {
+            Text("settingsLiveActivitiesFooter")
+                .font(.system(.footnote, design: .rounded))
         }
         .font(.system(.body, design: .rounded))
 

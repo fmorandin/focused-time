@@ -18,6 +18,14 @@
         {
           "type" : "improved",
           "text" : "As notas de versão são escritas em todos os idiomas que o app suporta."
+        },
+        {
+          "type" : "added",
+          "text" : "As Atividades ao Vivo agora mostram o temporizador atual na Tela Bloqueada e na Dynamic Island."
+        },
+        {
+          "type" : "added",
+          "text" : "Um novo ajuste permite ativar ou desativar as Atividades ao Vivo a qualquer momento."
         }
       ]
     },

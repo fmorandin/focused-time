@@ -67,6 +67,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         static let autoStartEnabled = "UI_TEST_AUTO_START_ENABLED"
         static let playSoundsEnabled = "UI_TEST_PLAY_SOUNDS_ENABLED"
         static let keepScreenOnEnabled = "UI_TEST_KEEP_SCREEN_ON_ENABLED"
+        static let liveActivitiesEnabled = "UI_TEST_LIVE_ACTIVITIES_ENABLED"
     }
 
     // MARK: - Computed Variables
@@ -156,6 +157,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         let autoStartEnabled = environment[UITestEnvironmentKeys.autoStartEnabled] == "true"
         let playSoundsEnabled = environment[UITestEnvironmentKeys.playSoundsEnabled] == "true"
         let keepScreenOnEnabled = environment[UITestEnvironmentKeys.keepScreenOnEnabled] == "true"
+        let liveActivitiesEnabled = environment[UITestEnvironmentKeys.liveActivitiesEnabled] != "false"
 
         UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
         UserDefaults.standard.set("\(numberOfCycles)", forKey: UserDefaultKeys.numberOfCycles)
@@ -168,6 +170,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         UserDefaults.standard.set(keepScreenOnEnabled, forKey: UserDefaultKeys.keepScreenOn)
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
+        UserDefaults.standard.set(liveActivitiesEnabled, forKey: UserDefaultKeys.liveActivitiesEnabled)
 
         // `removePersistentDomain` above wipes the "already seen" flag, so the
         // What's New modal has to be suppressed explicitly or it would appear on

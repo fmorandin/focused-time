@@ -29,6 +29,9 @@ struct SettingsViewModelAppearanceModeTests {
         func saveAppearanceMode(_ mode: AppearanceMode) {
             savedAppearanceMode = mode
         }
+
+        func getLiveActivitiesEnabled() -> Bool { true }
+        func saveLiveActivitiesEnabled(_ isEnabled: Bool) {}
     }
 
     private func clearPersistedValues() {
@@ -43,7 +46,8 @@ struct SettingsViewModelAppearanceModeTests {
             UserDefaultKeys.keepScreenOn,
             UserDefaultKeys.enableNotifications,
             UserDefaultKeys.startingTimerType,
-            UserDefaultKeys.appearanceMode
+            UserDefaultKeys.appearanceMode,
+            UserDefaultKeys.liveActivitiesEnabled
         ].forEach { defaults.removeObject(forKey: $0) }
     }
 

@@ -9,6 +9,10 @@ import Foundation
 @testable import Focused_Timer
 
 struct SettingsModelMock: SettingsModelProtocol {
+    func getLiveActivitiesEnabled() -> Bool { true }
+
+    func saveLiveActivitiesEnabled(_ isEnabled: Bool) {}
+
     func getStartingTimerType() -> TimerType {
         .focused
     }

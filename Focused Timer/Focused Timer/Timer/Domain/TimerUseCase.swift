@@ -33,6 +33,9 @@ final class TimerUseCase {
     /// Observers can use this to trigger a review request or analytics event.
     var onCycleSetComplete: (() -> Void)?
 
+    /// Called after a phase completes. The Boolean indicates whether the next phase auto-started.
+    var onPhaseCompleted: ((_ autoStarted: Bool) -> Void)?
+
     // MARK: - Computed Settings
 
     /// Whether the "keep screen on" preference is currently enabled.
@@ -122,11 +125,13 @@ final class TimerUseCase {
             } else {
                 self.changeTimerMode()
 
-                if self.isAutoStartEnabled {
+                let shouldAutoStart = self.isAutoStartEnabled
+                if shouldAutoStart {
                     self.startTimer()
                 }
 
                 scheduledTimer.invalidate()
+                self.onPhaseCompleted?(shouldAutoStart)
                 self.onStateChange?()
             }
         }
@@ -202,9 +207,11 @@ final class TimerUseCase {
                 timer?.invalidate()
                 timer = nil
                 changeTimerMode()
-                if isAutoStartEnabled {
+                let shouldAutoStart = isAutoStartEnabled
+                if shouldAutoStart {
                     startTimer()
                 }
+                onPhaseCompleted?(shouldAutoStart)
             } else {
                 counter = totalRemainingTime
             }

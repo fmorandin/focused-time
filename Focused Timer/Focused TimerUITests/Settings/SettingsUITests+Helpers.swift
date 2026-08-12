@@ -75,6 +75,7 @@ extension SettingsUITests {
         application.launchEnvironment["UI_TEST_AUTO_START_ENABLED"] = "true"
         application.launchEnvironment["UI_TEST_PLAY_SOUNDS_ENABLED"] = "true"
         application.launchEnvironment["UI_TEST_KEEP_SCREEN_ON_ENABLED"] = "true"
+        application.launchEnvironment["UI_TEST_LIVE_ACTIVITIES_ENABLED"] = "true"
         application.launch()
     }
 

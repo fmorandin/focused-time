@@ -52,6 +52,13 @@ protocol SettingsModelProtocol {
 
     /// Persists the appearance mode chosen by the user
     func saveAppearanceMode(_ mode: AppearanceMode)
+
+    /// Returns whether the app should show the current timer as a Live Activity.
+    /// A missing key defaults to enabled so upgrades receive the feature.
+    func getLiveActivitiesEnabled() -> Bool
+
+    /// Persists whether the app should show the current timer as a Live Activity.
+    func saveLiveActivitiesEnabled(_ isEnabled: Bool)
 }
 
 struct SettingsModel: SettingsModelProtocol {
@@ -137,5 +144,16 @@ struct SettingsModel: SettingsModelProtocol {
     func saveAppearanceMode(_ mode: AppearanceMode) {
 
         repository.save(mode.rawValue, for: UserDefaultKeys.appearanceMode)
+    }
+
+    func getLiveActivitiesEnabled() -> Bool {
+
+        guard repository.contains(UserDefaultKeys.liveActivitiesEnabled) else { return true }
+        return repository.bool(for: UserDefaultKeys.liveActivitiesEnabled)
+    }
+
+    func saveLiveActivitiesEnabled(_ isEnabled: Bool) {
+
+        repository.save(isEnabled, for: UserDefaultKeys.liveActivitiesEnabled)
     }
 }

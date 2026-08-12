@@ -43,6 +43,7 @@ final class SettingsViewModel {
     private let notificationCenter: any UserNotificationCenterProtocol
     private let alarmAuthorizationChecker: any AlarmAuthorizationChecking
     private let urlOpener: any URLOpening
+    private let liveActivityManager: any LiveActivityManaging
 
     // Maximum number of characters for the fields
     let timerLimits = 3
@@ -61,6 +62,7 @@ final class SettingsViewModel {
     var isNotificationsDeniedBySystem: Bool = false
     var isAlarmEnabled: Bool = true
     var isAlarmDeniedBySystem: Bool = false
+    var areLiveActivitiesEnabled: Bool = true
     var startingTimerType: TimerType = .focused
     var appearanceMode: AppearanceMode = .system
 
@@ -83,7 +85,8 @@ final class SettingsViewModel {
         shareService: any ShareService = UIKitShareService(),
         notificationCenter: any UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
         alarmAuthorizationChecker: any AlarmAuthorizationChecking = AlarmKitAuthorizationChecker(),
-        urlOpener: any URLOpening = UIApplication.shared
+        urlOpener: any URLOpening = UIApplication.shared,
+        liveActivityManager: any LiveActivityManaging = LiveActivityManager.shared
     ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
 
@@ -92,6 +95,7 @@ final class SettingsViewModel {
         self.notificationCenter = notificationCenter
         self.alarmAuthorizationChecker = alarmAuthorizationChecker
         self.urlOpener = urlOpener
+        self.liveActivityManager = liveActivityManager
 
         populateAllFieldsSavedValues()
     }
@@ -122,6 +126,7 @@ final class SettingsViewModel {
         keepScreenOn = settingsModel.getToggle(for: UserDefaultKeys.keepScreenOn)
         isNotificationsEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableNotifications)
         isAlarmEnabled = settingsModel.getToggle(for: UserDefaultKeys.enableAlarm)
+        areLiveActivitiesEnabled = settingsModel.getLiveActivitiesEnabled()
         startingTimerType = settingsModel.getStartingTimerType()
         appearanceMode = settingsModel.getAppearanceMode()
     }
@@ -206,6 +211,14 @@ final class SettingsViewModel {
         }
     }
 
+    /// Saves the Live Activity preference and applies it to the current timer immediately.
+    func saveLiveActivitiesEnabled(_ value: Bool) {
+
+        areLiveActivitiesEnabled = value
+        settingsModel.saveLiveActivitiesEnabled(value)
+        liveActivityManager.handle(.preferenceChanged(value))
+    }
+
     /// Returns the saved value for a toggle key
     func getSavedToggles(for keyName: String) -> Bool {
 
@@ -234,6 +247,7 @@ final class SettingsViewModel {
         saveToggles(for: UserDefaultKeys.keepScreenOn, value: false)
         saveToggles(for: UserDefaultKeys.enableNotifications, value: true)
         saveToggles(for: UserDefaultKeys.enableAlarm, value: false)
+        saveLiveActivitiesEnabled(true)
         saveNumberOfCycles(DefaultValuesConstants.defaultNumberOfCycles.rawValue)
         saveStartingTimerType(.focused)
         saveAppearanceMode(.system)

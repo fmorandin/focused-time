@@ -140,6 +140,8 @@ final class TimerViewModel {
     private let useCase: TimerUseCase
     private let dateFormatter = DateComponentsFormatter()
     private let reviewEnabled: Bool
+    private let nowProvider: () -> Date
+    private let liveActivityManager: any LiveActivityManaging
 
     // MARK: - Initializer
 
@@ -151,11 +153,14 @@ final class TimerViewModel {
         soundPlayer: any SystemSoundPlaying = AudioSystemSoundPlayer(),
         notificationFlagStore: any NotificationFlagStoring = UserDefaults.standard,
         alarmScheduler: any AlarmScheduling = AlarmKitScheduler(),
+        liveActivityManager: any LiveActivityManaging = LiveActivityManager.shared,
         isReviewEnabled: Bool = !ProcessInfo.processInfo.arguments.contains("UI-Testing")
     ) {
         Self.logger.notice("🛠 Initializing Timer View Model.")
 
         self.reviewEnabled = isReviewEnabled
+        self.nowProvider = nowProvider
+        self.liveActivityManager = liveActivityManager
 
         dateFormatter.allowedUnits = [.minute, .second]
         dateFormatter.zeroFormattingBehavior = .pad
@@ -193,6 +198,18 @@ final class TimerViewModel {
             Self.logger.notice("⭐️ Requesting review — setting shouldRequestReview = true.")
             self.shouldRequestReview = true
         }
+
+        useCase.onPhaseCompleted = { [weak self] autoStarted in
+            guard let self else { return }
+            self.syncFromUseCase()
+            let nextSnapshot = autoStarted ? self.makeLiveActivitySnapshot() : nil
+            self.liveActivityManager.handle(
+                .phaseCompleted(completionDate: self.nowProvider(), nextSnapshot: nextSnapshot)
+            )
+        }
+
+        let initialSnapshot = timerState == .initial ? nil : makeLiveActivitySnapshot()
+        liveActivityManager.handle(.reconcile(initialSnapshot))
     }
 
     // MARK: - Public Methods (delegates to use case)
@@ -203,16 +220,21 @@ final class TimerViewModel {
         // before kicking off the tick loop.
         useCase.counter = counter
         useCase.startTimer()
+        syncFromUseCase()
+        liveActivityManager.handle(.started(makeLiveActivitySnapshot()))
     }
 
     func pauseTimer() {
         Self.logger.notice("⏸ Pausing timer (ViewModel delegate).")
         useCase.pauseTimer()
+        syncFromUseCase()
+        liveActivityManager.handle(.paused(makeLiveActivitySnapshot()))
     }
 
     func resetUpdateTimer() {
         Self.logger.notice("🔄 Resetting timer (ViewModel delegate).")
         useCase.resetUpdateTimer()
+        liveActivityManager.handle(.reset)
     }
 
     func moveAppToBackground() {
@@ -221,6 +243,10 @@ final class TimerViewModel {
 
     func moveAppToForeground() {
         useCase.moveAppToForeground()
+        syncFromUseCase()
+        if timerState != .initial {
+            liveActivityManager.handle(.reconcile(makeLiveActivitySnapshot()))
+        }
     }
 
     func shouldDisplaySettingsAlert() -> Bool {
@@ -243,5 +269,18 @@ final class TimerViewModel {
         totalNumberOfCycles = useCase.totalNumberOfCycles
         countTime = dateFormatter.string(from: TimeInterval(useCase.counter)) ?? "-"
         accentCircleColor = TimerTheme.color(for: useCase.timerType)
+    }
+
+    private func makeLiveActivitySnapshot() -> TimerActivitySnapshot {
+        let status: TimerActivityStatus = timerState == .paused ? .paused : .running
+        return TimerActivitySnapshot(
+            phase: TimerActivityPhase(timerType: timerType),
+            status: status,
+            totalTime: totalTime,
+            remainingTime: counter,
+            completedCycles: numberOfCompletedCycles,
+            totalCycles: totalNumberOfCycles,
+            capturedAt: nowProvider()
+        )
     }
 }

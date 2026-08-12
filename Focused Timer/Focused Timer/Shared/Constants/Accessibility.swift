@@ -41,6 +41,7 @@ enum Accessibility {
         static let btnOpenAlarmSettings = "btnOpenAlarmSettings"
         static let lblAlarmAutoStartConflictMessage = "lblAlarmAutoStartConflictMessage"
         static let tgEnableNotifications = "tgEnableNotifications"
+        static let tgLiveActivities = "tgLiveActivities"
         static let lblKeepScreenOnDisclaimer = "lblKeepScreenOnDisclaimer"
         static let lblNotificationsDeniedMessage = "lblNotificationsDeniedMessage"
         static let btnOpenNotificationsSettings = "btnOpenNotificationsSettings"

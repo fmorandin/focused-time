@@ -68,4 +68,10 @@ final class Router {
     func dismissWhatsNew() {
         isWhatsNewPresented = false
     }
+
+    func handleDeepLink(_ deepLinkURL: URL) {
+        guard deepLinkURL.scheme == "focusedtimer", deepLinkURL.host == "timer" else { return }
+        selectedTab = .timer
+        settingsPath.removeAll()
+    }
 }

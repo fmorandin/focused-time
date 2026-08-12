@@ -6,6 +6,7 @@
 //  cross-feature signalling, replacing ad-hoc @State booleans and NotificationCenter.
 //
 
+import Foundation
 import Testing
 @testable import Focused_Timer
 
@@ -115,5 +116,27 @@ struct RouterTests {
 
         router.selectSettings(isTimerActive: false)
         #expect(router.settingsDisplaysWarning == false)
+    }
+
+    @Test("Timer deep link selects the timer tab and clears settings navigation")
+    func timerDeepLink() {
+        let router = Router()
+        router.selectSettings(isTimerActive: false)
+        router.settingsPath = [.changelog]
+
+        router.handleDeepLink(URL(string: "focusedtimer://timer")!)
+
+        #expect(router.selectedTab == .timer)
+        #expect(router.settingsPath.isEmpty)
+    }
+
+    @Test("Unknown deep links do not change navigation")
+    func unknownDeepLink() {
+        let router = Router()
+        router.selectHelp()
+
+        router.handleDeepLink(URL(string: "focusedtimer://settings")!)
+
+        #expect(router.selectedTab == .help)
     }
 }

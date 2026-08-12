@@ -13,6 +13,7 @@ struct SettingsViewModelToggleInteractionTests {
 
     private final class SettingsModelSpy: SettingsModelProtocol {
         var savedToggles: [(Bool, String)] = []
+        var savedLiveActivities: [Bool] = []
 
         func saveTime(time _: Int, for _: String) {}
         func getTime(for _: String) -> Int { 1500 }
@@ -24,6 +25,13 @@ struct SettingsViewModelToggleInteractionTests {
         func saveStartingTimerType(_: TimerType) {}
         func getAppearanceMode() -> AppearanceMode { .system }
         func saveAppearanceMode(_: AppearanceMode) {}
+        func getLiveActivitiesEnabled() -> Bool { true }
+        func saveLiveActivitiesEnabled(_ value: Bool) { savedLiveActivities.append(value) }
+    }
+
+    private final class LiveActivityManagerSpy: LiveActivityManaging, @unchecked Sendable {
+        var events: [LiveActivityEvent] = []
+        func handle(_ event: LiveActivityEvent) { events.append(event) }
     }
 
     // MARK: - Alarm / Notifications mutual exclusivity
@@ -118,5 +126,33 @@ struct SettingsViewModelToggleInteractionTests {
         #expect(settingsViewModel.isNotificationsEnabled == false)
         let savedAlarm = settingsModel.savedToggles.first { $0.1 == UserDefaultKeys.enableAlarm }
         #expect(savedAlarm == nil)
+    }
+
+    @Test("Live Activity toggle persists and applies immediately")
+    func liveActivityToggle() {
+        let settingsModel = SettingsModelSpy()
+        let manager = LiveActivityManagerSpy()
+        let viewModel = SettingsViewModel(settingsModel: settingsModel, liveActivityManager: manager)
+
+        viewModel.saveLiveActivitiesEnabled(false)
+        viewModel.saveLiveActivitiesEnabled(true)
+
+        #expect(settingsModel.savedLiveActivities == [false, true])
+        #expect(manager.events == [.preferenceChanged(false), .preferenceChanged(true)])
+        #expect(viewModel.areLiveActivitiesEnabled)
+    }
+
+    @Test("Reset to defaults restores Live Activities")
+    func resetRestoresLiveActivities() {
+        let settingsModel = SettingsModelSpy()
+        let manager = LiveActivityManagerSpy()
+        let viewModel = SettingsViewModel(settingsModel: settingsModel, liveActivityManager: manager)
+        viewModel.saveLiveActivitiesEnabled(false)
+
+        viewModel.resetToDefault()
+
+        #expect(settingsModel.savedLiveActivities.last == true)
+        #expect(manager.events.last == .preferenceChanged(true))
+        #expect(viewModel.areLiveActivitiesEnabled)
     }
 }

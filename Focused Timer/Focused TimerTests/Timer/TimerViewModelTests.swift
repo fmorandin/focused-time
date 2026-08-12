@@ -86,6 +86,11 @@ private final class SoundPlayerMock: SystemSoundPlaying {
     }
 }
 
+private final class LiveActivityManagerMock: LiveActivityManaging, @unchecked Sendable {
+    private(set) var events: [LiveActivityEvent] = []
+    func handle(_ event: LiveActivityEvent) { events.append(event) }
+}
+
 private final class TimerModelSpy: TimerModelProtocol {
     var times: [String: Int] = [
         UserDefaultKeys.focusedTime: 5,
@@ -143,6 +148,7 @@ private func makeSUT(
     localNotificationManager: any LocalNotificationManaging = NotificationManagerSpy(),
     soundPlayer: any SystemSoundPlaying = SoundPlayerMock(),
     notificationFlagStore: any NotificationFlagStoring = NotificationFlagStoreMock(),
+    liveActivityManager: any LiveActivityManaging = LiveActivityManagerMock(),
     isReviewEnabled: Bool = false
 ) -> (viewModel: TimerViewModel, timerFactory: TestRepeatingTimerFactory) {
     let timerFactory = TestRepeatingTimerFactory()
@@ -153,6 +159,7 @@ private func makeSUT(
         localNotificationManager: localNotificationManager,
         soundPlayer: soundPlayer,
         notificationFlagStore: notificationFlagStore,
+        liveActivityManager: liveActivityManager,
         isReviewEnabled: isReviewEnabled
     )
 
@@ -162,6 +169,25 @@ private func makeSUT(
 @Suite("TimerViewModel Tests", .serialized)
 // swiftlint:disable:next type_body_length
 struct TimerViewModelTests {
+    @Test("Timer transitions emit semantic Live Activity events without per-second updates")
+    func liveActivityIntegration() {
+        let manager = LiveActivityManagerMock()
+        let (viewModel, timerFactory) = makeSUT(liveActivityManager: manager)
+        #expect(manager.events == [.reconcile(nil)])
+
+        viewModel.startTimer()
+        #expect(manager.events.last?.snapshotStatus == .running)
+
+        timerFactory.advance()
+        #expect(manager.events.count == 2)
+
+        viewModel.pauseTimer()
+        #expect(manager.events.last?.snapshotStatus == .paused)
+
+        viewModel.resetUpdateTimer()
+        #expect(manager.events.last == .reset)
+    }
+
     @Test("Start timer decrements and transitions to short break")
     func startTimer() {
         let (timerViewModel, timerFactory) = makeSUT()
@@ -668,5 +694,16 @@ struct TimerViewModelTests {
         viewModel.startTimer(); timerFactory.advance(by: 3)
 
         #expect(!viewModel.shouldRequestReview)
+    }
+}
+
+private extension LiveActivityEvent {
+    var snapshotStatus: TimerActivityStatus? {
+        switch self {
+        case .started(let snapshot), .paused(let snapshot):
+            snapshot.status
+        case .reconcile, .phaseCompleted, .reset, .preferenceChanged:
+            nil
+        }
     }
 }

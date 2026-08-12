@@ -23,6 +23,7 @@ enum UserDefaultKeys {
     static let startingTimerType = "startingTimerType"
     static let appearanceMode = "appearanceMode"
     static let enableAlarm = "enableAlarm"
+    static let liveActivitiesEnabled = "liveActivitiesEnabled"
     static let timerTypeBackground = "timerTypeBackground"
     static let completedCyclesBackground = "completedCyclesBackground"
     static let previousPhaseWasFocusBackground = "previousPhaseWasFocusBackground"
