@@ -117,17 +117,33 @@ struct LiveActivityCountdownText: View {
     var referenceDate: Date?
 
     var body: some View {
-        if state.status == .completed {
-            Text("00:00")
-        } else if let referenceDate {
-            Text(Self.formatted(state.remainingTime(at: referenceDate)))
-        } else {
+        switch Self.presentation(for: state, referenceDate: referenceDate) {
+        case .staticText(let value):
+            Text(value)
+        case .timerRange(let range):
             Text(
-                timerInterval: state.timerRange,
-                pauseTime: state.status == .paused ? state.pauseDate : nil,
+                timerInterval: range,
                 countsDown: true,
                 showsHours: true
             )
+        }
+    }
+
+    static func presentation(
+        for state: FocusedTimerActivityAttributes.ContentState,
+        referenceDate: Date?
+    ) -> LiveActivityCountdownPresentation {
+        switch state.status {
+        case .completed:
+            .staticText("00:00")
+        case .paused:
+            .staticText(formatted(state.remainingTime(at: state.pauseDate ?? referenceDate ?? .now)))
+        case .running:
+            if let referenceDate {
+                .staticText(formatted(state.remainingTime(at: referenceDate)))
+            } else {
+                .timerRange(state.timerRange)
+            }
         }
     }
 
@@ -140,6 +156,11 @@ struct LiveActivityCountdownText: View {
             ? String(format: "%d:%02d:%02d", hours, minutes, seconds)
             : String(format: "%02d:%02d", minutes, seconds)
     }
+}
+
+enum LiveActivityCountdownPresentation: Equatable {
+    case staticText(String)
+    case timerRange(ClosedRange<Date>)
 }
 
 struct LiveActivityCompactLeadingView: View {

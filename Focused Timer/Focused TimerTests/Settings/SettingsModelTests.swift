@@ -225,6 +225,29 @@ struct LiveActivityTests {
         #expect(LiveActivityCountdownText.formatted(36_061) == "10:01:01")
     }
 
+    @Test("Paused Live Activity countdown renders frozen text")
+    @MainActor
+    func pausedCountdownPresentationIsStatic() {
+        let referenceDate = Date(timeIntervalSince1970: 1_700_000_000)
+        let running = makeSnapshot(status: .running, remainingTime: 600).contentState
+        let paused = makeSnapshot(status: .paused, remainingTime: 600).contentState
+
+        #expect(
+            LiveActivityCountdownText.presentation(for: paused, referenceDate: nil)
+                == .staticText("10:00")
+        )
+        #expect(
+            LiveActivityCountdownText.presentation(
+                for: paused,
+                referenceDate: referenceDate.addingTimeInterval(300)
+            ) == .staticText("10:00")
+        )
+        #expect(
+            LiveActivityCountdownText.presentation(for: running, referenceDate: nil)
+                == .timerRange(running.timerRange)
+        )
+    }
+
     @Test("Starting requests one activity and later state changes update it")
     func requestThenUpdate() async {
         let client = ClientSpy()

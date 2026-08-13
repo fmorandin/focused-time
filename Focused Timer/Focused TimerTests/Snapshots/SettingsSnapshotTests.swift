@@ -190,11 +190,11 @@ final class LiveActivitySnapshotTests: XCTestCase, @unchecked Sendable {
     }
 
     func test_dynamicIsland_compact() {
-        let currentState = state(phase: .focused, status: .running)
+        let currentState = state(phase: .focused, status: .paused)
         let view = HStack {
             LiveActivityCompactLeadingView(phase: currentState.phase)
             Spacer()
-            LiveActivityCompactTrailingView(state: currentState, referenceDate: referenceDate)
+            LiveActivityCompactTrailingView(state: currentState)
         }
         .padding(.horizontal, 14)
         .foregroundStyle(.white)
@@ -207,8 +207,7 @@ final class LiveActivitySnapshotTests: XCTestCase, @unchecked Sendable {
 
     func test_dynamicIsland_minimal() {
         let view = FocusedTimerLiveActivityMinimalView(
-            state: state(phase: .shortBreak, status: .paused),
-            referenceDate: referenceDate
+            state: state(phase: .shortBreak, status: .paused)
         )
         .foregroundStyle(.white)
         .frame(width: 52, height: 52)
