@@ -183,21 +183,20 @@ extension SettingsUITests {
         let expectedValue = enabled ? "1" : "0"
 
         for attempt in 0..<3 {
-            let currentElement = refreshedToggle(element)
+            guard let currentElement = safelyPositionedToggle(element) else { continue }
             guard currentElement.value as? String != expectedValue else { return }
-            guard waitForHittable(currentElement, timeout: 10.0) else { continue }
 
             if attempt.isMultiple(of: 2) {
-                tapToggle(currentElement)
+                toggleControl(in: currentElement).tap()
             } else {
                 pressToggle(currentElement)
             }
-            if waitForValue(currentElement, equals: expectedValue, timeout: 10.0) {
+            if waitForValue(refreshedToggle(element), equals: expectedValue, timeout: 10.0) {
                 return
             }
         }
 
-        XCTFail("Toggle should reach value \(expectedValue).", file: file, line: line)
+        failToggleTransition(element, expectedValue: expectedValue, file: file, line: line)
     }
 
     func setKeepScreenOnToggle(
@@ -210,34 +209,95 @@ extension SettingsUITests {
         let alert = application.alerts.firstMatch
 
         for attempt in 0..<3 {
-            let currentElement = refreshedToggle(element)
+            guard let currentElement = safelyPositionedToggle(element) else { continue }
             if currentElement.value as? String == expectedValue {
                 if alert.exists {
                     alert.buttons["OK"].tap()
                 }
                 return
             }
-            guard waitForHittable(currentElement, timeout: 10.0) else { continue }
 
             if attempt.isMultiple(of: 2) {
-                tapToggle(currentElement)
+                toggleControl(in: currentElement).tap()
             } else {
                 pressToggle(currentElement)
             }
             if waitForExistence(alert, timeout: 10.0) {
                 alert.buttons["OK"].tap()
             }
-            if waitForValue(currentElement, equals: expectedValue, timeout: 10.0) {
+            if waitForValue(refreshedToggle(element), equals: expectedValue, timeout: 10.0) {
                 return
             }
         }
 
-        XCTFail("Keep screen on should reach value \(expectedValue).", file: file, line: line)
+        failToggleTransition(element, expectedValue: expectedValue, file: file, line: line)
     }
 
     private func refreshedToggle(_ element: XCUIElement) -> XCUIElement {
         guard !element.identifier.isEmpty else { return element }
         return application.switches[element.identifier]
+    }
+
+    private func safelyPositionedToggle(_ element: XCUIElement, maxGestures: Int = 4) -> XCUIElement? {
+        for _ in 0..<maxGestures {
+            let currentElement = refreshedToggle(element)
+            let control = toggleControl(in: currentElement)
+
+            if isSafelyHittable(control) {
+                return currentElement
+            }
+
+            let midpoint = control.frame.midY
+            let safeTop = application.frame.minY + (application.frame.height * 0.22)
+            if midpoint.isFinite && midpoint < safeTop {
+                moveSettingsContentDown()
+            } else {
+                application.swipeUp(velocity: .slow)
+            }
+        }
+
+        let currentElement = refreshedToggle(element)
+        return isSafelyHittable(toggleControl(in: currentElement)) ? currentElement : nil
+    }
+
+    private func toggleControl(in element: XCUIElement) -> XCUIElement {
+        let nestedSwitch = element.switches.firstMatch
+        return nestedSwitch.exists ? nestedSwitch : element
+    }
+
+    private func isSafelyHittable(_ element: XCUIElement) -> Bool {
+        guard element.exists && element.isHittable else { return false }
+
+        let midpoint = element.frame.midY
+        let applicationFrame = application.frame
+        let safeTop = applicationFrame.minY + (applicationFrame.height * 0.22)
+        let safeBottom = applicationFrame.maxY - (applicationFrame.height * 0.14)
+        return midpoint.isFinite && (safeTop...safeBottom).contains(midpoint)
+    }
+
+    private func moveSettingsContentDown() {
+        let start = application.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.3))
+        let endCoordinate = application.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.6))
+        start.press(forDuration: 0.05, thenDragTo: endCoordinate)
+    }
+
+    private func failToggleTransition(
+        _ element: XCUIElement,
+        expectedValue: String,
+        file: StaticString,
+        line: UInt
+    ) {
+        let currentElement = refreshedToggle(element)
+        let control = toggleControl(in: currentElement)
+        let identifier = currentElement.identifier.isEmpty ? "<unnamed>" : currentElement.identifier
+        let actualValue = currentElement.value as? String ?? "<missing>"
+        XCTFail(
+            "Toggle '\(identifier)' should reach value \(expectedValue); "
+                + "actual value: \(actualValue), row frame: \(currentElement.frame), "
+                + "control frame: \(control.frame).",
+            file: file,
+            line: line
+        )
     }
 
     func scrollToPlaySoundsToggleIfNeeded(maxSwipes: Int = 3) {

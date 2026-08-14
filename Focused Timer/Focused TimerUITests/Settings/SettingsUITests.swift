@@ -261,9 +261,11 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertFalse(autoStartToggle.isSelected)
         setToggle(autoStartToggle, enabled: true)
 
-        scrollToPlaySoundsToggleIfNeeded()
         let playSoundsToggle = application.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertFalse(playSoundsToggle.isSelected)
+        XCTAssertEqual(
+            stringValue(for: playSoundsToggle, message: "Play sounds toggle value should be a String."),
+            "0"
+        )
 
         // WHEN I update the toggles
         setToggle(playSoundsToggle, enabled: true)
