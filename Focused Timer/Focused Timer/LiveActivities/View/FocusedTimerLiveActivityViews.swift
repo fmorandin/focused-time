@@ -13,9 +13,9 @@ struct FocusedTimerLiveActivityLockScreenView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Label(phaseTitle, systemImage: phaseSymbol)
+                Label(state.phase.title, systemImage: state.phase.symbol)
                     .font(.headline)
-                    .foregroundStyle(phaseColor)
+                    .foregroundStyle(state.phase.color)
 
                 Spacer()
 
@@ -35,7 +35,7 @@ struct FocusedTimerLiveActivityLockScreenView: View {
             }
 
             progress
-                .tint(phaseColor)
+                .tint(state.phase.color)
         }
         .padding()
         .accessibilityElement(children: .combine)
@@ -49,8 +49,10 @@ struct FocusedTimerLiveActivityLockScreenView: View {
     private var progress: some View {
         if displayedState.status == .running, referenceDate == nil {
             ProgressView(timerInterval: displayedState.timerRange, countsDown: true)
+                .labelsHidden()
         } else {
             ProgressView(value: displayedState.progress(at: referenceDate ?? displayedState.pauseDate ?? .now))
+                .labelsHidden()
         }
     }
 
@@ -67,48 +69,8 @@ struct FocusedTimerLiveActivityLockScreenView: View {
             .foregroundStyle(.secondary)
     }
 
-    private var phaseTitle: LocalizedStringKey {
-        switch state.phase {
-        case .focused:
-            "focusName"
-        case .shortBreak:
-            "shortBreakName"
-        case .longBreak:
-            "longBreakName"
-        }
-    }
-
     private var statusTitle: LocalizedStringKey {
-        switch displayedState.status {
-        case .running:
-            "liveActivityRunning"
-        case .paused:
-            "liveActivityPaused"
-        case .completed:
-            "liveActivityCompleted"
-        }
-    }
-
-    private var phaseSymbol: String {
-        switch state.phase {
-        case .focused:
-            "brain.head.profile"
-        case .shortBreak:
-            "cup.and.heat.waves.fill"
-        case .longBreak:
-            "leaf.fill"
-        }
-    }
-
-    private var phaseColor: Color {
-        switch state.phase {
-        case .focused:
-            .orange
-        case .shortBreak:
-            .blue
-        case .longBreak:
-            .green
-        }
+        displayedState.status.title
     }
 }
 
@@ -167,8 +129,8 @@ struct LiveActivityCompactLeadingView: View {
     let phase: TimerActivityPhase
 
     var body: some View {
-        Image(systemName: phase == .focused ? "brain.head.profile" : "cup.and.heat.waves.fill")
-            .foregroundStyle(phase == .focused ? .orange : phase == .shortBreak ? .blue : .green)
+        Image(systemName: phase.symbol)
+            .foregroundStyle(phase.color)
     }
 }
 
@@ -180,6 +142,7 @@ struct LiveActivityCompactTrailingView: View {
         LiveActivityCountdownText(state: state, referenceDate: referenceDate)
             .font(.caption.monospacedDigit())
             .frame(minWidth: 42)
+            .padding(.trailing, 6)
     }
 }
 
@@ -200,11 +163,108 @@ struct LiveActivityExpandedBottomView: View {
     var referenceDate: Date?
 
     var body: some View {
-        FocusedTimerLiveActivityLockScreenView(
-            state: state,
-            isStale: isStale,
-            referenceDate: referenceDate
-        )
-        .padding(.horizontal, -8)
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline) {
+                LiveActivityCountdownText(state: displayedState, referenceDate: referenceDate)
+                    .font(.system(size: 32, weight: .semibold, design: .rounded))
+                    .monospacedDigit()
+
+                Spacer()
+
+                Text(displayedState.status.title)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            progress
+                .tint(state.phase.color)
+        }
+    }
+
+    @ViewBuilder
+    private var progress: some View {
+        if displayedState.status == .running, referenceDate == nil {
+            ProgressView(timerInterval: displayedState.timerRange, countsDown: true)
+                .labelsHidden()
+        } else {
+            ProgressView(value: displayedState.progress(at: referenceDate ?? displayedState.pauseDate ?? .now))
+                .labelsHidden()
+        }
+    }
+
+    private var displayedState: FocusedTimerActivityAttributes.ContentState {
+        if isStale, state.status == .running {
+            return state.completed(at: state.timerEndDate)
+        }
+        return state
+    }
+}
+
+struct LiveActivityExpandedLeadingView: View {
+    let phase: TimerActivityPhase
+
+    var body: some View {
+        Label(phase.title, systemImage: phase.symbol)
+            .font(.headline)
+            .foregroundStyle(phase.color)
+    }
+}
+
+struct LiveActivityExpandedTrailingView: View {
+    let completedCycles: Int
+    let totalCycles: Int
+
+    var body: some View {
+        Text("\(completedCycles)/\(totalCycles)")
+            .font(.subheadline.monospacedDigit())
+            .foregroundStyle(.secondary)
+    }
+}
+
+private extension TimerActivityPhase {
+    var title: LocalizedStringKey {
+        switch self {
+        case .focused:
+            "focusName"
+        case .shortBreak:
+            "shortBreakName"
+        case .longBreak:
+            "longBreakName"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .focused:
+            "brain.head.profile"
+        case .shortBreak:
+            "cup.and.heat.waves.fill"
+        case .longBreak:
+            "leaf.fill"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .focused:
+            .orange
+        case .shortBreak:
+            .blue
+        case .longBreak:
+            .green
+        }
+    }
+}
+
+private extension TimerActivityStatus {
+    var title: LocalizedStringKey {
+        switch self {
+        case .running:
+            "liveActivityRunning"
+        case .paused:
+            "liveActivityPaused"
+        case .completed:
+            "liveActivityCompleted"
+        }
     }
 }

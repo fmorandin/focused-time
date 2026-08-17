@@ -218,14 +218,19 @@ final class LiveActivitySnapshotTests: XCTestCase, @unchecked Sendable {
     }
 
     func test_dynamicIsland_expanded_dark() {
-        let view = LiveActivityExpandedBottomView(
+        let view = expandedIsland(
             state: state(phase: .longBreak, status: .running),
-            isStale: false,
-            referenceDate: referenceDate
+            style: .dark
         )
-        .foregroundStyle(.white)
-        .background(.black)
-        .environment(\.colorScheme, .dark)
+
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 390, height: 180)))
+    }
+
+    func test_dynamicIsland_expanded_pausedShortBreak_light() {
+        let view = expandedIsland(
+            state: state(phase: .shortBreak, status: .paused),
+            style: .light
+        )
 
         assertSnapshot(of: view, as: .image(layout: .fixed(width: 390, height: 180)))
     }
@@ -239,6 +244,33 @@ final class LiveActivitySnapshotTests: XCTestCase, @unchecked Sendable {
             isStale: false,
             referenceDate: referenceDate
         )
+        .background(style == .dark ? Color.black : Color.white)
+        .environment(\.colorScheme, style == .dark ? .dark : .light)
+    }
+
+    private func expandedIsland(
+        state: FocusedTimerActivityAttributes.ContentState,
+        style: UIUserInterfaceStyle
+    ) -> some View {
+        VStack(spacing: 12) {
+            HStack {
+                LiveActivityExpandedLeadingView(phase: state.phase)
+
+                Spacer()
+
+                LiveActivityExpandedTrailingView(
+                    completedCycles: state.completedCycles,
+                    totalCycles: state.totalCycles
+                )
+            }
+
+            LiveActivityExpandedBottomView(
+                state: state,
+                isStale: false,
+                referenceDate: referenceDate
+            )
+        }
+        .padding()
         .background(style == .dark ? Color.black : Color.white)
         .environment(\.colorScheme, style == .dark ? .dark : .light)
     }

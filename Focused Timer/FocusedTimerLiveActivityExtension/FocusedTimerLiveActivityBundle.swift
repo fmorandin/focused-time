@@ -27,10 +27,13 @@ struct FocusedTimerLiveActivityWidget: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    LiveActivityCompactLeadingView(phase: context.state.phase)
+                    LiveActivityExpandedLeadingView(phase: context.state.phase)
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    LiveActivityCompactTrailingView(state: context.state)
+                    LiveActivityExpandedTrailingView(
+                        completedCycles: context.state.completedCycles,
+                        totalCycles: context.state.totalCycles
+                    )
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     LiveActivityExpandedBottomView(
