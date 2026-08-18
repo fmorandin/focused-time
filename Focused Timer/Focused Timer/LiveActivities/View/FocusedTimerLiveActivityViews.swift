@@ -57,10 +57,7 @@ struct FocusedTimerLiveActivityLockScreenView: View {
     }
 
     private var displayedState: FocusedTimerActivityAttributes.ContentState {
-        if isStale, state.status == .running {
-            return state.completed(at: state.timerEndDate)
-        }
-        return state
+        state.displayedState(isStale: isStale)
     }
 
     private var cyclesLabel: some View {
@@ -136,20 +133,48 @@ struct LiveActivityCompactLeadingView: View {
 
 struct LiveActivityCompactTrailingView: View {
     let state: FocusedTimerActivityAttributes.ContentState
-    var referenceDate: Date?
+    let isStale: Bool
+    let referenceDate: Date?
+
+    init(
+        state: FocusedTimerActivityAttributes.ContentState,
+        isStale: Bool = false,
+        referenceDate: Date? = nil
+    ) {
+        self.state = state
+        self.isStale = isStale
+        self.referenceDate = referenceDate
+    }
 
     var body: some View {
-        LiveActivityCountdownText(state: state, referenceDate: referenceDate)
+        LiveActivityCountdownText(
+            state: state.displayedState(isStale: isStale),
+            referenceDate: referenceDate
+        )
             .font(.caption.monospacedDigit())
     }
 }
 
 struct FocusedTimerLiveActivityMinimalView: View {
     let state: FocusedTimerActivityAttributes.ContentState
-    var referenceDate: Date?
+    let isStale: Bool
+    let referenceDate: Date?
+
+    init(
+        state: FocusedTimerActivityAttributes.ContentState,
+        isStale: Bool = false,
+        referenceDate: Date? = nil
+    ) {
+        self.state = state
+        self.isStale = isStale
+        self.referenceDate = referenceDate
+    }
 
     var body: some View {
-        LiveActivityCountdownText(state: state, referenceDate: referenceDate)
+        LiveActivityCountdownText(
+            state: state.displayedState(isStale: isStale),
+            referenceDate: referenceDate
+        )
             .font(.caption2.monospacedDigit())
             .minimumScaleFactor(0.7)
     }
@@ -191,10 +216,14 @@ struct LiveActivityExpandedBottomView: View {
     }
 
     private var displayedState: FocusedTimerActivityAttributes.ContentState {
-        if isStale, state.status == .running {
-            return state.completed(at: state.timerEndDate)
-        }
-        return state
+        state.displayedState(isStale: isStale)
+    }
+}
+
+extension FocusedTimerActivityAttributes.ContentState {
+    func displayedState(isStale: Bool) -> Self {
+        guard isStale, status == .running else { return self }
+        return completed(at: timerEndDate)
     }
 }
 

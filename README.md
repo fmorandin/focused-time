@@ -39,7 +39,7 @@ Both controls include haptic feedback.
 
 While a timer is running or paused, its phase, countdown, progress, and completed cycles appear in a Live Activity on the Lock Screen and Dynamic Island. The system can also surface the activity in StandBy and on compatible Apple Watch, Mac, and CarPlay experiences. Tapping it opens the Timer tab.
 
-The countdown is rendered locally from its start and end dates, so it remains smooth without waking the app every second. ActivityKit receives updates only for meaningful changes such as start, pause, resume, phase changes, reset, completion, and preference changes. Apple does not guarantee a numeric minimum or maximum local update cadence, so there is no frequency setting. iOS can keep a Live Activity active for up to eight hours and can retain the completed Lock Screen presentation for up to four more hours; Focused Timer reconciles or recreates the current activity when it next runs.
+The countdown is rendered locally from its start and end dates, so it remains smooth without waking the app every second. ActivityKit receives updates only for meaningful changes such as start, pause, resume, phase changes, reset, completion, and preference changes. Apple does not guarantee a numeric minimum or maximum local update cadence, so there is no frequency setting. When the app can process completion, Focused Timer retains the completed Lock Screen summary for five minutes. iOS can keep a Live Activity active for up to eight hours and can retain completed presentations for up to four more hours; Focused Timer reconciles or recreates the current activity when it next runs.
 
 ### Settings
 
@@ -64,7 +64,7 @@ Local push notifications are scheduled when the timer finishes while the app is 
 
 ### Background Handling
 
-When the app moves to the background, the current timestamp is saved. On return, elapsed time is calculated and the timer is updated accordingly — even if the app was terminated and relaunched. Live Activities use the same canonical timer state and a system-rendered date range, then reconcile on foreground return instead of relying on per-second background execution.
+When the app moves to the background, the current timestamp is saved. On return, elapsed time is calculated and the timer is updated accordingly — even if the app was terminated and relaunched. Live Activities use the same canonical timer state and a system-rendered date range, then reconcile on foreground return instead of relying on per-second background execution. Because the system owns a Live Activity after it starts, force-quitting the app does not dismiss it immediately; an expired activity shows its completed state and is reconciled the next time the app runs.
 
 ### Help Screen
 

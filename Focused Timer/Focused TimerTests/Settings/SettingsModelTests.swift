@@ -152,7 +152,7 @@ struct LiveActivityTests {
     private struct EndRecord {
         let identifier: String
         let content: ActivityContent<FocusedTimerActivityAttributes.ContentState>?
-        let policyDescription: String
+        let policy: ActivityUIDismissalPolicy
     }
 
     private final class ClientSpy: LiveActivityClient, @unchecked Sendable {
@@ -172,7 +172,13 @@ struct LiveActivityTests {
             if let requestError { throw requestError }
             requestedContents.append(content)
             let identifier = "requested-activity"
-            activities.append(LiveActivityRecord(identifier: identifier, state: content.state))
+            activities.append(
+                LiveActivityRecord(
+                    identifier: identifier,
+                    state: content.state,
+                    lifecycleState: .active
+                )
+            )
             return identifier
         }
 
@@ -182,7 +188,11 @@ struct LiveActivityTests {
         ) async {
             updatedContents.append((identifier, content))
             if let index = activities.firstIndex(where: { $0.identifier == identifier }) {
-                activities[index] = LiveActivityRecord(identifier: identifier, state: content.state)
+                activities[index] = LiveActivityRecord(
+                    identifier: identifier,
+                    state: content.state,
+                    lifecycleState: activities[index].lifecycleState
+                )
             }
         }
 
@@ -195,7 +205,7 @@ struct LiveActivityTests {
                 EndRecord(
                     identifier: identifier,
                     content: content,
-                    policyDescription: String(describing: dismissalPolicy)
+                    policy: dismissalPolicy
                 )
             )
             activities.removeAll { $0.identifier == identifier }
@@ -223,6 +233,11 @@ struct LiveActivityTests {
         #expect(completed.remainingTime(at: referenceDate) == 0)
         #expect(completed.completionDate == referenceDate)
         #expect(LiveActivityCountdownText.formatted(36_061) == "10:01:01")
+        #expect(
+            running.displayedState(isStale: true)
+                == running.completed(at: running.timerEndDate)
+        )
+        #expect(paused.displayedState(isStale: true) == paused)
     }
 
     @Test("Paused Live Activity countdown renders frozen text")
@@ -289,6 +304,42 @@ struct LiveActivityTests {
         #expect(client.endedActivities.map(\.identifier) == ["duplicate"])
     }
 
+    @Test("Ended activities are dismissed instead of reused when a new timer starts")
+    func endedActivityRecovery() async {
+        let client = ClientSpy()
+        client.activities = [
+            LiveActivityRecord(
+                identifier: "ended",
+                state: makeSnapshot().contentState,
+                lifecycleState: .ended
+            )
+        ]
+
+        await makeCoordinator(client: client).handle(.started(makeSnapshot(remainingTime: 500)))
+
+        #expect(client.updatedContents.isEmpty)
+        #expect(client.endedActivities.map(\.identifier) == ["ended"])
+        #expect(client.endedActivities.first?.policy == .immediate)
+        #expect(client.requestedContents.count == 1)
+    }
+
+    @Test("Stale activities remain updateable during foreground reconciliation")
+    func staleActivityRecovery() async {
+        let client = ClientSpy()
+        client.activities = [
+            LiveActivityRecord(
+                identifier: "stale",
+                state: makeSnapshot().contentState,
+                lifecycleState: .stale
+            )
+        ]
+
+        await makeCoordinator(client: client).handle(.started(makeSnapshot(status: .paused)))
+
+        #expect(client.updatedContents.map(\.0) == ["stale"])
+        #expect(client.requestedContents.isEmpty)
+    }
+
     @Test("Preference opt-out ends immediately and missing preference defaults on")
     func preferenceBehavior() async {
         let client = ClientSpy()
@@ -307,7 +358,7 @@ struct LiveActivityTests {
         #expect(disabledClient.requestedContents.isEmpty)
     }
 
-    @Test("Normal completion publishes a summary with a fifteen-minute dismissal")
+    @Test("Normal completion publishes a summary with a five-minute dismissal")
     func completionSummary() async {
         let client = ClientSpy()
         let state = makeSnapshot().contentState
@@ -320,8 +371,10 @@ struct LiveActivityTests {
         #expect(client.endedActivities.count == 1)
         #expect(client.endedActivities.first?.content?.state.status == .completed)
         #expect(client.endedActivities.first?.content?.state.completionDate == referenceDate)
-        let immediatePolicy = String(describing: ActivityUIDismissalPolicy.immediate)
-        #expect(client.endedActivities.first?.policyDescription != immediatePolicy)
+        #expect(
+            client.endedActivities.first?.policy
+                == .after(referenceDate.addingTimeInterval(5 * 60))
+        )
     }
 
     @Test("Relaunch reconciles expired activities and recreates a missing long timer")
@@ -338,6 +391,33 @@ struct LiveActivityTests {
         )
         #expect(recoveredClient.requestedContents.count == 1)
         #expect(recoveredClient.requestedContents.first?.state.remainingTime(at: referenceDate) == 30_000)
+    }
+
+    @Test("Relaunch immediately removes a stale activity older than the completion retention")
+    func staleRelaunchCleanup() async {
+        let client = ClientSpy()
+        let expiredState = TimerActivitySnapshot(
+            phase: .focused,
+            status: .running,
+            totalTime: 1_500,
+            remainingTime: 0,
+            completedCycles: 1,
+            totalCycles: 4,
+            capturedAt: referenceDate.addingTimeInterval(-6 * 60)
+        ).contentState
+        client.activities = [
+            LiveActivityRecord(
+                identifier: "stale",
+                state: expiredState,
+                lifecycleState: .stale
+            )
+        ]
+
+        await makeCoordinator(client: client).handle(.reconcile(nil))
+
+        #expect(client.endedActivities.count == 1)
+        #expect(client.endedActivities.first?.content?.state.status == .completed)
+        #expect(client.endedActivities.first?.policy == .immediate)
     }
 
     @Test("Rapid events are serialized in sequence order")

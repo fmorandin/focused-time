@@ -205,9 +205,43 @@ final class LiveActivitySnapshotTests: XCTestCase, @unchecked Sendable {
         assertSnapshot(of: view, as: .image(layout: .fixed(width: 180, height: 64)))
     }
 
+    func test_dynamicIsland_compact_stale() {
+        let currentState = state(phase: .focused, status: .running)
+        let view = HStack {
+            LiveActivityCompactLeadingView(phase: currentState.phase)
+            Spacer()
+            LiveActivityCompactTrailingView(
+                state: currentState,
+                isStale: true,
+                referenceDate: referenceDate
+            )
+        }
+        .padding(.horizontal, 14)
+        .foregroundStyle(.white)
+        .background(.black)
+        .clipShape(Capsule())
+        .padding()
+
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 180, height: 64)))
+    }
+
     func test_dynamicIsland_minimal() {
         let view = FocusedTimerLiveActivityMinimalView(
             state: state(phase: .shortBreak, status: .paused)
+        )
+        .foregroundStyle(.white)
+        .frame(width: 52, height: 52)
+        .background(.black)
+        .clipShape(Circle())
+
+        assertSnapshot(of: view, as: .image(layout: .fixed(width: 60, height: 60)))
+    }
+
+    func test_dynamicIsland_minimal_stale() {
+        let view = FocusedTimerLiveActivityMinimalView(
+            state: state(phase: .shortBreak, status: .running),
+            isStale: true,
+            referenceDate: referenceDate
         )
         .foregroundStyle(.white)
         .frame(width: 52, height: 52)

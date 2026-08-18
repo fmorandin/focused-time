@@ -44,9 +44,15 @@ struct FocusedTimerLiveActivityWidget: Widget {
             } compactLeading: {
                 LiveActivityCompactLeadingView(phase: context.state.phase)
             } compactTrailing: {
-                LiveActivityCompactTrailingView(state: context.state)
+                LiveActivityCompactTrailingView(
+                    state: context.state,
+                    isStale: context.isStale
+                )
             } minimal: {
-                FocusedTimerLiveActivityMinimalView(state: context.state)
+                FocusedTimerLiveActivityMinimalView(
+                    state: context.state,
+                    isStale: context.isStale
+                )
             }
             .widgetURL(URL(string: "focusedtimer://timer"))
             .keylineTint(.orange)

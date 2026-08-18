@@ -188,6 +188,47 @@ struct TimerViewModelTests {
         #expect(manager.events.last == .reset)
     }
 
+    @Test("Timer completion without auto-start emits a completed Live Activity event")
+    func liveActivityCompletionWithoutAutoStart() {
+        let completionDate = Date(timeIntervalSince1970: 1_800_000_000)
+        let manager = LiveActivityManagerMock()
+        let (viewModel, timerFactory) = makeSUT(
+            nowProvider: { completionDate },
+            liveActivityManager: manager
+        )
+
+        viewModel.startTimer()
+        timerFactory.advance(by: 6)
+
+        #expect(
+            manager.events.last
+                == .phaseCompleted(completionDate: completionDate, nextSnapshot: nil)
+        )
+    }
+
+    @Test("Foreground recovery emits completion when a timer expired in the background")
+    func liveActivityCompletionAfterBackgroundExpiration() {
+        let completionDate = Date(timeIntervalSince1970: 20)
+        let timerModel = TimerModelSpy()
+        timerModel.savedTimes = (2, Date(timeIntervalSince1970: 10))
+        let manager = LiveActivityManagerMock()
+        let (viewModel, timerFactory) = makeSUT(
+            timerModel: timerModel,
+            nowProvider: { completionDate },
+            liveActivityManager: manager
+        )
+
+        viewModel.startTimer()
+        timerFactory.advance()
+        viewModel.moveAppToForeground()
+
+        #expect(viewModel.timerState == .initial)
+        #expect(
+            manager.events.last
+                == .phaseCompleted(completionDate: completionDate, nextSnapshot: nil)
+        )
+    }
+
     @Test("Start timer decrements and transitions to short break")
     func startTimer() {
         let (timerViewModel, timerFactory) = makeSUT()

@@ -23,6 +23,17 @@ protocol LiveActivityManaging: Sendable {
 struct LiveActivityRecord: Equatable, Sendable {
     let identifier: String
     let state: FocusedTimerActivityAttributes.ContentState
+    let lifecycleState: ActivityState
+
+    init(
+        identifier: String,
+        state: FocusedTimerActivityAttributes.ContentState,
+        lifecycleState: ActivityState = .active
+    ) {
+        self.identifier = identifier
+        self.state = state
+        self.lifecycleState = lifecycleState
+    }
 }
 
 protocol LiveActivityClient: Sendable {
@@ -50,7 +61,11 @@ struct ActivityKitLiveActivityClient: LiveActivityClient {
 
     func activeActivities() -> [LiveActivityRecord] {
         Activity<FocusedTimerActivityAttributes>.activities.map {
-            LiveActivityRecord(identifier: $0.id, state: $0.content.state)
+            LiveActivityRecord(
+                identifier: $0.id,
+                state: $0.content.state,
+                lifecycleState: $0.activityState
+            )
         }
     }
 
@@ -84,6 +99,8 @@ struct ActivityKitLiveActivityClient: LiveActivityClient {
 }
 
 actor LiveActivityCoordinator {
+
+    private static let completedDismissalDelay: TimeInterval = 5 * 60
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "FocusedTimer",
@@ -171,9 +188,11 @@ actor LiveActivityCoordinator {
 
         let currentDate = nowProvider()
         for activity in client.activeActivities() {
-            if activity.state.status == .running, activity.state.timerEndDate <= currentDate {
+            if activity.canUpdate,
+               activity.state.status == .running,
+               activity.state.timerEndDate <= currentDate {
                 await endCompletedActivity(activity, completionDate: activity.state.timerEndDate)
-            } else {
+            } else if activity.canEnd {
                 await client.end(identifier: activity.identifier, content: nil, dismissalPolicy: .immediate)
             }
         }
@@ -189,13 +208,18 @@ actor LiveActivityCoordinator {
             relevanceScore: 100
         )
         let activities = client.activeActivities()
+        let updateableActivities = activities.filter(\.canUpdate)
 
-        if let primaryActivity = activities.first {
+        if let primaryActivity = updateableActivities.first {
             await client.update(identifier: primaryActivity.identifier, content: content)
-            for duplicate in activities.dropFirst() {
+            for duplicate in activities where duplicate.identifier != primaryActivity.identifier && duplicate.canEnd {
                 await client.end(identifier: duplicate.identifier, content: nil, dismissalPolicy: .immediate)
             }
             return
+        }
+
+        for obsoleteActivity in activities where obsoleteActivity.canEnd {
+            await client.end(identifier: obsoleteActivity.identifier, content: nil, dismissalPolicy: .immediate)
         }
 
         do {
@@ -209,7 +233,7 @@ actor LiveActivityCoordinator {
     }
 
     private func completeActivities(at completionDate: Date) async {
-        for activity in client.activeActivities() {
+        for activity in client.activeActivities() where activity.canUpdate {
             await endCompletedActivity(activity, completionDate: completionDate)
         }
     }
@@ -221,7 +245,7 @@ actor LiveActivityCoordinator {
             staleDate: nil,
             relevanceScore: 100
         )
-        let dismissalDate = completionDate.addingTimeInterval(15 * 60)
+        let dismissalDate = completionDate.addingTimeInterval(Self.completedDismissalDelay)
         let policy: ActivityUIDismissalPolicy = dismissalDate <= nowProvider()
             ? .immediate
             : .after(dismissalDate)
@@ -229,9 +253,19 @@ actor LiveActivityCoordinator {
     }
 
     private func endAllImmediately() async {
-        for activity in client.activeActivities() {
+        for activity in client.activeActivities() where activity.canEnd {
             await client.end(identifier: activity.identifier, content: nil, dismissalPolicy: .immediate)
         }
+    }
+}
+
+private extension LiveActivityRecord {
+    var canUpdate: Bool {
+        lifecycleState == .active || lifecycleState == .stale
+    }
+
+    var canEnd: Bool {
+        lifecycleState != .dismissed
     }
 }
 
