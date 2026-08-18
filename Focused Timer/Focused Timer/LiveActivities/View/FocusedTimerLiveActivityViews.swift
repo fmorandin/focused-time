@@ -141,8 +141,6 @@ struct LiveActivityCompactTrailingView: View {
     var body: some View {
         LiveActivityCountdownText(state: state, referenceDate: referenceDate)
             .font(.caption.monospacedDigit())
-            .frame(minWidth: 42)
-            .padding(.trailing, 6)
     }
 }
 
