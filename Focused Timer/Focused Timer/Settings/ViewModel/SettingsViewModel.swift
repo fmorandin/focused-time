@@ -43,6 +43,7 @@ final class SettingsViewModel {
     private let notificationCenter: any UserNotificationCenterProtocol
     private let alarmAuthorizationChecker: any AlarmAuthorizationChecking
     private let urlOpener: any URLOpening
+    private let infoDictionary: [String: Any]
 
     // Maximum number of characters for the fields
     let timerLimits = 3
@@ -68,12 +69,21 @@ final class SettingsViewModel {
     var shouldUpdateTimerView = false
 
     var appVersionNumber: String {
-        guard let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String else {
+        Self.appVersionNumber(from: infoDictionary)
+    }
+
+    static func appVersionNumber(from infoDictionary: [String: Any]) -> String {
+        guard let version = infoDictionary["CFBundleShortVersionString"] as? String else {
             Self.logger.error("Missing CFBundleShortVersionString in Info.plist.")
             return "0"
         }
 
-        return version
+        guard let build = infoDictionary["CFBundleVersion"] as? String else {
+            Self.logger.error("Missing CFBundleVersion in Info.plist.")
+            return version
+        }
+
+        return "\(version) (\(build))"
     }
 
     // MARK: - Initializer
@@ -83,7 +93,8 @@ final class SettingsViewModel {
         shareService: any ShareService = UIKitShareService(),
         notificationCenter: any UserNotificationCenterProtocol = UNUserNotificationCenter.current(),
         alarmAuthorizationChecker: any AlarmAuthorizationChecking = AlarmKitAuthorizationChecker(),
-        urlOpener: any URLOpening = UIApplication.shared
+        urlOpener: any URLOpening = UIApplication.shared,
+        infoDictionary: [String: Any] = Bundle.main.infoDictionary ?? [:]
     ) {
         Self.logger.notice("🛠 Initializing Settings View Model.")
 
@@ -92,6 +103,7 @@ final class SettingsViewModel {
         self.notificationCenter = notificationCenter
         self.alarmAuthorizationChecker = alarmAuthorizationChecker
         self.urlOpener = urlOpener
+        self.infoDictionary = infoDictionary
 
         populateAllFieldsSavedValues()
     }
