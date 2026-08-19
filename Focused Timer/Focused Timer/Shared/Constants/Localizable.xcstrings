@@ -1,227 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "accLabelChangelogSettingsRow" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opens the full list of app changes"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Abre a lista completa de mudanças do aplicativo"
-          }
-        }
-      }
-    },
-    "accLabelSettingsLiveActivitiesToggle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Shows the current timer on the Lock Screen and Dynamic Island"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra o timer atual na Tela Bloqueada e na Ilha Dinâmica"
-          }
-        }
-      }
-    },
-    "accLabelWhatsNewDismissButton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Button to dismiss the what's new screen"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Botão para fechar a tela de novidades"
-          }
-        }
-      }
-    },
-    "changelogEmptyMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No release notes available yet."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nenhuma nota de versão disponível ainda."
-          }
-        }
-      }
-    },
-    "changelogNavigationTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What's New"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novidades"
-          }
-        }
-      }
-    },
-    "changelogSettingsRow" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What's New"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novidades"
-          }
-        }
-      }
-    },
-    "whatsNewDismissButton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continuar"
-          }
-        }
-      }
-    },
-    "whatsNewEntryKindAdded" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novo"
-          }
-        }
-      }
-    },
-    "whatsNewEntryKindFixed" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fixed"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Corrigido"
-          }
-        }
-      }
-    },
-    "whatsNewEntryKindImproved" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Improved"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Melhorado"
-          }
-        }
-      }
-    },
-    "whatsNewEntryKindOther" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Also"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Também"
-          }
-        }
-      }
-    },
-    "whatsNewModalTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "What's New"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Novidades"
-          }
-        }
-      }
-    },
-    "whatsNewVersionLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version %@"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versão %@"
-          }
-        }
-      }
-    },
     "%@: %@" : {
       "comment" : "A label displaying the app version number.",
       "isCommentAutoGenerated" : true,
@@ -242,7 +21,6 @@
     },
     "%@/%@" : {
       "comment" : "A label that shows the number of completed cycles out of the total number of cycles. The first argument is the number of completed cycles. The second argument is the total number of cycles.",
-      "extractionState" : "stale",
       "isCommentAutoGenerated" : true,
       "localizations" : {
         "en" : {
@@ -259,36 +37,19 @@
         }
       }
     },
-    "accLabelSettingsEnableAlarmToggle" : {
+    "accLabelChangelogSettingsRow" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Toggle to enable or disable the alarm when the timer finishes"
+            "value" : "Opens the full list of app changes"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Botão para ativar ou desativar o alarme quando o temporizador terminar"
-          }
-        }
-      }
-    },
-    "accLabelSettingsAppearanceModePicker" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Picker to select the app appearance mode"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seletor para escolher o modo de aparência do aplicativo"
+            "value" : "Abre a lista completa de mudanças do aplicativo"
           }
         }
       }
@@ -327,6 +88,23 @@
         }
       }
     },
+    "accLabelSettingsAppearanceModePicker" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picker to select the app appearance mode"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seletor para escolher o modo de aparência do aplicativo"
+          }
+        }
+      }
+    },
     "accLabelSettingsAutoStartToggle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -340,6 +118,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Botão para alterar a configuração do início automático do timer"
+          }
+        }
+      }
+    },
+    "accLabelSettingsEnableAlarmToggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toggle to enable or disable the alarm when the timer finishes"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botão para ativar ou desativar o alarme quando o temporizador terminar"
           }
         }
       }
@@ -391,6 +186,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Botão para alterar a configuração de manter a tela ligada"
+          }
+        }
+      }
+    },
+    "accLabelSettingsLiveActivitiesToggle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the current timer on the Lock Screen and Dynamic Island"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra o timer atual na Tela Bloqueada e na Ilha Dinâmica"
           }
         }
       }
@@ -480,6 +292,108 @@
         }
       }
     },
+    "accLabelWhatsNewDismissButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Button to dismiss the what's new screen"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Botão para fechar a tela de novidades"
+          }
+        }
+      }
+    },
+    "alarmStopButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parar"
+          }
+        }
+      }
+    },
+    "alarmTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Timer finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temporizador concluído!"
+          }
+        }
+      }
+    },
+    "alarmTitleFocus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focus finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foco concluído!"
+          }
+        }
+      }
+    },
+    "alarmTitleLongBreak" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long Break finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausa longa concluída!"
+          }
+        }
+      }
+    },
+    "alarmTitleShortBreak" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Short Break finished!"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausa curta concluída!"
+          }
+        }
+      }
+    },
     "appearanceModeDark" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -544,6 +458,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versão da app"
+          }
+        }
+      }
+    },
+    "changelogEmptyMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No release notes available yet."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma nota de versão disponível ainda."
+          }
+        }
+      }
+    },
+    "changelogNavigationTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's New"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novidades"
+          }
+        }
+      }
+    },
+    "changelogSettingsRow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's New"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novidades"
           }
         }
       }
@@ -667,6 +632,57 @@
         }
       }
     },
+    "liveActivityCompleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completed"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concluído"
+          }
+        }
+      }
+    },
+    "liveActivityPaused" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paused"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausado"
+          }
+        }
+      }
+    },
+    "liveActivityRunning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em andamento"
+          }
+        }
+      }
+    },
     "longBreakExplanation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -714,91 +730,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pausa longa"
-          }
-        }
-      }
-    },
-    "alarmStopButton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stop"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parar"
-          }
-        }
-      }
-    },
-    "alarmTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Timer finished!"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temporizador concluído!"
-          }
-        }
-      }
-    },
-    "alarmTitleFocus" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Focus finished!"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Foco concluído!"
-          }
-        }
-      }
-    },
-    "alarmTitleLongBreak" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Long Break finished!"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pausa longa concluída!"
-          }
-        }
-      }
-    },
-    "alarmTitleShortBreak" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Short Break finished!"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pausa curta concluída!"
           }
         }
       }
@@ -940,57 +871,6 @@
         }
       }
     },
-    "liveActivityCompleted" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Completed"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Concluído"
-          }
-        }
-      }
-    },
-    "liveActivityPaused" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paused"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pausado"
-          }
-        }
-      }
-    },
-    "liveActivityRunning" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Running"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Em andamento"
-          }
-        }
-      }
-    },
     "playTimer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1093,23 +973,6 @@
         }
       }
     },
-    "settingsAppearanceMode" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appearance"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aparência"
-          }
-        }
-      }
-    },
     "settingsAlarmAutoStartMessage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1157,6 +1020,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir Configurações"
+          }
+        }
+      }
+    },
+    "settingsAppearanceMode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aparência"
           }
         }
       }
@@ -1348,6 +1228,40 @@
         }
       }
     },
+    "settingsLiveActivities" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Activities"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atividades ao Vivo"
+          }
+        }
+      }
+    },
+    "settingsLiveActivitiesFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show the current timer on the Lock Screen and Dynamic Island. Availability is also controlled in iOS Settings."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra o timer atual na Tela Bloqueada e na Ilha Dinâmica. A disponibilidade também é controlada nos Ajustes do iOS."
+          }
+        }
+      }
+    },
     "settingsLongBreakDuration" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1446,40 +1360,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tocar sons ao terminar timer"
-          }
-        }
-      }
-    },
-    "settingsLiveActivities" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Live Activities"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atividades ao Vivo"
-          }
-        }
-      }
-    },
-    "settingsLiveActivitiesFooter" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show the current timer on the Lock Screen and Dynamic Island. Availability is also controlled in iOS Settings."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra o timer atual na Tela Bloqueada e na Ilha Dinâmica. A disponibilidade também é controlada nos Ajustes do iOS."
           }
         }
       }
@@ -1786,6 +1666,125 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aviso"
+          }
+        }
+      }
+    },
+    "whatsNewDismissButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        }
+      }
+    },
+    "whatsNewEntryKindAdded" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novo"
+          }
+        }
+      }
+    },
+    "whatsNewEntryKindFixed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fixed"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrigido"
+          }
+        }
+      }
+    },
+    "whatsNewEntryKindImproved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Improved"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Melhorado"
+          }
+        }
+      }
+    },
+    "whatsNewEntryKindOther" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Also"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Também"
+          }
+        }
+      }
+    },
+    "whatsNewModalTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's New"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novidades"
+          }
+        }
+      }
+    },
+    "whatsNewVersionLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versão %@"
           }
         }
       }
