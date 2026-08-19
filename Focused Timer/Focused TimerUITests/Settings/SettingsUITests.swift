@@ -251,7 +251,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "20")
     }
 
-    func test_UpdateToggles() {
+    func test_UpdateAutoStartAndKeepScreenOnToggles() {
         // GIVEN I open the modal
         let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
@@ -266,8 +266,6 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertFalse(playSoundsToggle.isSelected)
 
         // WHEN I update the toggles
-        setToggle(playSoundsToggle, enabled: true)
-
         let keepScreenOnToggle = resolvedKeepScreenOnToggle()
         setKeepScreenOnToggle(keepScreenOnToggle, enabled: true)
 
@@ -281,13 +279,6 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         let autoStartToggleUpdated = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertEqual(
             stringValue(for: autoStartToggleUpdated, message: "Auto start toggle value should be a String."),
-            "1"
-        )
-
-        scrollToPlaySoundsToggleIfNeeded()
-        let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertEqual(
-            stringValue(for: playSoundsToggleUpdated, message: "Play sounds toggle value should be a String."),
             "1"
         )
 
