@@ -14,6 +14,8 @@ struct CircleView: View {
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
+    @ScaledMetric(relativeTo: .largeTitle) private var countdownFontSize = 56
+
     // MARK: - Private Variables
 
     private static let logger = Logger(
@@ -65,8 +67,7 @@ struct CircleView: View {
                     .accessibilityHidden(true)
 
                 Text(timerViewModel.countTime)
-                    .font(.system(.largeTitle, design: .rounded))
-                    .fontWeight(.bold)
+                    .font(.system(size: min(countdownFontSize, 72), weight: .bold, design: .rounded))
                     .multilineTextAlignment(.center)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
