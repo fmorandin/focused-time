@@ -12,6 +12,10 @@ import os
 
 struct TimerTypePillView: View {
 
+    // MARK: - Environment
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     // MARK: - Private Variables
 
     private static let logger = Logger(
@@ -37,17 +41,25 @@ struct TimerTypePillView: View {
             .font(.system(.title, design: .rounded))
             .fontWeight(.light)
             .accessibilityIdentifier(Accessibility.Identifiers.lblTimerType)
-            .accessibility(value: Text("accLabelTimerTypeName"))
+            .accessibilityLabel(Text("accessibilityCurrentTimer"))
+            .accessibilityValue(Text(TimerType.getCorrectTranslation(timerViewModel.timerType)()))
             .padding(.horizontal, 16)
             .padding(.vertical, 6)
             .glassEffect(in: Capsule())
             .id(timerViewModel.timerType)
-            .transition(.asymmetric(
-                insertion: .scale(scale: 0.75).combined(with: .opacity),
-                removal: .scale(scale: 0.75).combined(with: .opacity)
-                    .animation(.easeInOut(duration: 0.55))
-            ))
-            .animation(.spring(response: 0.55, dampingFraction: 0.45), value: timerViewModel.timerType)
+            .transition(reduceMotion ? .identity : timerTypeTransition)
+            .animation(
+                reduceMotion ? nil : .spring(response: 0.55, dampingFraction: 0.45),
+                value: timerViewModel.timerType
+            )
+    }
+
+    private var timerTypeTransition: AnyTransition {
+        .asymmetric(
+            insertion: .scale(scale: 0.75).combined(with: .opacity),
+            removal: .scale(scale: 0.75).combined(with: .opacity)
+                .animation(.easeInOut(duration: 0.55))
+        )
     }
 }
 

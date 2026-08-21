@@ -110,6 +110,7 @@ struct AppSettingsView: View {
                     }
                     .accessibilityIdentifier(Accessibility.Identifiers.tgEnableAlarm)
                     .accessibilityLabel(Text("accLabelSettingsEnableAlarmToggle"))
+                    .accessibilityHint(Text(alarmAccessibilityHint))
                     .disabled(settingsViewModel.isAlarmDeniedBySystem || settingsViewModel.isAutoStartEnabled)
 
                 if settingsViewModel.isAlarmDeniedBySystem {
@@ -148,6 +149,13 @@ struct AppSettingsView: View {
                     }
                     .accessibilityIdentifier(Accessibility.Identifiers.tgEnableNotifications)
                     .accessibilityLabel(Text("accLabelSettingsEnableNotificationsToggle"))
+                    .accessibilityHint(
+                        Text(
+                            settingsViewModel.isNotificationsDeniedBySystem ?
+                            "accessibilityNotificationsDisabledPermission" :
+                            "accessibilityNotificationsHint"
+                        )
+                    )
                     .disabled(settingsViewModel.isNotificationsDeniedBySystem)
 
                 if settingsViewModel.isNotificationsDeniedBySystem {
@@ -207,6 +215,18 @@ struct AppSettingsView: View {
             Text("settingsFocusSectionHeader")
         }
         .font(.system(.body, design: .rounded))
+    }
+
+    private var alarmAccessibilityHint: LocalizedStringKey {
+        if settingsViewModel.isAlarmDeniedBySystem {
+            return "accessibilityAlarmDisabledPermission"
+        }
+
+        if settingsViewModel.isAutoStartEnabled {
+            return "accessibilityAlarmDisabledAutoStart"
+        }
+
+        return "accessibilityAlarmHint"
     }
 }
 

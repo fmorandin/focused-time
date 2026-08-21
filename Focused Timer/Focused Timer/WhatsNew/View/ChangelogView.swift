@@ -79,6 +79,7 @@ struct ChangelogView: View {
         }
         .textCase(nil)
         .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isHeader)
         .accessibilityIdentifier(Accessibility.Identifiers.lblChangelogRelease)
     }
 }

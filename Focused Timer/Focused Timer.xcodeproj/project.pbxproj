@@ -18,6 +18,7 @@
 		181E4A2C25C73F3E006CBDF4 /* TimerModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */; };
 		181E4A3A25C743B4006CBDF4 /* SettingsModelMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */; };
 		181E4A4525C74A74006CBDF4 /* SettingsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */; };
+		ACCE55110000000000000001 /* AccessibilityUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCE55110000000000000002 /* AccessibilityUITests.swift */; };
 		181F5022260A81E90051D092 /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F5021260A81E90051D092 /* CircleView.swift */; };
 		181F5027260A82720051D092 /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F5026260A82720051D092 /* ButtonsView.swift */; };
 		181F502C260A83040051D092 /* FlowCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181F502B260A83040051D092 /* FlowCounterView.swift */; };
@@ -157,6 +158,7 @@
 		181E4A2B25C73F3E006CBDF4 /* TimerModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModelMock.swift; sourceTree = "<group>"; };
 		181E4A3925C743B4006CBDF4 /* SettingsModelMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModelMock.swift; sourceTree = "<group>"; };
 		181E4A4425C74A74006CBDF4 /* SettingsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUITests.swift; sourceTree = "<group>"; };
+		ACCE55110000000000000002 /* AccessibilityUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityUITests.swift; sourceTree = "<group>"; };
 		181F5021260A81E90051D092 /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		181F5026260A82720051D092 /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
 		181F502B260A83040051D092 /* FlowCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowCounterView.swift; sourceTree = "<group>"; };
@@ -379,6 +381,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		ACCE55110000000000000003 /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				ACCE55110000000000000002 /* AccessibilityUITests.swift */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
 		1876324E26001F30001ADD23 /* Help */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				181E4A1425C701A9006CBDF4 /* BaseFeature.swift */,
+				ACCE55110000000000000003 /* Accessibility */,
 				1889095B260E87110062C450 /* Help */,
 				18681F9525AB882E009447D9 /* Timer */,
 				18681F9625AB8833009447D9 /* Settings */,
@@ -1054,6 +1065,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACCE55110000000000000001 /* AccessibilityUITests.swift in Sources */,
 				18388F012F476C840027DACC /* SettingsUITests+Helpers.swift in Sources */,
 				A378FC502522BB7E0046FC4C /* TimerUITests.swift in Sources */,
 				181E4A4525C74A74006CBDF4 /* SettingsUITests.swift in Sources */,

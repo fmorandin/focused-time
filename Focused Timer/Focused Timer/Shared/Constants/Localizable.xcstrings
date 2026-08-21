@@ -1,6 +1,90 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "accessibilityAlarmDisabledAutoStart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unavailable while Auto-start next timer is enabled." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Indisponível enquanto Iniciar próximo timer automaticamente estiver ativado." } }
+      }
+    },
+    "accessibilityAlarmDisabledPermission" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unavailable because alarm permission was denied. Use Open Settings below to allow access." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Indisponível porque a permissão de alarme foi negada. Use Abrir Ajustes abaixo para permitir o acesso." } }
+      }
+    },
+    "accessibilityAlarmHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Controls whether an alarm rings when the timer finishes." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Controla se um alarme toca quando o temporizador termina." } }
+      }
+    },
+    "accessibilityCurrentTimer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current timer" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Temporizador atual" } }
+      }
+    },
+    "accessibilityCyclesCompleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cycles completed" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ciclos concluídos" } }
+      }
+    },
+    "accessibilityCyclesCompletedValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "%1$lld of %2$lld" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "%1$lld de %2$lld" } }
+      }
+    },
+    "accessibilityNotificationsDisabledPermission" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unavailable because notification permission was denied. Use Open Settings below to allow access." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Indisponível porque a permissão de notificações foi negada. Use Abrir Ajustes abaixo para permitir o acesso." } }
+      }
+    },
+    "accessibilityNotificationsHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Controls whether a notification is delivered when the timer finishes in the background." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Controla se uma notificação é enviada quando o temporizador termina em segundo plano." } }
+      }
+    },
+    "accessibilityTimeRemaining" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Time remaining" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Tempo restante" } }
+      }
+    },
+    "settingsInvalidNumberAccessibilityValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Invalid value" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Valor inválido" } }
+      }
+    },
+    "settingsInvalidNumberMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter a number to save this setting." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite um número para salvar este ajuste." } }
+      }
+    },
+    "settingsNumericFieldHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter digits only." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite apenas números." } }
+      }
+    },
     "accLabelChangelogSettingsRow" : {
       "extractionState" : "manual",
       "localizations" : {

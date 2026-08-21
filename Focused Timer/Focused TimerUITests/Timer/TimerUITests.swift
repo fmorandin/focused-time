@@ -16,19 +16,19 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
 
         let lblCounter = application.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         let lblCycleCounter = application.staticTexts[Accessibility.Identifiers.lblCycleCounter]
-        XCTAssertEqual(lblCycleCounter.label, "0/4")
+        XCTAssertEqual(String(describing: lblCycleCounter.value!), "0 of 4")
 
         playButton.tap()
 
         XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertTrue(waitForValue(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
     }
 
     func test_TimerResumedCorrectly() {
@@ -36,25 +36,25 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
 
         let lblCounter = application.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         playButton.tap()
         XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 4.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 4.0))
+        XCTAssertTrue(waitForValue(lblCounter, notEquals: initialCounterLabel, timeout: 4.0))
 
         playButton.tap()
         XCTAssertTrue(waitForLabel(playButton, equals: "Resume", timeout: 4.0))
 
-        let pausedCounter = lblCounter.label
+        let pausedCounter = String(describing: lblCounter.value!)
 
         playButton.tap()
         XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 4.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: pausedCounter, timeout: 4.0))
+        XCTAssertTrue(waitForValue(lblCounter, notEquals: pausedCounter, timeout: 4.0))
 
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
     }
 
     func test_TimerResettedCorrectly() {
@@ -62,10 +62,10 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
 
         let lblCounter = application.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         playButton.tap()
         XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
@@ -78,8 +78,8 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         resetButton.tap()
 
         XCTAssertTrue(waitForLabel(playButton, equals: "Play", timeout: 2.0))
-        XCTAssertEqual(lblTimerType.label, "Focus")
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
     }
 
     func test_ChangeModesAutomatically() {
@@ -87,32 +87,26 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
 
         let lblCounter = application.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         let lblCycleCounter = application.staticTexts[Accessibility.Identifiers.lblCycleCounter]
-        XCTAssertEqual(lblCycleCounter.label, "0/4")
-
-        let circleFocused = application.otherElements[Accessibility.Identifiers.circleFocused]
-        XCTAssertTrue(circleFocused.exists)
+        XCTAssertEqual(String(describing: lblCycleCounter.value!), "0 of 4")
 
         playButton.tap()
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 8.0))
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Short Break", timeout: 8.0))
 
-        let circleBreak = application.otherElements[Accessibility.Identifiers.circleBreak]
-        XCTAssertTrue(circleBreak.exists)
         XCTAssertEqual(playButton.label, "Play")
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         playButton.tap()
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 8.0))
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Focus", timeout: 8.0))
 
-        XCTAssertTrue(circleFocused.exists)
         XCTAssertEqual(playButton.label, "Play")
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
-        XCTAssertEqual(lblCycleCounter.label, "1/4")
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCycleCounter.value!), "1 of 4")
     }
 
     func test_MoveAppToBackgroundAndBackToForeground() {
@@ -120,26 +114,26 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
 
         let lblCounter = application.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         playButton.tap()
         XCTAssertTrue(waitForLabel(playButton, equals: "Pause", timeout: 2.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
+        XCTAssertTrue(waitForValue(lblCounter, notEquals: initialCounterLabel, timeout: 2.0))
 
-        let counterBeforeBackground = lblCounter.label
+        let counterBeforeBackground = String(describing: lblCounter.value!)
 
         XCUIDevice.shared.press(.home)
         Thread.sleep(forTimeInterval: 2.0)
         application.activate()
 
         if waitForLabel(playButton, equals: "Pause", timeout: 2.0) {
-            let timerTypeAfterForeground = lblTimerType.label
+            let timerTypeAfterForeground = String(describing: lblTimerType.value!)
             XCTAssertTrue(timerTypeAfterForeground == "Focus" || timerTypeAfterForeground == "Short Break")
             XCTAssertTrue(
-                waitForLabel(lblCounter, notEquals: counterBeforeBackground, timeout: 2.0) ||
+                waitForValue(lblCounter, notEquals: counterBeforeBackground, timeout: 2.0) ||
                 timerTypeAfterForeground == "Short Break"
             )
         } else {
@@ -147,10 +141,10 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
             // The focus timer elapsed in the background; wait for the UI transition
             // to Short Break to render before asserting — on slow CI this can lag.
             XCTAssertTrue(
-                waitForLabel(lblTimerType, equals: "Short Break", timeout: 3.0),
+                waitForValue(lblTimerType, equals: "Short Break", timeout: 3.0),
                 "Timer type should show Short Break after focus session completes in background"
             )
-            XCTAssertEqual(lblCounter.label, initialCounterLabel)
+            XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
         }
     }
 
@@ -179,22 +173,20 @@ final class TimerUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(playButton.label, "Play")
 
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
-        XCTAssertEqual(lblTimerType.label, "Focus")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
 
         let lblCounter = application.staticTexts[Accessibility.Identifiers.lblCounter]
-        XCTAssertEqual(lblCounter.label, initialCounterLabel)
+        XCTAssertEqual(String(describing: lblCounter.value!), initialCounterLabel)
 
         playButton.tap()
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 8.0))
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Short Break", timeout: 8.0))
         XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 5.0))
 
         // Auto start should run short break automatically, then return to focus.
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 10.0))
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Focus", timeout: 10.0))
 
-        let circleFocused = application.otherElements[Accessibility.Identifiers.circleFocused]
-        XCTAssertTrue(waitForExistence(circleFocused, timeout: 3.0))
         XCTAssertTrue(waitForLabel(playButton, notEquals: "Play", timeout: 5.0))
-        XCTAssertTrue(waitForLabel(lblCounter, notEquals: initialCounterLabel, timeout: 5.0))
+        XCTAssertTrue(waitForValue(lblCounter, notEquals: initialCounterLabel, timeout: 5.0))
     }
 }
 
@@ -221,23 +213,23 @@ final class TimerLongBreakUITests: BaseFeature, @unchecked Sendable {
         let lblTimerType = application.staticTexts[Accessibility.Identifiers.lblTimerType]
         let lblCycleCounter = application.staticTexts[Accessibility.Identifiers.lblCycleCounter]
 
-        XCTAssertEqual(lblTimerType.label, "Focus")
-        XCTAssertEqual(lblCycleCounter.label, "0/2")
+        XCTAssertEqual(String(describing: lblTimerType.value!), "Focus")
+        XCTAssertEqual(String(describing: lblCycleCounter.value!), "0 of 2")
 
         // 1st focused session → short break (cycle not yet complete)
         playButton.tap()
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Short Break", timeout: 12.0))
-        XCTAssertEqual(lblCycleCounter.label, "0/2")
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Short Break", timeout: 12.0))
+        XCTAssertEqual(String(describing: lblCycleCounter.value!), "0 of 2")
 
         // Short break → 2nd focused session
         XCTAssertTrue(waitForLabel(playButton, equals: "Play", timeout: 3.0))
         playButton.tap()
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Focus", timeout: 12.0))
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Focus", timeout: 12.0))
 
         // 2nd focused session → long break (all cycles complete)
         XCTAssertTrue(waitForLabel(playButton, equals: "Play", timeout: 3.0))
         playButton.tap()
-        XCTAssertTrue(waitForLabel(lblTimerType, equals: "Long Break", timeout: 12.0))
-        XCTAssertEqual(lblCycleCounter.label, "2/2")
+        XCTAssertTrue(waitForValue(lblTimerType, equals: "Long Break", timeout: 12.0))
+        XCTAssertEqual(String(describing: lblCycleCounter.value!), "2 of 2")
     }
 }

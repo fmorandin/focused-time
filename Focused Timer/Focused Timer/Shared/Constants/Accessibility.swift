@@ -56,6 +56,7 @@ enum Accessibility {
         static let lblLongBreakDuration = "lblLongBreakDuration"
 
         static let lblWarnReloadMessage = "lblWarnReloadMessage"
+        static let lblInvalidNumberMessage = "lblInvalidNumberMessage"
 
         // MARK: - Tab Bar
 
@@ -76,10 +77,6 @@ enum Accessibility {
         static let lblNumberOfCyclesCompleted = "lblNumberOfCyclesCompleted"
         static let lblCycleCounter = "lblCycleCounter"
         static let lblTimerType = "lblTimerType"
-
-        // Counter section
-        static let circleFocused = "circleFocused"
-        static let circleBreak = "circleBreak"
 
         // MARK: - Help Screen
 

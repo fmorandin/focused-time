@@ -10,6 +10,10 @@ import os
 
 struct ButtonsView: View {
 
+    // MARK: - Environment
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     // MARK: - Private Variables
 
     private static let logger = Logger(
@@ -55,10 +59,10 @@ struct ButtonsView: View {
             })
             .accessibilityLabel(Text(timerViewModel.primaryButtonText))
             .frame(maxWidth: .infinity)
-            .buttonStyle(ScaleButtonStyle())
+            .buttonStyle(ScaleButtonStyle(reduceMotion: reduceMotion))
             .background(timerViewModel.accentCircleColor.opacity(0.3), in: Capsule())
             .background(.ultraThinMaterial, in: Capsule())
-            .animation(.easeInOut(duration: 0.35), value: timerViewModel.accentCircleColor)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: timerViewModel.accentCircleColor)
             .accessibilityIdentifier(Accessibility.Identifiers.btnStartPauseIdentifier)
 
             Button(action: {
@@ -78,9 +82,9 @@ struct ButtonsView: View {
             })
             .accessibilityLabel(Text("resetTimer", tableName: "Localizable"))
             .frame(maxWidth: .infinity)
-            .buttonStyle(ScaleButtonStyle())
+            .buttonStyle(ScaleButtonStyle(reduceMotion: reduceMotion))
             .background(.ultraThinMaterial, in: Capsule())
-            .animation(.easeInOut(duration: 0.35), value: timerViewModel.accentCircleColor)
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: timerViewModel.accentCircleColor)
             .accessibilityIdentifier(Accessibility.Identifiers.btnResetIdentifier)
         }
         .padding(.horizontal, 48)
@@ -89,10 +93,15 @@ struct ButtonsView: View {
 }
 
 private struct ScaleButtonStyle: ButtonStyle {
+    let reduceMotion: Bool
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .scaleEffect(configuration.isPressed ? 0.93 : 1.0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
+            .scaleEffect(configuration.isPressed && !reduceMotion ? 0.93 : 1.0)
+            .animation(
+                reduceMotion ? nil : .spring(response: 0.2, dampingFraction: 0.6),
+                value: configuration.isPressed
+            )
     }
 }
 

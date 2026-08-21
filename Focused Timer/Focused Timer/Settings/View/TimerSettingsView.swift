@@ -37,149 +37,57 @@ struct TimerSettingsView: View {
 
     var body: some View {
         Section {
-            // Focused time
-            HStack {
-                withAnimation {
-                    Text("settingsFocusDuration")
-                        .accessibilityIdentifier(Accessibility.Identifiers.lblFocusDuration)
-                        .foregroundStyle(focusedTimerHasValidationErrors ? .red : .primaryFont)
-                        .animation(.bouncy(duration: 0.7), value: focusedTimerHasValidationErrors)
-                }
-
-                Spacer()
-
-                TextField("", text: $settingsViewModel.focusedTime)
-                    .frame(width: 60)
-                    .onChange(of: settingsViewModel.focusedTime) {
-                        settingsViewModel.focusedTime = String(
-                            settingsViewModel.focusedTime.prefix(settingsViewModel.timerLimits)
-                        )
-
-                        let focusedTime = Int($settingsViewModel.focusedTime.wrappedValue)
-                        guard let focusedTime else {
-                            focusedTimerHasValidationErrors = true
-                            return
-                        }
-                        settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: focusedTime)
-
-                        focusedTimerHasValidationErrors = false
-                        settingsViewModel.shouldUpdateTimerView = true
-                    }
-                    .border(focusedTimerHasValidationErrors ? .red : .clear)
-                    .animation(.bouncy(duration: 0.7), value: focusedTimerHasValidationErrors)
-                    .settingsTextField()
-                    .accessibilityIdentifier(Accessibility.Identifiers.txtFocusedTime)
-                    .accessibilityLabel(Text("accLabelSettingsFocusDurationTxtFld"))
+            TimerSettingRow(
+                label: "settingsFocusDuration",
+                labelIdentifier: Accessibility.Identifiers.lblFocusDuration,
+                fieldLabel: "accLabelSettingsFocusDurationTxtFld",
+                fieldIdentifier: Accessibility.Identifiers.txtFocusedTime,
+                text: $settingsViewModel.focusedTime,
+                hasValidationErrors: $focusedTimerHasValidationErrors,
+                maximumLength: settingsViewModel.timerLimits
+            ) { value in
+                settingsViewModel.saveTime(for: UserDefaultKeys.focusedTime, value: value)
+                settingsViewModel.shouldUpdateTimerView = true
             }
-            .padding(.vertical, 10)
 
-            // Short Break time
-            HStack {
-                withAnimation {
-                    Text("settingsShortBreakDuration")
-                        .accessibilityIdentifier(Accessibility.Identifiers.lblShortBreakDuration)
-                        .foregroundStyle(shortBreakHasValidationErrors ? .red : .primaryFont)
-                        .animation(.bouncy(duration: 0.7), value: shortBreakHasValidationErrors)
-                }
-
-                Spacer()
-
-                TextField("", text: $settingsViewModel.shortBreakTime)
-                    .frame(width: 60)
-                    .onChange(of: settingsViewModel.shortBreakTime) {
-                        settingsViewModel.shortBreakTime = String(
-                            settingsViewModel.shortBreakTime.prefix(settingsViewModel.timerLimits)
-                        )
-
-                        let shortBreakTime = Int($settingsViewModel.shortBreakTime.wrappedValue)
-                        guard let shortBreakTime else {
-                            shortBreakHasValidationErrors = true
-                            return
-                        }
-                        settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: shortBreakTime)
-
-                        shortBreakHasValidationErrors = false
-                        settingsViewModel.shouldUpdateTimerView = true
-                    }
-                    .border(shortBreakHasValidationErrors ? .red : .clear)
-                    .animation(.bouncy(duration: 0.7), value: shortBreakHasValidationErrors)
-                    .settingsTextField()
-                    .accessibilityIdentifier(Accessibility.Identifiers.txtShortBreakTime)
-                    .accessibilityLabel(Text("accLabelSettingsShortBreakDurationTxtFld"))
+            TimerSettingRow(
+                label: "settingsShortBreakDuration",
+                labelIdentifier: Accessibility.Identifiers.lblShortBreakDuration,
+                fieldLabel: "accLabelSettingsShortBreakDurationTxtFld",
+                fieldIdentifier: Accessibility.Identifiers.txtShortBreakTime,
+                text: $settingsViewModel.shortBreakTime,
+                hasValidationErrors: $shortBreakHasValidationErrors,
+                maximumLength: settingsViewModel.timerLimits
+            ) { value in
+                settingsViewModel.saveTime(for: UserDefaultKeys.shortBreakTime, value: value)
+                settingsViewModel.shouldUpdateTimerView = true
             }
-            .padding(.vertical, 10)
 
-            // Long Break
-            HStack {
-                withAnimation {
-                    Text("settingsLongBreakDuration")
-                        .accessibilityIdentifier(Accessibility.Identifiers.lblLongBreakDuration)
-                        .foregroundStyle(longBreakHasValidationErrors ? .red : .primaryFont)
-                        .animation(.bouncy(duration: 0.7), value: longBreakHasValidationErrors)
-                }
-
-                Spacer()
-
-                TextField("", text: $settingsViewModel.longBreak)
-                    .frame(width: 60)
-                    .onChange(of: settingsViewModel.longBreak) {
-                        settingsViewModel.longBreak = String(
-                            settingsViewModel.longBreak.prefix(settingsViewModel.timerLimits)
-                        )
-
-                        let longBreak = Int($settingsViewModel.longBreak.wrappedValue)
-                        guard let longBreak else {
-                            longBreakHasValidationErrors = true
-                            return
-                        }
-                        settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: longBreak)
-
-                        longBreakHasValidationErrors = false
-                        settingsViewModel.shouldUpdateTimerView = true
-                    }
-                    .border(longBreakHasValidationErrors ? .red : .clear)
-                    .animation(.bouncy(duration: 0.7), value: longBreakHasValidationErrors)
-                    .settingsTextField()
-                    .accessibilityIdentifier(Accessibility.Identifiers.txtLongBreakTime)
-                    .accessibilityLabel(Text("accLabelSettingsLongBreakDurationTxtFld"))
+            TimerSettingRow(
+                label: "settingsLongBreakDuration",
+                labelIdentifier: Accessibility.Identifiers.lblLongBreakDuration,
+                fieldLabel: "accLabelSettingsLongBreakDurationTxtFld",
+                fieldIdentifier: Accessibility.Identifiers.txtLongBreakTime,
+                text: $settingsViewModel.longBreak,
+                hasValidationErrors: $longBreakHasValidationErrors,
+                maximumLength: settingsViewModel.timerLimits
+            ) { value in
+                settingsViewModel.saveTime(for: UserDefaultKeys.longBreakTime, value: value)
+                settingsViewModel.shouldUpdateTimerView = true
             }
-            .padding(.vertical, 10)
 
-            // Number of cycles
-            HStack {
-                withAnimation {
-                    Text("settingsNumberOfCyclesTotal")
-                        .accessibilityIdentifier(Accessibility.Identifiers.lblNumberOfCycles)
-                        .foregroundColor(numberOfCyclesHasValidationErrors ? .red : .primaryFont)
-                        .animation(.bouncy(duration: 0.7), value: numberOfCyclesHasValidationErrors)
-                }
-
-                Spacer()
-
-                TextField("", text: $settingsViewModel.cycleTotal)
-                    .frame(width: 60)
-                    .onChange(of: settingsViewModel.cycleTotal) {
-                        settingsViewModel.cycleTotal = String(
-                            settingsViewModel.cycleTotal.prefix(settingsViewModel.numberOfCyclesLimits)
-                        )
-
-                        let numberOfCycles = Int($settingsViewModel.cycleTotal.wrappedValue)
-                        guard let numberOfCycles else {
-                            numberOfCyclesHasValidationErrors = true
-                            return
-                        }
-                        settingsViewModel.saveNumberOfCycles(numberOfCycles)
-
-                        numberOfCyclesHasValidationErrors = false
-                        settingsViewModel.shouldUpdateTimerView = true
-                    }
-                    .border(numberOfCyclesHasValidationErrors ? .red : .clear)
-                    .animation(.bouncy(duration: 0.7), value: numberOfCyclesHasValidationErrors)
-                    .settingsTextField()
-                    .accessibilityIdentifier(Accessibility.Identifiers.txtNumberOfCycles)
-                    .accessibilityLabel(Text("accLabelSettingsNbrOfCyclesTotalTxtFld"))
+            TimerSettingRow(
+                label: "settingsNumberOfCyclesTotal",
+                labelIdentifier: Accessibility.Identifiers.lblNumberOfCycles,
+                fieldLabel: "accLabelSettingsNbrOfCyclesTotalTxtFld",
+                fieldIdentifier: Accessibility.Identifiers.txtNumberOfCycles,
+                text: $settingsViewModel.cycleTotal,
+                hasValidationErrors: $numberOfCyclesHasValidationErrors,
+                maximumLength: settingsViewModel.numberOfCyclesLimits
+            ) { value in
+                settingsViewModel.saveNumberOfCycles(value)
+                settingsViewModel.shouldUpdateTimerView = true
             }
-            .padding(.vertical, 10)
 
         } header: {
             Text("settingsSectionTimersName")
@@ -194,6 +102,83 @@ struct TimerSettingsView: View {
             }
         }
         .font(.system(.body, design: .rounded))
+    }
+}
+
+private struct TimerSettingRow: View {
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    let label: LocalizedStringKey
+    let labelIdentifier: String
+    let fieldLabel: LocalizedStringKey
+    let fieldIdentifier: String
+    @Binding var text: String
+    @Binding var hasValidationErrors: Bool
+    let maximumLength: Int
+    let saveValue: (Int) -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ViewThatFits(in: .horizontal) {
+                HStack {
+                    settingLabel
+                    Spacer()
+                    settingTextField
+                }
+
+                VStack(alignment: .leading, spacing: 8) {
+                    settingLabel
+                    settingTextField
+                }
+            }
+
+            if hasValidationErrors {
+                Label("settingsInvalidNumberMessage", systemImage: "exclamationmark.circle.fill")
+                    .font(.footnote)
+                    .foregroundStyle(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblInvalidNumberMessage)
+            }
+        }
+        .padding(.vertical, 10)
+        .animation(reduceMotion ? nil : .bouncy(duration: 0.7), value: hasValidationErrors)
+    }
+
+    private var settingLabel: some View {
+        Text(label)
+            .foregroundStyle(.primaryFont)
+            .fixedSize(horizontal: false, vertical: true)
+            .accessibilityIdentifier(labelIdentifier)
+    }
+
+    private var settingTextField: some View {
+        TextField("", text: $text)
+            .onChange(of: text) {
+                text = String(text.prefix(maximumLength))
+
+                guard let value = Int(text) else {
+                    hasValidationErrors = true
+                    return
+                }
+
+                hasValidationErrors = false
+                saveValue(value)
+            }
+            .overlay {
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(hasValidationErrors ? Color.red : Color.clear, lineWidth: 2)
+                    .allowsHitTesting(false)
+            }
+            .settingsTextField()
+            .frame(width: dynamicTypeSize.isAccessibilitySize ? 96 : 72)
+            .accessibilityIdentifier(fieldIdentifier)
+            .accessibilityLabel(Text(fieldLabel))
+            .accessibilityValue(
+                hasValidationErrors ? Text("settingsInvalidNumberAccessibilityValue") : Text(verbatim: text)
+            )
+            .accessibilityHint(Text("settingsNumericFieldHint"))
     }
 }
 
