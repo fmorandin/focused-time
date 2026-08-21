@@ -18,6 +18,18 @@
         {
           "type" : "improved",
           "text" : "As notas de versão são escritas em todos os idiomas que o app suporta."
+        },
+        {
+          "type" : "improved",
+          "text" : "Descrições mais claras no VoiceOver para o temporizador, o tempo restante e os ciclos concluídos."
+        },
+        {
+          "type" : "improved",
+          "text" : "Os layouts agora se adaptam a textos maiores e as animações respeitam Reduzir Movimento."
+        },
+        {
+          "type" : "improved",
+          "text" : "Ajustes inválidos do temporizador agora incluem uma explicação visual e acessível."
         }
       ]
     },

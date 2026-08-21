@@ -74,6 +74,16 @@ final class TimerSnapshotTests: XCTestCase, @unchecked Sendable {
         assertSnapshot(of: controller, as: .image(on: .iPhoneX))
     }
 
+    func test_circleView_accessibilityExtraExtraExtraLarge() {
+        let viewModel = TimerViewModel(timerModel: TimerModelMock())
+        viewModel.countTime = "25:00"
+        let view = CircleView(viewModel: viewModel)
+            .environment(\.dynamicTypeSize, .accessibility3)
+        let controller = UIHostingController(rootView: view)
+        controller.overrideUserInterfaceStyle = .light
+        assertSnapshot(of: controller, as: .image(on: .iPhoneX))
+    }
+
     // MARK: - ButtonsView
 
     func test_buttonsView_initialState() {

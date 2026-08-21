@@ -28,6 +28,7 @@ extension View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.system(.callout, design: .rounded))
+                .accessibilityHidden(true)
             self
                 .font(.system(.footnote, design: .rounded))
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -44,7 +45,7 @@ extension View {
         self
             .textFieldStyle(.roundedBorder)
             .keyboardType(.numberPad)
-            .frame(width: 50)
+            .frame(minWidth: 64, idealWidth: 72, maxWidth: 96)
             .multilineTextAlignment(.center)
     }
 }

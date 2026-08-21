@@ -75,6 +75,7 @@ struct WhatsNewView: View {
 
             Text("whatsNewModalTitle")
                 .font(.system(.largeTitle, design: .rounded).bold())
+                .accessibilityAddTraits(.isHeader)
                 .accessibilityIdentifier(Accessibility.Identifiers.lblWhatsNewTitle)
 
             Text(versionText)
@@ -88,6 +89,7 @@ struct WhatsNewView: View {
                 Text(releaseTitle)
                     .font(.system(.title3, design: .rounded))
                     .foregroundStyle(.secondary)
+                    .accessibilityAddTraits(.isHeader)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 4)
             }
@@ -118,11 +120,11 @@ struct WhatsNewView: View {
         release: ChangelogRelease(
             version: "2.1.0",
             date: "2026-07-27",
-            title: "See what changed after every update.",
+            title: "Now you can see what changed after every update.",
             entries: [
-                ChangelogEntry(kind: .added, text: "A What's New screen after each update."),
-                ChangelogEntry(kind: .added, text: "The full changelog now lives in Settings."),
-                ChangelogEntry(kind: .improved, text: "Release notes are translated into every supported language.")
+                ChangelogEntry(kind: .improved, text: "Clearer VoiceOver descriptions."),
+                ChangelogEntry(kind: .improved, text: "Layouts adapt to larger text sizes."),
+                ChangelogEntry(kind: .improved, text: "Animations respect Reduce Motion.")
             ]
         )
     )

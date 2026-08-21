@@ -70,6 +70,13 @@ class BaseFeature: XCTestCase, @unchecked Sendable {
         return XCTWaiter.wait(for: [expectation], timeout: timeout) == .completed
     }
 
+    @discardableResult
+    func waitForValue(_ element: XCUIElement, notEquals value: String, timeout: TimeInterval = 5.0) -> Bool {
+        let predicate = NSPredicate(format: "value != %@", value)
+        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: element)
+        return XCTWaiter.wait(for: [expectation], timeout: timeout) == .completed
+    }
+
     func slowTypeText(_ text: String, into element: XCUIElement, delay: useconds_t = 120_000) {
         element.tap()
         for character in text {

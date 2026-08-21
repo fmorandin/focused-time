@@ -18,6 +18,18 @@
         {
           "type" : "improved",
           "text" : "Release notes are written in every language the app supports."
+        },
+        {
+          "type" : "improved",
+          "text" : "Clearer VoiceOver descriptions for the timer, remaining time and completed cycles."
+        },
+        {
+          "type" : "improved",
+          "text" : "Layouts now adapt to larger text sizes, and animations respect Reduce Motion."
+        },
+        {
+          "type" : "improved",
+          "text" : "Invalid timer settings now include a visible and accessible explanation."
         }
       ]
     },

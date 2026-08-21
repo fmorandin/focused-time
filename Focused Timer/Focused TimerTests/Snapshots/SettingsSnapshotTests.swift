@@ -145,6 +145,15 @@ final class SettingsSnapshotTests: XCTestCase, @unchecked Sendable {
         assertSnapshot(of: controller, as: .image(on: .iPhoneX))
     }
 
+    func test_timerSettingsView_accessibilityExtraExtraExtraLarge() {
+        let viewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+        let view = Form { TimerSettingsView(viewModel: viewModel) }
+            .environment(\.dynamicTypeSize, .accessibility3)
+        let controller = UIHostingController(rootView: view)
+        controller.overrideUserInterfaceStyle = .light
+        assertSnapshot(of: controller, as: .image(on: .iPhoneX))
+    }
+
     // MARK: - FormView: Warning Banner Variations
 
     func test_formView_withoutWarning() {

@@ -9,6 +9,10 @@ import os
 
 struct TimerView: View {
 
+    // MARK: - Environment
+
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
     // MARK: - Private Variables
 
     private static let logger = Logger(
@@ -44,26 +48,14 @@ struct TimerView: View {
     // MARK: - View
 
     var body: some View {
-        VStack {
-            // Timer type pill — anchored at the top
-            TimerTypePillView(viewModel: timerViewModel)
-                .padding(.top, 32)
-
-            Spacer()
-
-            // Circle with countdown inside
-            CircleView(viewModel: timerViewModel)
-
-            Spacer()
-
-            // Buttons that control the timer
-            ButtonsView(viewModel: timerViewModel)
-
-            Divider()
-
-            // Flows counter
-            FlowCounterView(viewModel: timerViewModel)
-                .padding(.bottom, 16)
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                ScrollView {
+                    timerContent(spacedForAccessibility: true)
+                }
+            } else {
+                timerContent(spacedForAccessibility: false)
+            }
         }
         .onReceive(notificationCenter.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
             Self.logger.notice("‼️ App will be moved to background.")
@@ -108,6 +100,32 @@ struct TimerView: View {
         }
         .onAppear {
             Self.logger.notice("⏱ Timer View opened.")
+        }
+    }
+
+    // MARK: - Private Views
+
+    private func timerContent(spacedForAccessibility: Bool) -> some View {
+        VStack(spacing: spacedForAccessibility ? 24 : 0) {
+            TimerTypePillView(viewModel: timerViewModel)
+                .padding(.top, spacedForAccessibility ? 20 : 32)
+
+            if !spacedForAccessibility {
+                Spacer()
+            }
+
+            CircleView(viewModel: timerViewModel)
+
+            if !spacedForAccessibility {
+                Spacer()
+            }
+
+            ButtonsView(viewModel: timerViewModel)
+
+            Divider()
+
+            FlowCounterView(viewModel: timerViewModel)
+                .padding(.bottom, 16)
         }
     }
 

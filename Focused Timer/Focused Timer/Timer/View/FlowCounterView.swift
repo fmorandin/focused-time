@@ -10,6 +10,10 @@ import os
 
 struct FlowCounterView: View {
 
+    // MARK: - Environment
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     // MARK: - Private Variables
 
     private static let logger = Logger(
@@ -43,10 +47,16 @@ struct FlowCounterView: View {
             }
             .accessibilityElement(children: .ignore)
             .accessibilityIdentifier(Accessibility.Identifiers.lblCycleCounter)
-            .accessibilityLabel(
-                Text(verbatim: "\(timerViewModel.numberOfCompletedCycles)/\(timerViewModel.totalNumberOfCycles)")
+            .accessibilityLabel(Text("accessibilityCyclesCompleted"))
+            .accessibilityValue(
+                Text(
+                    String(
+                        format: String(localized: "accessibilityCyclesCompletedValue"),
+                        timerViewModel.numberOfCompletedCycles,
+                        timerViewModel.totalNumberOfCycles
+                    )
+                )
             )
-            .accessibilityValue(Text("accLabelCompletedCycleCounter"))
             .accessibilityAddTraits(.isStaticText)
         }
         .padding(.horizontal, 24)
@@ -71,10 +81,11 @@ struct FlowCounterView: View {
             )
             .frame(width: 12, height: 12)
             .animation(
-                .spring(response: 0.4, dampingFraction: 0.55)
+                reduceMotion ? nil : .spring(response: 0.4, dampingFraction: 0.55)
                     .delay(Double(index) * 0.04),
                 value: timerViewModel.numberOfCompletedCycles
             )
+            .accessibilityHidden(true)
     }
 }
 

@@ -10,6 +10,10 @@ import os
 
 struct CircleView: View {
 
+    // MARK: - Environment
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     // MARK: - Private Variables
 
     private static let logger = Logger(
@@ -31,43 +35,53 @@ struct CircleView: View {
     // MARK: - View
 
     var body: some View {
-        ZStack {
-            Circle()
-                .trim(from: 0, to: 1)
-                .stroke(
-                    Color.timerStrokeColor.opacity(0.10),
-                    style: StrokeStyle(lineWidth: 16, lineCap: .round)
-                )
-                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                .shadow(color: .white.opacity(0.12), radius: 4, x: 0, y: -2)
-                .frame(width: 320, height: 320)
+        GeometryReader { geometry in
+            let diameter = min(320, max(0, geometry.size.width - 48))
 
-            Circle()
-                .trim(from: 0, to: timerViewModel.timerTo)
-                .stroke(
-                    timerViewModel.accentCircleColor,
-                    style: StrokeStyle(lineWidth: 30, lineCap: .round)
-                )
-                .frame(width: 320, height: 320)
-                .rotationEffect(.init(degrees: -90))
-                .shadow(radius: 4)
-                .animation(.linear(duration: 1), value: timerViewModel.timerTo)
-                .animation(.easeInOut(duration: 0.5), value: timerViewModel.accentCircleColor)
-                .accessibility(identifier:
-                                timerViewModel.timerType == .focused ?
-                               Accessibility.Identifiers.circleFocused :
-                                Accessibility.Identifiers.circleBreak
-                )
+            ZStack {
+                Circle()
+                    .trim(from: 0, to: 1)
+                    .stroke(
+                        Color.timerStrokeColor.opacity(0.10),
+                        style: StrokeStyle(lineWidth: 16, lineCap: .round)
+                    )
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    .shadow(color: .white.opacity(0.12), radius: 4, x: 0, y: -2)
+                    .accessibilityHidden(true)
 
-            Text(timerViewModel.countTime)
-                .font(.system(size: 60, design: .rounded))
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
-                .accessibility(value: Text("accLabelCounterTypeName"))
-                .contentTransition(.numericText(countsDown: true))
-                .animation(.easeInOut(duration: 0.25), value: timerViewModel.countTime)
+                Circle()
+                    .trim(from: 0, to: timerViewModel.timerTo)
+                    .stroke(
+                        timerViewModel.accentCircleColor,
+                        style: StrokeStyle(lineWidth: 30, lineCap: .round)
+                    )
+                    .rotationEffect(.init(degrees: -90))
+                    .shadow(radius: 4)
+                    .animation(reduceMotion ? nil : .linear(duration: 1), value: timerViewModel.timerTo)
+                    .animation(
+                        reduceMotion ? nil : .easeInOut(duration: 0.5),
+                        value: timerViewModel.accentCircleColor
+                    )
+                    .accessibilityHidden(true)
+
+                Text(timerViewModel.countTime)
+                    .font(.system(.largeTitle, design: .rounded))
+                    .fontWeight(.bold)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                    .frame(width: max(0, diameter - 72))
+                    .accessibilityIdentifier(Accessibility.Identifiers.lblCounter)
+                    .accessibilityLabel(Text("accessibilityTimeRemaining"))
+                    .accessibilityValue(Text(verbatim: timerViewModel.countTime))
+                    .contentTransition(.numericText(countsDown: true))
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: timerViewModel.countTime)
+            }
+            .frame(width: diameter, height: diameter)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .aspectRatio(1, contentMode: .fit)
+        .frame(maxWidth: 368)
     }
 }
 
