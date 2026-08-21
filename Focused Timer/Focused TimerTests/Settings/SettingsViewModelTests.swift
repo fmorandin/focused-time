@@ -243,13 +243,21 @@ struct SettingsViewModelTests {
 
     // MARK: - Metadata and Field Limits
 
-    @Test("appVersionNumber returns a non-empty, non-fallback version string")
-    func appVersionNumberIsNonEmpty() {
-        let settingsViewModel = SettingsViewModel(settingsModel: SettingsModelMock())
+    @Test("appVersionNumber formats available bundle metadata")
+    func appVersionNumberFormatsBundleMetadata() {
+        let cases: [([String: Any], String)] = [
+            (["CFBundleShortVersionString": "2.1.0", "CFBundleVersion": "50"], "2.1.0 (50)"),
+            (["CFBundleShortVersionString": "2.1.0"], "2.1.0"),
+            (["CFBundleVersion": "50"], "0")
+        ]
 
-        #expect(!settingsViewModel.appVersionNumber.isEmpty)
-        // "0" is the fallback returned when CFBundleShortVersionString is missing from Info.plist
-        #expect(settingsViewModel.appVersionNumber != "0")
+        for (infoDictionary, expected) in cases {
+            let settingsViewModel = SettingsViewModel(
+                settingsModel: SettingsModelMock(),
+                infoDictionary: infoDictionary
+            )
+            #expect(settingsViewModel.appVersionNumber == expected)
+        }
     }
 
     @Test("timerLimits maximum character count is 3")

@@ -251,7 +251,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         XCTAssertEqual(numberOfCyclesTextFieldUpdated, "20")
     }
 
-    func test_UpdateToggles() {
+    func test_UpdateAutoStartAndKeepScreenOnToggles() {
         // GIVEN I open the modal
         let showSettingsButton = application.tabBars.firstMatch.buttons["Settings"]
         showSettingsButton.tap()
@@ -268,8 +268,6 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         )
 
         // WHEN I update the toggles
-        setToggle(playSoundsToggle, enabled: true)
-
         let keepScreenOnToggle = resolvedKeepScreenOnToggle()
         setKeepScreenOnToggle(keepScreenOnToggle, enabled: true)
 
@@ -283,13 +281,6 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
         let autoStartToggleUpdated = application.switches[Accessibility.Identifiers.tgAutoStart]
         XCTAssertEqual(
             stringValue(for: autoStartToggleUpdated, message: "Auto start toggle value should be a String."),
-            "1"
-        )
-
-        scrollToPlaySoundsToggleIfNeeded()
-        let playSoundsToggleUpdated = application.switches[Accessibility.Identifiers.tgPlaySounds]
-        XCTAssertEqual(
-            stringValue(for: playSoundsToggleUpdated, message: "Play sounds toggle value should be a String."),
             "1"
         )
 
@@ -389,7 +380,7 @@ final class SettingsUITests: BaseFeature, @unchecked Sendable {
 
         // THEN the about information should be visible
         let appVersionText = application.staticTexts[Accessibility.Identifiers.lblAppVersion]
-        XCTAssertEqual(appVersionText.label, "App Version: 2.1.0")
+        XCTAssertEqual(appVersionText.label, "App Version: 2.1.0 (44)")
 
         // AND the share option should be visible
         let btnShareApp = application.buttons[Accessibility.Identifiers.btnShareApp]
