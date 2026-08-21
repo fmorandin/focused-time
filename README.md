@@ -81,8 +81,6 @@ Focused Timer supports native accessibility features across its common tasks:
 - Text, symbols, and shapes in addition to color for important state and validation
 - Accessible explanations for invalid input and unavailable settings
 
-The implementation, common-task test matrix, known publication requirements, and App Store Accessibility Nutrition Label checklist are documented in [Accessibility](docs/accessibility.md). Nutrition Labels are published through App Store Connect after the corresponding common tasks pass both automated and manual verification.
-
 ## Technologies
 
 - **SwiftUI** — Declarative UI framework
@@ -185,7 +183,7 @@ launch and would otherwise re-trigger the modal on every run. A subclass that ne
 the modal opts in by overriding `extraLaunchArguments` to include `"UI-Testing-WhatsNew"`, which
 forces it to appear for that run — see `WhatsNewForcedUITests`.
 
-`AccessibilityUITests` runs XCTest accessibility audits on the Timer, Settings, and Help screens, while `WhatsNewAccessibilityUITests` audits the forced What's New presentation. Accessibility-size snapshots cover the adaptive timer and numeric Settings rows. See [the accessibility matrix](docs/accessibility.md) for the required manual checks before publishing App Store accessibility metadata.
+`AccessibilityUITests` runs XCTest accessibility audits on the Timer, Settings, and Help screens, while `WhatsNewAccessibilityUITests` audits the forced What's New presentation. Accessibility-size snapshots cover the adaptive timer and numeric Settings rows.
 
 ```bash
 # Run all tests
@@ -226,8 +224,6 @@ Xcode Cloud installs the latest SwiftLint via `ci_scripts/ci_post_clone.sh` befo
 2. Bump `MARKETING_VERSION` (and `CURRENT_PROJECT_VERSION`) in `project.pbxproj`.
 3. Run `ChangelogResourceTests` — it fails if a version is missing from either language, if any entry is untranslated, or if the changelog announces a version ahead of the build.
 4. Re-record the `SettingsSnapshotTests` `FormView` snapshots only if the Settings layout changed.
-5. Run the common-task matrix in `docs/accessibility.md` and update App Store Connect Accessibility Nutrition Labels only for features that pass.
-
 ## Download
 
 The app is available on the [App Store](https://apps.apple.com/app/focused-timer/id1563481123).
