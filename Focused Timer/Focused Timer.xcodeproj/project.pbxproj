@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0000000000000000000011 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000001 /* OnboardingModel.swift */; };
+		0B0000000000000000000012 /* OnboardingUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000002 /* OnboardingUseCase.swift */; };
+		0B0000000000000000000013 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000003 /* OnboardingViewModel.swift */; };
+		0B0000000000000000000014 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000004 /* OnboardingView.swift */; };
+		0B0000000000000000000015 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000005 /* OnboardingTests.swift */; };
+		0B0000000000000000000016 /* OnboardingSnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000006 /* OnboardingSnapshotTests.swift */; };
+		0B0000000000000000000017 /* OnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B0000000000000000000007 /* OnboardingUITests.swift */; };
 		0A7D2A44068809CC7D59D2E4 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229EA23AA7B25BFB13C875AA /* Router.swift */; };
 		180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180E842725F6E56600ACF34C /* LocalNotificationManager.swift */; };
 		180EDCE325CC888700452D96 /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 180EDCE225CC888700452D96 /* Accessibility.swift */; };
@@ -149,6 +156,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B0000000000000000000001 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
+		0B0000000000000000000002 /* OnboardingUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUseCase.swift; sourceTree = "<group>"; };
+		0B0000000000000000000003 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		0B0000000000000000000004 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		0B0000000000000000000005 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
+		0B0000000000000000000006 /* OnboardingSnapshotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSnapshotTests.swift; sourceTree = "<group>"; };
+		0B0000000000000000000007 /* OnboardingUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingUITests.swift; sourceTree = "<group>"; };
 		110EB58D704A706D8E2A8DB7 /* TimerUseCase.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TimerUseCase.swift; sourceTree = "<group>"; };
 		180E842725F6E56600ACF34C /* LocalNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
 		180EDCE225CC888700452D96 /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
@@ -526,6 +540,7 @@
 			children = (
 				180E842625F6E52E00ACF34C /* Shared */,
 				1876324E26001F30001ADD23 /* Help */,
+				0B0000000000000000000021 /* Onboarding */,
 				18BF37CC25AB76A80056D766 /* Settings */,
 				A378FC602522BCC10046FC4C /* Timer */,
 				E5A230000000000000000031 /* WhatsNew */,
@@ -551,6 +566,7 @@
 			isa = PBXGroup;
 			children = (
 				181E4A2A25C73F1D006CBDF4 /* Mock */,
+				0B0000000000000000000026 /* Onboarding */,
 				18681F9325AB881A009447D9 /* Timer */,
 				18681F9425AB8821009447D9 /* Settings */,
 				E5A230000000000000000037 /* WhatsNew */,
@@ -569,6 +585,7 @@
 				181E4A1425C701A9006CBDF4 /* BaseFeature.swift */,
 				ACCE55110000000000000003 /* Accessibility */,
 				1889095B260E87110062C450 /* Help */,
+				0B0000000000000000000027 /* Onboarding */,
 				18681F9525AB882E009447D9 /* Timer */,
 				18681F9625AB8833009447D9 /* Settings */,
 				E5A230000000000000000038 /* WhatsNew */,
@@ -700,8 +717,68 @@
 				FF0000001111222233334477 /* TimerSnapshotTests.swift */,
 				FF0000001111222233334499 /* SettingsSnapshotTests.swift */,
 				FF00000011112222333344BB /* HelpSnapshotTests.swift */,
+				0B0000000000000000000006 /* OnboardingSnapshotTests.swift */,
 			);
 			path = Snapshots;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000021 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000022 /* Domain */,
+				0B0000000000000000000023 /* Model */,
+				0B0000000000000000000024 /* View */,
+				0B0000000000000000000025 /* ViewModel */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000022 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000002 /* OnboardingUseCase.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000023 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000001 /* OnboardingModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000024 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000004 /* OnboardingView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000025 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000003 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000026 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000005 /* OnboardingTests.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		0B0000000000000000000027 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				0B0000000000000000000007 /* OnboardingUITests.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		E5A230000000000000000032 /* Model */ = {
@@ -947,6 +1024,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0000000000000000000011 /* OnboardingModel.swift in Sources */,
+				0B0000000000000000000012 /* OnboardingUseCase.swift in Sources */,
+				0B0000000000000000000013 /* OnboardingViewModel.swift in Sources */,
+				0B0000000000000000000014 /* OnboardingView.swift in Sources */,
 				18DF2DF0260A9BBE00F1BB69 /* Constants.swift in Sources */,
 				180E842825F6E56600ACF34C /* LocalNotificationManager.swift in Sources */,
 				AA00000001110000000000AA /* AlarmScheduler.swift in Sources */,
@@ -1010,6 +1091,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0000000000000000000015 /* OnboardingTests.swift in Sources */,
+				0B0000000000000000000016 /* OnboardingSnapshotTests.swift in Sources */,
 				FF0000001111222233334488 /* TimerSnapshotTests.swift in Sources */,
 				FF00000011112222333344AA /* SettingsSnapshotTests.swift in Sources */,
 				FF00000011112222333344CC /* HelpSnapshotTests.swift in Sources */,
@@ -1065,6 +1148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B0000000000000000000017 /* OnboardingUITests.swift in Sources */,
 				ACCE55110000000000000001 /* AccessibilityUITests.swift in Sources */,
 				18388F012F476C840027DACC /* SettingsUITests+Helpers.swift in Sources */,
 				A378FC502522BB7E0046FC4C /* TimerUITests.swift in Sources */,

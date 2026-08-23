@@ -22,8 +22,27 @@ struct RouterTests {
         #expect(router.selectedTab == .timer)
         #expect(router.settingsDidChange == false)
         #expect(router.settingsDisplaysWarning == false)
+        #expect(router.isOnboardingPresented == false)
         #expect(router.isWhatsNewPresented == false)
+        #expect(router.launchPresentation == nil)
         #expect(router.settingsPath.isEmpty)
+    }
+
+    // MARK: - Onboarding
+
+    @Test("presentOnboarding shows the modal")
+    func presentOnboardingShowsModal() {
+        let router = Router()
+        router.presentOnboarding()
+        #expect(router.isOnboardingPresented == true)
+    }
+
+    @Test("dismissOnboarding hides the modal")
+    func dismissOnboardingHidesModal() {
+        let router = Router()
+        router.presentOnboarding()
+        router.dismissOnboarding()
+        #expect(router.isOnboardingPresented == false)
     }
 
     // MARK: - What's New
@@ -41,6 +60,19 @@ struct RouterTests {
         router.presentWhatsNew()
         router.dismissWhatsNew()
         #expect(router.isWhatsNewPresented == false)
+    }
+
+    @Test("Onboarding and What's New cannot replace each other")
+    func launchPresentationsAreMutuallyExclusive() {
+        let onboardingRouter = Router()
+        onboardingRouter.presentOnboarding()
+        onboardingRouter.presentWhatsNew()
+        #expect(onboardingRouter.launchPresentation == .onboarding)
+
+        let whatsNewRouter = Router()
+        whatsNewRouter.presentWhatsNew()
+        whatsNewRouter.presentOnboarding()
+        #expect(whatsNewRouter.launchPresentation == .whatsNew)
     }
 
     // MARK: - selectSettings

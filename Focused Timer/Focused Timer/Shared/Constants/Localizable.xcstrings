@@ -1,6 +1,76 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "onboardingBreaksDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Each focus session is followed by a short break. After your configured number of cycles, take a long break." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Cada sessão de foco é seguida por uma pausa curta. Após o número de ciclos configurado, faça uma pausa longa." } }
+      }
+    },
+    "onboardingBreaksTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Recharge between sessions" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Recarregue as energias entre as sessões" } }
+      }
+    },
+    "onboardingCustomizeDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Use Settings to choose durations, cycles, auto-start, sounds, alarms, and notifications." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Use os Ajustes para escolher durações, ciclos, início automático, sons, alarmes e notificações." } }
+      }
+    },
+    "onboardingCustomizeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Make it yours" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Personalize do seu jeito" } }
+      }
+    },
+    "onboardingFocusDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start a focus timer and give one task your full attention until time is up." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Inicie um temporizador de foco e dedique toda a sua atenção a uma tarefa até o tempo acabar." } }
+      }
+    },
+    "onboardingFocusTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Focus on one task" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Concentre-se em uma tarefa" } }
+      }
+    },
+    "onboardingGetStartedButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Get Started" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Começar" } }
+      }
+    },
+    "onboardingHelpHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You can revisit the full guide anytime in Help." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Você pode consultar o guia completo a qualquer momento na Ajuda." } }
+      }
+    },
+    "onboardingSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A simple rhythm of focused work and intentional breaks." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Um ritmo simples de trabalho focado e pausas intencionais." } }
+      }
+    },
+    "onboardingTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome to Focused Timer" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Boas-vindas ao Focused Timer" } }
+      }
+    },
     "accessibilityAlarmDisabledAutoStart" : {
       "extractionState" : "manual",
       "localizations" : {

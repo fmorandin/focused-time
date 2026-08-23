@@ -27,6 +27,11 @@ enum UserDefaultKeys {
     static let completedCyclesBackground = "completedCyclesBackground"
     static let previousPhaseWasFocusBackground = "previousPhaseWasFocusBackground"
 
+    // MARK: - Onboarding
+
+    /// Present after the first opening of a fresh installation.
+    static let onboardingHasBeenShown = "onboardingHasBeenShown"
+
     // MARK: - What's New
 
     /// Highest release already shown to the user, as a `major.minor.patch` string.

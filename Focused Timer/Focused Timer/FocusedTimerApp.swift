@@ -20,6 +20,10 @@ struct FocusedTimerApp: App {
     @AppStorage(UserDefaultKeys.appearanceMode) private var appearanceMode: String = AppearanceMode.system.rawValue
 
     init() {
+        // Run before AppDelegate writes its launch marker so only a genuine
+        // fresh installation remains eligible for onboarding.
+        OnboardingModel().migrateExistingInstallationIfNeeded()
+
         // Run before AppDelegate writes `isNotification` for this launch, so a
         // persisted value still distinguishes a 2.0 upgrade from a fresh install.
         WhatsNewModel().migrateLegacyInstallationIfNeeded()
@@ -57,6 +61,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
     /// Launch argument that forces the "What's New" modal on, so UI tests can
     /// exercise it deliberately. Without it the modal stays suppressed.
     static let forceWhatsNewArgument = "UI-Testing-WhatsNew"
+
+    /// Launch argument that forces the onboarding sheet for its focused UI tests.
+    static let forceOnboardingArgument = "UI-Testing-Onboarding"
 
     private enum UITestEnvironmentKeys {
 
@@ -168,6 +175,9 @@ class AppDelegate: NSObject, UIApplicationDelegate, @preconcurrency UNUserNotifi
         UserDefaults.standard.set(keepScreenOnEnabled, forKey: UserDefaultKeys.keepScreenOn)
         UserDefaults.standard.set(true, forKey: UserDefaultKeys.enableNotifications)
         UserDefaults.standard.set(false, forKey: UserDefaultKeys.enableAlarm)
+
+        let shouldForceOnboarding = ProcessInfo.processInfo.arguments.contains(Self.forceOnboardingArgument)
+        UserDefaults.standard.set(!shouldForceOnboarding, forKey: UserDefaultKeys.onboardingHasBeenShown)
 
         // `removePersistentDomain` above wipes the "already seen" flag, so the
         // What's New modal has to be suppressed explicitly or it would appear on

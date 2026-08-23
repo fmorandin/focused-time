@@ -19,6 +19,13 @@ enum ImageNames {
     static let pause = "pause"
     static let reset = "arrow.clockwise"
 
+    // MARK: - Onboarding
+
+    static let onboardingWelcome = "timer.circle.fill"
+    static let onboardingFocus = "scope"
+    static let onboardingBreaks = "cup.and.saucer.fill"
+    static let onboardingCustomize = "slider.horizontal.3"
+
     // MARK: - What's New
 
     static let whatsNew = "sparkles"

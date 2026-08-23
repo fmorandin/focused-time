@@ -9,6 +9,10 @@
       "entries" : [
         {
           "type" : "added",
+          "text" : "Um guia na primeira abertura que explica sessões de foco, pausas, ciclos e onde personalizar o app."
+        },
+        {
+          "type" : "added",
           "text" : "Uma tela de novidades, exibida na primeira vez que você abre o app após uma atualização."
         },
         {
