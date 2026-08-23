@@ -47,6 +47,30 @@ struct LocalizationTests {
         }
     }
 
+    // MARK: - Onboarding
+
+    private static let onboardingKeys = [
+        "onboardingTitle",
+        "onboardingSubtitle",
+        "onboardingFocusTitle",
+        "onboardingFocusDescription",
+        "onboardingBreaksTitle",
+        "onboardingBreaksDescription",
+        "onboardingCustomizeTitle",
+        "onboardingCustomizeDescription",
+        "onboardingHelpHint",
+        "onboardingGetStartedButton"
+    ]
+
+    @Test("Onboarding keys exist and are translated", arguments: supportedLanguages)
+    func onboardingKeysAreTranslated(language: String) throws {
+        let strings = try Self.loadStrings(for: language)
+        for entryKey in Self.onboardingKeys {
+            let value = try #require(strings[entryKey], "Key \"\(entryKey)\" is missing for language \"\(language)\"")
+            #expect(!value.isEmpty, "Key \"\(entryKey)\" has an empty value for language \"\(language)\"")
+        }
+    }
+
     // MARK: - What's New
 
     private static let whatsNewKeys = [

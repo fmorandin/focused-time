@@ -9,6 +9,10 @@
       "entries" : [
         {
           "type" : "added",
+          "text" : "A first-launch guide that explains focus sessions, breaks, cycles and where to customize the app."
+        },
+        {
+          "type" : "added",
           "text" : "A What's New screen, shown the first time you open the app after an update."
         },
         {

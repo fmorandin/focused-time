@@ -15,11 +15,16 @@ struct ContentView: View {
 
     // MARK: - State
 
+    @State private var onboardingViewModel: OnboardingViewModel
     @State private var whatsNewViewModel: WhatsNewViewModel
 
     // MARK: - Initializer
 
-    init(whatsNewViewModel: WhatsNewViewModel = WhatsNewViewModel()) {
+    init(
+        onboardingViewModel: OnboardingViewModel = OnboardingViewModel(),
+        whatsNewViewModel: WhatsNewViewModel = WhatsNewViewModel()
+    ) {
+        _onboardingViewModel = State(wrappedValue: onboardingViewModel)
         _whatsNewViewModel = State(wrappedValue: whatsNewViewModel)
     }
 
@@ -47,12 +52,18 @@ struct ContentView: View {
             }
             .accessibilityIdentifier(Accessibility.Identifiers.tabHelp)
         }
-        .sheet(isPresented: $router.isWhatsNewPresented) {
-            if let release = whatsNewViewModel.releaseToPresent {
-                WhatsNewView(viewModel: whatsNewViewModel, release: release)
+        .sheet(item: $router.launchPresentation) { presentation in
+            switch presentation {
+            case .onboarding:
+                OnboardingView(viewModel: onboardingViewModel)
+            case .whatsNew:
+                if let release = whatsNewViewModel.releaseToPresent {
+                    WhatsNewView(viewModel: whatsNewViewModel, release: release)
+                }
             }
         }
         .task {
+            guard !onboardingViewModel.presentIfNeeded(router: router) else { return }
             whatsNewViewModel.presentIfNeeded(router: router)
         }
     }

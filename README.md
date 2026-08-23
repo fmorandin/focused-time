@@ -14,7 +14,7 @@ This app has always been a playground for me to learn new things. Version 1.0 wa
 
 Version 2.0 was a more radical experiment: learning what I can do using AI to code an entire set of features end to end — from the domain logic and App Intents to AlarmKit integration and the test suite.
 
-Version 2.1 continues that experiment, starting with a "What's New" screen so returning users can see what changed, alongside clearer assistive-technology semantics, layouts that adapt to accessibility text sizes, accessible validation, and reduced motion.
+Version 2.1 continues that experiment with first-launch onboarding, a "What's New" screen so returning users can see what changed, clearer assistive-technology semantics, layouts that adapt to accessibility text sizes, accessible validation, and reduced motion.
 
 ## Features
 
@@ -62,6 +62,10 @@ When the app moves to the background, the current timestamp is saved. On return,
 ### Help Screen
 
 An in-app help screen explains the Pomodoro technique and each timer type, fully localized.
+
+### Onboarding
+
+A concise guide explains focus sessions, short and long breaks, cycle tracking, and where to customize the app. It appears only on the first opening of a fresh installation. Existing installations are migrated silently, so adding onboarding in an update does not interrupt returning users.
 
 ### What's New
 
@@ -111,6 +115,7 @@ All major dependencies are abstracted behind protocols so unit tests run without
 | `StorageRepository` | Key-value persistence |
 | `ChangelogLoading` / `ChangelogDataProviding` | Loads and decodes the bundled changelog |
 | `WhatsNewModelProtocol` | Persists which release the user has already seen |
+| `OnboardingModelProtocol` | Persists whether the first-launch guide has been presented |
 
 `TimerViewModel` accepts all of these as constructor parameters, enabling full injection of test doubles.
 
@@ -149,6 +154,17 @@ The release is marked as seen at presentation time, not on dismiss, so a force-q
 can't reopen the same notes on the next launch — the full changelog in Settings covers that case
 instead.
 
+### Launch Presentation Coordination
+
+`Router.LaunchPresentation` provides one presentation slot shared by onboarding and What's New.
+Onboarding has priority on a genuine first launch; What's New is evaluated only when onboarding
+does not claim that launch. This makes the two sheets mutually exclusive rather than relying on
+timing between independent presentation flags.
+
+`OnboardingModel` records presentation immediately and detects existing installations before the
+current launch writes its defaults. That keeps onboarding limited to the first opening after a
+fresh install without showing it retroactively to current users.
+
 ### Swift 6 Concurrency
 
 - `TimerViewModel` is **not** `@MainActor` — it's an `ObservableObject` without main actor isolation.
@@ -171,6 +187,7 @@ instead.
 - `ChangelogResourceTests` — integration tests against the real bundled changelog files
 - `WhatsNewUseCaseTests`
 - `WhatsNewViewModelTests`
+- `OnboardingTests`
 - `ChangelogEntryStyleTests`
 - Accessibility semantics and common-screen audits
 
@@ -178,12 +195,14 @@ instead.
 
 All UI tests extend `BaseFeature`, an `@MainActor` base class. The app supports a `"UI-Testing"` launch argument that clears `UserDefaults`, disables animations, and accepts fast timer durations via environment variables (`UI_TEST_FOCUSED_SECONDS`, `UI_TEST_SHORT_BREAK_SECONDS`, `UI_TEST_LONG_BREAK_SECONDS`, `UI_TEST_NUMBER_OF_CYCLES`).
 
-`"UI-Testing"` also suppresses the "What's New" modal, since it wipes `UserDefaults` on every
-launch and would otherwise re-trigger the modal on every run. A subclass that needs to exercise
-the modal opts in by overriding `extraLaunchArguments` to include `"UI-Testing-WhatsNew"`, which
-forces it to appear for that run — see `WhatsNewForcedUITests`.
+`"UI-Testing"` also suppresses onboarding and the "What's New" modal, since it wipes `UserDefaults`
+on every launch and would otherwise re-trigger first-launch presentation. A subclass can opt in
+with `"UI-Testing-Onboarding"` or `"UI-Testing-WhatsNew"` — see `OnboardingForcedUITests` and
+`WhatsNewForcedUITests`.
 
-`AccessibilityUITests` runs XCTest accessibility audits on the Timer, Settings, and Help screens, while `WhatsNewAccessibilityUITests` audits the forced What's New presentation. Accessibility-size snapshots cover the adaptive timer and numeric Settings rows.
+`AccessibilityUITests` runs XCTest accessibility audits on the Timer, Settings, and Help screens,
+while focused suites audit the forced onboarding and What's New presentations. Snapshot tests also
+cover the onboarding layout alongside the existing common-screen and accessibility-size snapshots.
 
 ```bash
 # Run all tests

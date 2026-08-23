@@ -72,3 +72,20 @@ final class WhatsNewAccessibilityUITests: BaseFeature, @unchecked Sendable {
         try application.performAccessibilityAudit(for: semanticAuditTypes)
     }
 }
+
+final class OnboardingAccessibilityUITests: BaseFeature, @unchecked Sendable {
+
+    override var extraLaunchArguments: [String] { ["UI-Testing-Onboarding"] }
+
+    func test_OnboardingPassesAccessibilityAudit() throws {
+        let title = application.staticTexts[Accessibility.Identifiers.lblOnboardingTitle]
+        XCTAssertTrue(title.waitForExistence(timeout: 5))
+        let semanticAuditTypes: XCUIAccessibilityAuditType = [
+            .elementDetection,
+            .hitRegion,
+            .sufficientElementDescription,
+            .trait
+        ]
+        try application.performAccessibilityAudit(for: semanticAuditTypes)
+    }
+}

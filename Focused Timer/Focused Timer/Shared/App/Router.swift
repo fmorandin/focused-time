@@ -30,10 +30,26 @@ final class Router {
     /// Navigation stack backing the settings tab.
     var settingsPath: [SettingsRoute] = []
 
-    // MARK: - What's New
+    // MARK: - Launch Presentation
 
-    /// Whether the "What's New" modal is on screen.
-    var isWhatsNewPresented = false
+    enum LaunchPresentation: Hashable, Identifiable {
+        case onboarding
+        case whatsNew
+
+        var id: Self { self }
+    }
+
+    /// A single presentation slot prevents onboarding and What's New from ever
+    /// competing for the same launch.
+    var launchPresentation: LaunchPresentation?
+
+    var isOnboardingPresented: Bool {
+        self.launchPresentation == .onboarding
+    }
+
+    var isWhatsNewPresented: Bool {
+        self.launchPresentation == .whatsNew
+    }
 
     // MARK: - Cross-Feature Signaling
 
@@ -62,10 +78,22 @@ final class Router {
     }
 
     func presentWhatsNew() {
-        isWhatsNewPresented = true
+        guard self.launchPresentation == nil else { return }
+        self.launchPresentation = .whatsNew
     }
 
     func dismissWhatsNew() {
-        isWhatsNewPresented = false
+        guard self.launchPresentation == .whatsNew else { return }
+        self.launchPresentation = nil
+    }
+
+    func presentOnboarding() {
+        guard self.launchPresentation == nil else { return }
+        self.launchPresentation = .onboarding
+    }
+
+    func dismissOnboarding() {
+        guard self.launchPresentation == .onboarding else { return }
+        self.launchPresentation = nil
     }
 }

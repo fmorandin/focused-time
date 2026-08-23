@@ -87,6 +87,11 @@ enum Accessibility {
         static let lblLongBreakExplanation = "lblLongBreakExplanation"
         static let lblNumberOfCyclesExplanation = "lblNumberOfCyclesExplanation"
 
+        // MARK: - Onboarding Screen
+
+        static let btnOnboardingGetStarted = "btnOnboardingGetStarted"
+        static let lblOnboardingTitle = "lblOnboardingTitle"
+
         // MARK: - What's New Screen
 
         // Buttons
