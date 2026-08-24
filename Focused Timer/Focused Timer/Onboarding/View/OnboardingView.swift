@@ -98,7 +98,7 @@ struct OnboardingView: View {
 
     private var getStartedButton: some View {
         Button(action: {
-            HapticsConstants().impactLight.impactOccurred()
+            HapticsConstants.impactLight.impactOccurred()
             viewModel.dismiss(router: router)
         }, label: {
             Text("onboardingGetStartedButton")

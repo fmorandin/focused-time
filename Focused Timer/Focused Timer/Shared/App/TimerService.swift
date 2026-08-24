@@ -9,14 +9,16 @@
 import Foundation
 import Observation
 
-protocol TimerServiceProtocol: AnyObject, Sendable {
+@MainActor
+protocol TimerServiceProtocol: AnyObject {
     var timerViewModel: TimerViewModel { get }
 }
 
 @Observable
-final class TimerService: TimerServiceProtocol, @unchecked Sendable {
+@MainActor
+final class TimerService: TimerServiceProtocol {
 
-    nonisolated(unsafe) static var shared: any TimerServiceProtocol = TimerService()
+    static var shared: any TimerServiceProtocol = TimerService()
 
     let timerViewModel: TimerViewModel
 

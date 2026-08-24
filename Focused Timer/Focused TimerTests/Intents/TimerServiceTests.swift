@@ -7,6 +7,7 @@ import Testing
 @testable import Focused_Timer
 
 @Suite("TimerService")
+@MainActor
 struct TimerServiceTests {
 
     @Test("setSharedForTesting replaces the shared instance")

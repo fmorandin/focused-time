@@ -11,10 +11,18 @@ struct GetTimerStatusIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Get Timer Status"
     static let description: IntentDescription = "Returns the current timer status."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
-        let viewModel = TimerService.shared.timerViewModel
+        try await perform(using: TimerService.shared)
+    }
+
+    @MainActor
+    func perform(
+        using timerService: any TimerServiceProtocol
+    ) async throws -> some IntentResult & ReturnsValue<String> & ProvidesDialog {
+        let viewModel = timerService.timerViewModel
         let typeName = viewModel.timerType.getCorrectTranslation()
 
         let stateText: String

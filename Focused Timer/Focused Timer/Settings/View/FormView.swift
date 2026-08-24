@@ -75,7 +75,7 @@ struct FormView: View {
                                                 action: {
                                                     settingsViewModel.shouldUpdateTimerView = true
                                                     settingsViewModel.resetToDefault()
-                                                    HapticsConstants().impactHeavy.impactOccurred()
+                                                    HapticsConstants.impactHeavy.impactOccurred()
                                                 }),
                         secondaryButton: .cancel())
                 })

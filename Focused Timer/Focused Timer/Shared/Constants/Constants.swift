@@ -10,11 +10,11 @@ import SwiftUI
 // MARK: - Haptics
 
 @MainActor
-struct HapticsConstants {
+enum HapticsConstants {
 
-    let impactLight = UIImpactFeedbackGenerator(style: .light)
-    let impactMedium = UIImpactFeedbackGenerator(style: .medium)
-    let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+    static let impactLight = UIImpactFeedbackGenerator(style: .light)
+    static let impactMedium = UIImpactFeedbackGenerator(style: .medium)
+    static let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
 }
 
 // MARK: - Default values for timers

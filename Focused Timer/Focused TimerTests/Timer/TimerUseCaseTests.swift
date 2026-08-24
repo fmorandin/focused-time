@@ -107,6 +107,14 @@ private final class NotificationFlagStoreSpy: NotificationFlagStoring {
     }
 }
 
+private final class TestClock {
+    var currentDate: Date
+
+    init(currentDate: Date) {
+        self.currentDate = currentDate
+    }
+}
+
 /// A configurable spy that implements TimerModelProtocol.
 /// Captures `saveMoveToBackgroundTime` calls for assertion.
 private final class TimerModelSpy: TimerModelProtocol {
@@ -147,6 +155,7 @@ private final class TimerModelSpy: TimerModelProtocol {
 
 // MARK: - SUT Factory
 
+@MainActor
 private func makeSUT(
     timerModel: any TimerModelProtocol = TimerModelMock(),
     nowProvider: @escaping () -> Date = Date.init,
@@ -171,6 +180,7 @@ private func makeSUT(
 // MARK: - Tests
 
 @Suite("TimerUseCase Tests", .serialized)
+@MainActor
 // swiftlint:disable:next type_body_length
 struct TimerUseCaseTests {
 
@@ -213,6 +223,19 @@ struct TimerUseCaseTests {
 
         // Only one active timer should fire, decrementing counter by exactly 1.
         #expect(useCase.counter == 4)
+    }
+
+    @Test("A delayed timer callback catches the counter up using elapsed time")
+    func delayedTickUsesElapsedTime() {
+        let clock = TestClock(currentDate: Date(timeIntervalSince1970: 10))
+        let (useCase, timerFactory) = makeSUT(nowProvider: { clock.currentDate })
+
+        useCase.startTimer()
+        clock.currentDate = Date(timeIntervalSince1970: 14)
+        timerFactory.advance()
+
+        #expect(useCase.counter == 1)
+        #expect(useCase.timerTo == CGFloat(1) / CGFloat(5))
     }
 
     @Test("Pausing stops the counter and sets state to paused")
@@ -454,6 +477,58 @@ struct TimerUseCaseTests {
         #expect(useCase.counter == initialCounter)
     }
 
+    @Test("moveAppToForeground treats a future saved timestamp as zero elapsed time")
+    func foregroundClampsFutureTimestamp() {
+        let model = TimerModelSpy()
+        model.savedTimes = (4, Date(timeIntervalSince1970: 20))
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 10) }
+        )
+
+        useCase.startTimer()
+        useCase.moveAppToForeground()
+
+        #expect(useCase.counter == 4)
+        #expect(model.clearSavedBackgroundStateCalls == 1)
+    }
+
+    @Test("pause after background clears persisted state and pending notification")
+    func pauseAfterBackgroundClearsTransientState() {
+        let model = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            notificationManager: notificationManager
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToBackground()
+        useCase.pauseTimer()
+
+        #expect(model.clearSavedBackgroundStateCalls == 1)
+        #expect(notificationManager.clearCalls == 1)
+    }
+
+    @Test("reset after background clears persisted state and pending notification")
+    func resetAfterBackgroundClearsTransientState() {
+        let model = TimerModelSpy()
+        let notificationManager = NotificationManagerSpy()
+        let (useCase, timerFactory) = makeSUT(
+            timerModel: model,
+            notificationManager: notificationManager
+        )
+
+        useCase.startTimer()
+        timerFactory.advance()
+        useCase.moveAppToBackground()
+        useCase.resetUpdateTimer()
+
+        #expect(model.clearSavedBackgroundStateCalls == 1)
+        #expect(notificationManager.clearCalls == 1)
+    }
+
     // MARK: onStateChange Callback
 
     @Test("onStateChange fires on each tick while the timer runs")
@@ -475,10 +550,10 @@ struct TimerUseCaseTests {
         useCase.onStateChange = { callCount += 1 }
 
         useCase.startTimer()
-        timerFactory.advance(by: 6) // 5 ticks + 1 mode-change tick
+        timerFactory.advance(by: 5)
 
-        // 5 tick callbacks + 1 mode-change callback
-        #expect(callCount == 6)
+        // The fifth callback decrements to zero and advances the phase immediately.
+        #expect(callCount == 5)
     }
 
     @Test("onStateChange fires when timer is paused")
@@ -637,9 +712,13 @@ struct TimerUseCaseTests {
         let (useCase, timerFactory) = makeSUT(timerModel: model)
 
         useCase.startTimer()
-        timerFactory.advance(by: 6) // focused → short break, then auto-restart
+        timerFactory.advance(by: 5) // focused → short break, then auto-restart
 
-        // After auto-restart the short-break timer should be ticking.
+        // After auto-restart the short-break timer begins at its full duration.
+        #expect(useCase.timerState == .running)
+        #expect(useCase.timerType == .shortBreak)
+        #expect(useCase.counter == 2)
+
         timerFactory.advance()
         #expect(useCase.timerState == .running)
         #expect(useCase.timerType == .shortBreak)
@@ -796,9 +875,8 @@ struct TimerUseCaseTests {
         let (useCase, timerFactory) = makeSUT(timerModel: model)
 
         useCase.startTimer()
-        // 6 ticks: focused (5 decrements + 1 mode-change) → short break with auto-restart
-        // 3 ticks: short break (2 decrements + 1 mode-change) → focused with auto-restart
-        timerFactory.advance(by: 9)
+        // Five focus ticks and two short-break ticks complete both phases.
+        timerFactory.advance(by: 7)
 
         #expect(useCase.timerType == .focused)
         #expect(useCase.timerState == .running)  // auto-start immediately transitions to running
@@ -1159,6 +1237,24 @@ struct TimerUseCaseTests {
         #expect(useCase.counter == 6)
         #expect(useCase.timerState == .paused)
         #expect(useCase.totalTime == 5)     // focusedTime from model
+        #expect(model.clearSavedBackgroundStateCalls == 1)
+    }
+
+    @Test("cold launch treats a future saved timestamp as zero elapsed time")
+    func coldLaunchClampsFutureTimestamp() {
+        let model = TimerModelSpy()
+        model.savedBackgroundState = BackgroundTimerState(
+            timerType: .focused, numberOfCompletedCycles: 0, previousPhaseWasFocus: false
+        )
+        model.savedTimes = (4, Date(timeIntervalSince1970: 20))
+
+        let (useCase, _) = makeSUT(
+            timerModel: model,
+            nowProvider: { Date(timeIntervalSince1970: 10) }
+        )
+
+        #expect(useCase.counter == 4)
+        #expect(useCase.timerState == .paused)
         #expect(model.clearSavedBackgroundStateCalls == 1)
     }
 

@@ -99,7 +99,7 @@ struct WhatsNewView: View {
 
     private var dismissButton: some View {
         Button(action: {
-            HapticsConstants().impactLight.impactOccurred()
+            HapticsConstants.impactLight.impactOccurred()
             viewModel.dismiss(router: router)
         }, label: {
             Text("whatsNewDismissButton")

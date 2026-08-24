@@ -2,25 +2,33 @@
 
 set -eu
 
-# Installs the latest SwiftLint available via Homebrew. No version is pinned —
-# the project's lint rules are version-agnostic.
+SWIFTLINT_VERSION="0.65.0"
+SWIFTLINT_CHECKSUM="d6cb0aa7a2f5f1ef306fc9e37bcb54dc9a26facc8f7784ac0c3dd3eccf5c6ba6"
+SWIFTLINT_ARCHIVE_URL="https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/portable_swiftlint.zip"
+SWIFTLINT_ARCHIVE_PATH="$(mktemp)"
+SWIFTLINT_EXTRACT_DIRECTORY="$(mktemp -d)"
 
-if test -d "/opt/homebrew/bin/"; then
-  PATH="/opt/homebrew/bin:${PATH}"
-fi
+cleanup() {
+  rm -f "${SWIFTLINT_ARCHIVE_PATH}"
+  rm -rf "${SWIFTLINT_EXTRACT_DIRECTORY}"
+}
 
-export PATH
+trap cleanup EXIT
 
-if ! command -v brew >/dev/null 2>&1; then
-  echo "error: Homebrew is required to install SwiftLint on Xcode Cloud."
+curl --fail --location --retry 3 --output "${SWIFTLINT_ARCHIVE_PATH}" "${SWIFTLINT_ARCHIVE_URL}"
+
+ACTUAL_CHECKSUM="$(shasum -a 256 "${SWIFTLINT_ARCHIVE_PATH}" | cut -d ' ' -f 1)"
+if [ "${ACTUAL_CHECKSUM}" != "${SWIFTLINT_CHECKSUM}" ]; then
+  echo "error: SwiftLint archive checksum verification failed."
   exit 1
 fi
 
-brew install swiftlint
+ditto -x -k "${SWIFTLINT_ARCHIVE_PATH}" "${SWIFTLINT_EXTRACT_DIRECTORY}"
+sudo install -m 0755 "${SWIFTLINT_EXTRACT_DIRECTORY}/swiftlint" /usr/local/bin/swiftlint
 
-if ! command -v swiftlint >/dev/null 2>&1; then
+if [ "$(/usr/local/bin/swiftlint version)" != "${SWIFTLINT_VERSION}" ]; then
   echo "error: SwiftLint installation failed."
   exit 1
 fi
 
-echo "SwiftLint $(swiftlint version) installed."
+echo "SwiftLint ${SWIFTLINT_VERSION} installed."

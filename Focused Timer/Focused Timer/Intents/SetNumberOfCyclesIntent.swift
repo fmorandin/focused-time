@@ -11,6 +11,7 @@ struct SetNumberOfCyclesIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Set Number of Cycles"
     static let description: IntentDescription = "Sets the number of focus cycles before a long break."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @Parameter(title: "Cycles", inclusiveRange: (1, 99))
     var cycles: Int

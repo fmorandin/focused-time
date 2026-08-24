@@ -11,7 +11,7 @@ import XCTest
 @testable import Focused_Timer
 
 @MainActor
-final class TimerSnapshotTests: XCTestCase, @unchecked Sendable {
+final class TimerSnapshotTests: XCTestCase {
 
     // MARK: - TimerTypePillView
 

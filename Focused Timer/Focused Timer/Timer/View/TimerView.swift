@@ -65,18 +65,18 @@ struct TimerView: View {
         .onReceive(notificationCenter.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             timerViewModel.moveAppToForeground()
             Self.logger.notice("‼️ App will be moved to foreground.")
-            if timerViewModel.shouldKeepScreenOn() {
-                setIdleTimerDisabled(true)
-            }
+            synchronizeIdleTimer()
         }
         .onChange(of: router.settingsDidChange) { _, didChange in
             if didChange {
                 Self.logger.notice("🔄 Settings changed — resetting timer.")
                 timerViewModel.resetUpdateTimer()
+                synchronizeIdleTimer()
                 router.settingsDidChange = false
             }
         }
         .onChange(of: router.selectedTab) { _, newTab in
+            synchronizeIdleTimer()
             if newTab == .settings {
                 router.settingsDisplaysWarning = timerViewModel.shouldDisplaySettingsAlert()
             }
@@ -100,6 +100,7 @@ struct TimerView: View {
         }
         .onAppear {
             Self.logger.notice("⏱ Timer View opened.")
+            synchronizeIdleTimer()
         }
     }
 
@@ -138,6 +139,13 @@ struct TimerView: View {
             return
         }
         AppStore.requestReview(in: scene)
+    }
+
+    private func synchronizeIdleTimer() {
+        timerViewModel.synchronizeIdleTimer(
+            isTimerVisible: router.selectedTab == .timer,
+            using: setIdleTimerDisabled
+        )
     }
 }
 

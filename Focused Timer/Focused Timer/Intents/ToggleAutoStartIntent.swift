@@ -11,6 +11,7 @@ struct ToggleAutoStartIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Toggle Auto-Start"
     static let description: IntentDescription = "Enables or disables auto-start between timer sessions."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @Parameter(title: "Enabled")
     var enabled: Bool

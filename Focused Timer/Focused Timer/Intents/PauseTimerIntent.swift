@@ -11,10 +11,16 @@ struct PauseTimerIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Pause Timer"
     static let description: IntentDescription = "Pauses the currently running timer."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .alwaysAllowed
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        let viewModel = TimerService.shared.timerViewModel
+        try await perform(using: TimerService.shared)
+    }
+
+    @MainActor
+    func perform(using timerService: any TimerServiceProtocol) async throws -> some IntentResult & ProvidesDialog {
+        let viewModel = timerService.timerViewModel
 
         guard viewModel.timerState == .running else {
             return .result(dialog: "Timer is not running.")

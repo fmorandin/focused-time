@@ -137,6 +137,7 @@ private final class TimerModelSpy: TimerModelProtocol {
     }
 }
 
+@MainActor
 private func makeSUT(
     timerModel: any TimerModelProtocol = TimerModelMock(),
     nowProvider: @escaping () -> Date = Date.init,
@@ -159,8 +160,9 @@ private func makeSUT(
     return (viewModel, timerFactory)
 }
 
+// swiftlint:disable type_body_length
 @Suite("TimerViewModel Tests", .serialized)
-// swiftlint:disable:next type_body_length
+@MainActor
 struct TimerViewModelTests {
     @Test("Start timer decrements and transitions to short break")
     func startTimer() {
@@ -670,3 +672,4 @@ struct TimerViewModelTests {
         #expect(!viewModel.shouldRequestReview)
     }
 }
+// swiftlint:enable type_body_length

@@ -8,6 +8,7 @@ import Testing
 @testable import Focused_Timer
 
 @Suite("TimerView Lifecycle Tests", .serialized)
+@MainActor
 struct TimerViewLifecycleTests {
 
     private final class TimerModelLifecycleMock: TimerModelProtocol {
@@ -71,6 +72,31 @@ struct TimerViewLifecycleTests {
         let viewModel = TimerViewModel(timerModel: timerModel)
 
         #expect(viewModel.shouldKeepScreenOn())
+    }
+
+    @Test("idle timer synchronization enables it only while the timer tab is visible")
+    func idleTimerSynchronizationUsesPreferenceAndVisibility() {
+        let timerModel = TimerModelLifecycleMock()
+        let viewModel = TimerViewModel(timerModel: timerModel)
+        var receivedValues: [Bool] = []
+
+        timerModel.keepScreenOn = true
+        viewModel.synchronizeIdleTimer(isTimerVisible: true) { receivedValues.append($0) }
+        viewModel.synchronizeIdleTimer(isTimerVisible: false) { receivedValues.append($0) }
+
+        #expect(receivedValues == [true, false])
+    }
+
+    @Test("idle timer synchronization disables it when the preference is off")
+    func idleTimerSynchronizationDisablesWhenPreferenceIsOff() {
+        let timerModel = TimerModelLifecycleMock()
+        timerModel.keepScreenOn = false
+        let viewModel = TimerViewModel(timerModel: timerModel)
+        var receivedValue: Bool?
+
+        viewModel.synchronizeIdleTimer(isTimerVisible: true) { receivedValue = $0 }
+
+        #expect(receivedValue == false)
     }
 
     @Test("shouldDisplaySettingsAlert depends on timer state")

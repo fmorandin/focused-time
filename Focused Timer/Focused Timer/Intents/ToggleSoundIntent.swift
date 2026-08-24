@@ -11,6 +11,7 @@ struct ToggleSoundIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Toggle Timer Sound"
     static let description: IntentDescription = "Enables or disables the sound played when the timer finishes."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @Parameter(title: "Enabled")
     var enabled: Bool

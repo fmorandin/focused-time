@@ -57,6 +57,7 @@ private final class PillTestTimerFactory: RepeatingTimerFactoryProtocol {
 // MARK: - Tests
 
 @Suite("TimerTypePillView Tests", .serialized)
+@MainActor
 struct TimerTypePillViewTests {
 
     // MARK: - Initial state

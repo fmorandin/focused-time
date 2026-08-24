@@ -11,6 +11,7 @@ import AudioToolbox
 import Foundation
 import os
 
+@MainActor
 final class TimerUseCase {
 
     // MARK: - State (source of truth for all timer state)
@@ -55,6 +56,7 @@ final class TimerUseCase {
     private let soundPlayer: any SystemSoundPlaying
     private let notificationFlagStore: any NotificationFlagStoring
     private let alarmScheduler: (any AlarmScheduling)?
+    private var lastTickDate: Date?
 
     private let systemSoundID: SystemSoundID = 1009
 
@@ -108,6 +110,7 @@ final class TimerUseCase {
     func startTimer() {
         Self.logger.notice("▶️ Starting timer.")
         timerState = .running
+        lastTickDate = nowProvider()
         alarmScheduler?.cancelAlarm()
         if isAlarmEnabled {
             alarmScheduler?.scheduleAlarm(remainingTime: TimeInterval(counter), timerType: timerType)
@@ -116,17 +119,15 @@ final class TimerUseCase {
         timer = timerFactory.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] scheduledTimer in
             guard let self else { return }
 
-            if self.counter <= self.totalTime && self.counter != 0 {
-                self.tick()
-                self.onStateChange?()
+            guard self.counter > 0 else {
+                self.completeCurrentTimer(scheduledTimer)
+                return
+            }
+
+            self.tick()
+            if self.counter == 0 {
+                self.completeCurrentTimer(scheduledTimer)
             } else {
-                self.changeTimerMode()
-
-                if self.isAutoStartEnabled {
-                    self.startTimer()
-                }
-
-                scheduledTimer.invalidate()
                 self.onStateChange?()
             }
         }
@@ -137,20 +138,26 @@ final class TimerUseCase {
         Self.logger.notice("⏸ Pausing timer.")
         timerState = .paused
         timer?.invalidate()
+        timer = nil
+        lastTickDate = nil
         alarmScheduler?.cancelAlarm()
+        clearBackgroundStateAndNotification()
         onStateChange?()
     }
 
     /// Resets all state back to the initial focused phase, reloading settings from the model.
-    func resetUpdateTimer() {
+    func resetUpdateTimer(to requestedType: TimerType? = nil) {
         Self.logger.notice("🔄 Resetting timer.")
         timer?.invalidate()
+        timer = nil
+        lastTickDate = nil
         alarmScheduler?.cancelAlarm()
+        clearBackgroundStateAndNotification()
         timerState = .initial
         timerTo = 1.0
         numberOfCompletedCycles = 0
         previousPhaseWasFocus = false
-        let startingType = timerModel.getStartingTimerType()
+        let startingType = requestedType ?? timerModel.getStartingTimerType()
         timerType = startingType
         let startingTime = timerModel.getTime(for: startingType.userDefaultKey)
         counter = startingTime
@@ -192,7 +199,7 @@ final class TimerUseCase {
             guard let remainingTime = savedRemainingTime,
                   let timestampBackground = savedTimestampBackground else { return }
 
-            let timeInBackground = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
+            let timeInBackground = elapsedTime(since: timestampBackground)
             let totalRemainingTime = remainingTime - timeInBackground
 
             timerModel.clearSavedBackgroundState()
@@ -207,6 +214,7 @@ final class TimerUseCase {
                 }
             } else {
                 counter = totalRemainingTime
+                lastTickDate = nowProvider()
             }
             onStateChange?()
         }
@@ -222,7 +230,7 @@ final class TimerUseCase {
         guard let remainingTime = savedRemainingTime,
               let timestampBackground = savedTimestampBackground else { return }
 
-        let timeElapsed = Int(DateInterval(start: timestampBackground, end: nowProvider()).duration)
+        let timeElapsed = elapsedTime(since: timestampBackground)
         let totalRemainingTime = remainingTime - timeElapsed
 
         timerModel.clearSavedBackgroundState()
@@ -244,10 +252,39 @@ final class TimerUseCase {
     }
 
     private func tick() {
-        Self.logger.notice("⏲ Tick — decrementing counter.")
+        Self.logger.debug("⏲ Tick — updating counter from elapsed time.")
         timerState = .running
-        counter -= 1
+        let currentDate = nowProvider()
+        let elapsedInterval = currentDate.timeIntervalSince(lastTickDate ?? currentDate)
+        let elapsedSeconds = max(1, Int(elapsedInterval.rounded(.down)))
+        counter = max(0, counter - elapsedSeconds)
+        if elapsedInterval >= 0 {
+            lastTickDate = (lastTickDate ?? currentDate).addingTimeInterval(TimeInterval(elapsedSeconds))
+        } else {
+            lastTickDate = currentDate
+        }
         timerTo = CGFloat(counter) / CGFloat(totalTime)
+    }
+
+    private func elapsedTime(since timestamp: Date) -> Int {
+        max(0, Int(nowProvider().timeIntervalSince(timestamp).rounded(.down)))
+    }
+
+    private func clearBackgroundStateAndNotification() {
+        timerModel.clearSavedBackgroundState()
+        localNotificationManager.clearScheduledNotifications()
+    }
+
+    private func completeCurrentTimer(_ scheduledTimer: any RepeatingTimerProtocol) {
+        lastTickDate = nil
+        changeTimerMode()
+        scheduledTimer.invalidate()
+
+        if isAutoStartEnabled {
+            startTimer()
+        }
+
+        onStateChange?()
     }
 
     private func changeTimerMode() {

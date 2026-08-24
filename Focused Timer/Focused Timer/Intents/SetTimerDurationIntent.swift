@@ -11,6 +11,7 @@ struct SetTimerDurationIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Set Timer Duration"
     static let description: IntentDescription = "Sets the duration in minutes for a timer type."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @Parameter(title: "Timer Type")
     var timerType: TimerType
