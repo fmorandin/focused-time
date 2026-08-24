@@ -93,6 +93,7 @@ struct FoundationRepeatingTimerFactory: RepeatingTimerFactoryProtocol {
 // MARK: - ViewModel
 
 @Observable
+@MainActor
 final class TimerViewModel {
 
     // MARK: - Observable Variables (view-facing state)
@@ -203,6 +204,7 @@ final class TimerViewModel {
         // before kicking off the tick loop.
         useCase.counter = counter
         useCase.startTimer()
+        syncFromUseCase()
     }
 
     func pauseTimer() {
@@ -210,9 +212,9 @@ final class TimerViewModel {
         useCase.pauseTimer()
     }
 
-    func resetUpdateTimer() {
+    func resetUpdateTimer(to timerType: TimerType? = nil) {
         Self.logger.notice("🔄 Resetting timer (ViewModel delegate).")
-        useCase.resetUpdateTimer()
+        useCase.resetUpdateTimer(to: timerType)
     }
 
     func moveAppToBackground() {
@@ -229,6 +231,13 @@ final class TimerViewModel {
 
     func shouldKeepScreenOn() -> Bool {
         useCase.isKeepScreenOnEnabled
+    }
+
+    func synchronizeIdleTimer(
+        isTimerVisible: Bool,
+        using setIdleTimerDisabled: (Bool) -> Void
+    ) {
+        setIdleTimerDisabled(isTimerVisible && shouldKeepScreenOn())
     }
 
     // MARK: - Private

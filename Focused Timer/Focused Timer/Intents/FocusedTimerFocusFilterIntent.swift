@@ -11,6 +11,7 @@ struct FocusedTimerFocusFilterIntent: SetFocusFilterIntent {
 
     static let title: LocalizedStringResource = "Configure Focused Timer"
     static let description: IntentDescription = "Auto-configures the timer when a Focus mode is active."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .alwaysAllowed
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(title: "Configure Focused Timer")
@@ -24,14 +25,19 @@ struct FocusedTimerFocusFilterIntent: SetFocusFilterIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        let viewModel = TimerService.shared.timerViewModel
+        try await perform(using: TimerService.shared)
+    }
+
+    @MainActor
+    func perform(using timerService: any TimerServiceProtocol) async throws -> some IntentResult {
+        let viewModel = timerService.timerViewModel
 
         guard viewModel.timerState == .initial else {
             return .result()
         }
 
         if let requestedType = timerType, viewModel.timerType != requestedType {
-            viewModel.resetUpdateTimer()
+            viewModel.resetUpdateTimer(to: requestedType)
         }
 
         if shouldAutoStart {

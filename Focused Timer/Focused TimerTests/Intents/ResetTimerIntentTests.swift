@@ -18,14 +18,14 @@ struct ResetTimerIntentTests {
             timerFactory: factory,
             isReviewEnabled: false
         )
-        TimerService.setSharedForTesting(MockTimerService(timerViewModel: viewModel))
+        let service = MockTimerService(timerViewModel: viewModel)
 
         viewModel.startTimer()
         factory.advance()
         #expect(viewModel.timerState == .running)
 
         let intent = ResetTimerIntent()
-        _ = try await intent.perform()
+        _ = try await intent.perform(using: service)
 
         #expect(viewModel.timerState == .initial)
     }

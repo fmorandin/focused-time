@@ -11,6 +11,7 @@ struct ResetSettingsIntent: AppIntent {
 
     static let title: LocalizedStringResource = "Reset Settings"
     static let description: IntentDescription = "Resets all Focused Timer settings to their default values."
+    static let authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {

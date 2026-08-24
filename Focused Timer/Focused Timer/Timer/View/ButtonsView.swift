@@ -46,7 +46,7 @@ struct ButtonsView: View {
                         timerViewModel.pauseTimer()
                     }
                 }
-                HapticsConstants().impactHeavy.impactOccurred()
+                HapticsConstants.impactHeavy.impactOccurred()
             }, label: {
                 Image(systemName: timerViewModel.primaryButtonImageName)
                     .contentTransition(.symbolEffect(.replace.magic(fallback: .replace)))
@@ -70,7 +70,7 @@ struct ButtonsView: View {
                     Self.logger.notice("🔄 Reset timer button pressed.")
                     timerViewModel.resetUpdateTimer()
                 }
-                HapticsConstants().impactHeavy.impactOccurred()
+                HapticsConstants.impactHeavy.impactOccurred()
             }, label: {
                 Image(systemName: ImageNames.reset)
                     .foregroundStyle(timerViewModel.accentCircleColor)

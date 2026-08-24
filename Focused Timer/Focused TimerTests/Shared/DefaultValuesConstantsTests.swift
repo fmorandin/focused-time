@@ -13,6 +13,14 @@ import Testing
 @Suite("DefaultValuesConstants Tests")
 struct DefaultValuesConstantsTests {
 
+    @Test("Haptic generators are reused instead of allocated per interaction")
+    @MainActor
+    func hapticGeneratorsAreCached() {
+        #expect(HapticsConstants.impactLight === HapticsConstants.impactLight)
+        #expect(HapticsConstants.impactMedium === HapticsConstants.impactMedium)
+        #expect(HapticsConstants.impactHeavy === HapticsConstants.impactHeavy)
+    }
+
     // MARK: - Raw values
 
     @Test("defaultFocusedTime raw value is 25 minutes")

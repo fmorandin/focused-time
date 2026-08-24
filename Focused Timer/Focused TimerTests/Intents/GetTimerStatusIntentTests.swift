@@ -9,24 +9,25 @@ import Testing
 @Suite("GetTimerStatusIntent")
 struct GetTimerStatusIntentTests {
 
-    private func makeSetup() -> (TimerViewModel, StubRepeatingTimerFactory) {
+    @MainActor
+    // swiftlint:disable:next large_tuple
+    private func makeSetup() -> (TimerViewModel, StubRepeatingTimerFactory, MockTimerService) {
         let factory = StubRepeatingTimerFactory()
         let viewModel = TimerViewModel(
             timerModel: TimerModelMock(),
             timerFactory: factory,
             isReviewEnabled: false
         )
-        TimerService.setSharedForTesting(MockTimerService(timerViewModel: viewModel))
-        return (viewModel, factory)
+        return (viewModel, factory, MockTimerService(timerViewModel: viewModel))
     }
 
     @Test("returns correct status for initial state")
     @MainActor
     func returnsInitialStatus() async throws {
-        let (_, _) = makeSetup()
+        let (_, _, service) = makeSetup()
 
         let intent = GetTimerStatusIntent()
-        let result = try await intent.perform()
+        let result = try await intent.perform(using: service)
 
         let status = try #require(result.value)
         #expect(status.contains("stopped"))
@@ -35,13 +36,13 @@ struct GetTimerStatusIntentTests {
     @Test("returns correct status for running state")
     @MainActor
     func returnsRunningStatus() async throws {
-        let (viewModel, factory) = makeSetup()
+        let (viewModel, factory, service) = makeSetup()
 
         viewModel.startTimer()
         factory.advance()
 
         let intent = GetTimerStatusIntent()
-        let result = try await intent.perform()
+        let result = try await intent.perform(using: service)
 
         let status = try #require(result.value)
         #expect(status.contains("running"))
@@ -50,10 +51,10 @@ struct GetTimerStatusIntentTests {
     @Test("includes cycle count in response")
     @MainActor
     func includesCycleCount() async throws {
-        let (_, _) = makeSetup()
+        let (_, _, service) = makeSetup()
 
         let intent = GetTimerStatusIntent()
-        let result = try await intent.perform()
+        let result = try await intent.perform(using: service)
 
         let status = try #require(result.value)
         #expect(status.contains("Cycles:"))

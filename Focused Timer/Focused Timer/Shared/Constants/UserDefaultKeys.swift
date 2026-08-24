@@ -26,6 +26,7 @@ enum UserDefaultKeys {
     static let timerTypeBackground = "timerTypeBackground"
     static let completedCyclesBackground = "completedCyclesBackground"
     static let previousPhaseWasFocusBackground = "previousPhaseWasFocusBackground"
+    static let alarmIdentifier = "alarmIdentifier"
 
     // MARK: - Onboarding
 

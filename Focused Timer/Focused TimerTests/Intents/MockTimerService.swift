@@ -8,7 +8,8 @@
 import Foundation
 @testable import Focused_Timer
 
-final class MockTimerService: TimerServiceProtocol, @unchecked Sendable {
+@MainActor
+final class MockTimerService: TimerServiceProtocol {
 
     let timerViewModel: TimerViewModel
 
